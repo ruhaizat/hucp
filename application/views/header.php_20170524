@@ -1,0 +1,889 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+?><!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="KNI">
+
+    <link href="<?php echo base_url();?>assets/fonts/font-awesome.css" rel="stylesheet" type="text/css">
+    <link href="<?php echo base_url();?>assets/fonts/elegant-fonts.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700,900,400italic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="<?php echo base_url();?>assets/bootstrap/css/bootstrap.css" type="text/css">
+    <link rel="stylesheet" href="<?php echo base_url();?>assets/css/zabuto_calendar.min.css" type="text/css">
+    <link rel="stylesheet" href="<?php echo base_url();?>assets/css/owl.carousel.css" type="text/css">
+
+    <link rel="stylesheet" href="<?php echo base_url();?>assets/css/jquery.nouislider.min.css" type="text/css">
+    <link rel="stylesheet" href="<?php echo base_url();?>assets/css/trackpad-scroll-emulator.css" type="text/css">
+    <link rel="stylesheet" href="<?php echo base_url();?>assets/css/style.css" type="text/css">
+    <link rel="stylesheet" href="<?php echo base_url();?>assets/css/bootstrap-select.min.css" type="text/css">
+    <link rel="stylesheet" href="<?php echo base_url();?>assets/css/jssocials.css" type="text/css">
+    <link rel="stylesheet" href="<?php echo base_url();?>assets/css/jssocials-theme-minima.css" type="text/css">
+	
+
+	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=AIzaSyDeBcwbRTwQVgAexR6MYeq5ycUAk8YqesQ"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery-2.2.1.min.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery-migrate-1.2.1.min.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>assets/js/jQuery.MultiFile.min.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>assets/misc/customizer.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>assets/js/jssocials.min.js"></script>
+	<script>
+		var map;
+		function initialize() {
+			var markers = [];
+			map = new google.maps.Map(document.getElementById('map-modal'), {
+				mapTypeId: google.maps.MapTypeId.ROADMAP
+			});
+		
+			var defaultBounds = new google.maps.LatLngBounds(new google.maps.LatLng(3.0266654, 101.69214009999996));
+			map.fitBounds(defaultBounds);
+			
+			var listener = google.maps.event.addListener(map, "idle", function() { 
+			if (map.getZoom() > 16) map.setZoom(16); 
+			  google.maps.event.removeListener(listener); 
+			});
+			
+			var marker = new google.maps.Marker({
+				map: map,
+				position: new google.maps.LatLng(3.0266654, 101.69214009999996)
+			});
+		
+			markers.push(marker);
+		
+			var input = (document.getElementById('ALAddress'));
+			//map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+		
+			var searchBox = new google.maps.places.SearchBox((input));
+			
+			google.maps.event.addListener(map, "click", function(event) {
+				for (var i = 0, marker; marker = markers[i]; i++) {
+					marker.setMap(null);
+				}
+				
+				var lat = event.latLng.lat();
+				var lng = event.latLng.lng();
+				
+				$("#ALLatitude").val(lat);
+				$("#ALLongitude").val(lng);
+				
+				var marker = new google.maps.Marker({
+					map: map,
+					position: event.latLng
+				});
+		
+				markers.push(marker);
+			});
+			
+			google.maps.event.addListener(searchBox, 'places_changed', function() {
+				var places = searchBox.getPlaces();
+		
+				for (var i = 0, marker; marker = markers[i]; i++) {
+					marker.setMap(null);
+				}
+		
+				markers = [];
+				var bounds = new google.maps.LatLngBounds();
+				for (var i = 0, place; place = places[i]; i++) {
+					var marker = new google.maps.Marker({
+						map: map,
+						title: place.name,
+						position: place.geometry.location
+					});
+					
+					markers.push(marker);
+					
+					$("#ALLatitude").val(place.geometry.location.lat());
+					$("#ALLongitude").val(place.geometry.location.lng());
+				
+					bounds.extend(place.geometry.location);
+				}
+				map.fitBounds(bounds);			
+				var listener = google.maps.event.addListener(map, "idle", function() { 
+				if (map.getZoom() > 16) map.setZoom(16); 
+				  google.maps.event.removeListener(listener); 
+				});
+			});
+			
+			google.maps.event.addListener(map, 'bounds_changed', function() {
+				var bounds = map.getBounds();
+				searchBox.setBounds(bounds);
+			});
+		}
+		google.maps.event.addDomListener(window, 'load', initialize);
+	</script>
+    <title>Hyundai Used Car</title>
+</head>
+
+<body class="nav-btn-only homepage">
+<div class="page-wrapper">
+    <header id="page-header">
+        <nav>
+            <div class="left">
+                <a href="<?php echo base_url();?>main" class="brand"><span style="font-weight: bold;">HYUNDAI USED CAR</span></a>
+            </div>
+            <!--end left-->
+            <div class="right">
+                <div class="primary-nav has-mega-menu">
+                    <ul class="navigation">
+                        <li class="has-child"><a href="#nav-homepages">Buy</a>
+                            <div class="wrapper">
+                                <div id="nav-homepages" class="nav-wrapper">
+                                    <ul>
+                                        <li><a href="#">Used Hyundai Car</a></li>
+                                        <li><a href="#">New Hyundai Car</a></li>
+                                        <li><a href="#">Recon Hyundai Car</a></li>
+                                        <li><a href="#">Best Deal</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="has-child"><a href="#nav-homepages">Sell</a>
+                            <div class="wrapper">
+                                <div id="nav-homepages" class="nav-wrapper">
+                                    <ul>
+                                        <li><a href="#">Create Ad</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <!--end navigation-->
+                </div>
+                <!--end primary-nav-->
+                <div class="secondary-nav">
+					<?php if($this->session->userdata("LoggedUser") == null):?>
+						<a data-toggle="modal" href="#SignIn">Sign In</a>
+						<a data-toggle="modal" href="#Register">Register</a>
+					<?php else:?>
+						<ul class="navigation">
+							<li class="has-child"><a href="#nav-homepages"><?php $user_data = $this->session->userdata("LoggedUser"); echo $user_data["FirstName"];?></a>
+								<div class="wrapper">
+									<div id="nav-homepages" class="nav-wrapper">
+										<ul>
+											<li><a href="<?php echo base_url();?>user">My Profile</a></li>
+											<li><a href="#">Manage Ads</a></li>
+											<li><a href="#">Favourites</a></li>
+											<li><a href="#" class="btnLogout">Logout</a></li>
+										</ul>
+									</div>
+								</div>
+							</li>
+						</ul>
+					<a href="#" class="btnLogout">Logout</a>
+					<?php endif;?>
+                </div>
+                <!--end secondary-nav-->
+                <a href="#AddListing" class="btn btn-primary btn-small btn-rounded icon shadow add-listing" data-toggle="modal"><i class="fa fa-plus"></i><span>Add listing</span></a>
+                <div class="nav-btn">
+                    <i></i>
+                    <i></i>
+                    <i></i>
+                </div>
+                <!--end nav-btn-->
+            </div>
+            <!--end right-->
+        </nav>
+        <!--end nav-->
+    </header>
+    <!--end page-header-->
+	
+	<div class="modal fade" id="SignIn" tabindex="-1" role="basic" aria-hidden="true">
+		<div class="modal-dialog width-400px" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<div class="section-title">
+						<h2>Sign In</h2>
+					</div>
+				</div>
+				<div class="modal-body">
+					<form id="frmSignIn" class="form inputs-underline">
+						<div class="form-group">
+							<label for="email">Email</label>
+							<input type="email" class="form-control" name="email" id="email" placeholder="Your email">
+						</div>
+						<!--end form-group-->
+						<div class="form-group">
+							<label for="password">Password</label>
+							<input type="password" class="form-control" name="password" id="password" placeholder="Your password">
+						</div>
+						<div class="form-group center">
+							<input id="btnSignIn" type="button" value="Sign In" class="btn btn-primary width-100" />
+							<br/>
+							<br/>
+							OR
+							<br/>
+							<br/>
+							<fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button>
+						</div>
+						<!--end form-group-->
+					</form>
+
+					<hr>
+
+					<a data-toggle="modal" href="#ForgotPwd">I have forgot my password</a>
+					<!--end form-->
+				</div>
+				<!--end modal-body-->
+			</div>
+			<!--end modal-content-->
+		</div>
+		<!--end modal-dialog-->
+    </div>
+	
+	<div class="modal fade" id="Register" tabindex="-1" role="basic" aria-hidden="true">
+		<div class="modal-dialog width-400px" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<div class="section-title">
+						<h2>Register</h2>
+					</div>
+				</div>
+				<div class="modal-body">
+					<form class="form inputs-underline">
+						<div class="row">
+							<div class="col-md-6 col-sm-6">
+								<div class="form-group">
+									<label for="first_name">First Name</label>
+									<input type="text" class="form-control" name="first_name" id="reg_first_name" placeholder="First name">
+								</div>
+								<!--end form-group-->
+							</div>
+							<!--end col-md-6-->
+							<div class="col-md-6 col-sm-6">
+								<div class="form-group">
+									<label for="last_name">Last Name</label>
+									<input type="text" class="form-control" name="last_name" id="reg_last_name" placeholder="Last name">
+								</div>
+								<!--end form-group-->
+							</div>
+							<!--end col-md-6-->
+						</div>
+						<!--enr row-->
+						<div class="form-group">
+							<label for="email">Email</label>
+							<input type="email" class="form-control" name="email" id="reg_email" placeholder="Email">
+						</div>
+						<!--end form-group-->
+						<div class="form-group">
+							<label for="password">Password</label>
+							<input type="password" class="form-control" name="password" id="reg_password" placeholder="Password">
+						</div>
+						<!--end form-group-->
+						<div class="form-group">
+							<label for="confirm_password">Confirm Password</label>
+							<input type="password" class="form-control" name="confirm_password" id="reg_confirm_password" placeholder="Confirm Password">
+						</div>
+						<!--end form-group-->
+						<div class="form-group center">
+							<input id="btnRegister" type="button" value="Register Now" class="btn btn-primary width-100" />
+						</div>
+						<!--end form-group-->
+					</form>
+		
+					<hr>
+		
+					<p class="center note">By clicking on “Register Now” button you are accepting the <a href="terms-and-conditions.html" class="underline">Terms & Conditions</a></p>
+					<!--end form-->
+				</div>
+				<!--end modal-body-->
+			</div>
+			<!--end modal-content-->
+		</div>
+		<!--end modal-dialog-->
+	</div>
+	
+	<div class="modal fade" id="ForgotPwd" tabindex="-1" role="basic" aria-hidden="true">
+		<div class="modal-dialog width-350px" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<div class="section-title">
+						<h2>Reset Password</h2>
+						<p>Enter your sign in email where we will send you new generated password.</p>
+					</div>
+				</div>
+				<div class="modal-body">
+					<form class="form inputs-underline">
+						<div class="form-group">
+							<label for="email">Email</label>
+							<input type="email" class="form-control" name="email" id="email" placeholder="Your email">
+						</div>
+						<!--end form-group-->
+						<div class="form-group center">
+							<button type="submit" class="btn btn-primary width-100">Send me new password</button>
+						</div>
+						<!--end form-group-->
+					</form>
+					<!--end form-->
+				</div>
+				<!--end modal-body-->
+			</div>
+			<!--end modal-content-->
+		</div>
+		<!--end modal-dialog-->
+	</div>
+	
+	<div class="modal fade" id="AddListing" tabindex="-1" role="basic" aria-hidden="true">
+		<div class="modal-dialog width-800px" role="document" data-latitude="40.7344458" data-longitude="-73.86704922" data-marker-drag="true">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<div class="section-title">
+						<h2>Add Listing</h2>
+					</div>
+				</div>
+				<div class="modal-body">
+					<form id="frmAddListing" method="post" action="<?php echo base_url();?>main/addlisting" class="form inputs-underline" enctype="multipart/form-data">
+						<section>
+						<h3>Car Details</h3>
+							<div class="row">
+								<div class="col-md-6 col-sm-6">
+									<div class="form-group">
+										<label for="title">Model</label>
+										<select class="form-control selectpicker" name="ALModel" id="ALModel">
+											<option value="">Select a Model</option>
+											<?php foreach($model as $eachModel):?>
+											<option value="<?php echo $eachModel->ID;?>"><?php echo $eachModel->Name;?></option>
+											<?php endforeach;?>
+										</select>
+									</div>
+									<!--end form-group-->
+								</div>
+								<!--end col-md-6-->
+								<div class="col-md-6 col-sm-6">
+									<div class="form-group">
+										<label for="category">Specification</label>
+										<select class="form-control selectpicker" name="ALSpecification" id="ALSpecification">
+											<option value="">Select a Specification</option>
+											<?php foreach($specification as $eachSpecification):?>
+											<option value="<?php echo $eachSpecification->ID;?>"><?php echo $eachSpecification->Name;?></option>
+											<?php endforeach;?>
+										</select>
+									</div>
+									<!--end form-group-->
+								</div>
+								<!--col-md-6-->
+								<div class="col-md-6 col-sm-6">
+									<div class="form-group">
+										<label for="category">Transmission</label>
+										<select class="form-control selectpicker" name="ALTransmission" id="ALTransmission">
+											<option value="">Select a Transmission</option>
+											<option value="1">Automatic</option>
+											<option value="2">Manual</option>
+										</select>
+									</div>
+									<!--end form-group-->
+									<div class="form-group">
+										<label for="category">Manufacturing Year</label>
+										<select class="form-control selectpicker" name="ALManufacturingYear" id="ALManufacturingYear">
+											<option value="">Manufacturing Year</option>
+											<option value="2018">2018</option>
+											<option value="2017">2017</option>
+											<option value="2016">2016</option>
+											<option value="2015">2015</option>
+											<option value="2014">2014</option>
+											<option value="2013">2013</option>
+											<option value="2012">2012</option>
+											<option value="2011">2011</option>
+											<option value="2010">2010</option>
+										</select>
+									</div>
+									<div class="form-group">
+										<label for="category">Mileage</label>
+										<input type="text" class="form-control" name="ALMileage" id="ALMileage" placeholder="Mileage">
+									</div>
+									<!--end form-group-->
+									<div class="form-group">
+										<label for="category">Colour</label>
+										<input type="text" class="form-control" name="ALColour" id="ALColour" placeholder="Colour">
+									</div>
+									<!--end form-group-->
+									<div class="form-group">
+										<label for="category">Selling Price</label>
+										<input type="text" class="form-control" name="ALSellingPrice" id="ALSellingPrice" placeholder="Selling Price">
+									</div>
+									<!--end form-group-->
+								</div>
+								<!--col-md-6-->
+								<div class="col-md-6 col-sm-6">
+								  <div class="form-group">
+									  <label for="address-autocomplete">Address</label>
+									  <input type="text" class="form-control" name="ALAddress" id="ALAddress" placeholder="Address">
+								  </div>
+								  <!--end form-group-->
+								  <div class="map height-200px shadow" id="map-modal"></div>
+								  <!--end map-->
+								  <div class="form-group hidden">
+									  <input type="hidden" class="form-control" id="ALLatitude" name="ALLatitude" />
+									  <input type="hidden" class="form-control" id="ALLongitude" name="ALLongitude" />
+								  </div>
+								  <p class="note">Enter the exact address or drag the map marker to position</p>
+
+								</div>
+								<!--col-md-6-->
+							</div>
+							<!--end row-->
+							<div class="form-group">
+								<label for="description">Description</label>
+								<textarea class="form-control" id="ALDescription" rows="4" name="ALDescription" placeholder="Describe the listing"></textarea>
+							</div>
+							<!--end form-group-->
+
+						</section>
+						<section>
+							<h3>Gallery</h3>
+							<div class="file-upload-previews"></div>
+							<div class="file-upload">
+								<input type="file" name="userfile[]" class="file-upload-input with-preview" multiple title="Click to add files" maxlength="10" accept="gif|jpg|png">
+								<span>Click or drag images here</span>
+							</div>
+							<!--end form-group-->
+						</section>
+						<section>
+							<h3>Specification</h3>
+							<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+								<div class="panel panel-default">
+									<div class="panel-heading" role="tab" id="accordion-heading-5">
+										<h4 class="panel-title">
+											<a role="button" data-toggle="collapse" data-parent="#accordion" href="#accordion-collapse-5" aria-expanded="false" aria-controls="accordion-collapse-5">
+												<i class="fa fa-list-ul"></i>General Specification
+											</a>
+										</h4>
+									</div>
+									<!--end panel-heading-->
+									<div id="accordion-collapse-5" class="panel-collapse collapse" role="tabpanel" aria-labelledby="accordion-heading-5">
+										<div class="panel-body">
+											<div class="row">
+												<div class="col-md-3 col-sm-3 horizontal-input-title">
+													<strong>Category</strong>
+												</div>
+												<!--end col-md-3-->
+												<div class="col-md-9 col-sm-9">
+													<div class="form-group">
+														<input type="text" class="form-control" name="ALGSCategory" placeholder="Passenger Car">
+													</div>
+													<!--end form-group-->
+												</div>
+												<!--end col-md-9-->
+											</div>
+											<!--end row-->
+											<div class="row">
+												<div class="col-md-3 col-sm-3 horizontal-input-title">
+													<strong>Model Name</strong>
+												</div>
+												<!--end col-md-3-->
+												<div class="col-md-9 col-sm-9">
+													<div class="form-group">
+														<input type="text" class="form-control" name="ALGSModelName" placeholder="Elantra">
+													</div>
+													<!--end form-group-->
+												</div>
+												<!--end col-md-9-->
+											</div>
+											<!--end row-->
+											<div class="row">
+												<div class="col-md-3 col-sm-3 horizontal-input-title">
+													<strong>Body Type</strong>
+												</div>
+												<!--end col-md-3-->
+												<div class="col-md-9 col-sm-9">
+													<div class="form-group">
+														<input type="text" class="form-control" name="ALGSBodyType" placeholder="4 Doors">
+													</div>
+													<!--end form-group-->
+												</div>
+												<!--end col-md-9-->
+											</div>
+											<!--end row-->
+											<div class="row">
+												<div class="col-md-3 col-sm-3 horizontal-input-title">
+													<strong>Seats</strong>
+												</div>
+												<!--end col-md-3-->
+												<div class="col-md-9 col-sm-9">
+													<div class="form-group">
+														<input type="text" class="form-control" name="ALGSSeats" placeholder="5 Seats">
+													</div>
+													<!--end form-group-->
+												</div>
+												<!--end col-md-9-->
+											</div>
+											<!--end row-->
+										</div>
+									</div>
+									<!--end panel-collapse-->
+								</div>
+								<!--end panel-->
+							</div>
+							<!--end panel-group-->
+						</section>
+						<section>
+							<div class="panel-group" id="accordion-6" role="tablist" aria-multiselectable="true">
+								<div class="panel panel-default">
+									<div class="panel-heading" role="tab" id="accordion-heading-6">
+										<h4 class="panel-title">
+											<a role="button" data-toggle="collapse" data-parent="#accordion-6" href="#accordion-collapse-6" aria-expanded="false" aria-controls="accordion-collapse-6">
+												<i class="fa fa-area-chart"></i>Performance
+											</a>
+										</h4>
+									</div>
+									<!--end panel-heading-->
+									<div id="accordion-collapse-6" class="panel-collapse collapse" role="tabpanel" aria-labelledby="accordion-heading-6">
+										<div class="panel-body">
+											<div class="wrapper">
+
+											<h4><b>ENGINE</b></h4>
+											<div class="row">
+												<div class="col-md-3 col-sm-3 horizontal-input-title">
+													<strong>Engine Label</strong>
+												</div>
+												<!--end col-md-3-->
+												<div class="col-md-9 col-sm-9">
+													<div class="form-group">
+														<input type="text" class="form-control" name="ALPEEngineLabel" placeholder="Gamma 1.6 Dual CVVT">
+													</div>
+													<!--end form-group-->
+												</div>
+												<!--end col-md-9-->
+											</div>
+											<!--end row-->
+											<div class="row">
+												<div class="col-md-3 col-sm-3 horizontal-input-title">
+													<strong>Engine Capacity</strong>
+												</div>
+												<!--end col-md-3-->
+												<div class="col-md-9 col-sm-9">
+													<div class="form-group">
+														<input type="text" class="form-control" name="ALPEEngineCapacity" placeholder="1.6">
+													</div>
+													<!--end form-group-->
+												</div>
+												<!--end col-md-9-->
+											</div>
+											<!--end row-->
+											<div class="row">
+												<div class="col-md-3 col-sm-3 horizontal-input-title">
+													<strong>Fuel System</strong>
+												</div>
+												<!--end col-md-3-->
+												<div class="col-md-9 col-sm-9">
+													<div class="form-group">
+														<input type="text" class="form-control" name="ALPEFuelSystem" placeholder="MPI">
+													</div>
+													<!--end form-group-->
+												</div>
+												<!--end col-md-9-->
+											</div>
+											<!--end row-->
+
+											<hr>
+
+											<h4><b>TRANSMISSION</b></h4>
+											<div class="row">
+												<div class="col-md-3 col-sm-3 horizontal-input-title">
+													<strong>Transmission Type</strong>
+												</div>
+												<!--end col-md-3-->
+												<div class="col-md-9 col-sm-9">
+													<div class="form-group">
+														<input type="text" class="form-control" name="ALPTTransmissionType" placeholder="6 Speed Automatic FWD">
+													</div>
+													<!--end form-group-->
+												</div>
+												<!--end col-md-9-->
+											</div>
+											<!--end row-->
+											<div class="row">
+												<div class="col-md-3 col-sm-3 horizontal-input-title">
+													<strong>Drive Type</strong>
+												</div>
+												<!--end col-md-3-->
+												<div class="col-md-9 col-sm-9">
+													<div class="form-group">
+														<input type="text" class="form-control" name="ALPTDriveType" placeholder="Automatic">
+													</div>
+													<!--end form-group-->
+												</div>
+												<!--end col-md-9-->
+											</div>
+											<!--end row-->
+											<div class="row">
+												<div class="col-md-3 col-sm-3 horizontal-input-title">
+													<strong>Gear (Speed)</strong>
+												</div>
+												<!--end col-md-3-->
+												<div class="col-md-9 col-sm-9">
+													<div class="form-group">
+														<input type="text" class="form-control" name="ALPTGear" placeholder="6">
+													</div>
+													<!--end form-group-->
+												</div>
+												<!--end col-md-9-->
+											</div>
+											<!--end row-->
+
+											</div>
+											<!--end wrapper-->
+										</div>
+										<!--end panel-body-->
+									</div>
+									<!--end panel-collapse-->
+								</div>
+								<!--end panel-->
+							</div>
+							<!--end panel-group-->
+						</section>
+						<section>
+							<div class="panel-group" id="accordion-7" role="tablist" aria-multiselectable="true">
+								<div class="panel panel-default">
+									<div class="panel-heading" role="tab" id="accordion-heading-7">
+										<h4 class="panel-title">
+											<a role="button" data-toggle="collapse" data-parent="#accordion-7" href="#accordion-collapse-7" aria-expanded="false" aria-controls="accordion-collapse-7">
+												<i class="fa fa-car"></i>Dimension
+											</a>
+										</h4>
+									</div>
+									<!--end panel-heading-->
+									<div id="accordion-collapse-7" class="panel-collapse collapse" role="tabpanel" aria-labelledby="accordion-heading-7">
+										<div class="panel-body">
+											<div class="wrapper">
+
+											<h4><b>ENGINE</b></h4>
+											<div class="row">
+												<div class="col-md-3 col-sm-3 horizontal-input-title">
+													<strong>Engine Label</strong>
+												</div>
+												<!--end col-md-3-->
+												<div class="col-md-9 col-sm-9">
+													<div class="form-group">
+														<input type="text" class="form-control" name="ALDEEngineLabel" placeholder="Gamma 1.6 Dual CVVT">
+													</div>
+													<!--end form-group-->
+												</div>
+												<!--end col-md-9-->
+											</div>
+											<!--end row-->
+											<div class="row">
+												<div class="col-md-3 col-sm-3 horizontal-input-title">
+													<strong>Engine Capacity</strong>
+												</div>
+												<!--end col-md-3-->
+												<div class="col-md-9 col-sm-9">
+													<div class="form-group">
+														<input type="text" class="form-control" name="ALDEEngineCapacity" placeholder="1.6">
+													</div>
+													<!--end form-group-->
+												</div>
+												<!--end col-md-9-->
+											</div>
+											<!--end row-->
+											<div class="row">
+												<div class="col-md-3 col-sm-3 horizontal-input-title">
+													<strong>Fuel System</strong>
+												</div>
+												<!--end col-md-3-->
+												<div class="col-md-9 col-sm-9">
+													<div class="form-group">
+														<input type="text" class="form-control" name="ALDEFuelSystem" placeholder="MPI">
+													</div>
+													<!--end form-group-->
+												</div>
+												<!--end col-md-9-->
+											</div>
+											<!--end row-->
+
+											<hr>
+
+											<h4><b>TRANSMISSION</b></h4>
+											<div class="row">
+												<div class="col-md-3 col-sm-3 horizontal-input-title">
+													<strong>Transmission Type</strong>
+												</div>
+												<!--end col-md-3-->
+												<div class="col-md-9 col-sm-9">
+													<div class="form-group">
+														<input type="text" class="form-control" name="ALDTTransmissionType" placeholder="6 Speed Automatic FWD">
+													</div>
+													<!--end form-group-->
+												</div>
+												<!--end col-md-9-->
+											</div>
+											<!--end row-->
+											<div class="row">
+												<div class="col-md-3 col-sm-3 horizontal-input-title">
+													<strong>Drive Type</strong>
+												</div>
+												<!--end col-md-3-->
+												<div class="col-md-9 col-sm-9">
+													<div class="form-group">
+														<input type="text" class="form-control" name="ALDTDriveType" placeholder="Automatic">
+													</div>
+													<!--end form-group-->
+												</div>
+												<!--end col-md-9-->
+											</div>
+											<!--end row-->
+											<div class="row">
+												<div class="col-md-3 col-sm-3 horizontal-input-title">
+													<strong>Gear (Speed)</strong>
+												</div>
+												<!--end col-md-3-->
+												<div class="col-md-9 col-sm-9">
+													<div class="form-group">
+														<input type="text" class="form-control" name="ALDTGear" placeholder="6">
+													</div>
+													<!--end form-group-->
+												</div>
+												<!--end col-md-9-->
+											</div>
+											<!--end row-->
+
+											</div>
+											<!--end wrapper-->
+										</div>
+										<!--end panel-body-->
+									</div>
+									<!--end panel-collapse-->
+								</div>
+								<!--end panel-->
+							</div>
+							<!--end panel-group-->
+						</section>
+						<section>
+							<div class="panel-group" id="accordion-8" role="tablist" aria-multiselectable="true">
+								<div class="panel panel-default">
+									<div class="panel-heading" role="tab" id="accordion-heading-8">
+										<h4 class="panel-title">
+											<a role="button" data-toggle="collapse" data-parent="#accordion-8" href="#accordion-collapse-8" aria-expanded="false" aria-controls="accordion-collapse-8">
+												<i class="fa fa-gear"></i>Wheels
+											</a>
+										</h4>
+									</div>
+									<!--end panel-heading-->
+									<div id="accordion-collapse-8" class="panel-collapse collapse" role="tabpanel" aria-labelledby="accordion-heading-8">
+										<div class="panel-body">
+											<div class="wrapper">
+
+											<h4><b>ENGINE</b></h4>
+											<div class="row">
+												<div class="col-md-3 col-sm-3 horizontal-input-title">
+													<strong>Engine Label</strong>
+												</div>
+												<!--end col-md-3-->
+												<div class="col-md-9 col-sm-9">
+													<div class="form-group">
+														<input type="text" class="form-control" name="ALWEEngineLabel" placeholder="Gamma 1.6 Dual CVVT">
+													</div>
+													<!--end form-group-->
+												</div>
+												<!--end col-md-9-->
+											</div>
+											<!--end row-->
+											<div class="row">
+												<div class="col-md-3 col-sm-3 horizontal-input-title">
+													<strong>Engine Capacity</strong>
+												</div>
+												<!--end col-md-3-->
+												<div class="col-md-9 col-sm-9">
+													<div class="form-group">
+														<input type="text" class="form-control" name="ALWEEngineCapacity" placeholder="1.6">
+													</div>
+													<!--end form-group-->
+												</div>
+												<!--end col-md-9-->
+											</div>
+											<!--end row-->
+											<div class="row">
+												<div class="col-md-3 col-sm-3 horizontal-input-title">
+													<strong>Fuel System</strong>
+												</div>
+												<!--end col-md-3-->
+												<div class="col-md-9 col-sm-9">
+													<div class="form-group">
+														<input type="text" class="form-control" name="ALWEFuelSystem" placeholder="MPI">
+													</div>
+													<!--end form-group-->
+												</div>
+												<!--end col-md-9-->
+											</div>
+											<!--end row-->
+
+											<hr>
+
+											<h4><b>TRANSMISSION</b></h4>
+											<div class="row">
+												<div class="col-md-3 col-sm-3 horizontal-input-title">
+													<strong>Transmission Type</strong>
+												</div>
+												<!--end col-md-3-->
+												<div class="col-md-9 col-sm-9">
+													<div class="form-group">
+														<input type="text" class="form-control" name="ALWTTransmissionType" placeholder="6 Speed Automatic FWD">
+													</div>
+													<!--end form-group-->
+												</div>
+												<!--end col-md-9-->
+											</div>
+											<!--end row-->
+											<div class="row">
+												<div class="col-md-3 col-sm-3 horizontal-input-title">
+													<strong>Drive Type</strong>
+												</div>
+												<!--end col-md-3-->
+												<div class="col-md-9 col-sm-9">
+													<div class="form-group">
+														<input type="text" class="form-control" name="ALWTDriveType" placeholder="Automatic">
+													</div>
+													<!--end form-group-->
+												</div>
+												<!--end col-md-9-->
+											</div>
+											<!--end row-->
+											<div class="row">
+												<div class="col-md-3 col-sm-3 horizontal-input-title">
+													<strong>Gear (Speed)</strong>
+												</div>
+												<!--end col-md-3-->
+												<div class="col-md-9 col-sm-9">
+													<div class="form-group">
+														<input type="text" class="form-control" name="ALWTGear" placeholder="6">
+													</div>
+													<!--end form-group-->
+												</div>
+												<!--end col-md-9-->
+											</div>
+											<!--end row-->
+
+											</div>
+											<!--end wrapper-->
+										</div>
+										<!--end panel-body-->
+									</div>
+									<!--end panel-collapse-->
+								</div>
+								<!--end panel-->
+							</div>
+							<!--end panel-group-->
+						</section>
+
+						<hr>
+						<section class="center">
+							<div class="form-group">
+								<button type="submit" class="btn btn-primary btn-rounded">Preview & Submit Listing</button>
+							</div>
+							<!--end form-group-->
+						</section>
+					</form>
+					<!--end form-->
+				</div>
+				<!--end modal-body-->
+			</div>
+			<!--end modal-content-->
+		</div>
+		<!--end modal-dialog-->
+	</div>
+	

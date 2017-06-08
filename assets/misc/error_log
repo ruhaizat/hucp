@@ -1,0 +1,3 @@
+[23-May-2017 22:35:23 Asia/Kuala_Lumpur] PHP Warning:  Unknown: open_basedir restriction in effect. File(C:\Inetpub\vhosts\ruhaizat.my\logs\php_errors\hucp.ruhaizat.my\php_error.log) is not within the allowed path(s): (C:/Inetpub/vhosts//ruhaizat.my\;C:\Windows\Temp\;/dev/urandom) in Unknown on line 0
+[23-May-2017 22:35:23 Asia/Kuala_Lumpur] PHP Warning:  Unknown: open_basedir restriction in effect. File(/home/knicomm1/public_html/projects/hyundaiusedcar/assets/misc/customizer.php) is not within the allowed path(s): (C:/Inetpub/vhosts//ruhaizat.my\;C:\Windows\Temp\;/dev/urandom) in Unknown on line 0
+[23-May-2017 22:35:23 Asia/Kuala_Lumpur] PHP Warning:  Unknown: failed to open stream: Operation not permitted in Unknown on line 0
