@@ -4,8 +4,7 @@
                 <div class="inner">
                     <div class="container">
                         <div class="page-title center">
-                            <h1>HYUNDAI USED CAR</h1>
-                            <h2>Buy & Sell Hyundai Used Car</h2>
+                            <img src="assets/img/logo_hyundai_white.png">
                         </div>
                         <div class="form search-form horizontal inputs-dark">
                             <form>
@@ -134,7 +133,8 @@
                                 <figure>RM<?php echo $eachFeatured->SellingPrice;?></figure>
                                 <div class="label label-default">Used</div>
                                 <h3><?php echo $eachFeatured->ModelName;?></h3>
-                                <h4><?php echo $eachFeatured->Address;?></h4>
+                                <h4 style="padding: 0 0 5px 0;">Gamma 1.6L Premium(model)</h4>
+                                <h4><i class="fa fa-map-marker"></i> <?php echo $eachFeatured->Address;?></h4>
                             </div>
                             <!--end description-->
                             <div class="image bg-transfer">
@@ -148,7 +148,6 @@
                                 <ul>
                                     <li><a href="#">Add to favorites</a></li>
                                     <li><a href="#">Compare</a></li>
-                                    <li><a href="#" class="quick-detail">Quick detail</a></li>
                                 </ul>
                             </div>
                             <!--end controls-more-->
@@ -188,7 +187,8 @@
                                     <figure>RM<?php echo $eachRecent->SellingPrice;?></figure>
                                     <div class="label label-default">Used</div>
                                     <h3><?php echo $eachRecent->ModelName;?></h3>
-                                    <h4><?php echo $eachRecent->Address;?></h4>
+                                    <h4 style="padding: 0 0 5px 0;">Gamma 1.6L Premium(model)</h4>
+                                    <h4><i class="fa fa-map-marker"></i> <?php echo $eachRecent->Address;?></h4>
                                 </div>
                                 <!--end description-->
                                 <div class="image bg-transfer">
@@ -202,7 +202,6 @@
                                     <ul>
                                         <li><a href="#">Add to favorites</a></li>
                                         <li><a href="#">Compare</a></li>
-                                        <li><a href="#" class="quick-detail">Quick detail</a></li>
                                     </ul>
                                 </div>
                                 <!--end controls-more-->
@@ -269,7 +268,8 @@
                                   <figure>RM800,000</figure>
                                   <div class="label label-default">USED</div>
                                   <h3>Hyundai Tucson</h3>
-                                  <h4>Selangor</h4>
+                                  <h4 style="padding: 0 0 5px 0;">Gamma 1.6L Premium(model)</h4>
+                                  <h4><i class="fa fa-map-marker"></i> Selangor</h4>
                               </div>
                               <!--end description-->
                               <div class="image bg-transfer">
@@ -283,7 +283,6 @@
                                   <ul>
                                       <li><a href="#">Add to favorites</a></li>
                                       <li><a href="#">Compare</a></li>
-                                      <li><a href="#" class="quick-detail">Quick detail</a></li>
                                   </ul>
                               </div>
                               <!--end controls-more-->
@@ -300,7 +299,8 @@
                                   <figure>RM800,000</figure>
                                   <div class="label label-default">USED</div>
                                   <h3>Hyundai IONIQ</h3>
-                                  <h4>Selangor</h4>
+                                  <h4 style="padding: 0 0 5px 0;">Gamma 1.6L Premium(model)</h4>
+                                  <h4><i class="fa fa-map-marker"></i> Selangor</h4>
                               </div>
                               <!--end description-->
                               <div class="image bg-transfer">
@@ -314,7 +314,6 @@
                                   <ul>
                                       <li><a href="#">Add to favorites</a></li>
                                       <li><a href="#">Compare</a></li>
-                                      <li><a href="#" class="quick-detail">Quick detail</a></li>
                                   </ul>
                               </div>
                               <!--end controls-more-->
@@ -331,7 +330,8 @@
                                   <figure>RM800,000</figure>
                                   <div class="label label-default">USED</div>
                                   <h3>Hyundai Elantra</h3>
-                                  <h4>Selangor</h4>
+                                  <h4 style="padding: 0 0 5px 0;">Gamma 1.6L Premium(model)</h4>
+                                  <h4><i class="fa fa-map-marker"></i> Selangor</h4>
                               </div>
                               <!--end description-->
                               <div class="image bg-transfer">
@@ -345,7 +345,6 @@
                                   <ul>
                                       <li><a href="#">Add to favorites</a></li>
                                       <li><a href="#">Compare</a></li>
-                                      <li><a href="#" class="quick-detail">Quick detail</a></li>
                                   </ul>
                               </div>
                               <!--end controls-more-->
@@ -362,7 +361,8 @@
                                   <figure>RM800,000</figure>
                                   <div class="label label-default">USED</div>
                                   <h3>Hyundai Veloster Turbo</h3>
-                                  <h4>Selangor</h4>
+                                  <h4 style="padding: 0 0 5px 0;">Gamma 1.6L Premium(model)</h4>
+                                  <h4><i class="fa fa-map-marker"></i> Selangor</h4>
                               </div>
                               <!--end description-->
                               <div class="image bg-transfer">
@@ -376,7 +376,6 @@
                                   <ul>
                                       <li><a href="#">Add to favorites</a></li>
                                       <li><a href="#">Compare</a></li>
-                                      <li><a href="#" class="quick-detail">Quick detail</a></li>
                                   </ul>
                               </div>
                               <!--end controls-more-->

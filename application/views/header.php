@@ -38,7 +38,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <header id="page-header">
         <nav>
             <div class="left">
-                <a href="<?php echo base_url();?>main" class="brand"><span style="font-weight: bold;">HYUNDAI USED CAR</span></a>
+                <a href="<?php echo base_url();?>main" class="brand"><img src="assets/img/logo_hyundai_grey.png" height="20"></a>
             </div>
             <!--end left-->
             <div class="right">
@@ -50,8 +50,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <ul>
                                         <li><a href="#">Used Hyundai Car</a></li>
                                         <li><a href="#">New Hyundai Car</a></li>
-                                        <li><a href="#">Recon Hyundai Car</a></li>
-                                        <li><a href="#">Best Deal</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -74,15 +72,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<a data-toggle="modal" href="#SignIn">Sign In</a>
 						<a data-toggle="modal" href="#Register">Register</a>
 					<?php else:?>
-						<ul class="navigation">
-							<li class="has-child"><a href="#nav-homepages"><?php $user_data = $this->session->userdata("LoggedUser"); echo $user_data["FirstName"];?></a>
+						<ul class="navigation" style="padding-left: 0;">
+							<li class="has-child"><a href="<?php echo base_url();?>user"><?php $user_data = $this->session->userdata("LoggedUser"); echo $user_data["FirstName"];?></a>
 								<div class="wrapper">
 									<div id="nav-homepages" class="nav-wrapper">
 										<ul>
 											<li><a href="<?php echo base_url();?>user">My Profile</a></li>
-											<li><a href="#">Manage Ads</a></li>
+											<li><a href="#">My Advertisements</a></li>
 											<li><a href="#">Favourites</a></li>
-											<li><a href="#" class="btnLogout">Logout</a></li>
 										</ul>
 									</div>
 								</div>
@@ -138,7 +135,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</form>
 
 					<hr>
-					<div id="SignInError" class="noti-error" style="display:none;">We are sorry! You have entered an incorrect username/password combination.</div>
+					<div id="SignInError" class="noti-error" style="display:none;">Sorry! You have entered an incorrect username/password combination.</div>
 					<a href="#" data-modal-external-file="modal_reset_password.php" data-target="modal-reset-password">I have forgot my password</a>
 					<!--end form-->
 				</div>
@@ -257,7 +254,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</div>
 		<!--end modal-dialog-->
 	</div>
-	
+
 	<div class="modal fade" id="RegisterFailed" tabindex="-1" role="basic" aria-hidden="true">
 		<div class="modal-dialog width-400px" role="document">
 			<div class="modal-content">
@@ -286,7 +283,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</div>
 		<!--end modal-dialog-->
 	</div>
-	
+
 	<div class="modal fade" id="LoginFailed" tabindex="-1" role="basic" aria-hidden="true">
 		<div class="modal-dialog width-400px" role="document">
 			<div class="modal-content">
@@ -315,7 +312,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</div>
 		<!--end modal-dialog-->
 	</div>
-	
+
 	<div class="modal fade" id="AddListing" tabindex="-1" role="basic" aria-hidden="true">
 		<div class="modal-dialog width-800px" role="document">
 			<div class="modal-content">

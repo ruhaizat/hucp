@@ -1,6 +1,6 @@
 <?php
 /**
- * CodeIgniter Kenny was here
+ * CodeIgniter
  *
  * An open source application development framework for PHP
  *

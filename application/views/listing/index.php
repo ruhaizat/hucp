@@ -17,26 +17,53 @@
                                 <div class="form-group">
                                     <select class="form-control selectpicker" name="location">
                                         <option value="">Location</option>
-                                            <option value="1">Kuala Lumpur</option>
-                                            <option value="2">Selangor</option>
-                                            <option value="3">Pulau Pinang</option>
-                                            <option value="4">Perak</option>
+                                        <option value="1">Kuala Lumpur</option>
+                                        <option value="2">Selangor</option>
+                                        <option value="3">Johor</option>
+                                        <option value="4">Penang</option>
+                                        <option value="5">Perak</option>
+                                        <option value="6">Kedah</option>
+                                        <option value="7">Negeri Sembilan</option>
+                                        <option value="8">Pahang</option>
+                                        <option value="9">Sabah</option>
+                                        <option value="9">Sarawak</option>
+                                        <option value="9">Terengganu</option>
+                                        <option value="9">Melaka</option>
+                                        <option value="9">Kelantan</option>
+                                        <option value="9">Perlis</option>
+                                        <option value="9">Putrajaya</option>
+                                        <option value="9">Labuan</option>
                                     </select>
                                 </div>
                                 <!--end form-group-->
                                 <div class="form-group">
                                     <select class="form-control selectpicker" name="category">
                                         <option value="">Model</option>
-                                        <option value="1">i10</option>
-                                        <option value="2">Elantra</option>
-                                        <option value="3">Veloster</option>
-                                        <option value="4">Veloster Turbo</option>
-                                        <option value="5">IONIQ Hybrid</option>
-                                        <option value="6">Sonata</option>
-                                        <option value="7">Genesis</option>
-                                        <option value="8">Tucson</option>
-                                        <option value="9">Santa FE</option>
-                                        <option value="10">Grand Starex Royale</option>
+                                        <option value="1">Accent</option>
+                                        <option value="2">Atos</option>
+                                        <option value="3">Avante</option>
+                                        <option value="4">Azera</option>
+                                        <option value="5">Coupe</option>
+                                        <option value="6">Elantra</option>
+                                        <option value="7">Getz</option>
+                                        <option value="8">Grandeur XG250</option>
+                                        <option value="9">Grand Starex</option>
+                                        <option value="10">i10</option>
+                                        <option value="11">i10 Kappa</option>
+                                        <option value="12">i30</option>
+                                        <option value="13">i40</option>
+                                        <option value="14">i40 Sedan</option>
+                                        <option value="15">i40 Tourer</option>
+                                        <option value="16">IONIQ</option>
+                                        <option value="17">Matrix</option>
+                                        <option value="18">Md Elantra</option>
+                                        <option value="19">Santa FE</option>
+                                        <option value="20">Sonata</option>
+                                        <option value="21">Starex</option>
+                                        <option value="22">Terracan</option>
+                                        <option value="23">Trajet</option>
+                                        <option value="24">Tucson</option>
+                                        <option value="25">Veloster</option>
                                     </select>
                                 </div>
                                 <!--end form-group-->
@@ -79,10 +106,11 @@
                             <div class="item" data-id="1">
                                 <a href="details.html">
                                     <div class="description">
-                                        <figure>RM800,000</figure>
+                                        <h3>RM800,000</h3>
                                         <div class="label label-default">Used</div>
                                         <h3>Hyundai Veloster Turbo</h3>
-                                        <h4>Kuala Lumpur</h4>
+                                        <h4 style="padding: 0 0 5px 0;">Gamma 1.6L Premium(model)</h4>
+                                        <h4><i class="fa fa-map-marker"></i> Kuala Lumpur</h4>
                                     </div>
                                     <!--end description-->
                                     <div class="image bg-transfer">
@@ -94,7 +122,6 @@
                                     <ul>
                                         <li><a href="#">Add to favorites</a></li>
                                         <li><a href="#">Add to watchlist</a></li>
-                                        <li><a href="#" class="quick-detail">Quick detail</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -105,7 +132,8 @@
                                         <figure>RM800,000</figure>
                                         <div class="label label-default">New</div>
                                         <h3>Hyundai Elantra</h3>
-                                        <h4>Selangor</h4>
+                                        <h4 style="padding: 0 0 5px 0;">Gamma 1.6L Premium(model)</h4>
+                                        <h4><i class="fa fa-map-marker"></i> Selangor</h4>
                                     </div>
                                     <!--end description-->
                                     <div class="image bg-transfer">
@@ -117,7 +145,6 @@
                                     <ul>
                                         <li><a href="#">Add to favorites</a></li>
                                         <li><a href="#">Add to watchlist</a></li>
-                                        <li><a href="#" class="quick-detail">Quick detail</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -128,7 +155,8 @@
                                         <figure>RM800,000</figure>
                                         <div class="label label-default">Recon</div>
                                         <h3>Hyundai IONIQ</h3>
-                                        <h4>Perak</h4>
+                                        <h4 style="padding: 0 0 5px 0;">Gamma 1.6L Premium(model)</h4>
+                                        <h4><i class="fa fa-map-marker"></i> Perak</h4>
                                     </div>
                                     <!--end description-->
                                     <div class="image bg-transfer">
@@ -140,7 +168,6 @@
                                     <ul>
                                         <li><a href="#">Add to favorites</a></li>
                                         <li><a href="#">Add to watchlist</a></li>
-                                        <li><a href="#" class="quick-detail">Quick detail</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -160,7 +187,7 @@
                             </div>
                             <!--end left-->
                             <div class="pull-right">
-                                <div class="input-group inputs-underline min-width-150px">
+                                <div class="input-group inputs-underline min-width-200px">
                                     <select class="form-control selectpicker" name="sort">
                                         <option value="">Sort by</option>
                                         <option value="1">Price: Lowest to Highest</option>
@@ -183,31 +210,34 @@
                             <?php if($eachList->IsFeatured == 1):?><figure class="ribbon">Featured</figure><?php endif;?>
                             <a href="<?php echo base_url().'listing/details/'.$eachList->LID.'/'.$eachList->LAddedBy;?>">
                                 <div class="image bg-transfer">
+                                    <figure style="text-align: left; left: 8px;"><i class="fa fa-camera"></i> 10</figure>
                                     <img src="<?php if($eachList->ListingPic): echo base_url().'assets/img/listing/'.$eachList->ListingPic; else: echo base_url().'assets/img/items/default.png';endif;?>" alt="">
                                 </div>
                                 <!--end image-->
                                 <div class="map"></div>
                                 <div class="description">
                                     <h3><?php echo $eachList->ModelName;?></h3>
-                                    <h4><?php echo $eachList->Address;?></h4>
+                                    <h4 style="padding: 0 0 5px 0;">Gamma 1.6L Premium(model)</h4>
+                                    <h4><i class="fa fa-map-marker"></i> <?php echo $eachList->Address;?></h4>
                                     <div class="label label-default">Used</div>
                                 </div>
                                 <!--end description-->
                                 <div class="additional-info">
-                                    RM<?php echo $eachList->SellingPrice;?>
+                                    <h3 style="margin-bottom: 5px;">RM<?php echo $eachList->SellingPrice;?></h3>
+                                    <h4>RM3,400/month</h4>
+                                    <h4><i class="fa fa-road"></i> 100,000km</h4>
                                 </div>
                                 <!--end additional-info-->
                             </a>
                             <div class="controls-more">
                                 <ul>
-                                    <li><a href="#">Add to favorites</a></li>
+                                    <li><a href="#">Favorite</a></li>
                                     <li><a href="#">Compare</a></li>
-                                    <li><a href="#" class="quick-detail">Quick detail</a></li>
                                 </ul>
                             </div>
                             <!--end controls-more-->
                         </div>
-                        <!--end item.row-->						
+                        <!--end item.row-->
 						<?php endforeach;?>
                     </section>
 

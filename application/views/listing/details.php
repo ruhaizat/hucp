@@ -5,20 +5,20 @@
 			map = new google.maps.Map(document.getElementById('map-detail'), {
 				mapTypeId: google.maps.MapTypeId.ROADMAP
 			});
-		
+
 			var defaultBounds = new google.maps.LatLngBounds(new google.maps.LatLng(<?php if($listingData->Latitude):echo $listingData->Latitude;else:echo "3.0266654";endif;?>, <?php if($listingData->Longitude):echo $listingData->Longitude;else:echo "101.69214009999996";endif;?>));
 			map.fitBounds(defaultBounds);
-			
-			var listener = google.maps.event.addListener(map, "idle", function() { 
-			if (map.getZoom() > 16) map.setZoom(16); 
-			  google.maps.event.removeListener(listener); 
+
+			var listener = google.maps.event.addListener(map, "idle", function() {
+			if (map.getZoom() > 16) map.setZoom(16);
+			  google.maps.event.removeListener(listener);
 			});
-			
+
 			var marker = new google.maps.Marker({
 				map: map,
 				position: new google.maps.LatLng(<?php if($listingData->Latitude):echo $listingData->Latitude;else:echo "3.0266654";endif;?>, <?php if($listingData->Longitude):echo $listingData->Longitude;else:echo "101.69214009999996";endif;?>)
 			});
-		
+
 			markers.push(marker);
 		}
 		google.maps.event.addDomListener(window, 'load', initializeListingDetail);
@@ -64,9 +64,9 @@
                         <p>
 							<?php echo $listingData->Description;?>
                         </p>
-                    </section>                    
+                    </section>
 					<section>
-                        <h3>Specification</h3>
+                        <h2>Specification</h2>
                         <div class="panel-group" id="accordion-5-Detail" role="tablist" aria-multiselectable="true">
                             <div class="panel panel-default">
                                 <div class="panel-heading" role="tab" id="accordion-heading-5-Detail">
@@ -744,7 +744,7 @@
         <!--end container-->
     </div>
     <!--end page-content-->
-	
+
 	<div class="modal fade" id="EditListing" tabindex="-1" role="basic" aria-hidden="true">
 		<div class="modal-dialog width-800px" role="document">
 			<div class="modal-content">
