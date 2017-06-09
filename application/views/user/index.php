@@ -5,53 +5,53 @@
 			map = new google.maps.Map(document.getElementById('map-modal-user'), {
 				mapTypeId: google.maps.MapTypeId.ROADMAP
 			});
-		
+
 			var defaultBounds = new google.maps.LatLngBounds(new google.maps.LatLng(<?php if($user->Latitude):echo $user->Latitude;else:echo "3.0266654";endif;?>, <?php if($user->Longitude):echo $user->Longitude;else:echo "101.69214009999996";endif;?>));
 			map.fitBounds(defaultBounds);
-			
-			var listener = google.maps.event.addListener(map, "idle", function() { 
-			if (map.getZoom() > 16) map.setZoom(16); 
-			  google.maps.event.removeListener(listener); 
+
+			var listener = google.maps.event.addListener(map, "idle", function() {
+			if (map.getZoom() > 16) map.setZoom(16);
+			  google.maps.event.removeListener(listener);
 			});
-			
+
 			var marker = new google.maps.Marker({
 				map: map,
 				position: new google.maps.LatLng(<?php if($user->Latitude):echo $user->Latitude;else:echo "3.0266654";endif;?>, <?php if($user->Longitude):echo $user->Longitude;else:echo "101.69214009999996";endif;?>)
 			});
-		
+
 			markers.push(marker);
-		
+
 			var input = (document.getElementById('address'));
 			//map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-		
+
 			var searchBox = new google.maps.places.SearchBox((input));
-			
+
 			google.maps.event.addListener(map, "click", function(event) {
 				for (var i = 0, marker; marker = markers[i]; i++) {
 					marker.setMap(null);
 				}
-				
+
 				var lat = event.latLng.lat();
 				var lng = event.latLng.lng();
-				
+
 				$("#latitude").val(lat);
 				$("#longitude").val(lng);
-				
+
 				var marker = new google.maps.Marker({
 					map: map,
 					position: event.latLng
 				});
-		
+
 				markers.push(marker);
 			});
-			
+
 			google.maps.event.addListener(searchBox, 'places_changed', function() {
 				var places = searchBox.getPlaces();
-		
+
 				for (var i = 0, marker; marker = markers[i]; i++) {
 					marker.setMap(null);
 				}
-		
+
 				markers = [];
 				var bounds = new google.maps.LatLngBounds();
 				for (var i = 0, place; place = places[i]; i++) {
@@ -60,28 +60,28 @@
 						title: place.name,
 						position: place.geometry.location
 					});
-					
+
 					markers.push(marker);
-					
+
 					$("#latitude").val(place.geometry.location.lat());
 					$("#longitude").val(place.geometry.location.lng());
-				
+
 					bounds.extend(place.geometry.location);
 				}
-				map.fitBounds(bounds);			
-				var listener = google.maps.event.addListener(map, "idle", function() { 
-				if (map.getZoom() > 16) map.setZoom(16); 
-				  google.maps.event.removeListener(listener); 
+				map.fitBounds(bounds);
+				var listener = google.maps.event.addListener(map, "idle", function() {
+				if (map.getZoom() > 16) map.setZoom(16);
+				  google.maps.event.removeListener(listener);
 				});
 			});
-			
+
 			google.maps.event.addListener(map, 'bounds_changed', function() {
 				var bounds = map.getBounds();
 				searchBox.setBounds(bounds);
 			});
 		}
 		google.maps.event.addDomListener(window, 'load', initialize);
-		
+
 		$(document).ready(function(){
 			$("#aResendVerify").click(function () {
 				var hID = $("#hID").val();
@@ -96,11 +96,11 @@
 						if(rData.status == 0){
 							$(".noti-error-verify-mobile").text("Successfully resend.");
 							$(".noti-error-verify-mobile").show();
-							$("#UserVerifyMobile").modal("show");							
+							$("#UserVerifyMobile").modal("show");
 						}else{
 							$("#UserDetailsNoti").modal("show");
 							$("#h2Text").text("Mobile Number Verification Failed");
-							$("#BodyMsg").text("Error code: " + rData.message);	
+							$("#BodyMsg").text("Error code: " + rData.message);
 						}
 					}
 				});
@@ -116,11 +116,11 @@
 					success: function(data){
 						var rData = JSON.parse(data);
 						if(rData.status == 0){
-							$("#UserVerifyMobile").modal("show");							
+							$("#UserVerifyMobile").modal("show");
 						}else{
 							$("#UserDetailsNoti").modal("show");
 							$("#h2Text").text("Mobile Number Verification Failed");
-							$("#BodyMsg").text("Error code: " + rData.message);	
+							$("#BodyMsg").text("Error code: " + rData.message);
 						}
 					}
 				});
@@ -129,8 +129,8 @@
 				var hID = $("#hID").val();
 				var phone = $("#phone").val();
 				var token = $("#verifyDigit").val();
-				
-				
+
+
 				var datastr = '{"mode":"ConfirmVerificationCode","UserID":"'+hID+'","MobileNo":"'+phone+'","Token":"'+token+'"}';
 				$.ajax({
 					url: "<?php echo base_url();?>user/ajax",
@@ -139,7 +139,7 @@
 					success: function(data){
 						if(data == "Mobile number verified."){
 							$("#UserVerifyMobile").modal("hide");
-							
+
 							$(".mobileNotVerified").hide();
 							$(".mobileVerified").show();
 						}else{
@@ -149,7 +149,7 @@
 					}
 				});
 			});
-			
+
 			$("#user_image").change(function () {
 				previewFile(this);
 			});
@@ -218,15 +218,15 @@
 												$("#h2Text").text("New Password Saved");
 												$("#BodyMsg").text(data);
 											}
-										});				
-									}				
+										});
+									}
 								}
 							}else{
 								$("#UserDetailsNoti").modal("show");
 								$("#h2Text").text("Change Password Failed");
 								$("#BodyMsg").text(data);
 							}
-							
+
 						}
 					});
 				}
@@ -246,7 +246,7 @@
 			}
 		}
 	</script>
-	
+
 	<div id="page-content">
 		<?php if($userView == "admin"):?>
 		<section class="block background-is-dark" style="padding: 10px 0;">
@@ -289,6 +289,7 @@
                                     </div>
                                     <div class="description">
                                             <h4><?php echo $user->FirstName." ".$user->LastName;?></h4>
+																						ID# <?php echo sprintf('%06d', $user->ID);?>
                                             <!--<a href="#" class="btn btn-primary btn-rounded btn-xs">Edit Profile</a>-->
                                     </div>
                                 </div>
@@ -296,7 +297,7 @@
                               <hr>
                               <address>
                                   <figure><i class="fa fa-map-marker"></i><?php echo $user->Address;?> </figure>
-                                  <figure><i class="fa fa-envelope"></i><a href="#"><?php echo $user->EmailAddress;?></a><?php if($user->Status == 2):?> <i class="fa fa-check-circle" style="margin-left: 5px;"></i><?php endif;?></figure>
+                                  <figure><i class="fa fa-envelope"></i><?php echo $user->EmailAddress;?><?php if($user->Status == 2):?> <i class="fa fa-check-circle" style="margin-left: 5px;"></i><?php endif;?></figure>
                                   <figure><i class="fa fa-phone"></i><?php echo $user->MobileNo;?> <i class="fa fa-check-circle mobileVerified" style="margin-left: 5px;<?php if($user->MobileVerification == 0):?>display:none;<?php endif;?>"></i></figure>
 								  <?php if($user->MobileVerification == 0):?>
 								  <br/>
@@ -306,11 +307,11 @@
 								  <?php endif;?>
                               </address>
                               <hr>
-                                <a href="<?php echo base_url();?>user"><h3>My Profile</h3></a>
+                                <a href="<?php echo base_url();?>user"><h4>My Profile</h4></a>
                               <hr>
-                                <a href="<?php echo base_url();?>user/listing"><h3>My Listings</h3></a>
+                                <a href="<?php echo base_url();?>user/listing"><h4>My Advertisements</h4></a>
                               <hr>
-                                <a href="user-listing.html"><h3>Favourites</h3></a>
+                                <a href="#"><h4>My Favourites</h4></a>
                           </div>
                       </section>
                   </div>
@@ -370,9 +371,16 @@
                                                   <input type="email" class="form-control" name="email" id="usrEmail" value="<?php echo $user->EmailAddress;?>">
                                               </div>
                                               <!--end form-group-->
-                                              <div class="form-group">
-                                                  <label for="phone">Phone<?php if($user->MobileVerification == 0):?> <span class="label label-info">Not Verified</span> <?php endif;?></label>
+																							<div class="form-group">
+                                                  <label for="phone">Phone <?php if($user->MobileVerification == 0):?> <span class="label label-info">Not Verified</span> <?php endif;?></label>
+                                                  <div class="row">
+                                                  <div class="col-md-1 col-sm-1 callcode" style="padding-right: 0;">
+                                                  +60
+                                                  </div>
+                                                  <div class="col-md-11 col-sm-11" style="padding-left: 5px;">
                                                   <input type="text" class="form-control" name="phone" id="phone" value="<?php echo $user->MobileNo;?>">
+                                                  </div>
+                                                  </div>
                                               </div>
                                               <!--end form-group-->
                                               <div class="form-group">
@@ -422,9 +430,7 @@
                                           <!--end col-md-6-->
                                       </div>
                                       <!--end row-->
-                                  </section>
-                                  <section class="center">
-                                      <div class="form-group">
+																			<div class="form-group">
                                           <input id="btnSave" type="submit" class="btn btn-primary btn-rounded" value="Save Changes" />
                                       </div>
                                       <!--end form-group-->
@@ -473,7 +479,7 @@
         <!--end container-->
     </div>
     <!--end page-content-->
-	
+
 	<div class="modal fade" id="UserDetailsNoti" tabindex="-1" role="basic" aria-hidden="true">
 		<div class="modal-dialog width-400px" role="document">
 			<div class="modal-content">
@@ -502,7 +508,7 @@
 		</div>
 		<!--end modal-dialog-->
 	</div>
-	
+
 	<div class="modal fade" id="UserVerifyMobile" tabindex="-1" role="basic" aria-hidden="true">
 		<div class="modal-dialog width-400px" role="document">
 			<div class="modal-content">

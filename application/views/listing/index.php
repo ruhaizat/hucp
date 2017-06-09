@@ -120,8 +120,9 @@
                                 </a>
                                 <div class="controls-more">
                                     <ul>
-                                        <li><a href="#">Add to favorites</a></li>
-                                        <li><a href="#">Add to watchlist</a></li>
+                                      <li><a href="#">Favorite <i class="fa fa-heart" style="padding-left: 5px;"></i></a></li>
+                                      <li><a href="#">Compare <i class="fa fa-clone" style="padding-left: 5px;"></i></a></li>
+                                      <li><a href="#">Report <i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -143,8 +144,9 @@
                                 </a>
                                 <div class="controls-more">
                                     <ul>
-                                        <li><a href="#">Add to favorites</a></li>
-                                        <li><a href="#">Add to watchlist</a></li>
+                                      <li><a href="#">Favorite <i class="fa fa-heart" style="padding-left: 5px;"></i></a></li>
+                                      <li><a href="#">Compare <i class="fa fa-clone" style="padding-left: 5px;"></i></a></li>
+                                      <li><a href="#">Report <i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -166,8 +168,9 @@
                                 </a>
                                 <div class="controls-more">
                                     <ul>
-                                        <li><a href="#">Add to favorites</a></li>
-                                        <li><a href="#">Add to watchlist</a></li>
+                                      <li><a href="#">Favorite <i class="fa fa-heart" style="padding-left: 5px;"></i></a></li>
+                                      <li><a href="#">Compare <i class="fa fa-clone" style="padding-left: 5px;"></i></a></li>
+                                      <li><a href="#">Report <i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -231,8 +234,9 @@
                             </a>
                             <div class="controls-more">
                                 <ul>
-                                    <li><a href="#">Favorite</a></li>
-                                    <li><a href="#">Compare</a></li>
+                                  <li><a href="#">Favorite <i class="fa fa-heart" style="padding-left: 5px;"></i></a></li>
+                                  <li><a href="#">Compare <i class="fa fa-clone" style="padding-left: 5px;"></i></a></li>
+                                  <li><a href="#">Report <i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
                                 </ul>
                             </div>
                             <!--end controls-more-->

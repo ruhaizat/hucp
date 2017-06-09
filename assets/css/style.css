@@ -6099,6 +6099,15 @@ section:not(.block) h2 {
 .version-selector a {
   color: #000;
 }
+
+.callcode {
+    font-size: 14px;
+    font-weight: 400;
+    outline: none !important;
+    height: inherit;
+    padding: 12px;
+}
+
 .version-selector .logo {
   text-align: center;
   margin: 40px 0;

@@ -1,6 +1,6 @@
 	<script>
 		$(document).ready(function(){
-			
+
 		});
 	</script>
     <div id="page-content">
@@ -29,7 +29,7 @@
                               <hr>
                               <address>
                                   <figure><i class="fa fa-map-marker"></i><?php echo $user->Address;?> </figure>
-                                  <figure><i class="fa fa-envelope"></i><a href="#"><?php echo $user->EmailAddress;?></a><?php if($user->Status == 2):?> <i class="fa fa-check-circle" style="margin-left: 5px;"></i><?php endif;?></figure>
+                                  <figure><i class="fa fa-envelope"></i><?php echo $user->EmailAddress;?><?php if($user->Status == 2):?> <i class="fa fa-check-circle" style="margin-left: 5px;"></i><?php endif;?></figure>
                                   <figure><i class="fa fa-phone"></i><?php echo $user->MobileNo;?> <i class="fa fa-check-circle mobileVerified" style="margin-left: 5px;<?php if($user->MobileVerification == 0):?>display:none;<?php endif;?>"></i></figure>
 								  <?php if($user->MobileVerification == 0):?>
 								  <br/>
@@ -38,12 +38,12 @@
                                   <p>Verifying your mobile number will increase your chances to be contacted by interested buyers.</p>
 								  <?php endif;?>
                               </address>
+															<hr>
+                                <a href="<?php echo base_url();?>user"><h4>My Profile</h4></a>
                               <hr>
-                                <a href="<?php echo base_url();?>user"><h3>My Profile</h3></a>
+                                <a href="<?php echo base_url();?>user/listing"><h4>My Advertisements</h4></a>
                               <hr>
-                                <a href="<?php echo base_url();?>user/listing"><h3>My Listings</h3></a>
-                              <hr>
-                                <a href="user-listing.html"><h3>Favourites</h3></a>
+                                <a href="#"><h4>My Favourites</h4></a>
                           </div>
                       </section>
                   </div>
@@ -86,25 +86,28 @@
                                 <div class="map"></div>
                                 <div class="description">
                                     <h3><?php echo $eachList->ModelName;?></h3>
-                                    <h4><?php echo $eachList->Address;?></h4>
+																		<h4 style="padding: 0 0 5px 0;">Gamma 1.6L Premium(model)</h4>
+                                    <h4><i class="fa fa-map-marker"></i> <?php echo $eachList->Address;?></h4>
                                     <div class="label label-default">Used</div>
                                 </div>
                                 <!--end description-->
                                 <div class="additional-info">
-                                    RM<?php echo $eachList->SellingPrice;?>
+                                    <h3 style="margin-bottom: 5px;">RM<?php echo $eachList->SellingPrice;?></h3>
+																		<h4>RM3,400/month</h4>
+                                    <h4><i class="fa fa-road"></i> 100,000km</h4>
                                 </div>
                                 <!--end additional-info-->
                             </a>
                             <div class="controls-more">
                                 <ul>
-                                    <li><a href="#">Add to favorites</a></li>
-                                    <li><a href="#">Compare</a></li>
-                                    <li><a href="#" class="quick-detail">Quick detail</a></li>
+																	<li><a href="#">Favorite <i class="fa fa-heart" style="padding-left: 5px;"></i></a></li>
+																	<li><a href="#">Compare <i class="fa fa-clone" style="padding-left: 5px;"></i></a></li>
+																	<li><a href="#">Report <i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
                                 </ul>
                             </div>
                             <!--end controls-more-->
                         </div>
-                        <!--end item.row-->						
+                        <!--end item.row-->
 						<?php endforeach;?>
                   </section>
                   <section>

@@ -143,11 +143,12 @@
                             <!--end image-->
                         </a>
                         <div class="additional-info">
-                            <a href="#">Contact Seller</a>
+                            <a href="<?php echo base_url().'listing/details/'.$eachFeatured->LID.'/'.$eachFeatured->LAddedBy;?>">Contact Seller</a>
                             <div class="controls-more">
                                 <ul>
-                                    <li><a href="#">Add to favorites</a></li>
-                                    <li><a href="#">Compare</a></li>
+                                    <li><a href="#">Favorite <i class="fa fa-heart" style="padding-left: 5px;"></i></a></li>
+                                    <li><a href="#">Compare <i class="fa fa-clone" style="padding-left: 5px;"></i></a></li>
+                                    <li><a href="#">Report <i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
                                 </ul>
                             </div>
                             <!--end controls-more-->
@@ -197,11 +198,12 @@
                                 <!--end image-->
                             </a>
                             <div class="additional-info">
-                                <a href="#">Contact Seller</a>
+                                <a href="<?php echo base_url().'listing/details/'.$eachRecent->LID.'/'.$eachRecent->LAddedBy;?>">Contact Seller</a>
                                 <div class="controls-more">
                                     <ul>
-                                        <li><a href="#">Add to favorites</a></li>
-                                        <li><a href="#">Compare</a></li>
+                                        <li><a href="#">Favorite <i class="fa fa-heart" style="padding-left: 5px;"></i></a></li>
+                                        <li><a href="#">Compare <i class="fa fa-clone" style="padding-left: 5px;"></i></a></li>
+                                        <li><a href="#">Report <i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
                                     </ul>
                                 </div>
                                 <!--end controls-more-->
@@ -281,8 +283,9 @@
                               <a href="#">Contact Seller</a>
                               <div class="controls-more">
                                   <ul>
-                                      <li><a href="#">Add to favorites</a></li>
-                                      <li><a href="#">Compare</a></li>
+                                      <li><a href="#">Favorite <i class="fa fa-heart" style="padding-left: 5px;"></i></a></li>
+                                      <li><a href="#">Compare <i class="fa fa-clone" style="padding-left: 5px;"></i></a></li>
+                                      <li><a href="#">Report <i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
                                   </ul>
                               </div>
                               <!--end controls-more-->
@@ -312,8 +315,9 @@
                               <a href="#">Contact Seller</a>
                               <div class="controls-more">
                                   <ul>
-                                      <li><a href="#">Add to favorites</a></li>
-                                      <li><a href="#">Compare</a></li>
+                                      <li><a href="#">Favorite <i class="fa fa-heart" style="padding-left: 5px;"></i></a></li>
+                                      <li><a href="#">Compare <i class="fa fa-clone" style="padding-left: 5px;"></i></a></li>
+                                      <li><a href="#">Report <i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
                                   </ul>
                               </div>
                               <!--end controls-more-->
@@ -343,8 +347,9 @@
                               <a href="#">Contact Seller</a>
                               <div class="controls-more">
                                   <ul>
-                                      <li><a href="#">Add to favorites</a></li>
-                                      <li><a href="#">Compare</a></li>
+                                      <li><a href="#">Favorite <i class="fa fa-heart" style="padding-left: 5px;"></i></a></li>
+                                      <li><a href="#">Compare <i class="fa fa-clone" style="padding-left: 5px;"></i></a></li>
+                                      <li><a href="#">Report <i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
                                   </ul>
                               </div>
                               <!--end controls-more-->
@@ -374,8 +379,9 @@
                               <a href="#">Contact Seller</a>
                               <div class="controls-more">
                                   <ul>
-                                      <li><a href="#">Add to favorites</a></li>
-                                      <li><a href="#">Compare</a></li>
+                                      <li><a href="#">Favorite <i class="fa fa-heart" style="padding-left: 5px;"></i></a></li>
+                                      <li><a href="#">Compare <i class="fa fa-clone" style="padding-left: 5px;"></i></a></li>
+                                      <li><a href="#">Report <i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
                                   </ul>
                               </div>
                               <!--end controls-more-->

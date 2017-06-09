@@ -31,12 +31,14 @@
             </ol>
             <section class="page-title pull-left">
                 <h1><?php echo $listingData->ModelName;?></h1>
-                <h3>RM<?php echo $listingData->SellingPrice;?></h3>
+								<h3 style="margin-bottom: 10px;">Gamma 1.6L Premium</h3>
+                <h2>RM<?php echo $listingData->SellingPrice;?></h2>
             </section>
             <!--end page-title-->
-            <a id="btnSubmitListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-rounded icon scroll pull-right"><i class="fa fa-check-circle"></i>Submit for Approval</a>
-            <a href="#write-a-review" class="btn btn-primary btn-rounded icon scroll pull-right"><i class="fa fa-close"></i>Delete Listing</a>
-            <a href="#EditListing" class="btn btn-primary btn-rounded icon scroll pull-right" data-toggle="modal"><i class="fa fa-edit"></i>Edit Listing</a>
+            <a id="btnSubmitListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-rounded icon scroll pull-right"><i class="fa fa-check-circle"></i>Submit</a>
+            <a href="#write-a-review" class="btn btn-primary btn-rounded icon scroll pull-right"><i class="fa fa-close"></i>Delete</a>
+            <a href="#EditListing" class="btn btn-primary btn-rounded icon scroll pull-right" data-toggle="modal"><i class="fa fa-edit"></i>Edit</a>
+						<a href="#write-a-review" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-flag"></i>Report</a>
             <a href="#write-a-review" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-print"></i>Print</a>
             <a href="#write-a-review" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-clone"></i>Compare</a>
             <a href="#write-a-review" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-heart"></i>Favourite </a>
@@ -65,7 +67,135 @@
 							<?php echo $listingData->Description;?>
                         </p>
                     </section>
-					<section>
+
+										<section>
+                        <h2>Car Details</h2>
+                        <div class="panel-group" id="accordion-5-Detail" role="tablist" aria-multiselectable="true">
+                            <div class="panel panel-default">
+                                <div id="accordion-collapse-5-Detail" class="panel-collapse" role="tabpanel" aria-labelledby="accordion-heading-5-Detail">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-md-3 col-sm-3">
+                                                <strong>Model</strong>
+                                            </div>
+                                            <!--end col-md-3-->
+                                            <div class="col-md-9 col-sm-9">
+                                                <div class="form-group">
+                                                    <?php echo $listingData->gs_category;?>
+                                                </div>
+                                                <!--end form-group-->
+                                            </div>
+                                            <!--end col-md-9-->
+                                        </div>
+                                        <!--end row-->
+                                        <div class="row">
+                                            <div class="col-md-3 col-sm-3">
+                                                <strong>Transmission</strong>
+                                            </div>
+                                            <!--end col-md-3-->
+                                            <div class="col-md-9 col-sm-9">
+                                                <div class="form-group">
+                                                    <?php echo $listingData->gs_model_name;?>
+                                                </div>
+                                                <!--end form-group-->
+                                            </div>
+                                            <!--end col-md-9-->
+                                        </div>
+                                        <!--end row-->
+                                        <div class="row">
+                                            <div class="col-md-3 col-sm-3">
+                                                <strong>Manufacturing Year</strong>
+                                            </div>
+                                            <!--end col-md-3-->
+                                            <div class="col-md-9 col-sm-9">
+                                                <div class="form-group">
+                                                    <?php echo $listingData->gs_body_type;?>
+                                                </div>
+                                                <!--end form-group-->
+                                            </div>
+                                            <!--end col-md-9-->
+                                        </div>
+                                        <!--end row-->
+                                        <div class="row">
+                                            <div class="col-md-3 col-sm-3">
+                                                <strong>Mileage</strong>
+                                            </div>
+                                            <!--end col-md-3-->
+                                            <div class="col-md-9 col-sm-9">
+                                                <div class="form-group">
+                                                    <?php echo $listingData->gs_seats;?>
+                                                </div>
+                                                <!--end form-group-->
+                                            </div>
+                                            <!--end col-md-9-->
+                                        </div>
+                                        <!--end row-->
+																				<div class="row">
+                                            <div class="col-md-3 col-sm-3">
+                                                <strong>Colour</strong>
+                                            </div>
+                                            <!--end col-md-3-->
+                                            <div class="col-md-9 col-sm-9">
+                                                <div class="form-group">
+                                                    <?php echo $listingData->gs_seats;?>
+                                                </div>
+                                                <!--end form-group-->
+                                            </div>
+                                            <!--end col-md-9-->
+                                        </div>
+                                        <!--end row-->
+																				<div class="row">
+                                            <div class="col-md-3 col-sm-3">
+                                                <strong>Selling Price</strong>
+                                            </div>
+                                            <!--end col-md-3-->
+                                            <div class="col-md-9 col-sm-9">
+                                                <div class="form-group">
+                                                    <?php echo $listingData->gs_seats;?>
+                                                </div>
+                                                <!--end form-group-->
+                                            </div>
+                                            <!--end col-md-9-->
+                                        </div>
+                                        <!--end row-->
+																				<div class="row">
+                                            <div class="col-md-3 col-sm-3">
+                                                <strong>State</strong>
+                                            </div>
+                                            <!--end col-md-3-->
+                                            <div class="col-md-9 col-sm-9">
+                                                <div class="form-group">
+                                                    <?php echo $listingData->gs_seats;?>
+                                                </div>
+                                                <!--end form-group-->
+                                            </div>
+                                            <!--end col-md-9-->
+                                        </div>
+                                        <!--end row-->
+																				<div class="row">
+                                            <div class="col-md-3 col-sm-3">
+                                                <strong>Address</strong>
+                                            </div>
+                                            <!--end col-md-3-->
+                                            <div class="col-md-9 col-sm-9">
+                                                <div class="form-group">
+                                                    <?php echo $listingData->gs_seats;?>
+                                                </div>
+                                                <!--end form-group-->
+                                            </div>
+                                            <!--end col-md-9-->
+                                        </div>
+                                        <!--end row-->
+                                    </div>
+                                </div>
+                                <!--end panel-collapse-->
+                            </div>
+                            <!--end panel-->
+                        </div>
+                        <!--end panel-group-->
+                    </section>
+
+										<section>
                         <h2>Specification</h2>
                         <div class="panel-group" id="accordion-5-Detail" role="tablist" aria-multiselectable="true">
                             <div class="panel panel-default">
@@ -706,7 +836,7 @@
 
                     <div class="sidebar">
                     <section>
-                        <h2>Recent Listing</h2>
+                        <h2>Related Advertisements</h2>
 						<?php $i = 0;foreach($recentData as $eachRecent):$i++;?>
 						<div class="item" data-id="<?php echo $eachRecent->LID;?>">
                             <a href="<?php echo base_url().'listing/details/'.$eachRecent->LID.'/'.$eachRecent->LAddedBy;?>">
@@ -724,9 +854,9 @@
                             </a>
                             <div class="controls-more">
                                 <ul>
-                                    <li><a href="#">Add to favorites</a></li>
-                                    <li><a href="#">Add to watchlist</a></li>
-                                    <li><a href="#" class="quick-detail">Quick detail</a></li>
+																	<li><a href="#">Favorite <i class="fa fa-heart" style="padding-left: 5px;"></i></a></li>
+																	<li><a href="#">Compare <i class="fa fa-clone" style="padding-left: 5px;"></i></a></li>
+																	<li><a href="#">Report <i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
                                 </ul>
                             </div>
                         </div>

@@ -54,11 +54,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 </div>
                             </div>
                         </li>
-                        <li class="has-child"><a href="#nav-homepages">Sell</a>
+                        <li class="has-child"><a id="aAddListing" href="#AddListing" data-toggle="modal">Sell</a>
                             <div class="wrapper">
                                 <div id="nav-homepages" class="nav-wrapper">
                                     <ul>
-                                        <li><a href="#">Create Ad</a></li>
+                                        <li><a id="aAddListing" href="#AddListing" data-toggle="modal">Create Ad</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -78,8 +78,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div id="nav-homepages" class="nav-wrapper">
 										<ul>
 											<li><a href="<?php echo base_url();?>user">My Profile</a></li>
-											<li><a href="#">My Advertisements</a></li>
-											<li><a href="#">Favourites</a></li>
+											<li><a href="<?php echo base_url();?>user/listing">My Advertisements</a></li>
+											<li><a href="#">My Favourites</a></li>
 										</ul>
 									</div>
 								</div>
