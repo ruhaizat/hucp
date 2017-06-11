@@ -38,7 +38,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <header id="page-header">
         <nav>
             <div class="left">
-                <a href="<?php echo base_url();?>main" class="brand"><img src="assets/img/logo_hyundai_grey.png" height="20"></a>
+                <a href="<?php echo base_url();?>main" class="brand"><img src="<?php echo base_url();?>assets/img/logo_hyundai_grey.png" height="20"></a>
             </div>
             <!--end left-->
             <div class="right">
@@ -448,23 +448,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<div class="form-group">
 									<label for="category">State</label>
 									<select class="form-control selectpicker" name="ALState" id="ALState">
-										<option value="">Select a State</option>
-										<option value="1">Kuala Lumpur</option>
-										<option value="2">Selangor</option>
-										<option value="3">Johor</option>
-										<option value="4">Penang</option>
-										<option value="5">Perak</option>
-										<option value="6">Kedah</option>
-										<option value="7">Negeri Sembilan</option>
-										<option value="8">Pahang</option>
-										<option value="9">Sabah</option>
-										<option value="10">Sarawak</option>
-										<option value="11">Terengganu</option>
-										<option value="12">Melaka</option>
-										<option value="13">Kelantan</option>
-										<option value="14">Perlis</option>
-										<option value="15">Putrajaya</option>
-										<option value="16">Labuan</option>
+										<?php foreach($state as $eachState):?>
+										<option value="<?php echo $eachState->ID;?>"><?php echo $eachState->Name;?></option>
+										<?php endforeach;?>
 									</select>
 								</div>
 								<!--end form-group-->

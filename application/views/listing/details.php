@@ -31,8 +31,8 @@
             </ol>
             <section class="page-title pull-left">
                 <h1><?php echo $listingData->ModelName;?></h1>
-								<h3 style="margin-bottom: 10px;">Gamma 1.6L Premium</h3>
-                <h2>RM<?php echo $listingData->SellingPrice;?></h2>
+								<h3 style="margin-bottom: 10px;"><?php echo $listingData->SpecificationName;?></h3>
+                <h2>RM<?php echo number_format($listingData->SellingPrice);?></h2>
             </section>
             <!--end page-title-->
             <a id="btnSubmitListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-rounded icon scroll pull-right"><i class="fa fa-check-circle"></i>Submit</a>
@@ -61,13 +61,14 @@
             <div class="row">
                 <div class="col-md-8 col-sm-8">
                     <div id="gallery-nav"></div>
+					<?php if($listingData->Description):?>
                     <section>
-                        <h2>Seller's Comment</h2>
+                        <h2>Description</h2>
                         <p>
 							<?php echo $listingData->Description;?>
                         </p>
                     </section>
-
+					<?php endif;?>
 										<section>
                         <h2>Car Details</h2>
                         <div class="panel-group" id="accordion-5-Detail" role="tablist" aria-multiselectable="true">
@@ -841,10 +842,10 @@
 						<div class="item" data-id="<?php echo $eachRecent->LID;?>">
                             <a href="<?php echo base_url().'listing/details/'.$eachRecent->LID.'/'.$eachRecent->LAddedBy;?>">
                                 <div class="description">
-                                    <figure>RM<?php echo $eachRecent->SellingPrice;?></figure>
+                                    <figure>RM<?php echo number_format($eachRecent->SellingPrice);?></figure>
                                     <div class="label label-default">Used</div>
                                     <h3><?php echo $eachRecent->ModelName;?></h3>
-                                    <h4><?php echo $eachRecent->Address;?></h4>
+                                    <h4><?php echo $eachRecent->StateName;?></h4>
                                 </div>
                                 <!--end description-->
                                 <div class="image bg-transfer">
@@ -1001,7 +1002,7 @@
 									<!--end form-group-->
 									<div class="form-group">
 										<label for="category">Selling Price</label>
-										<input type="text" class="form-control" name="ALSellingPrice" id="ALSellingPrice" placeholder="Selling Price" value="<?php echo $listingData->SellingPrice;?>">
+										<input type="text" class="form-control" name="ALSellingPrice" id="ALSellingPrice" placeholder="Selling Price" value="<?php echo number_format($listingData->SellingPrice);?>">
 									</div>
 									<!--end form-group-->
 								</div>
@@ -1010,23 +1011,9 @@
 								<div class="form-group">
 									<label for="category">State</label>
 									<select class="form-control selectpicker" name="ALState" id="ALState">
-										<option value="">Select a State</option>
-										<option value="1">Kuala Lumpur</option>
-										<option value="2">Selangor</option>
-										<option value="3">Johor</option>
-										<option value="4">Penang</option>
-										<option value="5">Perak</option>
-										<option value="6">Kedah</option>
-										<option value="7">Negeri Sembilan</option>
-										<option value="8">Pahang</option>
-										<option value="9">Sabah</option>
-										<option value="10">Sarawak</option>
-										<option value="11">Terengganu</option>
-										<option value="12">Melaka</option>
-										<option value="13">Kelantan</option>
-										<option value="14">Perlis</option>
-										<option value="15">Putrajaya</option>
-										<option value="16">Labuan</option>
+										<?php foreach($state as $eachState):?>
+										<option value="<?php echo $eachState->ID;?>"><?php echo $eachState->Name;?></option>
+										<?php endforeach;?>
 									</select>
 								</div>
 								<!--end form-group-->

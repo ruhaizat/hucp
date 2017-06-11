@@ -23,11 +23,11 @@ class Main extends CI_Controller {
 	{
 		$data["bodyClass"] = "nav-btn-only homepage";
 		
-		$queryRecent = $this->db->query("SELECT *, L.ID AS LID, M.Name AS ModelName, S.Name AS SpecificationName, L.AddedBy AS LAddedBy FROM tbl_listing AS L INNER JOIN tbl_model AS M ON L.Model = M.ID INNER JOIN tbl_specification AS S ON L.Specification = S.ID LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID GROUP BY L.ID ORDER BY L.AddedOn DESC");
+		$queryRecent = $this->db->query("SELECT *, L.ID AS LID, M.Name AS ModelName, S.Name AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName FROM tbl_listing AS L INNER JOIN tbl_model AS M ON L.Model = M.ID INNER JOIN tbl_specification AS S ON L.Specification = S.ID LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID GROUP BY L.ID ORDER BY L.AddedOn DESC");
 		$recentData = $queryRecent->result();
 		$data["recentData"] = $recentData;
 		
-		$queryFeatured = $this->db->query("SELECT *, L.ID AS LID,M.Name AS ModelName, S.Name AS SpecificationName, L.AddedBy AS LAddedBy FROM tbl_listing AS L INNER JOIN tbl_model AS M ON L.Model = M.ID INNER JOIN tbl_specification AS S ON L.Specification = S.ID LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID WHERE L.IsFeatured = 1 GROUP BY L.ID ORDER BY L.AddedOn DESC");
+		$queryFeatured = $this->db->query("SELECT *, L.ID AS LID,M.Name AS ModelName, S.Name AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName FROM tbl_listing AS L INNER JOIN tbl_model AS M ON L.Model = M.ID INNER JOIN tbl_specification AS S ON L.Specification = S.ID LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE L.IsFeatured = 1 GROUP BY L.ID ORDER BY L.AddedOn DESC");
 		$featuredData = $queryFeatured->result();
 		$data["featuredData"] = $featuredData;
 		$data["featuredDataCount"] = $queryFeatured->num_rows();
@@ -39,6 +39,10 @@ class Main extends CI_Controller {
 		$querySpecification = $this->db->query("SELECT * FROM tbl_specification");
 		$specificationData = $querySpecification->result();
 		$data["specification"] = $specificationData;
+		
+		$queryState = $this->db->query("SELECT * FROM tbl_state");
+		$stateData = $queryState->result();
+		$data["state"] = $stateData;
 		
 		$this->load->view("header", $data);
 		$this->load->view("main", $data);

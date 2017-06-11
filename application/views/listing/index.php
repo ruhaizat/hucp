@@ -220,13 +220,13 @@
                                 <div class="map"></div>
                                 <div class="description">
                                     <h3><?php echo $eachList->ModelName;?></h3>
-                                    <h4 style="padding: 0 0 5px 0;">Gamma 1.6L Premium(model)</h4>
-                                    <h4><i class="fa fa-map-marker"></i> <?php echo $eachList->Address;?></h4>
+                                    <h4 style="padding: 0 0 5px 0;"><?php echo $eachList->SpecificationName?></h4>
+                                    <h4><i class="fa fa-map-marker"></i> <?php echo $eachList->StateName;?></h4>
                                     <div class="label label-default">Used</div>
                                 </div>
                                 <!--end description-->
                                 <div class="additional-info">
-                                    <h3 style="margin-bottom: 5px;">RM<?php echo $eachList->SellingPrice;?></h3>
+                                    <h3 style="margin-bottom: 5px;">RM<?php echo number_format($eachList->SellingPrice);?></h3>
                                     <h4>RM3,400/month</h4>
                                     <h4><i class="fa fa-road"></i> 100,000km</h4>
                                 </div>

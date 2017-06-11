@@ -394,23 +394,9 @@
                                             <div class="form-group">
                                                 <label for="category">State</label>
                                                 <select class="form-control selectpicker" name="state" id="state">
-                                                    <option value="0" <?php if($user->State == "0"):echo "selected";endif;?>>Select a State</option>
-                                                    <option value="1" <?php if($user->State == "1"):echo "selected";endif;?>>Kuala Lumpur</option>
-                                                    <option value="2" <?php if($user->State == "2"):echo "selected";endif;?>>Selangor</option>
-                                                    <option value="3" <?php if($user->State == "3"):echo "selected";endif;?>>Johor</option>
-                                                    <option value="4" <?php if($user->State == "4"):echo "selected";endif;?>>Penang</option>
-                                                    <option value="5" <?php if($user->State == "5"):echo "selected";endif;?>>Perak</option>
-                                                    <option value="6" <?php if($user->State == "6"):echo "selected";endif;?>>Kedah</option>
-                                                    <option value="7" <?php if($user->State == "7"):echo "selected";endif;?>>Negeri Sembilan</option>
-                                                    <option value="8" <?php if($user->State == "8"):echo "selected";endif;?>>Pahang</option>
-                                                    <option value="9" <?php if($user->State == "9"):echo "selected";endif;?>>Sabah</option>
-                                                    <option value="10" <?php if($user->State == "10"):echo "selected";endif;?>>Sarawak</option>
-                                                    <option value="11" <?php if($user->State == "11"):echo "selected";endif;?>>Terengganu</option>
-                                                    <option value="12" <?php if($user->State == "12"):echo "selected";endif;?>>Melaka</option>
-                                                    <option value="13" <?php if($user->State == "13"):echo "selected";endif;?>>Kelantan</option>
-                                                    <option value="14" <?php if($user->State == "14"):echo "selected";endif;?>>Perlis</option>
-                                                    <option value="15" <?php if($user->State == "15"):echo "selected";endif;?>>Putrajaya</option>
-                                                    <option value="16" <?php if($user->State == "16"):echo "selected";endif;?>>Labuan</option>
+													<?php foreach($state as $eachState):?>
+													<option value="<?php echo $eachState->ID;?>" <?php if($user->State == $eachState->ID):echo "selected";endif;?>><?php echo $eachState->Name;?></option>
+													<?php endforeach;?>
                                                 </select>
                                             </div>
                                             <!--end form-group-->

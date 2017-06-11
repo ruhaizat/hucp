@@ -130,11 +130,11 @@
 					<div class="item featured" data-id="<?php echo $eachFeatured->LID;?>">
                             <a href="<?php echo base_url().'listing/details/'.$eachFeatured->LID.'/'.$eachFeatured->LAddedBy;?>">
                             <div class="description">
-                                <figure>RM<?php echo $eachFeatured->SellingPrice;?></figure>
+                                <figure>RM<?php echo number_format($eachFeatured->SellingPrice);?></figure>
                                 <div class="label label-default">Used</div>
                                 <h3><?php echo $eachFeatured->ModelName;?></h3>
-                                <h4 style="padding: 0 0 5px 0;">Gamma 1.6L Premium(model)</h4>
-                                <h4><i class="fa fa-map-marker"></i> <?php echo $eachFeatured->Address;?></h4>
+                                <h4 style="padding: 0 0 5px 0;"><?php echo $eachFeatured->SpecificationName?></h4>
+                                <h4><i class="fa fa-map-marker"></i> <?php echo $eachFeatured->StateName;?></h4>
                             </div>
                             <!--end description-->
                             <div class="image bg-transfer">
@@ -185,11 +185,11 @@
 						<div class="item" data-id="<?php echo $eachRecent->LID;?>">
                             <a href="<?php echo base_url().'listing/details/'.$eachRecent->LID.'/'.$eachRecent->LAddedBy;?>">
                                 <div class="description">
-                                    <figure>RM<?php echo $eachRecent->SellingPrice;?></figure>
+                                    <figure>RM<?php echo number_format($eachRecent->SellingPrice);?></figure>
                                     <div class="label label-default">Used</div>
                                     <h3><?php echo $eachRecent->ModelName;?></h3>
-                                    <h4 style="padding: 0 0 5px 0;">Gamma 1.6L Premium(model)</h4>
-                                    <h4><i class="fa fa-map-marker"></i> <?php echo $eachRecent->Address;?></h4>
+                                    <h4 style="padding: 0 0 5px 0;"><?php echo $eachRecent->SpecificationName?></h4>
+                                    <h4><i class="fa fa-map-marker"></i> <?php echo $eachRecent->StateName;?></h4>
                                 </div>
                                 <!--end description-->
                                 <div class="image bg-transfer">
