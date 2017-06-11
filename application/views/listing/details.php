@@ -22,6 +22,26 @@
 			markers.push(marker);
 		}
 		google.maps.event.addDomListener(window, 'load', initializeListingDetail);
+		
+		function submitContactSeller(){
+			var Name = $("#name").val();
+			var Email = $("#buyer_email").val();
+			var Telephone = $("#telephone").val();
+			var Description = $("#description").val();
+			var ListingID = "<?php echo $listingData->LID;?>";
+			var Model = "<?php echo $listingData->ModelName;?>";
+			var SellerID = "<?php echo $listingData->LAddedBy;?>";
+			
+			var datastr = '{"mode":"ContactSeller","Name":"'+Name+'","Email":"'+Email+'","Telephone":"'+Telephone+'","Description":"'+Description+'","ListingID":"'+ListingID+'","SellerID":"'+SellerID+'","Model":"'+Model+'"}';
+			$.ajax({
+				url: "<?php echo base_url();?>listing/ajax",
+				type: "POST",
+				data: {"datastr":datastr},
+				success: function(data){
+					$("#ContactSellerSuccess").modal("show");
+				}
+			});	
+		}
 	</script>
     <div id="page-content">
         <div class="container">
@@ -82,7 +102,7 @@
                                             <!--end col-md-3-->
                                             <div class="col-md-9 col-sm-9">
                                                 <div class="form-group">
-                                                    <?php echo $listingData->gs_category;?>
+                                                    <?php echo $listingData->ModelName;?>
                                                 </div>
                                                 <!--end form-group-->
                                             </div>
@@ -152,7 +172,7 @@
                                             <!--end col-md-3-->
                                             <div class="col-md-9 col-sm-9">
                                                 <div class="form-group">
-                                                    <?php echo $listingData->gs_seats;?>
+                                                    <?php echo number_format($listingData->SellingPrice);?>
                                                 </div>
                                                 <!--end form-group-->
                                             </div>
@@ -814,7 +834,7 @@
                                       </div>
                                       <div class="description">
                                               <h4><?php echo $userData->FirstName." ".$userData->LastName;?></h4>
-                                              <a href="#" class="btn btn-primary btn-rounded btn-xs">Contact Seller</a>
+                                              <a href="#ContactSeller" class="btn btn-primary btn-rounded btn-xs" data-toggle="modal">Contact Seller</a>
                                       </div>
                                   </div>
                                 </div>
@@ -1661,6 +1681,77 @@
 							</div>
 							<!--end form-group-->
 						</section>
+					</form>
+					<!--end form-->
+				</div>
+				<!--end modal-body-->
+			</div>
+			<!--end modal-content-->
+		</div>
+		<!--end modal-dialog-->
+	</div>
+	<div class="modal fade" id="ContactSeller" tabindex="-1" role="basic" aria-hidden="true">
+		<div class="modal-dialog width-400px" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<div class="section-title">
+						<h2>Contact Seller</h2>
+					</div>
+				</div>
+				<div class="modal-body">
+					<form id="frmSignIn" onsubmit="event.preventDefault();submitContactSeller();" class="form inputs-underline">
+						<div class="form-group">
+							<label for="name">Name<span class="noti-error">*</span></label>
+							<input type="text" class="form-control" name="name" id="name" placeholder="Your Name">
+						</div>
+						<!--end form-group-->
+						<div class="form-group">
+							<label for="email">Email<span class="noti-error">*</span></label>
+							<input type="email" class="form-control" name="email" id="buyer_email" placeholder="Your email">
+						</div>
+						<!--end form-group-->
+						<div class="form-group">
+							<label for="telephone">Telephone<span class="noti-error">*</span></label>
+							<input type="text" class="form-control" name="telephone" id="telephone" placeholder="+601234567890">
+						</div>
+						<!--end form-group-->
+						<div class="form-group">
+							<label for="description">Message<span class="noti-error">*</span></label>
+							<textarea class="form-control" id="description" rows="4" name="description" placeholder="Message to the seller"></textarea>
+						</div>
+						<!--end form-group-->
+						<button id="btnSendMsg" type="submit" value="Send Message" class="btn btn-primary width-100">Send Message</button>
+					</form>
+				</div>
+				<!--end modal-body-->
+				<hr>
+				<span class="noti-error">*</span>All field are required.
+			</div>
+			<!--end modal-content-->
+		</div>
+		<!--end modal-dialog-->
+	</div>
+
+	<div class="modal fade" id="ContactSellerSuccess" tabindex="-1" role="basic" aria-hidden="true">
+		<div class="modal-dialog width-400px" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<div class="section-title center">
+						<h2>Success</h2>
+					</div>
+				</div>
+				<div class="modal-body">
+					<form class="form inputs-underline">
+						<div class="form-group center">
+						Your message to seller successfully sent.
+						</div>
+						<!--end form-group-->
+						<div class="form-group center">
+							<button type="submit" class="btn btn-primary width-100">OK</button>
+						</div>
+						<!--end form-group-->
 					</form>
 					<!--end form-->
 				</div>

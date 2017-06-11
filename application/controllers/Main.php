@@ -23,14 +23,19 @@ class Main extends CI_Controller {
 	{
 		$data["bodyClass"] = "nav-btn-only homepage";
 		
-		$queryRecent = $this->db->query("SELECT *, L.ID AS LID, M.Name AS ModelName, S.Name AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName FROM tbl_listing AS L INNER JOIN tbl_model AS M ON L.Model = M.ID INNER JOIN tbl_specification AS S ON L.Specification = S.ID LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID GROUP BY L.ID ORDER BY L.AddedOn DESC");
+		$queryRecent = $this->db->query("SELECT *, L.ID AS LID, M.Name AS ModelName, S.Name AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName FROM tbl_listing AS L INNER JOIN tbl_model AS M ON L.Model = M.ID INNER JOIN tbl_specification AS S ON L.Specification = S.ID LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE L.Status = 1 GROUP BY L.ID ORDER BY L.AddedOn DESC LIMIT 8");
 		$recentData = $queryRecent->result();
 		$data["recentData"] = $recentData;
 		
-		$queryFeatured = $this->db->query("SELECT *, L.ID AS LID,M.Name AS ModelName, S.Name AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName FROM tbl_listing AS L INNER JOIN tbl_model AS M ON L.Model = M.ID INNER JOIN tbl_specification AS S ON L.Specification = S.ID LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE L.IsFeatured = 1 GROUP BY L.ID ORDER BY L.AddedOn DESC");
+		$queryFeatured = $this->db->query("SELECT *, L.ID AS LID,M.Name AS ModelName, S.Name AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName FROM tbl_listing AS L INNER JOIN tbl_model AS M ON L.Model = M.ID INNER JOIN tbl_specification AS S ON L.Specification = S.ID LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE L.Status = 1 AND L.IsFeatured = 1 GROUP BY L.ID ORDER BY L.AddedOn DESC LIMIT 12");
 		$featuredData = $queryFeatured->result();
 		$data["featuredData"] = $featuredData;
 		$data["featuredDataCount"] = $queryFeatured->num_rows();
+		
+		$IPAddress = $this->get_client_ip();
+		$queryRecentViewed = $this->db->query("SELECT *, RV.ID AS RVID, L.ID AS LID, M.Name AS ModelName, S.Name AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName FROM tbl_recentlyviewed AS RV INNER JOIN tbl_listing AS L ON RV.ListingID = L.ID INNER JOIN tbl_model AS M ON L.Model = M.ID INNER JOIN tbl_specification AS S ON L.Specification = S.ID LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE RV.IPAddress = '$IPAddress' GROUP BY RV.ID ORDER BY RV.ViewedOn DESC LIMIT 4");
+		$recentViewedData = $queryRecentViewed->result();
+		$data["recentViewed"] = $recentViewedData;
 		
 		$queryModel = $this->db->query("SELECT * FROM tbl_model");
 		$modelData = $queryModel->result();
@@ -448,6 +453,24 @@ class Main extends CI_Controller {
 				echo "Account active";
 			break;
 		}
-		
+	}
+	
+	function get_client_ip() {
+		$ipaddress = '';
+		if (getenv('HTTP_CLIENT_IP'))
+			$ipaddress = getenv('HTTP_CLIENT_IP');
+		else if(getenv('HTTP_X_FORWARDED_FOR'))
+			$ipaddress = getenv('HTTP_X_FORWARDED_FOR');
+		else if(getenv('HTTP_X_FORWARDED'))
+			$ipaddress = getenv('HTTP_X_FORWARDED');
+		else if(getenv('HTTP_FORWARDED_FOR'))
+			$ipaddress = getenv('HTTP_FORWARDED_FOR');
+		else if(getenv('HTTP_FORWARDED'))
+		   $ipaddress = getenv('HTTP_FORWARDED');
+		else if(getenv('REMOTE_ADDR'))
+			$ipaddress = getenv('REMOTE_ADDR');
+		else
+			$ipaddress = 'UNKNOWN';
+		return $ipaddress;
 	}
 }

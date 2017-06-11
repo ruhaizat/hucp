@@ -129,7 +129,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</div>
 						<!--end form-group-->
 						<div class="form-group center">
-							<button id="btnSignInViaFB" type="submit" class="btn btn-primary width-100" value="FB"><i class="fa fa-facebook-official"></i> Sign In with Facebook</button>
+							<button id="btnSignInViaFB" type="button" class="btn btn-primary width-100" value="FB" style="padding: 13px;margin-top: -2px;"><i class="fa fa-facebook-official"></i> Sign In with Facebook</button>
 						</div>
 						<!--end form-group-->
 					</form>
@@ -179,7 +179,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<button id="btnRegister" type="submit" class="btn btn-primary width-100" value="Reg">Register Now</button>
 						</div>
 						<div class="form-group center">
-							<button id="btnRegisterFB" class="btn btn-primary width-100" value="FB"><i class="fa fa-facebook-official"></i> Register with Facebook</button>
+							<button id="btnRegisterFB" type="button" class="btn btn-primary width-100" value="FB" style="padding: 13px;margin-top: -2px;"><i class="fa fa-facebook-official"></i> Register with Facebook</button>
 						</div>
 						<!--end form-group-->
 					</form>
