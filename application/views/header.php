@@ -129,7 +129,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</div>
 						<!--end form-group-->
 						<div class="form-group center">
-							<button id="btnSignInViaFB" class="btn btn-primary width-100" value="FB"><i class="fa fa-facebook-official"></i> Sign In with Facebook</button>
+							<button id="btnSignInViaFB" type="submit" class="btn btn-primary width-100" value="FB"><i class="fa fa-facebook-official"></i> Sign In with Facebook</button>
 						</div>
 						<!--end form-group-->
 					</form>

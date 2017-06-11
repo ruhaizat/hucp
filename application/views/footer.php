@@ -162,6 +162,14 @@
 			}
 		});
 		
+		$("#btnSignInViaFB").click(function(){
+			checkLoginState();
+		});
+		
+		$("#btnRegisterFB").click(function(){
+			checkLoginState();
+		});
+		
 		$("#btnSubmitListing").click(function(){
 			alert($(this).val());
 		});
