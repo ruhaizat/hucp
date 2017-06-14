@@ -1,25 +1,121 @@
 	<script>
-		var map;
-		function initializeListingDetail() {
-			var markers = [];
-			map = new google.maps.Map(document.getElementById('map-detail'), {
-				mapTypeId: google.maps.MapTypeId.ROADMAP
+		$(document).ready(function(){
+			$('#EditListing').on('shown.bs.modal', function () {
+				//alert("at");
+				aEditClick();
+				google.maps.event.trigger(mapedit, 'resize');
 			});
-
+		});
+		var map;
+		function aEditClick(){
+			var markers = [];			
+					
+			map = new google.maps.Map(
+				document.getElementById('map-edit'), 
+				{		
+					mapTypeId: google.maps.MapTypeId.ROADMAP
+				}
+			);	
+			
+			//alert(map);
+				
 			var defaultBounds = new google.maps.LatLngBounds(new google.maps.LatLng(<?php if($listingData->Latitude):echo $listingData->Latitude;else:echo "3.0266654";endif;?>, <?php if($listingData->Longitude):echo $listingData->Longitude;else:echo "101.69214009999996";endif;?>));
 			map.fitBounds(defaultBounds);
-
+			
 			var listener = google.maps.event.addListener(map, "idle", function() {
-			if (map.getZoom() > 16) map.setZoom(16);
-			  google.maps.event.removeListener(listener);
-			});
-
+				if (map.getZoom() > 16) map.setZoom(16);
+				google.maps.event.removeListener(listener);
+				});
+				
 			var marker = new google.maps.Marker({
 				map: map,
 				position: new google.maps.LatLng(<?php if($listingData->Latitude):echo $listingData->Latitude;else:echo "3.0266654";endif;?>, <?php if($listingData->Longitude):echo $listingData->Longitude;else:echo "101.69214009999996";endif;?>)
+				});
+				
+			markers.push(marker);
+			
+			var input = (document.getElementById('ALAddressEdit'));
+			var searchBox = new google.maps.places.SearchBox((input));
+			
+			google.maps.event.addListener(map, "click", function(event) {
+				for (var i = 0, marker; marker = markers[i]; i++) {
+					marker.setMap(null);
+				}
+				
+				var lat = event.latLng.lat();
+				var lng = event.latLng.lng();
+				
+				$("#ALLatitudeEdit").val(lat);
+				$("#ALLongitudeEdit").val(lng);
+				
+				var marker = new google.maps.Marker({
+					map: map,
+					position: event.latLng
+				});
+				
+				markers.push(marker);
+			});
+			google.maps.event.addListener(searchBox, 'places_changed', function() {
+				var places = searchBox.getPlaces();
+				
+				for (var i = 0, marker; marker = markers[i]; i++) {
+					marker.setMap(null);
+				}
+				
+				markers = [];
+				
+				var bounds = new google.maps.LatLngBounds();
+				
+				for (var i = 0, place; place = places[i]; i++) {
+					var marker = new google.maps.Marker({
+						map: map,
+						title: place.name,
+						position: place.geometry.location
+					});
+					
+					markers.push(marker);
+					
+					$("#ALLatitudeEdit").val(place.geometry.location.lat());
+					$("#ALLongitudeEdit").val(place.geometry.location.lng());
+					
+					bounds.extend(place.geometry.location);
+				}
+				
+				map.fitBounds(bounds);
+				
+				var listener = google.maps.event.addListener(map, "idle", function() {
+					if (map.getZoom() > 16) map.setZoom(16);
+					google.maps.event.removeListener(listener);
+				});
+			});
+						
+			google.maps.event.addListener(map, 'bounds_changed', function() {
+				var bounds = map.getBounds();
+				searchBox.setBounds(bounds);
+			});
+		}
+		
+		var mapdet;
+		function initializeListingDetail() {
+			var markersdet = [];
+			mapdet = new google.maps.Map(document.getElementById('map-detail'), {
+				mapTypeId: google.maps.MapTypeId.ROADMAP
 			});
 
-			markers.push(marker);
+			var defaultBoundsdet = new google.maps.LatLngBounds(new google.maps.LatLng(<?php if($listingData->Latitude):echo $listingData->Latitude;else:echo "3.0266654";endif;?>, <?php if($listingData->Longitude):echo $listingData->Longitude;else:echo "101.69214009999996";endif;?>));
+			mapdet.fitBounds(defaultBoundsdet);
+
+			var listenerdet = google.maps.event.addListener(mapdet, "idle", function() {
+			if (mapdet.getZoom() > 16) mapdet.setZoom(16);
+			  google.maps.event.removeListener(listenerdet);
+			});
+
+			var markerdet = new google.maps.Marker({
+				map: mapdet,
+				position: new google.maps.LatLng(<?php if($listingData->Latitude):echo $listingData->Latitude;else:echo "3.0266654";endif;?>, <?php if($listingData->Longitude):echo $listingData->Longitude;else:echo "101.69214009999996";endif;?>)
+			});
+
+			markersdet.push(markerdet);
 		}
 		google.maps.event.addDomListener(window, 'load', initializeListingDetail);
 		
@@ -55,13 +151,37 @@
                 <h2>RM<?php echo number_format($listingData->SellingPrice);?></h2>
             </section>
             <!--end page-title-->
-            <a id="btnSubmitListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-rounded icon scroll pull-right"><i class="fa fa-check-circle"></i>Submit</a>
-            <a href="#write-a-review" class="btn btn-primary btn-rounded icon scroll pull-right"><i class="fa fa-close"></i>Delete</a>
-            <a href="#EditListing" class="btn btn-primary btn-rounded icon scroll pull-right" data-toggle="modal"><i class="fa fa-edit"></i>Edit</a>
-						<a href="#write-a-review" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-flag"></i>Report</a>
-            <a href="#write-a-review" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-print"></i>Print</a>
-            <a href="#write-a-review" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-clone"></i>Compare</a>
-            <a href="#write-a-review" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-heart"></i>Favourite </a>
+			<?php $user_data = $this->session->userdata("LoggedUser"); if($user_data["Group"] == 1):?>
+				<?php if($listingData->LStatus == 0):?>
+					<a href="#write-a-review" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-star"></i>Featured </a>
+					<a href="#write-a-review" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-check"></i>Approve </a>
+					<a href="#write-a-review" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-close"></i>Reject </a>
+					<a href="#EditListing" class="btn btn-primary btn-rounded icon scroll pull-right" data-toggle="modal"><i class="fa fa-edit"></i>Edit</a>
+				<?php elseif($listingData->LStatus == 1):?>
+					<a href="#write-a-review" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-star"></i>Featured </a>
+					<a href="#EditListing" class="btn btn-primary btn-rounded icon scroll pull-right" data-toggle="modal"><i class="fa fa-edit"></i>Edit</a>
+				<?php endif;?>
+			<?php elseif($user_data["Group"] == 2):?>
+				<?php if($listingData->LStatus == 0):?>
+					<a id="btnSubmitListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-rounded icon scroll pull-right"><i class="fa fa-check-circle"></i>Submit</a>
+					<a href="#write-a-review" class="btn btn-primary btn-rounded icon scroll pull-right"><i class="fa fa-trash"></i>Delete</a>
+					<a id="aEdit" href="#EditListing" class="btn btn-primary btn-rounded icon scroll pull-right" data-toggle="modal"><i class="fa fa-edit"></i>Edit</a>
+				<?php elseif($listingData->LStatus == 1):?>
+					<a href="#write-a-review" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-flag"></i>Report</a>
+					<a href="#write-a-review" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-print"></i>Print</a>
+					<a href="#write-a-review" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-clone"></i>Compare</a>
+					<a href="#write-a-review" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-heart"></i>Favourite </a>
+				<?php endif;?>
+			<?php endif;?>
+			<!--
+					<a id="btnSubmitListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-rounded icon scroll pull-right"><i class="fa fa-check-circle"></i>Submit</a>
+					<a href="#write-a-review" class="btn btn-primary btn-rounded icon scroll pull-right"><i class="fa fa-close"></i>Delete</a>
+					<a href="#EditListing" class="btn btn-primary btn-rounded icon scroll pull-right" data-toggle="modal"><i class="fa fa-edit"></i>Edit</a>
+					<a href="#write-a-review" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-flag"></i>Report</a>
+					<a href="#write-a-review" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-print"></i>Print</a>
+					<a href="#write-a-review" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-clone"></i>Compare</a>
+					<a href="#write-a-review" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-heart"></i>Favourite </a>
+			-->
         </div>
         <!--end container-->
         <section>
@@ -858,18 +978,18 @@
                     <div class="sidebar">
                     <section>
                         <h2>Related Advertisements</h2>
-						<?php $i = 0;foreach($recentData as $eachRecent):$i++;?>
-						<div class="item" data-id="<?php echo $eachRecent->LID;?>">
-                            <a href="<?php echo base_url().'listing/details/'.$eachRecent->LID.'/'.$eachRecent->LAddedBy;?>">
+						<?php $i = 0;foreach($relatedData as $eachRelated):$i++;?>
+						<div class="item" data-id="<?php echo $eachRelated->LID;?>">
+                            <a href="<?php echo base_url().'listing/details/'.$eachRelated->LID.'/'.$eachRelated->LAddedBy;?>">
                                 <div class="description">
-                                    <figure>RM<?php echo number_format($eachRecent->SellingPrice);?></figure>
+                                    <figure>RM<?php echo number_format($eachRelated->SellingPrice);?></figure>
                                     <div class="label label-default">Used</div>
-                                    <h3><?php echo $eachRecent->ModelName;?></h3>
-                                    <h4><?php echo $eachRecent->StateName;?></h4>
+                                    <h3><?php echo $eachRelated->ModelName;?></h3>
+                                    <h4><?php echo $eachRelated->StateName;?></h4>
                                 </div>
                                 <!--end description-->
                                 <div class="image bg-transfer">
-                                    <img src="<?php if($eachRecent->ListingPic): echo base_url().'assets/img/listing/'.$eachRecent->ListingPic; else: echo base_url().'assets/img/items/default.png';endif;?>" alt="">
+                                    <img src="<?php if($eachRelated->ListingPic): echo base_url().'assets/img/listing/'.$eachRelated->ListingPic; else: echo base_url().'assets/img/items/default.png';endif;?>" alt="">
                                 </div>
                                 <!--end image-->
                             </a>
@@ -915,31 +1035,9 @@
 										<label for="title">Model</label>
 										<select class="form-control selectpicker" name="ALModel" id="ALModel">
 											<option value="">Select a Model</option>
-											<option value="1">Accent</option>
-											<option value="2">Atos</option>
-											<option value="3">Avante</option>
-											<option value="4">Azera</option>
-											<option value="5">Coupe</option>
-											<option value="6">Elantra</option>
-											<option value="7">Getz</option>
-											<option value="8">Grandeur XG250</option>
-											<option value="9">Grand Starex</option>
-											<option value="10">i10</option>
-											<option value="11">i10 Kappa</option>
-											<option value="12">i30</option>
-											<option value="13">i40</option>
-											<option value="14">i40 Sedan</option>
-											<option value="15">i40 Tourer</option>
-											<option value="16">IONIQ</option>
-											<option value="17">Matrix</option>
-											<option value="18">Md Elantra</option>
-											<option value="19">Santa FE</option>
-											<option value="20">Sonata</option>
-											<option value="21">Starex</option>
-											<option value="22">Terracan</option>
-											<option value="23">Trajet</option>
-											<option value="24">Tucson</option>
-											<option value="25">Veloster</option>
+											<?php foreach($modelData as $eachModel):?>
+											<option value="<?php echo $eachModel->ID;?>" <?php if($eachModel->ID == $listingData->ModelID):echo"selected";endif;?>><?php echo $eachModel->Name;?></option>
+											<?php endforeach;?>
 										</select>
 									</div>
 									<!--end form-group-->
@@ -950,11 +1048,9 @@
 										<label for="category">Specification</label>
 										<select class="form-control selectpicker" name="ALSpecification" id="ALSpecification">
 											<option value="">Select a Specification</option>
-											<option value="1">Gamma 1.6L EX</option>
-											<option value="2">Gamma 1.6L EX Sport</option>
-											<option value="3">Gamma 1.6L EX Plus</option>
-											<option value="4">Gamma 1.6L Premium</option>
-											<option value="5">Nu 1.8L Premium</option>
+											<?php foreach($specificationData as $eachSpecification):?>
+											<option value="<?php echo $eachSpecification->ID;?>" <?php if($eachSpecification->ID == $listingData->SpecificationID):echo"selected";endif;?>><?php echo $eachSpecification->Name;?></option>
+											<?php endforeach;?>
 										</select>
 									</div>
 									<!--end form-group-->
@@ -965,8 +1061,8 @@
 										<label for="category">Transmission</label>
 										<select class="form-control selectpicker" name="ALTransmission" id="ALTransmission">
 											<option value="">Select a Transmission</option>
-											<option value="1">Automatic</option>
-											<option value="2">Manual</option>
+											<option value="1" <?php if($listingData->Transmission == 1):echo"selected";endif;?>>Automatic</option>
+											<option value="2" <?php if($listingData->Transmission == 2):echo"selected";endif;?>>Manual</option>
 										</select>
 									</div>
 									<!--end form-group-->
@@ -974,15 +1070,15 @@
 										<label for="category">Manufacturing Year</label>
 										<select class="form-control selectpicker" name="ALManufacturingYear" id="ALManufacturingYear">
 											<option value="">Manufacturing Year</option>
-											<option value="1">2018</option>
-											<option value="2">2017</option>
-											<option value="3">2016</option>
-											<option value="4">2015</option>
-											<option value="5">2014</option>
-											<option value="6">2013</option>
-											<option value="7">2012</option>
-											<option value="8">2011</option>
-											<option value="9">2010</option>
+											<option value="1" <?php if($listingData->ManufacturingYear == 1):echo"selected";endif;?>>2018</option>
+											<option value="2" <?php if($listingData->ManufacturingYear == 2):echo"selected";endif;?>>2017</option>
+											<option value="3" <?php if($listingData->ManufacturingYear == 3):echo"selected";endif;?>>2016</option>
+											<option value="4" <?php if($listingData->ManufacturingYear == 4):echo"selected";endif;?>>2015</option>
+											<option value="5" <?php if($listingData->ManufacturingYear == 5):echo"selected";endif;?>>2014</option>
+											<option value="6" <?php if($listingData->ManufacturingYear == 6):echo"selected";endif;?>>2013</option>
+											<option value="7" <?php if($listingData->ManufacturingYear == 7):echo"selected";endif;?>>2012</option>
+											<option value="8" <?php if($listingData->ManufacturingYear == 8):echo"selected";endif;?>>2011</option>
+											<option value="9" <?php if($listingData->ManufacturingYear == 9):echo"selected";endif;?>>2010</option>
 										</select>
 									</div>
 									<!--end form-group-->
@@ -990,28 +1086,28 @@
 										<label for="category">Mileage</label>
 										<select class="form-control selectpicker" name="ALMileage" id="ALMileage">
 											<option value="">Select a Mileage</option>
-											<option value="1">0 KM</option>
-											<option value="2">5,000 KM</option>
-											<option value="3">10,000 KM</option>
-											<option value="4">15,000 KM</option>
-											<option value="5">20,000 KM</option>
-											<option value="6">25,000 KM</option>
-											<option value="7">30,000 KM</option>
-											<option value="8">35,000 KM</option>
-											<option value="9">40,000 KM</option>
-											<option value="10">45,000 KM</option>
-											<option value="11">50,000 KM</option>
-											<option value="12">55,000 KM</option>
-											<option value="13">60,000 KM</option>
-											<option value="14">65,000 KM</option>
-											<option value="15">70,000 KM</option>
-											<option value="16">75,000 KM</option>
-											<option value="17">80,000 KM</option>
-											<option value="18">85,000 KM</option>
-											<option value="19">90,000 KM</option>
-											<option value="20">95,000 KM</option>
-											<option value="21">100,000 KM</option>
-											<option value="22">105,000 KM</option>
+											<option value="1" <?php if($listingData->Mileage == 1):echo"selected";endif;?>>0 KM</option>
+											<option value="2" <?php if($listingData->Mileage == 2):echo"selected";endif;?>>5,000 KM</option>
+											<option value="3" <?php if($listingData->Mileage == 3):echo"selected";endif;?>>10,000 KM</option>
+											<option value="4" <?php if($listingData->Mileage == 4):echo"selected";endif;?>>15,000 KM</option>
+											<option value="5" <?php if($listingData->Mileage == 5):echo"selected";endif;?>>20,000 KM</option>
+											<option value="6" <?php if($listingData->Mileage == 6):echo"selected";endif;?>>25,000 KM</option>
+											<option value="7" <?php if($listingData->Mileage == 7):echo"selected";endif;?>>30,000 KM</option>
+											<option value="8" <?php if($listingData->Mileage == 8):echo"selected";endif;?>>35,000 KM</option>
+											<option value="9" <?php if($listingData->Mileage == 9):echo"selected";endif;?>>40,000 KM</option>
+											<option value="10" <?php if($listingData->Mileage == 10):echo"selected";endif;?>>45,000 KM</option>
+											<option value="11" <?php if($listingData->Mileage == 11):echo"selected";endif;?>>50,000 KM</option>
+											<option value="12" <?php if($listingData->Mileage == 12):echo"selected";endif;?>>55,000 KM</option>
+											<option value="13" <?php if($listingData->Mileage == 13):echo"selected";endif;?>>60,000 KM</option>
+											<option value="14" <?php if($listingData->Mileage == 14):echo"selected";endif;?>>65,000 KM</option>
+											<option value="15" <?php if($listingData->Mileage == 15):echo"selected";endif;?>>70,000 KM</option>
+											<option value="16" <?php if($listingData->Mileage == 16):echo"selected";endif;?>>75,000 KM</option>
+											<option value="17" <?php if($listingData->Mileage == 17):echo"selected";endif;?>>80,000 KM</option>
+											<option value="18" <?php if($listingData->Mileage == 18):echo"selected";endif;?>>85,000 KM</option>
+											<option value="19" <?php if($listingData->Mileage == 19):echo"selected";endif;?>>90,000 KM</option>
+											<option value="20" <?php if($listingData->Mileage == 20):echo"selected";endif;?>>95,000 KM</option>
+											<option value="21" <?php if($listingData->Mileage == 21):echo"selected";endif;?>>100,000 KM</option>
+											<option value="22" <?php if($listingData->Mileage == 22):echo"selected";endif;?>>105,000 KM</option>
 										</select>
 									</div>
 									<!--end form-group-->
@@ -1039,14 +1135,14 @@
 								<!--end form-group-->
 								  <div class="form-group">
 									  <label for="address-autocomplete">Address</label>
-									  <input type="text" class="form-control" name="ALAddress" id="ALAddress" placeholder="Address" value="<?php echo $listingData->Address;?>">
+									  <input type="text" class="form-control" name="ALAddress" id="ALAddressEdit" placeholder="Address" value="<?php echo $listingData->Address;?>">
 								  </div>
 								  <!--end form-group-->
-								  <div class="map height-200px shadow" id="map-modal"></div>
+								  <div class="map height-200px shadow" id="map-edit"></div>
 								  <!--end map-->
 								  <div class="form-group hidden">
-									  <input type="text" class="form-control" id="ALLatitude" name="ALLatitude" hidden="" value="<?php echo $listingData->Latitude;?>">
-									  <input type="text" class="form-control" id="ALLongitude" name="ALLongitude" hidden="" value="<?php echo $listingData->Longitude;?>">
+									  <input type="text" class="form-control" id="ALLatitudeEdit" name="ALLatitude" hidden="" value="<?php echo $listingData->Latitude;?>">
+									  <input type="text" class="form-control" id="ALLongitudeEdit" name="ALLongitude" hidden="" value="<?php echo $listingData->Longitude;?>">
 								  </div>
 								  <p class="note">Enter the exact address or drag the map marker to position</p>
 

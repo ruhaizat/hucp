@@ -29,7 +29,7 @@
                               <hr>
                               <address>
                                   <figure><i class="fa fa-map-marker"></i><?php echo $user->Address;?> </figure>
-                                  <figure><i class="fa fa-envelope"></i><?php echo $user->EmailAddress;?><?php if($user->Status == 2):?> <i class="fa fa-check-circle" style="margin-left: 5px;"></i><?php endif;?></figure>
+                                  <figure><i class="fa fa-envelope"></i><?php $out = strlen($user->EmailAddress) > 19 ? substr($user->EmailAddress,0,19)." ..." : $user->EmailAddress; echo $out;?><?php if($user->Status == 2):?> <i class="fa fa-check-circle" style="margin-left: 5px;"></i><?php endif;?></figure>
                                   <figure><i class="fa fa-phone"></i><?php echo $user->MobileNo;?> <i class="fa fa-check-circle mobileVerified" style="margin-left: 5px;<?php if($user->MobileVerification == 0):?>display:none;<?php endif;?>"></i></figure>
 								  <?php if($user->MobileVerification == 0):?>
 								  <br/>
@@ -93,16 +93,16 @@
                                 <!--end description-->
                                 <div class="additional-info">
                                     <h3 style="margin-bottom: 5px;">RM<?php echo number_format($eachList->SellingPrice);?></h3>
-																		<h4>RM3,400/month</h4>
-                                    <h4><i class="fa fa-road"></i> 100,000km</h4>
+									<h4>RM3,400/month</h4>
+                                    <h4><i class="fa fa-road"></i> <?php echo number_format($eachList->Mileage);?>km</h4>
                                 </div>
                                 <!--end additional-info-->
                             </a>
                             <div class="controls-more">
                                 <ul>
-																	<li><a href="#">Favorite <i class="fa fa-heart" style="padding-left: 5px;"></i></a></li>
-																	<li><a href="#">Compare <i class="fa fa-clone" style="padding-left: 5px;"></i></a></li>
-																	<li><a href="#">Report <i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
+									<li><a href="#">Favorite <i class="fa fa-heart" style="padding-left: 5px;"></i></a></li>
+									<li><a href="#">Compare <i class="fa fa-clone" style="padding-left: 5px;"></i></a></li>
+									<li><a href="#">Report <i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
                                 </ul>
                             </div>
                             <!--end controls-more-->

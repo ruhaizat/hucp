@@ -153,6 +153,12 @@ class Admin extends CI_Controller {
 				$emailAddress = $obj->EmailAddress;
 				$password = $obj->Password;
 				$role = $obj->Role;
+				
+				if($role == "1"){
+					$status = 2;
+				}else{
+					$status = 1;
+				}
 				//$firstName = $obj->FirstName;
 				//$lastName = $obj->LastName;
 				$query = $this->db->query("SELECT * FROM tbl_user WHERE EmailAddress = '$emailAddress'");
@@ -172,14 +178,17 @@ class Admin extends CI_Controller {
 					   "Password" => $hash,
 					   "MembershipType" => "Basic",
 					   "ProfilePic" => "default.jpg",
-					   "Status" => 1,
+					   "Status" => $status,
 					   "AddedOn" => date("Y-m-d H:i:s")
 					);
 
 					$this->db->insert("tbl_user", $data);
 					$insert_id = $this->db->insert_id();
 					
-					$this->sendverifyemail($insert_id, $emailAddress);
+					if($role == "2"){
+						$this->sendverifyemail($insert_id, $emailAddress);
+					}
+					
 					//echo $this->email->print_debugger();
 					$accountResult = 0;
 				}

@@ -1,3 +1,58 @@
+	<script>
+		
+		$(document).ready(function(){		
+			$("#frmSearch").submit(function(e){
+				e.preventDefault();
+				
+				var keyword = $("#keyword").val();
+				if(keyword == ""){
+					keyword = "NA"
+				}
+				
+				var location = $("#location option:selected").text();
+				
+				var model = $("#model option:selected").text();
+				
+				var valuemin = $("#value-min").val();
+				valuemin = valuemin.replace("RM", "");
+				valuemin = valuemin.replace(".", "");
+				
+				var valuemax = $("#value-max").val();
+				valuemax = valuemax.replace("RM", "");
+				valuemax = valuemax.replace(".", "");
+				
+				window.location = "<?php echo base_url();?>listing/search/"+keyword+"/"+location+"/"+model+"/"+valuemin+"/" + valuemax;
+			});
+			
+			var updateSlider = document.getElementById('price-slider');
+			
+			$(updateSlider).noUiSlider({
+				start: [ parseInt(<?php echo $priceThresData->MinVal;?>), parseInt(<?php echo $priceThresData->MaxVal;?>) ],
+				connect: true,
+				direction: "ltr",
+				range: {
+					'min': parseInt(<?php echo $priceThresData->MinVal;?>),
+					'max': parseInt(<?php echo $priceThresData->MaxVal;?>)
+				},
+				step: 10
+			});
+			
+			if( $(updateSlider).attr('data-value-type') == 'price' ) {
+				if( $(updateSlider).attr('data-currency-placement') == 'before' ) {
+					$(updateSlider).Link('lower').to( $(updateSlider).children('.values').children('.value-min'), null, wNumb({ prefix: $(updateSlider).attr('data-currency'), decimals: 0, thousand: '.' }));
+					$(updateSlider).Link('upper').to( $(updateSlider).children('.values').children('.value-max'), null, wNumb({ prefix: $(updateSlider).attr('data-currency'), decimals: 0, thousand: '.' }));
+				}
+				else if( $(updateSlider).attr('data-currency-placement') == 'after' ){
+					$(updateSlider).Link('lower').to( $(updateSlider).children('.values').children('.value-min'), null, wNumb({ postfix: $(updateSlider).attr('data-currency'), decimals: 0, thousand: ' ' }));
+					$(updateSlider).Link('upper').to( $(updateSlider).children('.values').children('.value-max'), null, wNumb({ postfix: $(updateSlider).attr('data-currency'), decimals: 0, thousand: ' ' }));
+				}
+			}
+			else {
+				$(updateSlider).Link('lower').to( $(updateSlider).children('.values').children('.value-min'), null, wNumb({ decimals: 0 }));
+				$(updateSlider).Link('upper').to( $(updateSlider).children('.values').children('.value-max'), null, wNumb({ decimals: 0 }));
+			}
+		});
+	</script>
     <div id="page-content">
         <div class="hero-section has-background height-500px">
             <div class="wrapper">
@@ -7,35 +62,22 @@
                             <img src="assets/img/logo_hyundai_white.png">
                         </div>
                         <div class="form search-form horizontal inputs-dark">
-                            <form>
+                            <form id="frmSearch">
                                 <div class="row">
                                     <div class="col-md-3 col-sm-2">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="keyword" placeholder="Enter keyword">
+                                            <input id="keyword" type="text" class="form-control" name="keyword" placeholder="Enter keyword">
                                         </div>
                                         <!--end form-group-->
                                     </div>
                                     <!--end col-md-4-->
                                     <div class="col-md-3 col-sm-4">
                                         <div class="form-group">
-                                            <select class="form-control selectpicker" name="location">
+                                            <select id="location" class="form-control selectpicker" name="location">
                                                 <option value="">Location</option>
-                                                <option value="1">Kuala Lumpur</option>
-                                                <option value="2">Selangor</option>
-                                                <option value="3">Johor</option>
-                                                <option value="4">Penang</option>
-                                                <option value="5">Perak</option>
-                                                <option value="6">Kedah</option>
-                                                <option value="7">Negeri Sembilan</option>
-                                                <option value="8">Pahang</option>
-                                                <option value="9">Sabah</option>
-                                                <option value="9">Sarawak</option>
-                                                <option value="9">Terengganu</option>
-                                                <option value="9">Melaka</option>
-                                                <option value="9">Kelantan</option>
-                                                <option value="9">Perlis</option>
-                                                <option value="9">Putrajaya</option>
-                                                <option value="9">Labuan</option>
+												<?php foreach($state as $eachState):?>
+												<option value="<?php echo $eachState->ID;?>"><?php echo $eachState->Name;?></option>
+												<?php endforeach;?>
                                             </select>
                                         </div>
                                         <!--end form-group-->
@@ -43,43 +85,21 @@
                                     <!--end col-md-4-->
                                     <div class="col-md-2 col-sm-4">
                                         <div class="form-group">
-                                            <select class="form-control selectpicker" name="category">
+                                            <select id="model" class="form-control selectpicker" name="model">
                                                 <option value="">Model</option>
-                                                <option value="1">Accent</option>
-                                                <option value="2">Atos</option>
-                                                <option value="3">Avante</option>
-                                                <option value="4">Azera</option>
-                                                <option value="5">Coupe</option>
-                                                <option value="6">Elantra</option>
-                                                <option value="7">Getz</option>
-                                                <option value="8">Grandeur XG250</option>
-                                                <option value="9">Grand Starex</option>
-                                                <option value="10">i10</option>
-                                                <option value="11">i10 Kappa</option>
-                                                <option value="12">i30</option>
-                                                <option value="13">i40</option>
-                                                <option value="14">i40 Sedan</option>
-                                                <option value="15">i40 Tourer</option>
-                                                <option value="16">IONIQ</option>
-                                                <option value="17">Matrix</option>
-                                                <option value="18">Md Elantra</option>
-                                                <option value="19">Santa FE</option>
-                                                <option value="20">Sonata</option>
-                                                <option value="21">Starex</option>
-                                                <option value="22">Terracan</option>
-                                                <option value="23">Trajet</option>
-                                                <option value="24">Tucson</option>
-                                                <option value="25">Veloster</option>
+												<?php foreach($model as $eachModel):?>
+												<option value="<?php echo $eachModel->ID;?>"><?php echo $eachModel->Name;?></option>
+												<?php endforeach;?>
                                             </select>
                                         </div>
                                         <!--end form-group-->
                                     </div>
                                     <!--end col-md-4-->
                                     <div class="col-md-3 col-sm-4">
-                                        <div class="ui-slider" id="price-slider" data-value-min="80000" data-value-max="800000" data-value-type="price" data-currency="$" data-currency-placement="before">
+                                        <div class="ui-slider" id="price-slider" data-value-min="<?php echo $priceThresData->MinVal?>" data-value-max="<?php echo $priceThresData->MaxVal?>" data-value-type="price" data-currency="RM" data-currency-placement="before">
                                             <div class="values clearfix">
-                                                <input class="value-min" name="value-min[]" readonly>
-                                                <input class="value-max" name="value-max[]" readonly>
+                                                <input class="value-min" name="value-min[]" id="value-min" readonly>
+                                                <input class="value-max" name="value-max[]" id="value-max" readonly>
                                             </div>
                                             <div class="element"></div>
                                         </div>

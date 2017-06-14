@@ -33,21 +33,25 @@ class Main extends CI_Controller {
 		$data["featuredDataCount"] = $queryFeatured->num_rows();
 		
 		$IPAddress = $this->get_client_ip();
-		$queryRecentViewed = $this->db->query("SELECT *, RV.ID AS RVID, L.ID AS LID, M.Name AS ModelName, S.Name AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName FROM tbl_recentlyviewed AS RV INNER JOIN tbl_listing AS L ON RV.ListingID = L.ID INNER JOIN tbl_model AS M ON L.Model = M.ID INNER JOIN tbl_specification AS S ON L.Specification = S.ID LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE RV.IPAddress = '$IPAddress' GROUP BY RV.ID ORDER BY RV.ViewedOn DESC LIMIT 4");
+		$queryRecentViewed = $this->db->query("SELECT *, RV.ID AS RVID, L.ID AS LID, M.Name AS ModelName, S.Name AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName FROM tbl_recentlyviewed AS RV INNER JOIN tbl_listing AS L ON RV.ListingID = L.ID INNER JOIN tbl_model AS M ON L.Model = M.ID INNER JOIN tbl_specification AS S ON L.Specification = S.ID LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE RV.IPAddress = '$IPAddress' AND L.Status = 1 GROUP BY RV.ID ORDER BY RV.ViewedOn DESC LIMIT 4");
 		$recentViewedData = $queryRecentViewed->result();
 		$data["recentViewed"] = $recentViewedData;
 		
 		$queryModel = $this->db->query("SELECT * FROM tbl_model");
 		$modelData = $queryModel->result();
-		$data["model"] = $modelData;
+		$data["modelData"] = $modelData;
 		
 		$querySpecification = $this->db->query("SELECT * FROM tbl_specification");
 		$specificationData = $querySpecification->result();
-		$data["specification"] = $specificationData;
+		$data["specificationData"] = $specificationData;
 		
 		$queryState = $this->db->query("SELECT * FROM tbl_state");
 		$stateData = $queryState->result();
 		$data["state"] = $stateData;
+		
+		$queryPriceThres = $this->db->query("SELECT MIN(SellingPrice) AS MinVal, MAX(SellingPrice) AS MaxVal FROM tbl_listing WHERE Status = 1");
+		$priceThresData = $queryPriceThres->row();
+		$data["priceThresData"] = $priceThresData;
 		
 		$this->load->view("header", $data);
 		$this->load->view("main", $data);

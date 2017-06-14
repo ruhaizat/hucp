@@ -32,6 +32,10 @@ class User extends CI_Controller {
 			$data["userView"] = "self";
 		}
 		
+		$queryState = $this->db->query("SELECT * FROM tbl_state");
+		$stateData = $queryState->result();
+		$data["state"] = $stateData;
+		
 		$query = $this->db->query("SELECT * FROM tbl_user WHERE ID = '$userID'");
 		$data["user"] = $query->row();
 		$data["LoggedUser"] = $user_data;
@@ -56,6 +60,28 @@ class User extends CI_Controller {
 		$this->load->view('header', $data);
 		$this->load->view('user/listing.php',$data);
 		$this->load->view('footer');
+	}
+	
+	public function upload($mode)
+	{		
+		$config['upload_path']          = 'assets/img/profile/';
+		$config['allowed_types']        = 'jpg|jpeg|png';
+
+		$this->load->library('upload', $config);
+
+		if ($this->upload->do_upload('file'))
+		{
+			$photodata = $this->upload->data();
+			$uploaded_file_name = $photodata['file_name'];
+		}else{
+			if($mode == 'add'){
+				$uploaded_file_name = 'default.jpg';
+			}else{
+				$uploaded_file_name = 'no need to change';
+			}
+		}
+		
+		echo $uploaded_file_name;
 	}
 	
 	public function update()
@@ -444,7 +470,7 @@ class User extends CI_Controller {
 				echo "Password successfully changed.";
 			break;
 			case "UpdateDetails":
-				$IsImgChange = $obj->hIsImgChange;	
+				$ProfilePic = $obj->ProfilePic;	
 				$ID = $obj->hID;
 				$FirstName = $obj->first_name;
 				$LastName = $obj->last_name;
@@ -456,23 +482,7 @@ class User extends CI_Controller {
 				$Latitude = $obj->latitude;
 				$Longitude = $obj->longitude;
 				
-				if($IsImgChange == "1"){
-					$config["upload_path"]          = "assets/img/profile";
-					$config["allowed_types"]        = "gif|jpg|png";
-
-					$this->load->library("upload", $config);
-
-					if (!$this->upload->do_upload("user_image"))
-					{
-							$error = array("error" => $this->upload->display_errors());
-							echo $this->upload->display_errors();
-					}
-					else
-					{
-							$data = array("upload_data" => $this->upload->data());
-							$ProfilePic = $this->upload->data("file_name");
-					}
-					
+				if(isset($ProfilePic)){					
 					$dataarray = array(
 						"FirstName" => $FirstName,
 						"LastName" => $LastName,

@@ -332,31 +332,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<label for="title">Model</label>
 										<select class="form-control selectpicker" name="ALModel" id="ALModel">
 											<option value="">Select a Model</option>
-											<option value="1">Accent</option>
-											<option value="2">Atos</option>
-											<option value="3">Avante</option>
-											<option value="4">Azera</option>
-											<option value="5">Coupe</option>
-											<option value="6">Elantra</option>
-											<option value="7">Getz</option>
-											<option value="8">Grandeur XG250</option>
-											<option value="9">Grand Starex</option>
-											<option value="10">i10</option>
-											<option value="11">i10 Kappa</option>
-											<option value="12">i30</option>
-											<option value="13">i40</option>
-											<option value="14">i40 Sedan</option>
-											<option value="15">i40 Tourer</option>
-											<option value="16">IONIQ</option>
-											<option value="17">Matrix</option>
-											<option value="18">Md Elantra</option>
-											<option value="19">Santa FE</option>
-											<option value="20">Sonata</option>
-											<option value="21">Starex</option>
-											<option value="22">Terracan</option>
-											<option value="23">Trajet</option>
-											<option value="24">Tucson</option>
-											<option value="25">Veloster</option>
+											<?php foreach($modelData as $eachModel):?>
+											<option value="<?php echo $eachModel->ID;?>"><?php echo $eachModel->Name;?></option>
+											<?php endforeach;?>
 										</select>
 									</div>
 									<!--end form-group-->
@@ -367,11 +345,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<label for="category">Specification</label>
 										<select class="form-control selectpicker" name="ALSpecification" id="ALSpecification">
 											<option value="">Select a Specification</option>
-											<option value="1">Gamma 1.6L EX</option>
-											<option value="2">Gamma 1.6L EX Sport</option>
-											<option value="3">Gamma 1.6L EX Plus</option>
-											<option value="4">Gamma 1.6L Premium</option>
-											<option value="5">Nu 1.8L Premium</option>
+											<?php foreach($specificationData as $eachSpecification):?>
+											<option value="<?php echo $eachSpecification->ID;?>"><?php echo $eachSpecification->Name;?></option>
+											<?php endforeach;?>
 										</select>
 									</div>
 									<!--end form-group-->
@@ -439,7 +415,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<!--end form-group-->
 									<div class="form-group">
 										<label for="category">Selling Price</label>
-										<input type="text" class="form-control" name="ALSellingPrice" id="ALSellingPrice" placeholder="Selling Price">
+										<input type="number" class="form-control" name="ALSellingPrice" id="ALSellingPrice" placeholder="Selling Price">
 									</div>
 									<!--end form-group-->
 								</div>
@@ -448,6 +424,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<div class="form-group">
 									<label for="category">State</label>
 									<select class="form-control selectpicker" name="ALState" id="ALState">
+										<option value="">Select a State</option>
 										<?php foreach($state as $eachState):?>
 										<option value="<?php echo $eachState->ID;?>"><?php echo $eachState->Name;?></option>
 										<?php endforeach;?>

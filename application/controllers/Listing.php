@@ -21,9 +21,83 @@ class Listing extends CI_Controller {
 	public function index()
 	{
 		$data["bodyClass"] = "nav-btn-only homepage";
-		$query = $this->db->query("SELECT *, L.ID AS LID,M.Name AS ModelName, S.Name AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName FROM tbl_listing AS L INNER JOIN tbl_model AS M ON L.Model = M.ID INNER JOIN tbl_specification AS S ON L.Specification = S.ID LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID GROUP BY L.ID");
+		
+		$data["isSearch"] = 0;
+		$data["keyword"] = "";
+		$data["location"] = "";
+		$data["model"] = "";
+		$data["minvalsrc"] = "";
+		$data["maxvalsrc"] = "";
+		
+		$queryRecent = $this->db->query("SELECT *, L.ID AS LID, M.Name AS ModelName, S.Name AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName FROM tbl_listing AS L INNER JOIN tbl_model AS M ON L.Model = M.ID INNER JOIN tbl_specification AS S ON L.Specification = S.ID LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE L.Status = 1 GROUP BY L.ID ORDER BY L.AddedOn DESC LIMIT 5");
+		$recentData = $queryRecent->result();
+		$data["recentData"] = $recentData;
+		
+		$query = $this->db->query("SELECT *, L.ID AS LID,M.Name AS ModelName, S.Name AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName, COUNT(LI.ListingID) AS TotalImg FROM tbl_listing AS L INNER JOIN tbl_model AS M ON L.Model = M.ID INNER JOIN tbl_specification AS S ON L.Specification = S.ID LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE L.Status = 1 GROUP BY L.ID");
 		$listingData = $query->result();
 		$data["listingData"] = $listingData;
+		
+		$queryState = $this->db->query("SELECT * FROM tbl_state");
+		$stateData = $queryState->result();
+		$data["state"] = $stateData;
+		
+		$queryModel = $this->db->query("SELECT * FROM tbl_model");
+		$modelData = $queryModel->result();
+		$data["modelData"] = $modelData;
+		
+		$querySpecification = $this->db->query("SELECT * FROM tbl_specification");
+		$specificationData = $querySpecification->result();
+		$data["specificationData"] = $specificationData;
+		
+		$queryPriceThres = $this->db->query("SELECT MIN(SellingPrice) AS MinVal, MAX(SellingPrice) AS MaxVal FROM tbl_listing WHERE Status = 1");
+		$priceThresData = $queryPriceThres->row();
+		$data["priceThresData"] = $priceThresData;
+		
+		$this->load->view('header', $data);
+		$this->load->view('listing/index.php', $data);
+		$this->load->view('footer');
+	}
+	
+	public function search($keyword, $location, $model, $minval, $maxval){
+		
+		$data["bodyClass"] = "nav-btn-only homepage";
+		
+		$data["isSearch"] = 1;
+		
+		if($keyword == "NA"){
+			$data["keyword"] = "";
+		}else{
+			$data["keyword"] = $keyword;
+		}
+		
+		$data["location"] = $location;
+		$data["model"] = $model;
+		$data["minvalsrc"] = $minval;
+		$data["maxvalsrc"] = $maxval;
+		
+		$queryRecent = $this->db->query("SELECT *, L.ID AS LID, M.Name AS ModelName, S.Name AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName FROM tbl_listing AS L INNER JOIN tbl_model AS M ON L.Model = M.ID INNER JOIN tbl_specification AS S ON L.Specification = S.ID LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE L.Status = 1 GROUP BY L.ID ORDER BY L.AddedOn DESC LIMIT 5");
+		$recentData = $queryRecent->result();
+		$data["recentData"] = $recentData;
+		
+		$query = $this->db->query("SELECT *, L.ID AS LID,M.Name AS ModelName, S.Name AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName, COUNT(LI.ListingID) AS TotalImg FROM tbl_listing AS L INNER JOIN tbl_model AS M ON L.Model = M.ID INNER JOIN tbl_specification AS S ON L.Specification = S.ID LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE L.Status = 1 GROUP BY L.ID");
+		$listingData = $query->result();
+		$data["listingData"] = $listingData;
+		
+		$queryState = $this->db->query("SELECT * FROM tbl_state");
+		$stateData = $queryState->result();
+		$data["state"] = $stateData;
+		
+		$queryModel = $this->db->query("SELECT * FROM tbl_model");
+		$modelData = $queryModel->result();
+		$data["modelData"] = $modelData;
+		
+		$querySpecification = $this->db->query("SELECT * FROM tbl_specification");
+		$specificationData = $querySpecification->result();
+		$data["specificationData"] = $specificationData;
+		
+		$queryPriceThres = $this->db->query("SELECT MIN(SellingPrice) AS MinVal, MAX(SellingPrice) AS MaxVal FROM tbl_listing WHERE Status = 1");
+		$priceThresData = $queryPriceThres->row();
+		$data["priceThresData"] = $priceThresData;
 		
 		$this->load->view('header', $data);
 		$this->load->view('listing/index.php', $data);
@@ -51,7 +125,7 @@ class Listing extends CI_Controller {
 		
 		$data["bodyClass"] = "subpage-detail";
 		
-		$query = $this->db->query("SELECT *, L.ID AS LID, M.Name AS ModelName, S.Name AS SpecificationName, L.AddedBy AS LAddedBy FROM tbl_listing AS L INNER JOIN tbl_model AS M ON L.Model = M.ID INNER JOIN tbl_specification AS S ON L.Specification = S.ID WHERE L.ID = $id");
+		$query = $this->db->query("SELECT *, L.ID AS LID, M.ID AS ModelID, M.Name AS ModelName, S.ID AS SpecificationID, S.Name AS SpecificationName, L.AddedBy AS LAddedBy, L.Status AS LStatus FROM tbl_listing AS L INNER JOIN tbl_model AS M ON L.Model = M.ID INNER JOIN tbl_specification AS S ON L.Specification = S.ID WHERE L.ID = $id");
 		$listingData = $query->row();
 		
 		$queryimg = $this->db->query("SELECT * FROM tbl_listingimage WHERE ListingID = '$id'");
@@ -66,9 +140,9 @@ class Listing extends CI_Controller {
 		$querySpecification = $this->db->query("SELECT * FROM tbl_specification");
 		$specificationData = $querySpecification->result();
 		
-		$queryRecent = $this->db->query("SELECT *, L.ID AS LID, M.Name AS ModelName, S.Name AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName FROM tbl_listing AS L INNER JOIN tbl_model AS M ON L.Model = M.ID INNER JOIN tbl_specification AS S ON L.Specification = S.ID LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID GROUP BY L.ID ORDER BY L.AddedOn DESC");
-		$recentData = $queryRecent->result();
-		$data["recentData"] = $recentData;
+		$queryRelated = $this->db->query("SELECT *, L.ID AS LID, M.Name AS ModelName, S.Name AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName FROM tbl_listing AS L INNER JOIN tbl_model AS M ON L.Model = M.ID INNER JOIN tbl_specification AS S ON L.Specification = S.ID LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE L.Model = $listingData->Model AND L.ID <> $listingData->LID GROUP BY L.ID ORDER BY L.AddedOn DESC LIMIT 5");
+		$relatedData = $queryRelated->result();
+		$data["relatedData"] = $relatedData;
 		
 		$queryState = $this->db->query("SELECT * FROM tbl_state");
 		$stateData = $queryState->result();
