@@ -1,3 +1,58 @@
+	<script>
+		
+		$(document).ready(function(){		
+			$("#frmSearch").submit(function(e){
+				e.preventDefault();
+				
+				var keyword = $("#keyword").val();
+				if(keyword == ""){
+					keyword = "NA"
+				}
+				
+				var location = $("#location option:selected").text();
+				
+				var model = $("#model option:selected").text();
+				
+				var valuemin = $("#value-min").val();
+				valuemin = valuemin.replace("RM", "");
+				valuemin = valuemin.replace(".", "");
+				
+				var valuemax = $("#value-max").val();
+				valuemax = valuemax.replace("RM", "");
+				valuemax = valuemax.replace(".", "");
+				
+				window.location = "<?php echo base_url();?>listing/search/"+keyword+"/"+location+"/"+model+"/"+valuemin+"/" + valuemax;
+			});
+			
+			var updateSlider = document.getElementById('price-slider');
+			
+			$(updateSlider).noUiSlider({
+				start: [ parseInt(<?php echo $priceThresData->MinVal;?>), parseInt(<?php echo $priceThresData->MaxVal;?>) ],
+				connect: true,
+				direction: "ltr",
+				range: {
+					'min': parseInt(<?php echo $priceThresData->MinVal;?>),
+					'max': parseInt(<?php echo $priceThresData->MaxVal;?>)
+				},
+				step: 10
+			});
+			
+			if( $(updateSlider).attr('data-value-type') == 'price' ) {
+				if( $(updateSlider).attr('data-currency-placement') == 'before' ) {
+					$(updateSlider).Link('lower').to( $(updateSlider).children('.values').children('.value-min'), null, wNumb({ prefix: $(updateSlider).attr('data-currency'), decimals: 0, thousand: '.' }));
+					$(updateSlider).Link('upper').to( $(updateSlider).children('.values').children('.value-max'), null, wNumb({ prefix: $(updateSlider).attr('data-currency'), decimals: 0, thousand: '.' }));
+				}
+				else if( $(updateSlider).attr('data-currency-placement') == 'after' ){
+					$(updateSlider).Link('lower').to( $(updateSlider).children('.values').children('.value-min'), null, wNumb({ postfix: $(updateSlider).attr('data-currency'), decimals: 0, thousand: ' ' }));
+					$(updateSlider).Link('upper').to( $(updateSlider).children('.values').children('.value-max'), null, wNumb({ postfix: $(updateSlider).attr('data-currency'), decimals: 0, thousand: ' ' }));
+				}
+			}
+			else {
+				$(updateSlider).Link('lower').to( $(updateSlider).children('.values').children('.value-min'), null, wNumb({ decimals: 0 }));
+				$(updateSlider).Link('upper').to( $(updateSlider).children('.values').children('.value-max'), null, wNumb({ decimals: 0 }));
+			}
+		});
+	</script>
     <div id="page-content">
         <div class="hero-section has-background height-500px">
             <div class="wrapper">
@@ -7,35 +62,22 @@
                             <img src="assets/img/logo_hyundai_white.png">
                         </div>
                         <div class="form search-form horizontal inputs-dark">
-                            <form>
+                            <form id="frmSearch">
                                 <div class="row">
                                     <div class="col-md-3 col-sm-2">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="keyword" placeholder="Enter keyword">
+                                            <input id="keyword" type="text" class="form-control" name="keyword" placeholder="Enter keyword">
                                         </div>
                                         <!--end form-group-->
                                     </div>
                                     <!--end col-md-4-->
                                     <div class="col-md-3 col-sm-4">
                                         <div class="form-group">
-                                            <select class="form-control selectpicker" name="location">
+                                            <select id="location" class="form-control selectpicker" name="location">
                                                 <option value="">Location</option>
-                                                <option value="1">Kuala Lumpur</option>
-                                                <option value="2">Selangor</option>
-                                                <option value="3">Johor</option>
-                                                <option value="4">Penang</option>
-                                                <option value="5">Perak</option>
-                                                <option value="6">Kedah</option>
-                                                <option value="7">Negeri Sembilan</option>
-                                                <option value="8">Pahang</option>
-                                                <option value="9">Sabah</option>
-                                                <option value="9">Sarawak</option>
-                                                <option value="9">Terengganu</option>
-                                                <option value="9">Melaka</option>
-                                                <option value="9">Kelantan</option>
-                                                <option value="9">Perlis</option>
-                                                <option value="9">Putrajaya</option>
-                                                <option value="9">Labuan</option>
+												<?php foreach($state as $eachState):?>
+												<option value="<?php echo $eachState->ID;?>"><?php echo $eachState->Name;?></option>
+												<?php endforeach;?>
                                             </select>
                                         </div>
                                         <!--end form-group-->
@@ -43,43 +85,21 @@
                                     <!--end col-md-4-->
                                     <div class="col-md-2 col-sm-4">
                                         <div class="form-group">
-                                            <select class="form-control selectpicker" name="category">
+                                            <select id="model" class="form-control selectpicker" name="model">
                                                 <option value="">Model</option>
-                                                <option value="1">Accent</option>
-                                                <option value="2">Atos</option>
-                                                <option value="3">Avante</option>
-                                                <option value="4">Azera</option>
-                                                <option value="5">Coupe</option>
-                                                <option value="6">Elantra</option>
-                                                <option value="7">Getz</option>
-                                                <option value="8">Grandeur XG250</option>
-                                                <option value="9">Grand Starex</option>
-                                                <option value="10">i10</option>
-                                                <option value="11">i10 Kappa</option>
-                                                <option value="12">i30</option>
-                                                <option value="13">i40</option>
-                                                <option value="14">i40 Sedan</option>
-                                                <option value="15">i40 Tourer</option>
-                                                <option value="16">IONIQ</option>
-                                                <option value="17">Matrix</option>
-                                                <option value="18">Md Elantra</option>
-                                                <option value="19">Santa FE</option>
-                                                <option value="20">Sonata</option>
-                                                <option value="21">Starex</option>
-                                                <option value="22">Terracan</option>
-                                                <option value="23">Trajet</option>
-                                                <option value="24">Tucson</option>
-                                                <option value="25">Veloster</option>
+												<?php foreach($model as $eachModel):?>
+												<option value="<?php echo $eachModel->ID;?>"><?php echo $eachModel->Name;?></option>
+												<?php endforeach;?>
                                             </select>
                                         </div>
                                         <!--end form-group-->
                                     </div>
                                     <!--end col-md-4-->
                                     <div class="col-md-3 col-sm-4">
-                                        <div class="ui-slider" id="price-slider" data-value-min="80000" data-value-max="800000" data-value-type="price" data-currency="$" data-currency-placement="before">
+                                        <div class="ui-slider" id="price-slider" data-value-min="<?php echo $priceThresData->MinVal?>" data-value-max="<?php echo $priceThresData->MaxVal?>" data-value-type="price" data-currency="RM" data-currency-placement="before">
                                             <div class="values clearfix">
-                                                <input class="value-min" name="value-min[]" readonly>
-                                                <input class="value-max" name="value-max[]" readonly>
+                                                <input class="value-min" name="value-min[]" id="value-min" readonly>
+                                                <input class="value-max" name="value-max[]" id="value-max" readonly>
                                             </div>
                                             <div class="element"></div>
                                         </div>
@@ -124,17 +144,17 @@
                 <!--end section-title-->
             </div>
             <div class="gallery featured">
-                <div class="owl-carousel" data-owl-items="<?php echo $featuredDataCount;?>" data-owl-loop="1" data-owl-auto-width="1" data-owl-nav="1" data-owl-dots="1" data-owl-nav-container="#gallery-nav">
+                <div class="owl-carousel" data-owl-items="<?php echo $featuredDataCount;?>" data-owl-loop="0" data-owl-auto-width="1" data-owl-nav="1" data-owl-dots="1" data-owl-nav-container="#gallery-nav">
 
 					<?php $i = 0;foreach($featuredData as $eachFeatured):$i++;?>
 					<div class="item featured" data-id="<?php echo $eachFeatured->LID;?>">
                             <a href="<?php echo base_url().'listing/details/'.$eachFeatured->LID.'/'.$eachFeatured->LAddedBy;?>">
                             <div class="description">
-                                <figure>RM<?php echo $eachFeatured->SellingPrice;?></figure>
+                                <figure>RM<?php echo number_format($eachFeatured->SellingPrice);?></figure>
                                 <div class="label label-default">Used</div>
                                 <h3><?php echo $eachFeatured->ModelName;?></h3>
-                                <h4 style="padding: 0 0 5px 0;">Gamma 1.6L Premium(model)</h4>
-                                <h4><i class="fa fa-map-marker"></i> <?php echo $eachFeatured->Address;?></h4>
+                                <h4 style="padding: 0 0 5px 0;"><?php echo $eachFeatured->SpecificationName?></h4>
+                                <h4><i class="fa fa-map-marker"></i> <?php echo $eachFeatured->StateName;?></h4>
                             </div>
                             <!--end description-->
                             <div class="image bg-transfer">
@@ -185,11 +205,11 @@
 						<div class="item" data-id="<?php echo $eachRecent->LID;?>">
                             <a href="<?php echo base_url().'listing/details/'.$eachRecent->LID.'/'.$eachRecent->LAddedBy;?>">
                                 <div class="description">
-                                    <figure>RM<?php echo $eachRecent->SellingPrice;?></figure>
+                                    <figure>RM<?php echo number_format($eachRecent->SellingPrice);?></figure>
                                     <div class="label label-default">Used</div>
                                     <h3><?php echo $eachRecent->ModelName;?></h3>
-                                    <h4 style="padding: 0 0 5px 0;">Gamma 1.6L Premium(model)</h4>
-                                    <h4><i class="fa fa-map-marker"></i> <?php echo $eachRecent->Address;?></h4>
+                                    <h4 style="padding: 0 0 5px 0;"><?php echo $eachRecent->SpecificationName?></h4>
+                                    <h4><i class="fa fa-map-marker"></i> <?php echo $eachRecent->StateName;?></h4>
                                 </div>
                                 <!--end description-->
                                 <div class="image bg-transfer">
@@ -263,134 +283,41 @@
                 </div>
                 <!--end section-title-->
                 <div class="row">
-                  <div class="col-md-3 col-sm-3">
-                      <div class="item" data-id="1">
-                          <a href="<?php echo base_url();?>details">
-                              <div class="description">
-                                  <figure>RM800,000</figure>
-                                  <div class="label label-default">USED</div>
-                                  <h3>Hyundai Tucson</h3>
-                                  <h4 style="padding: 0 0 5px 0;">Gamma 1.6L Premium(model)</h4>
-                                  <h4><i class="fa fa-map-marker"></i> Selangor</h4>
-                              </div>
-                              <!--end description-->
-                              <div class="image bg-transfer">
-                                  <img src="assets/img/items/5.jpg" alt="">
-                              </div>
-                              <!--end image-->
-                          </a>
-                          <div class="additional-info">
-                              <a href="#">Contact Seller</a>
-                              <div class="controls-more">
-                                  <ul>
-                                      <li><a href="#">Favorite <i class="fa fa-heart" style="padding-left: 5px;"></i></a></li>
-                                      <li><a href="#">Compare <i class="fa fa-clone" style="padding-left: 5px;"></i></a></li>
-                                      <li><a href="#">Report <i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
-                                  </ul>
-                              </div>
-                              <!--end controls-more-->
-                          </div>
-                          <!--end additional-info-->
-                      </div>
-                      <!--end item-->
-                  </div>
-                  <!--<end col-md-3-->
-                  <div class="col-md-3 col-sm-3">
-                      <div class="item" data-id="1">
-                          <a href="<?php echo base_url();?>details">
-                              <div class="description">
-                                  <figure>RM800,000</figure>
-                                  <div class="label label-default">USED</div>
-                                  <h3>Hyundai IONIQ</h3>
-                                  <h4 style="padding: 0 0 5px 0;">Gamma 1.6L Premium(model)</h4>
-                                  <h4><i class="fa fa-map-marker"></i> Selangor</h4>
-                              </div>
-                              <!--end description-->
-                              <div class="image bg-transfer">
-                                  <img src="assets/img/items/4.jpg" alt="">
-                              </div>
-                              <!--end image-->
-                          </a>
-                          <div class="additional-info">
-                              <a href="#">Contact Seller</a>
-                              <div class="controls-more">
-                                  <ul>
-                                      <li><a href="#">Favorite <i class="fa fa-heart" style="padding-left: 5px;"></i></a></li>
-                                      <li><a href="#">Compare <i class="fa fa-clone" style="padding-left: 5px;"></i></a></li>
-                                      <li><a href="#">Report <i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
-                                  </ul>
-                              </div>
-                              <!--end controls-more-->
-                          </div>
-                          <!--end additional-info-->
-                      </div>
-                      <!--end item-->
-                  </div>
-                  <!--<end col-md-3-->
-                  <div class="col-md-3 col-sm-3">
-                      <div class="item" data-id="1">
-                          <a href="<?php echo base_url();?>details">
-                              <div class="description">
-                                  <figure>RM800,000</figure>
-                                  <div class="label label-default">USED</div>
-                                  <h3>Hyundai Elantra</h3>
-                                  <h4 style="padding: 0 0 5px 0;">Gamma 1.6L Premium(model)</h4>
-                                  <h4><i class="fa fa-map-marker"></i> Selangor</h4>
-                              </div>
-                              <!--end description-->
-                              <div class="image bg-transfer">
-                                  <img src="assets/img/items/2.jpg" alt="">
-                              </div>
-                              <!--end image-->
-                          </a>
-                          <div class="additional-info">
-                              <a href="#">Contact Seller</a>
-                              <div class="controls-more">
-                                  <ul>
-                                      <li><a href="#">Favorite <i class="fa fa-heart" style="padding-left: 5px;"></i></a></li>
-                                      <li><a href="#">Compare <i class="fa fa-clone" style="padding-left: 5px;"></i></a></li>
-                                      <li><a href="#">Report <i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
-                                  </ul>
-                              </div>
-                              <!--end controls-more-->
-                          </div>
-                          <!--end additional-info-->
-                      </div>
-                      <!--end item-->
-                  </div>
-                  <!--<end col-md-3-->
-                  <div class="col-md-3 col-sm-3">
-                      <div class="item" data-id="1">
-                          <a href="<?php echo base_url();?>details">
-                              <div class="description">
-                                  <figure>RM800,000</figure>
-                                  <div class="label label-default">USED</div>
-                                  <h3>Hyundai Veloster Turbo</h3>
-                                  <h4 style="padding: 0 0 5px 0;">Gamma 1.6L Premium(model)</h4>
-                                  <h4><i class="fa fa-map-marker"></i> Selangor</h4>
-                              </div>
-                              <!--end description-->
-                              <div class="image bg-transfer">
-                                  <img src="assets/img/items/1.jpg" alt="">
-                              </div>
-                              <!--end image-->
-                          </a>
-                          <div class="additional-info">
-                              <a href="#">Contact Seller</a>
-                              <div class="controls-more">
-                                  <ul>
-                                      <li><a href="#">Favorite <i class="fa fa-heart" style="padding-left: 5px;"></i></a></li>
-                                      <li><a href="#">Compare <i class="fa fa-clone" style="padding-left: 5px;"></i></a></li>
-                                      <li><a href="#">Report <i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
-                                  </ul>
-                              </div>
-                              <!--end controls-more-->
-                          </div>
-                          <!--end additional-info-->
-                      </div>
-                      <!--end item-->
-                  </div>
-                  <!--<end col-md-3-->
+				
+					<?php $i = 0;foreach($recentViewed as $eachViewed):$i++;?>
+                    <div class="col-md-3 col-sm-3">
+						<div class="item" data-id="<?php echo $eachViewed->RVID;?>">
+                            <a href="<?php echo base_url().'listing/details/'.$eachViewed->LID.'/'.$eachViewed->LAddedBy;?>">
+                                <div class="description">
+                                    <figure>RM<?php echo number_format($eachViewed->SellingPrice);?></figure>
+                                    <div class="label label-default">Used</div>
+                                    <h3><?php echo $eachViewed->ModelName;?></h3>
+                                    <h4 style="padding: 0 0 5px 0;"><?php echo $eachViewed->SpecificationName?></h4>
+                                    <h4><i class="fa fa-map-marker"></i> <?php echo $eachViewed->StateName;?></h4>
+                                </div>
+                                <!--end description-->
+                                <div class="image bg-transfer">
+                                    <img src="<?php if($eachViewed->ListingPic): echo base_url();?>assets/img/listing/<?php echo $eachViewed->ListingPic;?><?php else: echo base_url().'assets/img/items/default.png'?><?php endif;?>" alt="">
+                                </div>
+                                <!--end image-->
+                            </a>
+                            <div class="additional-info">
+                                <a href="<?php echo base_url().'listing/details/'.$eachViewed->LID.'/'.$eachViewed->LAddedBy;?>">Contact Seller</a>
+                                <div class="controls-more">
+                                    <ul>
+                                        <li><a href="#">Favorite <i class="fa fa-heart" style="padding-left: 5px;"></i></a></li>
+                                        <li><a href="#">Compare <i class="fa fa-clone" style="padding-left: 5px;"></i></a></li>
+                                        <li><a href="#">Report <i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
+                                    </ul>
+                                </div>
+                                <!--end controls-more-->
+                            </div>
+                            <!--end additional-info-->
+                        </div>
+                        <!--end item-->
+                    </div>
+                    <!--<end col-md-3-->
+					<?php endforeach;?>
                 </div>
                 <!--end row-->
                 <div class="background-wrapper">

@@ -154,29 +154,67 @@
 				previewFile(this);
 			});
 			$("#frmUpdateDetails").submit(function(e){
-				var hID = $("#hID").val();
-				var hIsImgChange = $("#hIsImgChange").val();
-				var first_name = $("#first_name").val();
-				var last_name = $("#last_name").val();
-				var email = $("#usrEmail").val();
-				var phone = $("#phone").val();
-				var identity_card_no = $("#identity_card_no").val();
-				var state = $("#state").val();
-				var address = $("#address").val();
-				var latitude = $("#latitude").val();
-				var longitude = $("#longitude").val();
-				var datastr = '{"mode":"UpdateDetails","hID":"'+hID+'","hIsImgChange":"'+hIsImgChange+'","first_name":"'+first_name+'","last_name":"'+last_name+'","email":"'+email+'","phone":"'+phone+'","identity_card_no":"'+identity_card_no+'","state":"'+state+'","address":"'+address+'","latitude":"'+latitude+'","longitude":"'+longitude+'"}';
-				$.ajax({
-					url: "<?php echo base_url();?>user/ajax",
-					type: "POST",
-					data: {"datastr":datastr},
-					success: function(data){
-						$("#UserDetailsNoti").modal("show");
-						$("#h2Text").text("Change Saved");
-						$("#BodyMsg").text("Your changes is successfully saved.");
-					}
-				});
 				e.preventDefault();
+				if($("#hIsImgChange").val() == "1"){
+					var formData = new FormData();
+					formData.append('file', $('#user_image')[0].files[0]);
+					$.ajax({
+							url : '<?php echo base_url();?>user/upload/update',
+							type : 'POST',
+							data : formData,
+							processData: false,  // tell jQuery not to process the data
+							contentType: false,  // tell jQuery not to set contentType
+							success : function(data) {
+								var hID = $("#hID").val();
+								var hIsImgChange = $("#hIsImgChange").val();
+								var first_name = $("#first_name").val();
+								var last_name = $("#last_name").val();
+								var email = $("#usrEmail").val();
+								var phone = $("#phone").val();
+								var identity_card_no = $("#identity_card_no").val();
+								var state = $("#state").val();
+								var address = $("#address").val();
+								var latitude = $("#latitude").val();
+								var longitude = $("#longitude").val();
+								var datastr = '{"mode":"UpdateDetails","hID":"'+hID+'","first_name":"'+first_name+'","last_name":"'+last_name+'","email":"'+email+'","phone":"'+phone+'","identity_card_no":"'+identity_card_no+'","state":"'+state+'","address":"'+address+'","latitude":"'+latitude+'","longitude":"'+longitude+'","ProfilePic":"'+data+'"}';
+								alert(datastr);
+								$.ajax({
+									url: "<?php echo base_url();?>user/ajax",
+									type: "POST",
+									data: {"datastr":datastr},
+									success: function(data){
+										alert(data);
+										$("#UserDetailsNoti").modal("show");
+										$("#h2Text").text("Change Saved");
+										$("#BodyMsg").text("Your changes is successfully saved.");
+									}
+								});
+							}
+					});					
+				}else{
+					var hID = $("#hID").val();
+					var first_name = $("#first_name").val();
+					var last_name = $("#last_name").val();
+					var email = $("#usrEmail").val();
+					var phone = $("#phone").val();
+					var identity_card_no = $("#identity_card_no").val();
+					var state = $("#state").val();
+					var address = $("#address").val();
+					var latitude = $("#latitude").val();
+					var longitude = $("#longitude").val();
+					var datastr = '{"mode":"UpdateDetails","hID":"'+hID+'","first_name":"'+first_name+'","last_name":"'+last_name+'","email":"'+email+'","phone":"'+phone+'","identity_card_no":"'+identity_card_no+'","state":"'+state+'","address":"'+address+'","latitude":"'+latitude+'","longitude":"'+longitude+'"}';
+					$.ajax({
+						url: "<?php echo base_url();?>user/ajax",
+						type: "POST",
+						data: {"datastr":datastr},
+						success: function(data){
+							$("#UserDetailsNoti").modal("show");
+							$("#h2Text").text("Change Saved");
+							$("#BodyMsg").text("Your changes is successfully saved.");
+						}
+					});				
+				}
+
 			});
 			$("#frmChangePwd").submit(function(e){
 				var pUserID = $("#hIDPwd").val();
@@ -297,7 +335,7 @@
                               <hr>
                               <address>
                                   <figure><i class="fa fa-map-marker"></i><?php echo $user->Address;?> </figure>
-                                  <figure><i class="fa fa-envelope"></i><?php echo $user->EmailAddress;?><?php if($user->Status == 2):?> <i class="fa fa-check-circle" style="margin-left: 5px;"></i><?php endif;?></figure>
+                                  <figure><i class="fa fa-envelope"></i><?php $out = strlen($user->EmailAddress) > 19 ? substr($user->EmailAddress,0,19)." ..." : $user->EmailAddress; echo $out;?><?php if($user->Status == 2):?> <i class="fa fa-check-circle" style="margin-left: 5px;"></i><?php endif;?></figure>
                                   <figure><i class="fa fa-phone"></i><?php echo $user->MobileNo;?> <i class="fa fa-check-circle mobileVerified" style="margin-left: 5px;<?php if($user->MobileVerification == 0):?>display:none;<?php endif;?>"></i></figure>
 								  <?php if($user->MobileVerification == 0):?>
 								  <br/>
@@ -394,23 +432,9 @@
                                             <div class="form-group">
                                                 <label for="category">State</label>
                                                 <select class="form-control selectpicker" name="state" id="state">
-                                                    <option value="0" <?php if($user->State == "0"):echo "selected";endif;?>>Select a State</option>
-                                                    <option value="1" <?php if($user->State == "1"):echo "selected";endif;?>>Kuala Lumpur</option>
-                                                    <option value="2" <?php if($user->State == "2"):echo "selected";endif;?>>Selangor</option>
-                                                    <option value="3" <?php if($user->State == "3"):echo "selected";endif;?>>Johor</option>
-                                                    <option value="4" <?php if($user->State == "4"):echo "selected";endif;?>>Penang</option>
-                                                    <option value="5" <?php if($user->State == "5"):echo "selected";endif;?>>Perak</option>
-                                                    <option value="6" <?php if($user->State == "6"):echo "selected";endif;?>>Kedah</option>
-                                                    <option value="7" <?php if($user->State == "7"):echo "selected";endif;?>>Negeri Sembilan</option>
-                                                    <option value="8" <?php if($user->State == "8"):echo "selected";endif;?>>Pahang</option>
-                                                    <option value="9" <?php if($user->State == "9"):echo "selected";endif;?>>Sabah</option>
-                                                    <option value="10" <?php if($user->State == "10"):echo "selected";endif;?>>Sarawak</option>
-                                                    <option value="11" <?php if($user->State == "11"):echo "selected";endif;?>>Terengganu</option>
-                                                    <option value="12" <?php if($user->State == "12"):echo "selected";endif;?>>Melaka</option>
-                                                    <option value="13" <?php if($user->State == "13"):echo "selected";endif;?>>Kelantan</option>
-                                                    <option value="14" <?php if($user->State == "14"):echo "selected";endif;?>>Perlis</option>
-                                                    <option value="15" <?php if($user->State == "15"):echo "selected";endif;?>>Putrajaya</option>
-                                                    <option value="16" <?php if($user->State == "16"):echo "selected";endif;?>>Labuan</option>
+													<?php foreach($state as $eachState):?>
+													<option value="<?php echo $eachState->ID;?>" <?php if($user->State == $eachState->ID):echo "selected";endif;?>><?php echo $eachState->Name;?></option>
+													<?php endforeach;?>
                                                 </select>
                                             </div>
                                             <!--end form-group-->

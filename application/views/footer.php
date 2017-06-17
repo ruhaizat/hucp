@@ -57,9 +57,6 @@
 	<!--<script type="text/javascript" src="<?php echo base_url();?>assets/misc/customizer.js"></script>-->
 
 <script>
-	function userUpdateDetails(){
-		
-	}
 	function userChangePwd(){
 		var datastr = '{"mode":"ChangePassword"}';
 		$.ajax({
@@ -73,93 +70,77 @@
 		});
 	}
 	function validateSignInForm(){
-		var btnClicked = $("button[type=submit]:focus");
-		if(btnClicked[0].value == "SignIn"){
-			var pEmailAddress = $("#email").val();
-			var pPassword = $("#password").val();
-			
-			var datastr = '{"mode":"SignIn","EmailAddress":"'+pEmailAddress+'","Password":"'+pPassword+'"}';
-			$.ajax({
-				url: "<?php echo base_url();?>main/ajax",
-				type: "POST",
-				data: {"datastr":datastr},
-				success: function(data){
-					if(data == "Account active"){
-						window.location.replace("<?php echo base_url();?>main");
-					}else{
-						$("#SignInError").show();
-					}
+		var pEmailAddress = $("#email").val();
+		var pPassword = $("#password").val();
+		
+		var datastr = '{"mode":"SignIn","EmailAddress":"'+pEmailAddress+'","Password":"'+pPassword+'"}';
+		$.ajax({
+			url: "<?php echo base_url();?>main/ajax",
+			type: "POST",
+			data: {"datastr":datastr},
+			success: function(data){
+				if(data == "Account active"){
+					window.location.replace("<?php echo base_url();?>main");
+				}else{
+					$("#SignInError").show();
 				}
-			});			
-		}else if(btnClicked[0].value == "FB"){
-			checkLoginState();
-		}
+			}
+		});	
 	}
 	function validateRegForm(){
-		var btnClicked = $("button[type=submit]:focus");
-		//alert(btnClicked[0].innerText);
-		if(btnClicked[0].value == "Reg"){
-			var pEmail = $("#reg_email").val();
-			var pPassword = $("#reg_password").val();
-			var pConfirmPassword = $("#reg_confirm_password").val();
-			//var pFirstName = $("#reg_first_name").val();
-			//var pLastName = $("#reg_last_name").val();
-			if(pEmail == ""){
-				$("#noti-error-pwd-empty").hide();
+		var pEmail = $("#reg_email").val();
+		var pPassword = $("#reg_password").val();
+		var pConfirmPassword = $("#reg_confirm_password").val();
+		//var pFirstName = $("#reg_first_name").val();
+		//var pLastName = $("#reg_last_name").val();
+		if(pEmail == ""){
+			$("#noti-error-pwd-empty").hide();
+			$("#noti-error-pwd-match").hide();
+			$("#noti-error-email").show();
+			$("#noti-error-email").text("Email address cannot empty");
+		}else{
+			$("#noti-error-email").hide();
+			if(pPassword == ""){
+				$("#noti-error-pwd-empty").show();
 				$("#noti-error-pwd-match").hide();
-				$("#noti-error-email").show();
-				$("#noti-error-email").text("Email address cannot empty");
 			}else{
-				$("#noti-error-email").hide();
-				if(pPassword == ""){
-					$("#noti-error-pwd-empty").show();
-					$("#noti-error-pwd-match").hide();
+				if(pPassword != pConfirmPassword){
+					$("#noti-error-pwd-empty").hide();
+					$("#noti-error-pwd-match").show();
 				}else{
-					if(pPassword != pConfirmPassword){
-						$("#noti-error-pwd-empty").hide();
-						$("#noti-error-pwd-match").show();
-					}else{
-						$("#noti-error-pwd-empty").hide();
-						$("#noti-error-pwd-match").hide();
-						$("#noti-error-email").hide();
-						var datastr = '{"mode":"Register","EmailAddress":"'+pEmail+'","Password":"'+pPassword+'"}';
-						$.ajax({
-							url: "<?php echo base_url();?>main/ajax",
-							type: "POST",
-							data: {"datastr":datastr},
-							success: function(data){
+					$("#noti-error-pwd-empty").hide();
+					$("#noti-error-pwd-match").hide();
+					$("#noti-error-email").hide();
+					var datastr = '{"mode":"Register","EmailAddress":"'+pEmail+'","Password":"'+pPassword+'"}';
+					$.ajax({
+						url: "<?php echo base_url();?>main/ajax",
+						type: "POST",
+						data: {"datastr":datastr},
+						success: function(data){
+							//alert(data);
+							if(data == "Account registered"){
+								$("#RegisterSuccess").modal("show");
+								//alert("We have sent verification link to you registered email. Please verify your account before login.");
+							}else{
 								//alert(data);
-								if(data == "Account registered"){
-									$("#RegisterSuccess").modal("show");
-									//alert("We have sent verification link to you registered email. Please verify your account before login.");
-								}else{
-									//alert(data);
-									$("#RegisterFailed").modal("show");
-									$("#noti-error-email").show();
-									$("#noti-error-email").text("Account with email address entered already exist");
-									//alert(data);
-								}
+								$("#RegisterFailed").modal("show");
+								$("#noti-error-email").show();
+								$("#noti-error-email").text("Account with email address entered already exist");
+								//alert(data);
 							}
-						});				
-					}				
-				}
-			}			
-		}else if(btnClicked[0].value == "FB"){
-			checkLoginState();
-		}
+						}
+					});				
+				}				
+			}
+		}	
 	}
 	$(document).ready(function(){
-		$("form .frmSignIn input").keypress(function (e) {
-			if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
-				$('#btnSignIn').focus();
-				$('#btnSignIn').click();
-			}
+		$("#btnSignInViaFB").click(function(){
+			checkLoginState();
 		});
-		$("form .frmRegister input").keypress(function (e) {
-			if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
-				$('#btnRegister').focus();
-				$('#btnRegister').click();
-			}
+		
+		$("#btnRegisterFB").click(function(){
+			checkLoginState();
 		});
 		
 		$("#btnSubmitListing").click(function(){

@@ -38,7 +38,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <header id="page-header">
         <nav>
             <div class="left">
-                <a href="<?php echo base_url();?>main" class="brand"><img src="assets/img/logo_hyundai_grey.png" height="20"></a>
+                <a href="<?php echo base_url();?>main" class="brand"><img src="<?php echo base_url();?>assets/img/logo_hyundai_grey.png" height="20"></a>
             </div>
             <!--end left-->
             <div class="right">
@@ -129,7 +129,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</div>
 						<!--end form-group-->
 						<div class="form-group center">
-							<button id="btnSignInViaFB" class="btn btn-primary width-100" value="FB"><i class="fa fa-facebook-official"></i> Sign In with Facebook</button>
+							<button id="btnSignInViaFB" type="button" class="btn btn-primary width-100" value="FB" style="padding: 13px;margin-top: -2px;"><i class="fa fa-facebook-official"></i> Sign In with Facebook</button>
 						</div>
 						<!--end form-group-->
 					</form>
@@ -179,7 +179,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<button id="btnRegister" type="submit" class="btn btn-primary width-100" value="Reg">Register Now</button>
 						</div>
 						<div class="form-group center">
-							<button id="btnRegisterFB" class="btn btn-primary width-100" value="FB"><i class="fa fa-facebook-official"></i> Register with Facebook</button>
+							<button id="btnRegisterFB" type="button" class="btn btn-primary width-100" value="FB" style="padding: 13px;margin-top: -2px;"><i class="fa fa-facebook-official"></i> Register with Facebook</button>
 						</div>
 						<!--end form-group-->
 					</form>
@@ -332,31 +332,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<label for="title">Model</label>
 										<select class="form-control selectpicker" name="ALModel" id="ALModel">
 											<option value="">Select a Model</option>
-											<option value="1">Accent</option>
-											<option value="2">Atos</option>
-											<option value="3">Avante</option>
-											<option value="4">Azera</option>
-											<option value="5">Coupe</option>
-											<option value="6">Elantra</option>
-											<option value="7">Getz</option>
-											<option value="8">Grandeur XG250</option>
-											<option value="9">Grand Starex</option>
-											<option value="10">i10</option>
-											<option value="11">i10 Kappa</option>
-											<option value="12">i30</option>
-											<option value="13">i40</option>
-											<option value="14">i40 Sedan</option>
-											<option value="15">i40 Tourer</option>
-											<option value="16">IONIQ</option>
-											<option value="17">Matrix</option>
-											<option value="18">Md Elantra</option>
-											<option value="19">Santa FE</option>
-											<option value="20">Sonata</option>
-											<option value="21">Starex</option>
-											<option value="22">Terracan</option>
-											<option value="23">Trajet</option>
-											<option value="24">Tucson</option>
-											<option value="25">Veloster</option>
+											<?php foreach($modelData as $eachModel):?>
+											<option value="<?php echo $eachModel->ID;?>"><?php echo $eachModel->Name;?></option>
+											<?php endforeach;?>
 										</select>
 									</div>
 									<!--end form-group-->
@@ -367,11 +345,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<label for="category">Specification</label>
 										<select class="form-control selectpicker" name="ALSpecification" id="ALSpecification">
 											<option value="">Select a Specification</option>
-											<option value="1">Gamma 1.6L EX</option>
-											<option value="2">Gamma 1.6L EX Sport</option>
-											<option value="3">Gamma 1.6L EX Plus</option>
-											<option value="4">Gamma 1.6L Premium</option>
-											<option value="5">Nu 1.8L Premium</option>
+											<?php foreach($specificationData as $eachSpecification):?>
+											<option value="<?php echo $eachSpecification->ID;?>"><?php echo $eachSpecification->Name;?></option>
+											<?php endforeach;?>
 										</select>
 									</div>
 									<!--end form-group-->
@@ -439,7 +415,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<!--end form-group-->
 									<div class="form-group">
 										<label for="category">Selling Price</label>
-										<input type="text" class="form-control" name="ALSellingPrice" id="ALSellingPrice" placeholder="Selling Price">
+										<input type="number" class="form-control" name="ALSellingPrice" id="ALSellingPrice" placeholder="Selling Price">
 									</div>
 									<!--end form-group-->
 								</div>
@@ -449,22 +425,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<label for="category">State</label>
 									<select class="form-control selectpicker" name="ALState" id="ALState">
 										<option value="">Select a State</option>
-										<option value="1">Kuala Lumpur</option>
-										<option value="2">Selangor</option>
-										<option value="3">Johor</option>
-										<option value="4">Penang</option>
-										<option value="5">Perak</option>
-										<option value="6">Kedah</option>
-										<option value="7">Negeri Sembilan</option>
-										<option value="8">Pahang</option>
-										<option value="9">Sabah</option>
-										<option value="10">Sarawak</option>
-										<option value="11">Terengganu</option>
-										<option value="12">Melaka</option>
-										<option value="13">Kelantan</option>
-										<option value="14">Perlis</option>
-										<option value="15">Putrajaya</option>
-										<option value="16">Labuan</option>
+										<?php foreach($state as $eachState):?>
+										<option value="<?php echo $eachState->ID;?>"><?php echo $eachState->Name;?></option>
+										<?php endforeach;?>
 									</select>
 								</div>
 								<!--end form-group-->
