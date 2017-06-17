@@ -44,11 +44,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="right">
                 <div class="primary-nav has-mega-menu">
                     <ul class="navigation">
-                        <li class="has-child"><a href="#nav-homepages">Buy</a>
+                        <li class="has-child"><a href="#">Buy</a>
                             <div class="wrapper">
                                 <div id="nav-homepages" class="nav-wrapper">
                                     <ul>
-                                        <li><a href="#">Used Hyundai Car</a></li>
+                                        <li><a href="<?php echo base_url();?>listing">Used Hyundai Car</a></li>
                                         <li><a href="#">New Hyundai Car</a></li>
                                     </ul>
                                 </div>
@@ -319,7 +319,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 					<div class="section-title">
-						<h2>Add Listing (use for edit and add listing)</h2>
+						<h1>Add Listing</h1>
 					</div>
 				</div>
 				<div class="modal-body">
@@ -327,8 +327,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<section>
 						<h3>Car Details</h3>
 							<div class="row">
-								<div class="col-md-6 col-sm-6">
+                <div class="col-md-6 col-sm-6">
 									<div class="form-group">
+										<label for="title">Brand</label>
+										<select class="form-control selectpicker" name="ALModel" id="ALModel">
+											<option value="">Hyundai</option>
+											<?php foreach($modelData as $eachModel):?>
+											<option value="<?php echo $eachModel->ID;?>"><?php echo $eachModel->Name;?></option>
+											<?php endforeach;?>
+										</select>
+									</div>
+									<!--end form-group-->
+                  <div class="form-group">
 										<label for="title">Model</label>
 										<select class="form-control selectpicker" name="ALModel" id="ALModel">
 											<option value="">Select a Model</option>
@@ -338,32 +348,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										</select>
 									</div>
 									<!--end form-group-->
-								</div>
-								<!--end col-md-6-->
-								<div class="col-md-6 col-sm-6">
-									<div class="form-group">
-										<label for="category">Specification</label>
-										<select class="form-control selectpicker" name="ALSpecification" id="ALSpecification">
-											<option value="">Select a Specification</option>
-											<?php foreach($specificationData as $eachSpecification):?>
-											<option value="<?php echo $eachSpecification->ID;?>"><?php echo $eachSpecification->Name;?></option>
-											<?php endforeach;?>
-										</select>
-									</div>
-									<!--end form-group-->
-								</div>
-								<!--col-md-6-->
-								<div class="col-md-6 col-sm-6">
-									<div class="form-group">
-										<label for="category">Transmission</label>
-										<select class="form-control selectpicker" name="ALTransmission" id="ALTransmission">
-											<option value="">Select a Transmission</option>
-											<option value="1">Automatic</option>
-											<option value="2">Manual</option>
-										</select>
-									</div>
-									<!--end form-group-->
-									<div class="form-group">
+                  <div class="form-group">
 										<label for="category">Manufacturing Year</label>
 										<select class="form-control selectpicker" name="ALManufacturingYear" id="ALManufacturingYear">
 											<option value="">Manufacturing Year</option>
@@ -379,40 +364,101 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										</select>
 									</div>
 									<!--end form-group-->
-									<div class="form-group">
-										<label for="category">Mileage</label>
-										<select class="form-control selectpicker" name="ALMileage" id="ALMileage">
-											<option value="">Select a Mileage</option>
-											<option value="1">0 KM</option>
-											<option value="2">5,000 KM</option>
-											<option value="3">10,000 KM</option>
-											<option value="4">15,000 KM</option>
-											<option value="5">20,000 KM</option>
-											<option value="6">25,000 KM</option>
-											<option value="7">30,000 KM</option>
-											<option value="8">35,000 KM</option>
-											<option value="9">40,000 KM</option>
-											<option value="10">45,000 KM</option>
-											<option value="11">50,000 KM</option>
-											<option value="12">55,000 KM</option>
-											<option value="13">60,000 KM</option>
-											<option value="14">65,000 KM</option>
-											<option value="15">70,000 KM</option>
-											<option value="16">75,000 KM</option>
-											<option value="17">80,000 KM</option>
-											<option value="18">85,000 KM</option>
-											<option value="19">90,000 KM</option>
-											<option value="20">95,000 KM</option>
-											<option value="21">100,000 KM</option>
-											<option value="22">105,000 KM</option>
+                  <div class="form-group">
+										<label for="category">Transmission</label>
+										<select class="form-control selectpicker" name="ALTransmission" id="ALTransmission">
+											<option value="">Select a Transmission</option>
+											<option value="1">Automatic</option>
+											<option value="2">Manual</option>
 										</select>
 									</div>
 									<!--end form-group-->
+                  <div class="form-group">
+										<label for="category">Specification</label>
+										<select class="form-control selectpicker" name="ALSpecification" id="ALSpecification">
+											<option value="">Select a Specification</option>
+											<?php foreach($specificationData as $eachSpecification):?>
+											<option value="<?php echo $eachSpecification->ID;?>"><?php echo $eachSpecification->Name;?></option>
+											<?php endforeach;?>
+										</select>
+									</div>
+									<!--end form-group-->
+                  <div class="form-group">
+										<label for="category">Condition</label>
+										<select class="form-control selectpicker" name="ALTransmission" id="ALTransmission">
+											<option value="">Select a Condition</option>
+											<option value="1">New</option>
+											<option value="2">Used</option>
+										</select>
+									</div>
+									<!--end form-group-->
+                  <div class="form-group">
+    								<label for="description">Description</label>
+    								<textarea class="form-control" id="ALDescription" rows="5" name="ALDescription" placeholder="Describe the listing"></textarea>
+    							</div>
+    							<!--end form-group-->
+								</div>
+								<!--end col-md-6-->
+                <div class="col-md-6 col-sm-6">
+                  <div class="form-group">
+										<label for="category">Mileage</label>
+										<select class="form-control selectpicker" name="ALMileage" id="ALMileage">
+											<option value="">Select a Mileage</option>
+											<option value="1">0 KM - 4,999 KM</option>
+											<option value="2">5,000 KM - 9,999 KM</option>
+											<option value="3">10,000 KM - 14,999 KM</option>
+											<option value="4">15,000 KM - 19,999 KM</option>
+											<option value="5">20,000 KM - 24,999 KM</option>
+											<option value="6">25,000 KM - 29,999 KM</option>
+											<option value="7">30,000 KM - 34,999 KM</option>
+											<option value="8">35,000 KM - 39,999 KM</option>
+											<option value="9">40,000 KM - 44,999 KM</option>
+											<option value="10">45,000 KM - 49,999 KM</option>
+											<option value="11">50,000 KM - 54,999 KM</option>
+											<option value="12">55,000 KM - 59,999 KM</option>
+											<option value="13">60,000 KM - 64,999 KM</option>
+											<option value="14">65,000 KM - 69,999 KM</option>
+											<option value="15">70,000 KM - 74,999 KM</option>
+											<option value="16">75,000 KM - 79,999 KM</option>
+											<option value="17">80,000 KM - 84,999 KM</option>
+											<option value="18">85,000 KM - 89,999 KM</option>
+											<option value="19">90,000 KM - 94,999 KM</option>
+											<option value="20">95,000 KM - 99,999 KM</option>
+											<option value="21">100,000 KM - 104,999 KM</option>
+                      <option value="22">105,000 KM - 109,999 KM</option>
+											<option value="23">110,000 KM - 114,999 KM</option>
+											<option value="24">115,000 KM - 119,999 KM</option>
+											<option value="25">120,000 KM - 124,999 KM</option>
+											<option value="26">125,000 KM - 129,999 KM</option>
+											<option value="27">130,000 KM - 134,999 KM</option>
+											<option value="28">135,000 KM - 139,999 KM</option>
+											<option value="29">140,000 KM - 144,999 KM</option>
+											<option value="30">145,000 KM - 149,999 KM</option>
+											<option value="31">150,000 KM - 154,999 KM</option>
+											<option value="32">155,000 KM - 159,999 KM</option>
+											<option value="33">160,000 KM - 164,999 KM</option>
+											<option value="34">165,000 KM - 169,999 KM</option>
+											<option value="35">170,000 KM - 174,999 KM</option>
+											<option value="36">175,000 KM - 179,999 KM</option>
+											<option value="37">180,000 KM - 184,999 KM</option>
+											<option value="38">185,000 KM - 189,999 KM</option>
+											<option value="39">190,000 KM - 194,999 KM</option>
+											<option value="40">195,000 KM - 199,999 KM</option>
+                      <option value="40">≥ 200,000 KM</option>
+										</select>
+									</div>
+									<!--end form-group-->
+								</div>
+								<!--end col-md-6-->
+                <div class="col-md-6 col-sm-6">
 									<div class="form-group">
 										<label for="category">Colour</label>
 										<input type="text" class="form-control" name="ALColour" id="ALColour" placeholder="Colour">
 									</div>
 									<!--end form-group-->
+								</div>
+								<!--col-md-6-->
+								<div class="col-md-6 col-sm-6">
 									<div class="form-group">
 										<label for="category">Selling Price</label>
 										<input type="number" class="form-control" name="ALSellingPrice" id="ALSellingPrice" placeholder="Selling Price">
@@ -448,11 +494,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<!--col-md-6-->
 							</div>
 							<!--end row-->
-							<div class="form-group">
-								<label for="description">Description</label>
-								<textarea class="form-control" id="ALDescription" rows="4" name="ALDescription" placeholder="Describe the listing"></textarea>
-							</div>
-							<!--end form-group-->
+
 
 						</section>
 						<section>
@@ -464,607 +506,729 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</div>
 							<!--end form-group-->
 						</section>
-						<section>
-							<h3>Specification</h3>
-							<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-								<div class="panel panel-default">
-									<div class="panel-heading" role="tab" id="accordion-heading-5">
-										<h4 class="panel-title">
-											<a role="button" data-toggle="collapse" data-parent="#accordion" href="#accordion-collapse-5" aria-expanded="false" aria-controls="accordion-collapse-5">
-												<i class="fa fa-list-ul"></i>General Specification
-											</a>
-										</h4>
-									</div>
-									<!--end panel-heading-->
-									<div id="accordion-collapse-5" class="panel-collapse collapse" role="tabpanel" aria-labelledby="accordion-heading-5">
-										<div class="panel-body">
-											<div class="row">
-												<div class="col-md-3 col-sm-3 horizontal-input-title">
-													<strong>Category</strong>
-												</div>
-												<!--end col-md-3-->
-												<div class="col-md-9 col-sm-9">
-													<div class="form-group">
-														<input type="text" class="form-control" name="gs_category" placeholder="Passenger Car">
-													</div>
-													<!--end form-group-->
-												</div>
-												<!--end col-md-9-->
-											</div>
-											<!--end row-->
-											<div class="row">
-												<div class="col-md-3 col-sm-3 horizontal-input-title">
-													<strong>Model Name</strong>
-												</div>
-												<!--end col-md-3-->
-												<div class="col-md-9 col-sm-9">
-													<div class="form-group">
-														<input type="text" class="form-control" name="gs_model_name" placeholder="Elantra">
-													</div>
-													<!--end form-group-->
-												</div>
-												<!--end col-md-9-->
-											</div>
-											<!--end row-->
-											<div class="row">
-												<div class="col-md-3 col-sm-3 horizontal-input-title">
-													<strong>Body Type</strong>
-												</div>
-												<!--end col-md-3-->
-												<div class="col-md-9 col-sm-9">
-													<div class="form-group">
-														<input type="text" class="form-control" name="gs_body_type" placeholder="4 Doors">
-													</div>
-													<!--end form-group-->
-												</div>
-												<!--end col-md-9-->
-											</div>
-											<!--end row-->
-											<div class="row">
-												<div class="col-md-3 col-sm-3 horizontal-input-title">
-													<strong>Seats</strong>
-												</div>
-												<!--end col-md-3-->
-												<div class="col-md-9 col-sm-9">
-													<div class="form-group">
-														<input type="text" class="form-control" name="gs_seats" placeholder="5 Seats">
-													</div>
-													<!--end form-group-->
-												</div>
-												<!--end col-md-9-->
-											</div>
-											<!--end row-->
-										</div>
-									</div>
-									<!--end panel-collapse-->
-								</div>
-								<!--end panel-->
-							</div>
-							<!--end panel-group-->
-						</section>
-						<section>
-							<div class="panel-group" id="accordion-6" role="tablist" aria-multiselectable="true">
-								<div class="panel panel-default">
-									<div class="panel-heading" role="tab" id="accordion-heading-6">
-										<h4 class="panel-title">
-											<a role="button" data-toggle="collapse" data-parent="#accordion-6" href="#accordion-collapse-6" aria-expanded="false" aria-controls="accordion-collapse-6">
-												<i class="fa fa-area-chart"></i>Performance
-											</a>
-										</h4>
-									</div>
-									<!--end panel-heading-->
-									<div id="accordion-collapse-6" class="panel-collapse collapse" role="tabpanel" aria-labelledby="accordion-heading-6">
-										<div class="panel-body">
-											<div class="wrapper">
-
-											<h4><b>ENGINE</b></h4>
-											<div class="row">
-												<div class="col-md-3 col-sm-3 horizontal-input-title">
-													<strong>Engine Label</strong>
-												</div>
-												<!--end col-md-3-->
-												<div class="col-md-9 col-sm-9">
-													<div class="form-group">
-														<input type="text" class="form-control" name="pf_eg_label" placeholder="Gamma 1.6 Dual CVVT">
-													</div>
-													<!--end form-group-->
-												</div>
-												<!--end col-md-9-->
-											</div>
-											<!--end row-->
-											<div class="row">
-												<div class="col-md-3 col-sm-3 horizontal-input-title">
-													<strong>Engine Capacity</strong>
-												</div>
-												<!--end col-md-3-->
-												<div class="col-md-9 col-sm-9">
-													<div class="form-group">
-														<input type="text" class="form-control" name="pf_eg_capacity" placeholder="1.6">
-													</div>
-													<!--end form-group-->
-												</div>
-												<!--end col-md-9-->
-											</div>
-											<!--end row-->
-											<div class="row">
-												<div class="col-md-3 col-sm-3 horizontal-input-title">
-													<strong>Fuel System</strong>
-												</div>
-												<!--end col-md-3-->
-												<div class="col-md-9 col-sm-9">
-													<div class="form-group">
-														<input type="text" class="form-control" name="pf_eg_fuel_system" placeholder="MPI">
-													</div>
-													<!--end form-group-->
-												</div>
-												<!--end col-md-9-->
-											</div>
-											<!--end row-->
-											<div class="row">
-												<div class="col-md-3 col-sm-3 horizontal-input-title">
-													<strong>Displacement (cc)</strong>
-												</div>
-												<!--end col-md-3-->
-												<div class="col-md-9 col-sm-9">
-													<div class="form-group">
-														<input type="text" class="form-control" name="pf_eg_displacement" placeholder="MPI">
-													</div>
-													<!--end form-group-->
-												</div>
-												<!--end col-md-9-->
-											</div>
-											<!--end row-->
-											<div class="row">
-												<div class="col-md-3 col-sm-3 horizontal-input-title">
-													<strong>Max Power Label</strong>
-												</div>
-												<!--end col-md-3-->
-												<div class="col-md-9 col-sm-9">
-													<div class="form-group">
-														<input type="text" class="form-control" name="pf_eg_max_power_label" placeholder="MPI">
-													</div>
-													<!--end form-group-->
-												</div>
-												<!--end col-md-9-->
-											</div>
-											<!--end row-->
-											<div class="row">
-												<div class="col-md-3 col-sm-3 horizontal-input-title">
-													<strong>Max Power (ps)</strong>
-												</div>
-												<!--end col-md-3-->
-												<div class="col-md-9 col-sm-9">
-													<div class="form-group">
-														<input type="text" class="form-control" name="pf_eg_max_power_ps" placeholder="MPI">
-													</div>
-													<!--end form-group-->
-												</div>
-												<!--end col-md-9-->
-											</div>
-											<!--end row-->
-											<div class="row">
-												<div class="col-md-3 col-sm-3 horizontal-input-title">
-													<strong>Max Power (kW)</strong>
-												</div>
-												<!--end col-md-3-->
-												<div class="col-md-9 col-sm-9">
-													<div class="form-group">
-														<input type="text" class="form-control" name="pf_eg_max_power_kw" placeholder="MPI">
-													</div>
-													<!--end form-group-->
-												</div>
-												<!--end col-md-9-->
-											</div>
-											<!--end row-->
-											<div class="row">
-												<div class="col-md-3 col-sm-3 horizontal-input-title">
-													<strong>Max Power (rpm)</strong>
-												</div>
-												<!--end col-md-3-->
-												<div class="col-md-9 col-sm-9">
-													<div class="form-group">
-														<input type="text" class="form-control" name="pf_eg_max_power_rpm" placeholder="MPI">
-													</div>
-													<!--end form-group-->
-												</div>
-												<!--end col-md-9-->
-											</div>
-											<!--end row-->
-											<div class="row">
-												<div class="col-md-3 col-sm-3 horizontal-input-title">
-													<strong>Max Torque Label</strong>
-												</div>
-												<!--end col-md-3-->
-												<div class="col-md-9 col-sm-9">
-													<div class="form-group">
-														<input type="text" class="form-control" name="pf_eg_max_torque_label" placeholder="MPI">
-													</div>
-													<!--end form-group-->
-												</div>
-												<!--end col-md-9-->
-											</div>
-											<!--end row-->
-											<div class="row">
-												<div class="col-md-3 col-sm-3 horizontal-input-title">
-													<strong>Max Torque (kg.m)</strong>
-												</div>
-												<!--end col-md-3-->
-												<div class="col-md-9 col-sm-9">
-													<div class="form-group">
-														<input type="text" class="form-control" name="pf_eg_max_touque_kgm" placeholder="MPI">
-													</div>
-													<!--end form-group-->
-												</div>
-												<!--end col-md-9-->
-											</div>
-											<!--end row-->
-											<div class="row">
-												<div class="col-md-3 col-sm-3 horizontal-input-title">
-													<strong>Max Torque (Nm)</strong>
-												</div>
-												<!--end col-md-3-->
-												<div class="col-md-9 col-sm-9">
-													<div class="form-group">
-														<input type="text" class="form-control" name="pf_eg_max_touque_nm" placeholder="MPI">
-													</div>
-													<!--end form-group-->
-												</div>
-												<!--end col-md-9-->
-											</div>
-											<!--end row-->
-											<div class="row">
-												<div class="col-md-3 col-sm-3 horizontal-input-title">
-													<strong>Max Torque (rpm)</strong>
-												</div>
-												<!--end col-md-3-->
-												<div class="col-md-9 col-sm-9">
-													<div class="form-group">
-														<input type="text" class="form-control" name="pf_eg_max_touque_rpm" placeholder="MPI">
-													</div>
-													<!--end form-group-->
-												</div>
-												<!--end col-md-9-->
-											</div>
-											<!--end row-->
-											<div class="row">
-												<div class="col-md-3 col-sm-3 horizontal-input-title">
-													<strong>Number of Cylinders</strong>
-												</div>
-												<!--end col-md-3-->
-												<div class="col-md-9 col-sm-9">
-													<div class="form-group">
-														<input type="text" class="form-control" name="pf_eg_number_of_cylinders" placeholder="MPI">
-													</div>
-													<!--end form-group-->
-												</div>
-												<!--end col-md-9-->
-											</div>
-											<!--end row-->
-											<div class="row">
-												<div class="col-md-3 col-sm-3 horizontal-input-title">
-													<strong>Valve of Cylinder</strong>
-												</div>
-												<!--end col-md-3-->
-												<div class="col-md-9 col-sm-9">
-													<div class="form-group">
-														<input type="text" class="form-control" name="pf_eg_valve_of_cylinder" placeholder="MPI">
-													</div>
-													<!--end form-group-->
-												</div>
-												<!--end col-md-9-->
-											</div>
-											<!--end row-->
-
-											<hr>
-
-											<h4><b>TRANSMISSION</b></h4>
-											<div class="row">
-												<div class="col-md-3 col-sm-3 horizontal-input-title">
-													<strong>Transmission Type</strong>
-												</div>
-												<!--end col-md-3-->
-												<div class="col-md-9 col-sm-9">
-													<div class="form-group">
-														<input type="text" class="form-control" name="pf_tm_type" placeholder="MPI">
-													</div>
-													<!--end form-group-->
-												</div>
-												<!--end col-md-9-->
-											</div>
-											<!--end row-->
-											<div class="row">
-												<div class="col-md-3 col-sm-3 horizontal-input-title">
-													<strong>Drive Type</strong>
-												</div>
-												<!--end col-md-3-->
-												<div class="col-md-9 col-sm-9">
-													<div class="form-group">
-														<input type="text" class="form-control" name="pf_tm_drive_type" placeholder="MPI">
-													</div>
-													<!--end form-group-->
-												</div>
-												<!--end col-md-9-->
-											</div>
-											<!--end row-->
-											<div class="row">
-												<div class="col-md-3 col-sm-3 horizontal-input-title">
-													<strong>Gear (Speed)</strong>
-												</div>
-												<!--end col-md-3-->
-												<div class="col-md-9 col-sm-9">
-													<div class="form-group">
-														<input type="text" class="form-control" name="pf_tm_gear_speed" placeholder="MPI">
-													</div>
-													<!--end form-group-->
-												</div>
-												<!--end col-md-9-->
-											</div>
-											<!--end row-->
-											<div class="row">
-												<div class="col-md-3 col-sm-3 horizontal-input-title">
-													<strong>Drive Configuration</strong>
-												</div>
-												<!--end col-md-3-->
-												<div class="col-md-9 col-sm-9">
-													<div class="form-group">
-														<input type="text" class="form-control" name="pf_tm_drive_config" placeholder="MPI">
-													</div>
-													<!--end form-group-->
-												</div>
-												<!--end col-md-9-->
-											</div>
-											<!--end row-->
-
-											</div>
-											<!--end wrapper-->
-										</div>
-										<!--end panel-body-->
-									</div>
-									<!--end panel-collapse-->
-								</div>
-								<!--end panel-->
-							</div>
-							<!--end panel-group-->
-						</section>
-						<section>
-							<div class="panel-group" id="accordion-7" role="tablist" aria-multiselectable="true">
-								<div class="panel panel-default">
-									<div class="panel-heading" role="tab" id="accordion-heading-7">
-										<h4 class="panel-title">
-											<a role="button" data-toggle="collapse" data-parent="#accordion-7" href="#accordion-collapse-7" aria-expanded="false" aria-controls="accordion-collapse-7">
-												<i class="fa fa-car"></i>Dimension
-											</a>
-										</h4>
-									</div>
-									<!--end panel-heading-->
-									<div id="accordion-collapse-7" class="panel-collapse collapse" role="tabpanel" aria-labelledby="accordion-heading-7">
-										<div class="panel-body">
-											<div class="wrapper">
-
-											<h4><b>EXTERIOR</b></h4>
-											<div class="row">
-												<div class="col-md-3 col-sm-3 horizontal-input-title">
-													<strong>Overall Length (mm)</strong>
-												</div>
-												<!--end col-md-3-->
-												<div class="col-md-9 col-sm-9">
-													<div class="form-group">
-														<input type="text" class="form-control" name="dm_ex_length" placeholder="Gamma 1.6 Dual CVVT">
-													</div>
-													<!--end form-group-->
-												</div>
-												<!--end col-md-9-->
-											</div>
-											<!--end row-->
-											<div class="row">
-												<div class="col-md-3 col-sm-3 horizontal-input-title">
-													<strong>Overall Width (mm)</strong>
-												</div>
-												<!--end col-md-3-->
-												<div class="col-md-9 col-sm-9">
-													<div class="form-group">
-														<input type="text" class="form-control" name="dm_ex_width" placeholder="Gamma 1.6 Dual CVVT">
-													</div>
-													<!--end form-group-->
-												</div>
-												<!--end col-md-9-->
-											</div>
-											<!--end row-->
-											<div class="row">
-												<div class="col-md-3 col-sm-3 horizontal-input-title">
-													<strong>Overall Height (mm)</strong>
-												</div>
-												<!--end col-md-3-->
-												<div class="col-md-9 col-sm-9">
-													<div class="form-group">
-														<input type="text" class="form-control" name="dm_ex_height" placeholder="Gamma 1.6 Dual CVVT">
-													</div>
-													<!--end form-group-->
-												</div>
-												<!--end col-md-9-->
-											</div>
-											<!--end row-->
-											<div class="row">
-												<div class="col-md-3 col-sm-3 horizontal-input-title">
-													<strong>Wheel Base (mm)</strong>
-												</div>
-												<!--end col-md-3-->
-												<div class="col-md-9 col-sm-9">
-													<div class="form-group">
-														<input type="text" class="form-control" name="dm_ex_wheel_base" placeholder="Gamma 1.6 Dual CVVT">
-													</div>
-													<!--end form-group-->
-												</div>
-												<!--end col-md-9-->
-											</div>
-											<!--end row-->
-											<div class="row">
-												<div class="col-md-3 col-sm-3 horizontal-input-title">
-													<strong>Front Wheel Tread (mm)</strong>
-												</div>
-												<!--end col-md-3-->
-												<div class="col-md-9 col-sm-9">
-													<div class="form-group">
-														<input type="text" class="form-control" name="dm_ex_front_wheel_tread" placeholder="Gamma 1.6 Dual CVVT">
-													</div>
-													<!--end form-group-->
-												</div>
-												<!--end col-md-9-->
-											</div>
-											<!--end row-->
-											<div class="row">
-												<div class="col-md-3 col-sm-3 horizontal-input-title">
-													<strong>Rear Wheel Tread (mm)</strong>
-												</div>
-												<!--end col-md-3-->
-												<div class="col-md-9 col-sm-9">
-													<div class="form-group">
-														<input type="text" class="form-control" name="dm_ex_rear_wheel_tread" placeholder="Gamma 1.6 Dual CVVT">
-													</div>
-													<!--end form-group-->
-												</div>
-												<!--end col-md-9-->
-											</div>
-											<!--end row-->
-											<div class="row">
-												<div class="col-md-3 col-sm-3 horizontal-input-title">
-													<strong>Front Over Hang (mm)</strong>
-												</div>
-												<!--end col-md-3-->
-												<div class="col-md-9 col-sm-9">
-													<div class="form-group">
-														<input type="text" class="form-control" name="dm_ex_front_over_hang" placeholder="Gamma 1.6 Dual CVVT">
-													</div>
-													<!--end form-group-->
-												</div>
-												<!--end col-md-9-->
-											</div>
-											<!--end row-->
-											<div class="row">
-												<div class="col-md-3 col-sm-3 horizontal-input-title">
-													<strong>Rear Over Hang (mm)</strong>
-												</div>
-												<!--end col-md-3-->
-												<div class="col-md-9 col-sm-9">
-													<div class="form-group">
-														<input type="text" class="form-control" name="dm_ex_rear_over_hang" placeholder="Gamma 1.6 Dual CVVT">
-													</div>
-													<!--end form-group-->
-												</div>
-												<!--end col-md-9-->
-											</div>
-											<!--end row-->
-
-
-											<hr>
-
-											<h4><b>CARGO</b></h4>
-											<div class="row">
-												<div class="col-md-3 col-sm-3 horizontal-input-title">
-													<strong>Cargo Area (VDA)</strong>
-												</div>
-												<!--end col-md-3-->
-												<div class="col-md-9 col-sm-9">
-													<div class="form-group">
-														<input type="text" class="form-control" name="dm_cg_area_vda" placeholder="6 Speed Automatic FWD">
-													</div>
-													<!--end form-group-->
-												</div>
-												<!--end col-md-9-->
-											</div>
-											<!--end row-->
-
-											</div>
-											<!--end wrapper-->
-										</div>
-										<!--end panel-body-->
-									</div>
-									<!--end panel-collapse-->
-								</div>
-								<!--end panel-->
-							</div>
-							<!--end panel-group-->
-						</section>
-						<section>
-							<div class="panel-group" id="accordion-8" role="tablist" aria-multiselectable="true">
-								<div class="panel panel-default">
-									<div class="panel-heading" role="tab" id="accordion-heading-8">
-										<h4 class="panel-title">
-											<a role="button" data-toggle="collapse" data-parent="#accordion-8" href="#accordion-collapse-8" aria-expanded="false" aria-controls="accordion-collapse-8">
-												<i class="fa fa-gear"></i>Wheels
-											</a>
-										</h4>
-									</div>
-									<!--end panel-heading-->
-									<div id="accordion-collapse-8" class="panel-collapse collapse" role="tabpanel" aria-labelledby="accordion-heading-8">
-										<div class="panel-body">
-											<div class="wrapper">
-											<h4><b>WHEELS & TIRES</b></h4>
-											<div class="row">
-												<div class="col-md-3 col-sm-3 horizontal-input-title">
-													<strong>Front Wheels</strong>
-												</div>
-												<!--end col-md-3-->
-												<div class="col-md-9 col-sm-9">
-													<div class="form-group">
-														<input type="text" class="form-control" name="wh_front_wheel" placeholder="6 Speed Automatic FWD">
-													</div>
-													<!--end form-group-->
-												</div>
-												<!--end col-md-9-->
-											</div>
-											<div class="row">
-												<div class="col-md-3 col-sm-3 horizontal-input-title">
-													<strong>Rear Wheels</strong>
-												</div>
-												<!--end col-md-3-->
-												<div class="col-md-9 col-sm-9">
-													<div class="form-group">
-														<input type="text" class="form-control" name="wh_rear_wheel" placeholder="6 Speed Automatic FWD">
-													</div>
-													<!--end form-group-->
-												</div>
-												<!--end col-md-9-->
-											</div>
-											<div class="row">
-												<div class="col-md-3 col-sm-3 horizontal-input-title">
-													<strong>Front Tires</strong>
-												</div>
-												<!--end col-md-3-->
-												<div class="col-md-9 col-sm-9">
-													<div class="form-group">
-														<input type="text" class="form-control" name="wh_front_tires" placeholder="6 Speed Automatic FWD">
-													</div>
-													<!--end form-group-->
-												</div>
-												<!--end col-md-9-->
-											</div>
-											<div class="row">
-												<div class="col-md-3 col-sm-3 horizontal-input-title">
-													<strong>Rear Tires</strong>
-												</div>
-												<!--end col-md-3-->
-												<div class="col-md-9 col-sm-9">
-													<div class="form-group">
-														<input type="text" class="form-control" name="wh_rear_tires" placeholder="6 Speed Automatic FWD">
-													</div>
-													<!--end form-group-->
-												</div>
-												<!--end col-md-9-->
-											</div>
-
-
-											</div>
-											<!--end wrapper-->
-										</div>
-										<!--end panel-body-->
-									</div>
-									<!--end panel-collapse-->
-								</div>
-								<!--end panel-->
-							</div>
-							<!--end panel-group-->
-						</section>
+            <section>
+                <h3>Specification</h3>
+                <p style="padding-bottom: 5px;">All information and specifications stated here are automatically generated based on data available at the time of publication and subject to change without prior notice, thus, may differ from those shown in the website and brochure. Please kindly edit accordingly shall any of the specifications is changed or modified.</p>
+                <div class="panel-group" id="accordion-1" role="tablist" aria-multiselectable="true">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="accordion-heading-1">
+                            <h4 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#accordion-collapse-1" aria-expanded="false" aria-controls="accordion-collapse-1">
+                                    <i class="fa fa-list-ul"></i>General Details
+                                </a>
+                            </h4>
+                        </div>
+                        <!--end panel-heading-->
+                        <div id="accordion-collapse-1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="accordion-heading-1">
+                            <div class="panel-body">
+                              <div class="row">
+                                  <div class="col-md-3 col-sm-3 horizontal-input-title">
+                                      <strong>Brand</strong>
+                                  </div>
+                                  <!--end col-md-3-->
+                                  <div class="col-md-9 col-sm-9">
+                                      <div class="form-group">
+                                          <input type="text" class="form-control" name="open_hours[]" placeholder="Hyundai">
+                                      </div>
+                                      <!--end form-group-->
+                                  </div>
+                                  <!--end col-md-9-->
+                              </div>
+                              <!--end row-->
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 horizontal-input-title">
+                                        <strong>Category</strong>
+                                    </div>
+                                    <!--end col-md-3-->
+                                    <div class="col-md-9 col-sm-9">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="open_hours[]" placeholder="Sedan">
+                                        </div>
+                                        <!--end form-group-->
+                                    </div>
+                                    <!--end col-md-9-->
+                                </div>
+                                <!--end row-->
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 horizontal-input-title">
+                                        <strong>Model</strong>
+                                    </div>
+                                    <!--end col-md-3-->
+                                    <div class="col-md-9 col-sm-9">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="open_hours[]" placeholder="Sonata">
+                                        </div>
+                                        <!--end form-group-->
+                                    </div>
+                                    <!--end col-md-9-->
+                                </div>
+                                <!--end row-->
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 horizontal-input-title">
+                                        <strong>Specification</strong>
+                                    </div>
+                                    <!--end col-md-3-->
+                                    <div class="col-md-9 col-sm-9">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="open_hours[]" placeholder="GLS 1.6 Premium">
+                                        </div>
+                                        <!--end form-group-->
+                                    </div>
+                                    <!--end col-md-9-->
+                                </div>
+                                <!--end row-->
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 horizontal-input-title">
+                                        <strong>Year</strong>
+                                    </div>
+                                    <!--end col-md-3-->
+                                    <div class="col-md-9 col-sm-9">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="open_hours[]" placeholder="2003">
+                                        </div>
+                                        <!--end form-group-->
+                                    </div>
+                                    <!--end col-md-9-->
+                                </div>
+                                <!--end row-->
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 horizontal-input-title">
+                                        <strong>Engine CC</strong>
+                                    </div>
+                                    <!--end col-md-3-->
+                                    <div class="col-md-9 col-sm-9">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="open_hours[]" placeholder="1599">
+                                        </div>
+                                        <!--end form-group-->
+                                    </div>
+                                    <!--end col-md-9-->
+                                </div>
+                                <!--end row-->
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 horizontal-input-title">
+                                        <strong>Transmission</strong>
+                                    </div>
+                                    <!--end col-md-3-->
+                                    <div class="col-md-9 col-sm-9">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="open_hours[]" placeholder="Automatic">
+                                        </div>
+                                        <!--end form-group-->
+                                    </div>
+                                    <!--end col-md-9-->
+                                </div>
+                                <!--end row-->
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 horizontal-input-title">
+                                        <strong>Seat Capacity</strong>
+                                    </div>
+                                    <!--end col-md-3-->
+                                    <div class="col-md-9 col-sm-9">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="open_hours[]" placeholder="5">
+                                        </div>
+                                        <!--end form-group-->
+                                    </div>
+                                    <!--end col-md-9-->
+                                </div>
+                                <!--end row-->
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 horizontal-input-title">
+                                        <strong>Mileage (km)</strong>
+                                    </div>
+                                    <!--end col-md-3-->
+                                    <div class="col-md-9 col-sm-9">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="open_hours[]" placeholder="100,000">
+                                        </div>
+                                        <!--end form-group-->
+                                    </div>
+                                    <!--end col-md-9-->
+                                </div>
+                                <!--end row-->
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 horizontal-input-title">
+                                        <strong>Colour</strong>
+                                    </div>
+                                    <!--end col-md-3-->
+                                    <div class="col-md-9 col-sm-9">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="open_hours[]" placeholder="Red">
+                                        </div>
+                                        <!--end form-group-->
+                                    </div>
+                                    <!--end col-md-9-->
+                                </div>
+                                <!--end row-->
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 horizontal-input-title">
+                                        <strong>Doors</strong>
+                                    </div>
+                                    <!--end col-md-3-->
+                                    <div class="col-md-9 col-sm-9">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="open_hours[]" placeholder="5">
+                                        </div>
+                                        <!--end form-group-->
+                                    </div>
+                                    <!--end col-md-9-->
+                                </div>
+                                <!--end row-->
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 horizontal-input-title">
+                                        <strong>Seat Capacity</strong>
+                                    </div>
+                                    <!--end col-md-3-->
+                                    <div class="col-md-9 col-sm-9">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="open_hours[]" placeholder="5">
+                                        </div>
+                                        <!--end form-group-->
+                                    </div>
+                                    <!--end col-md-9-->
+                                </div>
+                                <!--end row-->
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 horizontal-input-title">
+                                        <strong>Assembled</strong>
+                                    </div>
+                                    <!--end col-md-3-->
+                                    <div class="col-md-9 col-sm-9">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="open_hours[]" placeholder="Locally Build">
+                                        </div>
+                                        <!--end form-group-->
+                                    </div>
+                                    <!--end col-md-9-->
+                                </div>
+                                <!--end row-->
+                            </div>
+                        </div>
+                        <!--end panel-collapse-->
+                    </div>
+                    <!--end panel-->
+                </div>
+                <!--end panel-group-->
+            </section>
+            <section>
+                <div class="panel-group" id="accordion-2" role="tablist" aria-multiselectable="true">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="accordion-heading-2">
+                            <h4 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#accordion-collapse-2" aria-expanded="false" aria-controls="accordion-collapse-2">
+                                    <i class="fa fa-list-ul"></i>Transmission
+                                </a>
+                            </h4>
+                        </div>
+                        <!--end panel-heading-->
+                        <div id="accordion-collapse-2" class="panel-collapse collapse" role="tabpanel" aria-labelledby="accordion-heading-2">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 horizontal-input-title">
+                                        <strong>Transmission</strong>
+                                    </div>
+                                    <!--end col-md-3-->
+                                    <div class="col-md-9 col-sm-9">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="open_hours[]" placeholder="Automatic">
+                                        </div>
+                                        <!--end form-group-->
+                                    </div>
+                                    <!--end col-md-9-->
+                                </div>
+                                <!--end row-->
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 horizontal-input-title">
+                                        <strong>Final Drive Ratio</strong>
+                                    </div>
+                                    <!--end col-md-3-->
+                                    <div class="col-md-9 col-sm-9">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="open_hours[]" placeholder="4.042">
+                                        </div>
+                                        <!--end form-group-->
+                                    </div>
+                                    <!--end col-md-9-->
+                                </div>
+                                <!--end row-->
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 horizontal-input-title">
+                                        <strong>Number of Gears</strong>
+                                    </div>
+                                    <!--end col-md-3-->
+                                    <div class="col-md-9 col-sm-9">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="open_hours[]" placeholder="5">
+                                        </div>
+                                        <!--end form-group-->
+                                    </div>
+                                    <!--end col-md-9-->
+                                </div>
+                                <!--end row-->
+                            </div>
+                        </div>
+                        <!--end panel-collapse-->
+                    </div>
+                    <!--end panel-->
+                </div>
+                <!--end panel-group-->
+            </section>
+            <section>
+                <div class="panel-group" id="accordion-3" role="tablist" aria-multiselectable="true">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="accordion-heading-3">
+                            <h4 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#accordion-collapse-3" aria-expanded="false" aria-controls="accordion-collapse-3">
+                                    <i class="fa fa-list-ul"></i>Engine Specifications
+                                </a>
+                            </h4>
+                        </div>
+                        <!--end panel-heading-->
+                        <div id="accordion-collapse-3" class="panel-collapse collapse" role="tabpanel" aria-labelledby="accordion-heading-3">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 horizontal-input-title">
+                                        <strong>Engine CC</strong>
+                                    </div>
+                                    <!--end col-md-3-->
+                                    <div class="col-md-9 col-sm-9">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="open_hours[]" placeholder="1499">
+                                        </div>
+                                        <!--end form-group-->
+                                    </div>
+                                    <!--end col-md-9-->
+                                </div>
+                                <!--end row-->
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 horizontal-input-title">
+                                        <strong>Stroke (mm)</strong>
+                                    </div>
+                                    <!--end col-md-3-->
+                                    <div class="col-md-9 col-sm-9">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="open_hours[]" placeholder="1499">
+                                        </div>
+                                        <!--end form-group-->
+                                    </div>
+                                    <!--end col-md-9-->
+                                </div>
+                                <!--end row-->
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 horizontal-input-title">
+                                        <strong>Peak Power (hp)</strong>
+                                    </div>
+                                    <!--end col-md-3-->
+                                    <div class="col-md-9 col-sm-9">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="open_hours[]" placeholder="1499">
+                                        </div>
+                                        <!--end form-group-->
+                                    </div>
+                                    <!--end col-md-9-->
+                                </div>
+                                <!--end row-->
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 horizontal-input-title">
+                                        <strong>Engine Type</strong>
+                                    </div>
+                                    <!--end col-md-3-->
+                                    <div class="col-md-9 col-sm-9">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="open_hours[]" placeholder="Piston">
+                                        </div>
+                                        <!--end form-group-->
+                                    </div>
+                                    <!--end col-md-9-->
+                                </div>
+                                <!--end row-->
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 horizontal-input-title">
+                                        <strong>Aspiration</strong>
+                                    </div>
+                                    <!--end col-md-3-->
+                                    <div class="col-md-9 col-sm-9">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="open_hours[]" placeholder="Aspirated">
+                                        </div>
+                                        <!--end form-group-->
+                                    </div>
+                                    <!--end col-md-9-->
+                                </div>
+                                <!--end row-->
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 horizontal-input-title">
+                                        <strong>Bore (mm)</strong>
+                                    </div>
+                                    <!--end col-md-3-->
+                                    <div class="col-md-9 col-sm-9">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="open_hours[]" placeholder="85">
+                                        </div>
+                                        <!--end form-group-->
+                                    </div>
+                                    <!--end col-md-9-->
+                                </div>
+                                <!--end row-->
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 horizontal-input-title">
+                                        <strong>Compression Ratio</strong>
+                                    </div>
+                                    <!--end col-md-3-->
+                                    <div class="col-md-9 col-sm-9">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="open_hours[]" placeholder="10">
+                                        </div>
+                                        <!--end form-group-->
+                                    </div>
+                                    <!--end col-md-9-->
+                                </div>
+                                <!--end row-->
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 horizontal-input-title">
+                                        <strong>Peak Torque (Nm)</strong>
+                                    </div>
+                                    <!--end col-md-3-->
+                                    <div class="col-md-9 col-sm-9">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="open_hours[]" placeholder="178">
+                                        </div>
+                                        <!--end form-group-->
+                                    </div>
+                                    <!--end col-md-9-->
+                                </div>
+                                <!--end row-->
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 horizontal-input-title">
+                                        <strong>Direct Injection</strong>
+                                    </div>
+                                    <!--end col-md-3-->
+                                    <div class="col-md-9 col-sm-9">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="open_hours[]" placeholder="Multi-Point Injected">
+                                        </div>
+                                        <!--end form-group-->
+                                    </div>
+                                    <!--end col-md-9-->
+                                </div>
+                                <!--end row-->
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 horizontal-input-title">
+                                        <strong>Fuel Type</strong>
+                                    </div>
+                                    <!--end col-md-3-->
+                                    <div class="col-md-9 col-sm-9">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="open_hours[]" placeholder="Petrol - Unleaded (ULP)">
+                                        </div>
+                                        <!--end form-group-->
+                                    </div>
+                                    <!--end col-md-9-->
+                                </div>
+                                <!--end row-->
+                            </div>
+                        </div>
+                        <!--end panel-collapse-->
+                    </div>
+                    <!--end panel-->
+                </div>
+                <!--end panel-group-->
+            </section>
+            <section>
+                <div class="panel-group" id="accordion-4" role="tablist" aria-multiselectable="true">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="accordion-heading-4">
+                            <h4 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#accordion-collapse-4" aria-expanded="false" aria-controls="accordion-collapse-4">
+                                    <i class="fa fa-list-ul"></i>Dimensions & Weight
+                                </a>
+                            </h4>
+                        </div>
+                        <!--end panel-heading-->
+                        <div id="accordion-collapse-4" class="panel-collapse collapse" role="tabpanel" aria-labelledby="accordion-heading-4">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 horizontal-input-title">
+                                        <strong>Length (mm)</strong>
+                                    </div>
+                                    <!--end col-md-3-->
+                                    <div class="col-md-9 col-sm-9">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="open_hours[]" placeholder="4747">
+                                        </div>
+                                        <!--end form-group-->
+                                    </div>
+                                    <!--end col-md-9-->
+                                </div>
+                                <!--end row-->
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 horizontal-input-title">
+                                        <strong>Height (mm)</strong>
+                                    </div>
+                                    <!--end col-md-3-->
+                                    <div class="col-md-9 col-sm-9">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="open_hours[]" placeholder="1422">
+                                        </div>
+                                        <!--end form-group-->
+                                    </div>
+                                    <!--end col-md-9-->
+                                </div>
+                                <!--end row-->
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 horizontal-input-title">
+                                        <strong>Width (mm)</strong>
+                                    </div>
+                                    <!--end col-md-3-->
+                                    <div class="col-md-9 col-sm-9">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="open_hours[]" placeholder="1820">
+                                        </div>
+                                        <!--end form-group-->
+                                    </div>
+                                    <!--end col-md-9-->
+                                </div>
+                                <!--end row-->
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 horizontal-input-title">
+                                        <strong>Wheel Base (mm)</strong>
+                                    </div>
+                                    <!--end col-md-3-->
+                                    <div class="col-md-9 col-sm-9">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="open_hours[]" placeholder="2700">
+                                        </div>
+                                        <!--end form-group-->
+                                    </div>
+                                    <!--end col-md-9-->
+                                </div>
+                                <!--end row-->
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 horizontal-input-title">
+                                        <strong>Front Thread</strong>
+                                    </div>
+                                    <!--end col-md-3-->
+                                    <div class="col-md-9 col-sm-9">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="open_hours[]" placeholder="1540">
+                                        </div>
+                                        <!--end form-group-->
+                                    </div>
+                                    <!--end col-md-9-->
+                                </div>
+                                <!--end row-->
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 horizontal-input-title">
+                                        <strong>Rear Thread</strong>
+                                    </div>
+                                    <!--end col-md-3-->
+                                    <div class="col-md-9 col-sm-9">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="open_hours[]" placeholder="1530">
+                                        </div>
+                                        <!--end form-group-->
+                                    </div>
+                                    <!--end col-md-9-->
+                                </div>
+                                <!--end row-->
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 horizontal-input-title">
+                                        <strong>Fuel Tank (litres)</strong>
+                                    </div>
+                                    <!--end col-md-3-->
+                                    <div class="col-md-9 col-sm-9">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="open_hours[]" placeholder="65">
+                                        </div>
+                                        <!--end form-group-->
+                                    </div>
+                                    <!--end col-md-9-->
+                                </div>
+                                <!--end row-->
+                            </div>
+                        </div>
+                        <!--end panel-collapse-->
+                    </div>
+                    <!--end panel-->
+                </div>
+                <!--end panel-group-->
+            </section>
+            <section>
+                <div class="panel-group" id="accordion-5" role="tablist" aria-multiselectable="true">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="accordion-heading-5">
+                            <h4 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#accordion-collapse-5" aria-expanded="false" aria-controls="accordion-collapse-5">
+                                    <i class="fa fa-list-ul"></i>Brakes
+                                </a>
+                            </h4>
+                        </div>
+                        <!--end panel-heading-->
+                        <div id="accordion-collapse-5" class="panel-collapse collapse" role="tabpanel" aria-labelledby="accordion-heading-5">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 horizontal-input-title">
+                                        <strong>Front Brakes</strong>
+                                    </div>
+                                    <!--end col-md-3-->
+                                    <div class="col-md-9 col-sm-9">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="open_hours[]" placeholder="Ventilated Discs">
+                                        </div>
+                                        <!--end form-group-->
+                                    </div>
+                                    <!--end col-md-9-->
+                                </div>
+                                <!--end row-->
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 horizontal-input-title">
+                                        <strong>Rear Brakes</strong>
+                                    </div>
+                                    <!--end col-md-3-->
+                                    <div class="col-md-9 col-sm-9">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="open_hours[]" placeholder="Discs">
+                                        </div>
+                                        <!--end form-group-->
+                                    </div>
+                                    <!--end col-md-9-->
+                                </div>
+                                <!--end row-->
+                            </div>
+                        </div>
+                        <!--end panel-collapse-->
+                    </div>
+                    <!--end panel-->
+                </div>
+                <!--end panel-group-->
+            </section>
+            <section>
+                <div class="panel-group" id="accordion-6" role="tablist" aria-multiselectable="true">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="accordion-heading-6">
+                            <h4 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#accordion-collapse-6" aria-expanded="false" aria-controls="accordion-collapse-6">
+                                    <i class="fa fa-list-ul"></i>Suspensions
+                                </a>
+                            </h4>
+                        </div>
+                        <!--end panel-heading-->
+                        <div id="accordion-collapse-6" class="panel-collapse collapse" role="tabpanel" aria-labelledby="accordion-heading-6">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 horizontal-input-title">
+                                        <strong>Front Suspension</strong>
+                                    </div>
+                                    <!--end col-md-3-->
+                                    <div class="col-md-9 col-sm-9">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="open_hours[]" placeholder="Double Wishbone">
+                                        </div>
+                                        <!--end form-group-->
+                                    </div>
+                                    <!--end col-md-9-->
+                                </div>
+                                <!--end row-->
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 horizontal-input-title">
+                                        <strong>Rear Suspension</strong>
+                                    </div>
+                                    <!--end col-md-3-->
+                                    <div class="col-md-9 col-sm-9">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="open_hours[]" placeholder="Multiple links">
+                                        </div>
+                                        <!--end form-group-->
+                                    </div>
+                                    <!--end col-md-9-->
+                                </div>
+                                <!--end row-->
+                            </div>
+                        </div>
+                        <!--end panel-collapse-->
+                    </div>
+                    <!--end panel-->
+                </div>
+                <!--end panel-group-->
+            </section>
+            <section>
+                <div class="panel-group" id="accordion-6" role="tablist" aria-multiselectable="true">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="accordion-heading-7">
+                            <h4 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#accordion-collapse-7" aria-expanded="false" aria-controls="accordion-collapse-7">
+                                    <i class="fa fa-list-ul"></i>Tyres & Wheels
+                                </a>
+                            </h4>
+                        </div>
+                        <!--end panel-heading-->
+                        <div id="accordion-collapse-7" class="panel-collapse collapse" role="tabpanel" aria-labelledby="accordion-heading-7">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 horizontal-input-title">
+                                        <strong>Front Tyres</strong>
+                                    </div>
+                                    <!--end col-md-3-->
+                                    <div class="col-md-9 col-sm-9">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="open_hours[]" placeholder="195/65 R15">
+                                        </div>
+                                        <!--end form-group-->
+                                    </div>
+                                    <!--end col-md-9-->
+                                </div>
+                                <!--end row-->
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 horizontal-input-title">
+                                        <strong>Rear Tyres</strong>
+                                    </div>
+                                    <!--end col-md-3-->
+                                    <div class="col-md-9 col-sm-9">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="open_hours[]" placeholder="195/65 R15">
+                                        </div>
+                                        <!--end form-group-->
+                                    </div>
+                                    <!--end col-md-9-->
+                                </div>
+                                <!--end row-->
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 horizontal-input-title">
+                                        <strong>Front Rims</strong>
+                                    </div>
+                                    <!--end col-md-3-->
+                                    <div class="col-md-9 col-sm-9">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="open_hours[]" placeholder="15">
+                                        </div>
+                                        <!--end form-group-->
+                                    </div>
+                                    <!--end col-md-9-->
+                                </div>
+                                <!--end row-->
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 horizontal-input-title">
+                                        <strong>Rear Rims</strong>
+                                    </div>
+                                    <!--end col-md-3-->
+                                    <div class="col-md-9 col-sm-9">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="open_hours[]" placeholder="15">
+                                        </div>
+                                        <!--end form-group-->
+                                    </div>
+                                    <!--end col-md-9-->
+                                </div>
+                                <!--end row-->
+                            </div>
+                        </div>
+                        <!--end panel-collapse-->
+                    </div>
+                    <!--end panel-->
+                </div>
+                <!--end panel-group-->
+            </section>
 
 						<hr>
 						<section class="center">

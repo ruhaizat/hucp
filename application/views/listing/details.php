@@ -8,93 +8,93 @@
 		});
 		var map;
 		function aEditClick(){
-			var markers = [];			
-					
+			var markers = [];
+
 			map = new google.maps.Map(
-				document.getElementById('map-edit'), 
-				{		
+				document.getElementById('map-edit'),
+				{
 					mapTypeId: google.maps.MapTypeId.ROADMAP
 				}
-			);	
-			
+			);
+
 			//alert(map);
-				
+
 			var defaultBounds = new google.maps.LatLngBounds(new google.maps.LatLng(<?php if($listingData->Latitude):echo $listingData->Latitude;else:echo "3.0266654";endif;?>, <?php if($listingData->Longitude):echo $listingData->Longitude;else:echo "101.69214009999996";endif;?>));
 			map.fitBounds(defaultBounds);
-			
+
 			var listener = google.maps.event.addListener(map, "idle", function() {
 				if (map.getZoom() > 16) map.setZoom(16);
 				google.maps.event.removeListener(listener);
 				});
-				
+
 			var marker = new google.maps.Marker({
 				map: map,
 				position: new google.maps.LatLng(<?php if($listingData->Latitude):echo $listingData->Latitude;else:echo "3.0266654";endif;?>, <?php if($listingData->Longitude):echo $listingData->Longitude;else:echo "101.69214009999996";endif;?>)
 				});
-				
+
 			markers.push(marker);
-			
+
 			var input = (document.getElementById('ALAddressEdit'));
 			var searchBox = new google.maps.places.SearchBox((input));
-			
+
 			google.maps.event.addListener(map, "click", function(event) {
 				for (var i = 0, marker; marker = markers[i]; i++) {
 					marker.setMap(null);
 				}
-				
+
 				var lat = event.latLng.lat();
 				var lng = event.latLng.lng();
-				
+
 				$("#ALLatitudeEdit").val(lat);
 				$("#ALLongitudeEdit").val(lng);
-				
+
 				var marker = new google.maps.Marker({
 					map: map,
 					position: event.latLng
 				});
-				
+
 				markers.push(marker);
 			});
 			google.maps.event.addListener(searchBox, 'places_changed', function() {
 				var places = searchBox.getPlaces();
-				
+
 				for (var i = 0, marker; marker = markers[i]; i++) {
 					marker.setMap(null);
 				}
-				
+
 				markers = [];
-				
+
 				var bounds = new google.maps.LatLngBounds();
-				
+
 				for (var i = 0, place; place = places[i]; i++) {
 					var marker = new google.maps.Marker({
 						map: map,
 						title: place.name,
 						position: place.geometry.location
 					});
-					
+
 					markers.push(marker);
-					
+
 					$("#ALLatitudeEdit").val(place.geometry.location.lat());
 					$("#ALLongitudeEdit").val(place.geometry.location.lng());
-					
+
 					bounds.extend(place.geometry.location);
 				}
-				
+
 				map.fitBounds(bounds);
-				
+
 				var listener = google.maps.event.addListener(map, "idle", function() {
 					if (map.getZoom() > 16) map.setZoom(16);
 					google.maps.event.removeListener(listener);
 				});
 			});
-						
+
 			google.maps.event.addListener(map, 'bounds_changed', function() {
 				var bounds = map.getBounds();
 				searchBox.setBounds(bounds);
 			});
 		}
-		
+
 		var mapdet;
 		function initializeListingDetail() {
 			var markersdet = [];
@@ -118,7 +118,7 @@
 			markersdet.push(markerdet);
 		}
 		google.maps.event.addDomListener(window, 'load', initializeListingDetail);
-		
+
 		function submitContactSeller(){
 			var Name = $("#name").val();
 			var Email = $("#buyer_email").val();
@@ -127,7 +127,7 @@
 			var ListingID = "<?php echo $listingData->LID;?>";
 			var Model = "<?php echo $listingData->ModelName;?>";
 			var SellerID = "<?php echo $listingData->LAddedBy;?>";
-			
+
 			var datastr = '{"mode":"ContactSeller","Name":"'+Name+'","Email":"'+Email+'","Telephone":"'+Telephone+'","Description":"'+Description+'","ListingID":"'+ListingID+'","SellerID":"'+SellerID+'","Model":"'+Model+'"}';
 			$.ajax({
 				url: "<?php echo base_url();?>listing/ajax",
@@ -136,7 +136,7 @@
 				success: function(data){
 					$("#ContactSellerSuccess").modal("show");
 				}
-			});	
+			});
 		}
 	</script>
     <div id="page-content">
@@ -158,8 +158,12 @@
 					<a href="#write-a-review" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-close"></i>Reject </a>
 					<a href="#EditListing" class="btn btn-primary btn-rounded icon scroll pull-right" data-toggle="modal"><i class="fa fa-edit"></i>Edit</a>
 				<?php elseif($listingData->LStatus == 1):?>
-					<a href="#write-a-review" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-star"></i>Featured </a>
+					<a href="#write-a-review" class="btn btn-primary btn-rounded icon scroll pull-right"><i class="fa fa-star"></i>Featured </a>
+					<a href="#write-a-review" class="btn btn-primary btn-rounded icon scroll pull-right"><i class="fa fa-trash"></i>Delete</a>
 					<a href="#EditListing" class="btn btn-primary btn-rounded icon scroll pull-right" data-toggle="modal"><i class="fa fa-edit"></i>Edit</a>
+					<a href="#write-a-review" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-print"></i>Print</a>
+					<a href="#write-a-review" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-clone"></i>Compare</a>
+					<a href="#write-a-review" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-heart"></i>Favourite </a>
 				<?php endif;?>
 			<?php elseif($user_data["Group"] == 2):?>
 				<?php if($listingData->LStatus == 0):?>
@@ -167,7 +171,7 @@
 					<a href="#write-a-review" class="btn btn-primary btn-rounded icon scroll pull-right"><i class="fa fa-trash"></i>Delete</a>
 					<a id="aEdit" href="#EditListing" class="btn btn-primary btn-rounded icon scroll pull-right" data-toggle="modal"><i class="fa fa-edit"></i>Edit</a>
 				<?php elseif($listingData->LStatus == 1):?>
-					<a href="#write-a-review" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-flag"></i>Report</a>
+					<a href="#write-a-review" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-flag"></i>Report Ad</a>
 					<a href="#write-a-review" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-print"></i>Print</a>
 					<a href="#write-a-review" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-clone"></i>Compare</a>
 					<a href="#write-a-review" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-heart"></i>Favourite </a>
@@ -209,736 +213,729 @@
                         </p>
                     </section>
 					<?php endif;?>
-										<section>
-                        <h2>Car Details</h2>
-                        <div class="panel-group" id="accordion-5-Detail" role="tablist" aria-multiselectable="true">
-                            <div class="panel panel-default">
-                                <div id="accordion-collapse-5-Detail" class="panel-collapse" role="tabpanel" aria-labelledby="accordion-heading-5-Detail">
-                                    <div class="panel-body">
-                                        <div class="row">
-                                            <div class="col-md-3 col-sm-3">
-                                                <strong>Model</strong>
-                                            </div>
-                                            <!--end col-md-3-->
-                                            <div class="col-md-9 col-sm-9">
-                                                <div class="form-group">
-                                                    <?php echo $listingData->ModelName;?>
-                                                </div>
-                                                <!--end form-group-->
-                                            </div>
-                                            <!--end col-md-9-->
-                                        </div>
-                                        <!--end row-->
-                                        <div class="row">
-                                            <div class="col-md-3 col-sm-3">
-                                                <strong>Transmission</strong>
-                                            </div>
-                                            <!--end col-md-3-->
-                                            <div class="col-md-9 col-sm-9">
-                                                <div class="form-group">
-                                                    <?php echo $listingData->gs_model_name;?>
-                                                </div>
-                                                <!--end form-group-->
-                                            </div>
-                                            <!--end col-md-9-->
-                                        </div>
-                                        <!--end row-->
-                                        <div class="row">
-                                            <div class="col-md-3 col-sm-3">
-                                                <strong>Manufacturing Year</strong>
-                                            </div>
-                                            <!--end col-md-3-->
-                                            <div class="col-md-9 col-sm-9">
-                                                <div class="form-group">
-                                                    <?php echo $listingData->gs_body_type;?>
-                                                </div>
-                                                <!--end form-group-->
-                                            </div>
-                                            <!--end col-md-9-->
-                                        </div>
-                                        <!--end row-->
-                                        <div class="row">
-                                            <div class="col-md-3 col-sm-3">
-                                                <strong>Mileage</strong>
-                                            </div>
-                                            <!--end col-md-3-->
-                                            <div class="col-md-9 col-sm-9">
-                                                <div class="form-group">
-                                                    <?php echo $listingData->gs_seats;?>
-                                                </div>
-                                                <!--end form-group-->
-                                            </div>
-                                            <!--end col-md-9-->
-                                        </div>
-                                        <!--end row-->
-																				<div class="row">
-                                            <div class="col-md-3 col-sm-3">
-                                                <strong>Colour</strong>
-                                            </div>
-                                            <!--end col-md-3-->
-                                            <div class="col-md-9 col-sm-9">
-                                                <div class="form-group">
-                                                    <?php echo $listingData->gs_seats;?>
-                                                </div>
-                                                <!--end form-group-->
-                                            </div>
-                                            <!--end col-md-9-->
-                                        </div>
-                                        <!--end row-->
-																				<div class="row">
-                                            <div class="col-md-3 col-sm-3">
-                                                <strong>Selling Price</strong>
-                                            </div>
-                                            <!--end col-md-3-->
-                                            <div class="col-md-9 col-sm-9">
-                                                <div class="form-group">
-                                                    <?php echo number_format($listingData->SellingPrice);?>
-                                                </div>
-                                                <!--end form-group-->
-                                            </div>
-                                            <!--end col-md-9-->
-                                        </div>
-                                        <!--end row-->
-																				<div class="row">
-                                            <div class="col-md-3 col-sm-3">
-                                                <strong>State</strong>
-                                            </div>
-                                            <!--end col-md-3-->
-                                            <div class="col-md-9 col-sm-9">
-                                                <div class="form-group">
-                                                    <?php echo $listingData->gs_seats;?>
-                                                </div>
-                                                <!--end form-group-->
-                                            </div>
-                                            <!--end col-md-9-->
-                                        </div>
-                                        <!--end row-->
-																				<div class="row">
-                                            <div class="col-md-3 col-sm-3">
-                                                <strong>Address</strong>
-                                            </div>
-                                            <!--end col-md-3-->
-                                            <div class="col-md-9 col-sm-9">
-                                                <div class="form-group">
-                                                    <?php echo $listingData->gs_seats;?>
-                                                </div>
-                                                <!--end form-group-->
-                                            </div>
-                                            <!--end col-md-9-->
-                                        </div>
-                                        <!--end row-->
-                                    </div>
-                                </div>
-                                <!--end panel-collapse-->
-                            </div>
-                            <!--end panel-->
-                        </div>
-                        <!--end panel-group-->
-                    </section>
-
-										<section>
-                        <h2>Specification</h2>
-                        <div class="panel-group" id="accordion-5-Detail" role="tablist" aria-multiselectable="true">
-                            <div class="panel panel-default">
-                                <div class="panel-heading" role="tab" id="accordion-heading-5-Detail">
-                                    <h4 class="panel-title">
-                                        <a role="button" data-toggle="collapse" data-parent="#accordion-5-Detail" href="#accordion-collapse-5-Detail" aria-expanded="false" aria-controls="accordion-collapse-5">
-                                            <i class="fa fa-list-ul"></i>General Specification
-                                        </a>
-                                    </h4>
-                                </div>
-                                <!--end panel-heading-->
-                                <div id="accordion-collapse-5-Detail" class="panel-collapse" role="tabpanel" aria-labelledby="accordion-heading-5-Detail">
-                                    <div class="panel-body">
-                                        <div class="row">
-                                            <div class="col-md-3 col-sm-3">
-                                                <strong>Category</strong>
-                                            </div>
-                                            <!--end col-md-3-->
-                                            <div class="col-md-9 col-sm-9">
-                                                <div class="form-group">
-                                                    <?php echo $listingData->gs_category;?>
-                                                </div>
-                                                <!--end form-group-->
-                                            </div>
-                                            <!--end col-md-9-->
-                                        </div>
-                                        <!--end row-->
-                                        <div class="row">
-                                            <div class="col-md-3 col-sm-3">
-                                                <strong>Model Name</strong>
-                                            </div>
-                                            <!--end col-md-3-->
-                                            <div class="col-md-9 col-sm-9">
-                                                <div class="form-group">
-                                                    <?php echo $listingData->gs_model_name;?>
-                                                </div>
-                                                <!--end form-group-->
-                                            </div>
-                                            <!--end col-md-9-->
-                                        </div>
-                                        <!--end row-->
-                                        <div class="row">
-                                            <div class="col-md-3 col-sm-3">
-                                                <strong>Body Type</strong>
-                                            </div>
-                                            <!--end col-md-3-->
-                                            <div class="col-md-9 col-sm-9">
-                                                <div class="form-group">
-                                                    <?php echo $listingData->gs_body_type;?>
-                                                </div>
-                                                <!--end form-group-->
-                                            </div>
-                                            <!--end col-md-9-->
-                                        </div>
-                                        <!--end row-->
-                                        <div class="row">
-                                            <div class="col-md-3 col-sm-3">
-                                                <strong>Seats</strong>
-                                            </div>
-                                            <!--end col-md-3-->
-                                            <div class="col-md-9 col-sm-9">
-                                                <div class="form-group">
-                                                    <?php echo $listingData->gs_seats;?>
-                                                </div>
-                                                <!--end form-group-->
-                                            </div>
-                                            <!--end col-md-9-->
-                                        </div>
-                                        <!--end row-->
-                                    </div>
-                                </div>
-                                <!--end panel-collapse-->
-                            </div>
-                            <!--end panel-->
-                        </div>
-                        <!--end panel-group-->
-                    </section>
-                    <section>
-                        <div class="panel-group" id="accordion-6-Detail" role="tablist" aria-multiselectable="true">
-                            <div class="panel panel-default">
-                                <div class="panel-heading" role="tab" id="accordion-heading-6-Detail">
-                                    <h4 class="panel-title">
-                                        <a role="button" data-toggle="collapse" data-parent="#accordion-6-Detail" href="#accordion-collapse-6-Detail" aria-expanded="false" aria-controls="accordion-collapse-6">
-                                            <i class="fa fa-area-chart"></i>Performance
-                                        </a>
-                                    </h4>
-                                </div>
-                                <!--end panel-heading-->
-                                <div id="accordion-collapse-6-Detail" class="panel-collapse" role="tabpanel" aria-labelledby="accordion-heading-6-Detail">
-                                    <div class="panel-body">
-                                        <div class="wrapper">
-
-                                        <h4><b>ENGINE</b></h4>
-                                        <div class="row">
-                                            <div class="col-md-3 col-sm-3">
-                                                <strong>Engine Label</strong>
-                                            </div>
-                                            <!--end col-md-3-->
-                                            <div class="col-md-9 col-sm-9">
-                                                <div class="form-group">
-                                                    <?php echo $listingData->pf_eg_label;?>
-                                                </div>
-                                                <!--end form-group-->
-                                            </div>
-                                            <!--end col-md-9-->
-                                        </div>
-                                        <!--end row-->
-                                        <div class="row">
-                                            <div class="col-md-3 col-sm-3">
-                                                <strong>Engine Capacity</strong>
-                                            </div>
-                                            <!--end col-md-3-->
-                                            <div class="col-md-9 col-sm-9">
-                                                <div class="form-group">
-                                                    <?php echo $listingData->pf_eg_capacity;?>
-                                                </div>
-                                                <!--end form-group-->
-                                            </div>
-                                            <!--end col-md-9-->
-                                        </div>
-                                        <!--end row-->
-                                        <div class="row">
-                                            <div class="col-md-3 col-sm-3">
-                                                <strong>Fuel System</strong>
-                                            </div>
-                                            <!--end col-md-3-->
-                                            <div class="col-md-9 col-sm-9">
-                                                <div class="form-group">
-                                                    <?php echo $listingData->pf_eg_fuel_system;?>
-                                                </div>
-                                                <!--end form-group-->
-                                            </div>
-                                            <!--end col-md-9-->
-                                        </div>
-                                        <!--end row-->
-                                        <div class="row">
-                                            <div class="col-md-3 col-sm-3">
-                                                <strong>Displacement (cc)</strong>
-                                            </div>
-                                            <!--end col-md-3-->
-                                            <div class="col-md-9 col-sm-9">
-                                                <div class="form-group">
-                                                    <?php echo $listingData->pf_eg_displacement;?>
-                                                </div>
-                                                <!--end form-group-->
-                                            </div>
-                                            <!--end col-md-9-->
-                                        </div>
-                                        <!--end row-->
-                                        <div class="row">
-                                            <div class="col-md-3 col-sm-3">
-                                                <strong>Max Power Label</strong>
-                                            </div>
-                                            <!--end col-md-3-->
-                                            <div class="col-md-9 col-sm-9">
-                                                <div class="form-group">
-                                                    <?php echo $listingData->pf_eg_max_power_label;?>
-                                                </div>
-                                                <!--end form-group-->
-                                            </div>
-                                            <!--end col-md-9-->
-                                        </div>
-                                        <!--end row-->
-                                        <div class="row">
-                                            <div class="col-md-3 col-sm-3">
-                                                <strong>Max Power (ps)</strong>
-                                            </div>
-                                            <!--end col-md-3-->
-                                            <div class="col-md-9 col-sm-9">
-                                                <div class="form-group">
-                                                    <?php echo $listingData->pf_eg_max_power_ps;?>
-                                                </div>
-                                                <!--end form-group-->
-                                            </div>
-                                            <!--end col-md-9-->
-                                        </div>
-                                        <!--end row-->
-                                        <div class="row">
-                                            <div class="col-md-3 col-sm-3">
-                                                <strong>Max Power (kW)</strong>
-                                            </div>
-                                            <!--end col-md-3-->
-                                            <div class="col-md-9 col-sm-9">
-                                                <div class="form-group">
-                                                    <?php echo $listingData->pf_eg_max_power_kw;?>
-                                                </div>
-                                                <!--end form-group-->
-                                            </div>
-                                            <!--end col-md-9-->
-                                        </div>
-                                        <!--end row-->
-                                        <div class="row">
-                                            <div class="col-md-3 col-sm-3">
-                                                <strong>Max Power (rpm)</strong>
-                                            </div>
-                                            <!--end col-md-3-->
-                                            <div class="col-md-9 col-sm-9">
-                                                <div class="form-group">
-                                                    <?php echo $listingData->pf_eg_max_power_rpm;?>
-                                                </div>
-                                                <!--end form-group-->
-                                            </div>
-                                            <!--end col-md-9-->
-                                        </div>
-                                        <!--end row-->
-                                        <div class="row">
-                                            <div class="col-md-3 col-sm-3">
-                                                <strong>Max Torque Label</strong>
-                                            </div>
-                                            <!--end col-md-3-->
-                                            <div class="col-md-9 col-sm-9">
-                                                <div class="form-group">
-                                                    <?php echo $listingData->pf_eg_max_torque_label;?>
-                                                </div>
-                                                <!--end form-group-->
-                                            </div>
-                                            <!--end col-md-9-->
-                                        </div>
-                                        <!--end row-->
-                                        <div class="row">
-                                            <div class="col-md-3 col-sm-3">
-                                                <strong>Max Torque (kg.m)</strong>
-                                            </div>
-                                            <!--end col-md-3-->
-                                            <div class="col-md-9 col-sm-9">
-                                                <div class="form-group">
-                                                    <?php echo $listingData->pf_eg_max_touque_kgm;?>
-                                                </div>
-                                                <!--end form-group-->
-                                            </div>
-                                            <!--end col-md-9-->
-                                        </div>
-                                        <!--end row-->
-                                        <div class="row">
-                                            <div class="col-md-3 col-sm-3">
-                                                <strong>Max Torque (Nm)</strong>
-                                            </div>
-                                            <!--end col-md-3-->
-                                            <div class="col-md-9 col-sm-9">
-                                                <div class="form-group">
-                                                    <?php echo $listingData->pf_eg_max_touque_nm;?>
-                                                </div>
-                                                <!--end form-group-->
-                                            </div>
-                                            <!--end col-md-9-->
-                                        </div>
-                                        <!--end row-->
-                                        <div class="row">
-                                            <div class="col-md-3 col-sm-3">
-                                                <strong>Max Torque (rpm)</strong>
-                                            </div>
-                                            <!--end col-md-3-->
-                                            <div class="col-md-9 col-sm-9">
-                                                <div class="form-group">
-                                                    <?php echo $listingData->pf_eg_max_touque_rpm;?>
-                                                </div>
-                                                <!--end form-group-->
-                                            </div>
-                                            <!--end col-md-9-->
-                                        </div>
-                                        <!--end row-->
-                                        <div class="row">
-                                            <div class="col-md-3 col-sm-3">
-                                                <strong>Number of Cylinders</strong>
-                                            </div>
-                                            <!--end col-md-3-->
-                                            <div class="col-md-9 col-sm-9">
-                                                <div class="form-group">
-                                                    <?php echo $listingData->pf_eg_number_of_cylinders;?>
-                                                </div>
-                                                <!--end form-group-->
-                                            </div>
-                                            <!--end col-md-9-->
-                                        </div>
-                                        <!--end row-->
-                                        <div class="row">
-                                            <div class="col-md-3 col-sm-3">
-                                                <strong>Valve of Cylinder</strong>
-                                            </div>
-                                            <!--end col-md-3-->
-                                            <div class="col-md-9 col-sm-9">
-                                                <div class="form-group">
-                                                    <?php echo $listingData->pf_eg_valve_of_cylinder;?>
-                                                </div>
-                                                <!--end form-group-->
-                                            </div>
-                                            <!--end col-md-9-->
-                                        </div>
-                                        <!--end row-->
-
-                                        <hr>
-
-                                        <h4><b>TRANSMISSION</b></h4>
-                                        <div class="row">
-                                            <div class="col-md-3 col-sm-3">
-                                                <strong>Transmission Type</strong>
-                                            </div>
-                                            <!--end col-md-3-->
-                                            <div class="col-md-9 col-sm-9">
-                                                <div class="form-group">
-                                                    <?php echo $listingData->pf_tm_type;?>
-                                                </div>
-                                                <!--end form-group-->
-                                            </div>
-                                            <!--end col-md-9-->
-                                        </div>
-                                        <!--end row-->
-                                        <div class="row">
-                                            <div class="col-md-3 col-sm-3">
-                                                <strong>Drive Type</strong>
-                                            </div>
-                                            <!--end col-md-3-->
-                                            <div class="col-md-9 col-sm-9">
-                                                <div class="form-group">
-                                                    <?php echo $listingData->pf_tm_drive_type;?>
-                                                </div>
-                                                <!--end form-group-->
-                                            </div>
-                                            <!--end col-md-9-->
-                                        </div>
-                                        <!--end row-->
-                                        <div class="row">
-                                            <div class="col-md-3 col-sm-3">
-                                                <strong>Gear (Speed)</strong>
-                                            </div>
-                                            <!--end col-md-3-->
-                                            <div class="col-md-9 col-sm-9">
-                                                <div class="form-group">
-                                                    <?php echo $listingData->pf_tm_gear_speed;?>
-                                                </div>
-                                                <!--end form-group-->
-                                            </div>
-                                            <!--end col-md-9-->
-                                        </div>
-                                        <!--end row-->
-                                        <div class="row">
-                                            <div class="col-md-3 col-sm-3">
-                                                <strong>Drive Configuration</strong>
-                                            </div>
-                                            <!--end col-md-3-->
-                                            <div class="col-md-9 col-sm-9">
-                                                <div class="form-group">
-                                                    <?php echo $listingData->pf_tm_drive_config;?>
-                                                </div>
-                                                <!--end form-group-->
-                                            </div>
-                                            <!--end col-md-9-->
-                                        </div>
-                                        <!--end row-->
-
-                                        </div>
-                                        <!--end wrapper-->
-                                    </div>
-                                    <!--end panel-body-->
-                                </div>
-                                <!--end panel-collapse-->
-                            </div>
-                            <!--end panel-->
-                        </div>
-                        <!--end panel-group-->
-                    </section>
-                    <section>
-                        <div class="panel-group" id="accordion-7-Detail" role="tablist" aria-multiselectable="true">
-                            <div class="panel panel-default">
-                                <div class="panel-heading" role="tab" id="accordion-heading-7-Detail">
-                                    <h4 class="panel-title">
-                                        <a role="button" data-toggle="collapse" data-parent="#accordion-7-Detail" href="#accordion-collapse-7-Detail" aria-expanded="false" aria-controls="accordion-collapse-7">
-                                            <i class="fa fa-car"></i>Dimension
-                                        </a>
-                                    </h4>
-                                </div>
-                                <!--end panel-heading-->
-                                <div id="accordion-collapse-7-Detail" class="panel-collapse" role="tabpanel" aria-labelledby="accordion-heading-7-Detail">
-                                    <div class="panel-body">
-                                        <div class="wrapper">
-
-                                        <h4><b>EXTERIOR</b></h4>
-                                        <div class="row">
-                                            <div class="col-md-3 col-sm-3">
-                                                <strong>Overall Length (mm)</strong>
-                                            </div>
-                                            <!--end col-md-3-->
-                                            <div class="col-md-9 col-sm-9">
-                                                <div class="form-group">
-                                                    <?php echo $listingData->dm_ex_length;?>
-                                                </div>
-                                                <!--end form-group-->
-                                            </div>
-                                            <!--end col-md-9-->
-                                        </div>
-                                        <!--end row-->
-                                        <div class="row">
-                                            <div class="col-md-3 col-sm-3">
-                                                <strong>Overall Width (mm)</strong>
-                                            </div>
-                                            <!--end col-md-3-->
-                                            <div class="col-md-9 col-sm-9">
-                                                <div class="form-group">
-                                                    <?php echo $listingData->dm_ex_width;?>
-                                                </div>
-                                                <!--end form-group-->
-                                            </div>
-                                            <!--end col-md-9-->
-                                        </div>
-                                        <!--end row-->
-                                        <div class="row">
-                                            <div class="col-md-3 col-sm-3">
-                                                <strong>Overall Height (mm)</strong>
-                                            </div>
-                                            <!--end col-md-3-->
-                                            <div class="col-md-9 col-sm-9">
-                                                <div class="form-group">
-                                                    <?php echo $listingData->dm_ex_height;?>
-                                                </div>
-                                                <!--end form-group-->
-                                            </div>
-                                            <!--end col-md-9-->
-                                        </div>
-                                        <!--end row-->
-                                        <div class="row">
-                                            <div class="col-md-3 col-sm-3">
-                                                <strong>Wheel Base (mm)</strong>
-                                            </div>
-                                            <!--end col-md-3-->
-                                            <div class="col-md-9 col-sm-9">
-                                                <div class="form-group">
-                                                    <?php echo $listingData->dm_ex_wheel_base;?>
-                                                </div>
-                                                <!--end form-group-->
-                                            </div>
-                                            <!--end col-md-9-->
-                                        </div>
-                                        <!--end row-->
-                                        <div class="row">
-                                            <div class="col-md-3 col-sm-3">
-                                                <strong>Front Wheel Tread (mm)</strong>
-                                            </div>
-                                            <!--end col-md-3-->
-                                            <div class="col-md-9 col-sm-9">
-                                                <div class="form-group">
-                                                    <?php echo $listingData->dm_ex_front_wheel_tread;?>
-                                                </div>
-                                                <!--end form-group-->
-                                            </div>
-                                            <!--end col-md-9-->
-                                        </div>
-                                        <!--end row-->
-                                        <div class="row">
-                                            <div class="col-md-3 col-sm-3">
-                                                <strong>Rear Wheel Tread (mm)</strong>
-                                            </div>
-                                            <!--end col-md-3-->
-                                            <div class="col-md-9 col-sm-9">
-                                                <div class="form-group">
-                                                    <?php echo $listingData->dm_ex_rear_wheel_tread;?>
-                                                </div>
-                                                <!--end form-group-->
-                                            </div>
-                                            <!--end col-md-9-->
-                                        </div>
-                                        <!--end row-->
-                                        <div class="row">
-                                            <div class="col-md-3 col-sm-3">
-                                                <strong>Front Over Hang (mm)</strong>
-                                            </div>
-                                            <!--end col-md-3-->
-                                            <div class="col-md-9 col-sm-9">
-                                                <div class="form-group">
-                                                    <?php echo $listingData->dm_ex_front_over_hang;?>
-                                                </div>
-                                                <!--end form-group-->
-                                            </div>
-                                            <!--end col-md-9-->
-                                        </div>
-                                        <!--end row-->
-                                        <div class="row">
-                                            <div class="col-md-3 col-sm-3">
-                                                <strong>Rear Over Hang (mm)</strong>
-                                            </div>
-                                            <!--end col-md-3-->
-                                            <div class="col-md-9 col-sm-9">
-                                                <div class="form-group">
-                                                    <?php echo $listingData->dm_ex_rear_over_hang;?>
-                                                </div>
-                                                <!--end form-group-->
-                                            </div>
-                                            <!--end col-md-9-->
-                                        </div>
-                                        <!--end row-->
-
-
-                                        <hr>
-
-                                        <h4><b>CARGO</b></h4>
-                                        <div class="row">
-                                            <div class="col-md-3 col-sm-3">
-                                                <strong>Cargo Area (VDA)</strong>
-                                            </div>
-                                            <!--end col-md-3-->
-                                            <div class="col-md-9 col-sm-9">
-                                                <div class="form-group">
-                                                    <?php echo $listingData->dm_cg_area_vda;?>
-                                                </div>
-                                                <!--end form-group-->
-                                            </div>
-                                            <!--end col-md-9-->
-                                        </div>
-                                        <!--end row-->
-
-                                        </div>
-                                        <!--end wrapper-->
-                                    </div>
-                                    <!--end panel-body-->
-                                </div>
-                                <!--end panel-collapse-->
-                            </div>
-                            <!--end panel-->
-                        </div>
-                        <!--end panel-group-->
-                    </section>
-                    <section>
-                        <div class="panel-group" id="accordion-8-Detail" role="tablist" aria-multiselectable="true">
-                            <div class="panel panel-default">
-                                <div class="panel-heading" role="tab" id="accordion-heading-8-Detail">
-                                    <h4 class="panel-title">
-                                        <a role="button" data-toggle="collapse" data-parent="#accordion-8-Detail" href="#accordion-collapse-8-Detail" aria-expanded="false" aria-controls="accordion-collapse-8">
-                                            <i class="fa fa-gear"></i>Wheels
-                                        </a>
-                                    </h4>
-                                </div>
-                                <!--end panel-heading-->
-                                <div id="accordion-collapse-8-Detail" class="panel-collapse" role="tabpanel" aria-labelledby="accordion-heading-8-Detail">
-                                    <div class="panel-body">
-                                        <div class="wrapper">
-                                        <h4><b>WHEELS & TIRES</b></h4>
-                                        <div class="row">
-                                            <div class="col-md-3 col-sm-3">
-                                                <strong>Front Wheels</strong>
-                                            </div>
-                                            <!--end col-md-3-->
-                                            <div class="col-md-9 col-sm-9">
-                                                <div class="form-group">
-                                                    <?php echo $listingData->wh_front_wheel;?>
-                                                </div>
-                                                <!--end form-group-->
-                                            </div>
-                                            <!--end col-md-9-->
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-3 col-sm-3">
-                                                <strong>Rear Wheels</strong>
-                                            </div>
-                                            <!--end col-md-3-->
-                                            <div class="col-md-9 col-sm-9">
-                                                <div class="form-group">
-                                                    <?php echo $listingData->wh_rear_wheel;?>
-                                                </div>
-                                                <!--end form-group-->
-                                            </div>
-                                            <!--end col-md-9-->
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-3 col-sm-3">
-                                                <strong>Front Tires</strong>
-                                            </div>
-                                            <!--end col-md-3-->
-                                            <div class="col-md-9 col-sm-9">
-                                                <div class="form-group">
-                                                    <?php echo $listingData->wh_front_tires;?>
-                                                </div>
-                                                <!--end form-group-->
-                                            </div>
-                                            <!--end col-md-9-->
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-3 col-sm-3">
-                                                <strong>Rear Tires</strong>
-                                            </div>
-                                            <!--end col-md-3-->
-                                            <div class="col-md-9 col-sm-9">
-                                                <div class="form-group">
-                                                    <?php echo $listingData->wh_rear_tires;?>
-                                                </div>
-                                                <!--end form-group-->
-                                            </div>
-                                            <!--end col-md-9-->
-                                        </div>
-
-
-                                        </div>
-                                        <!--end wrapper-->
-                                    </div>
-                                    <!--end panel-body-->
-                                </div>
-                                <!--end panel-collapse-->
-                            </div>
-                            <!--end panel-->
-                        </div>
-                        <!--end panel-group-->
-                    </section>
-
-                    <p style="font-size: 12px;"><i>* Specifications and equipment have been sourced from RedBook and are based on manufacturer standard specifications. Actual specifications for this vehicle may differ, please confirm with the seller.</i></p>
+					<section>
+							<h2>Specification</h2>
+							<div class="panel-group" id="accordion-1-detail" role="tablist" aria-multiselectable="true">
+									<div class="panel panel-default">
+											<div class="panel-heading" role="tab" id="accordion-heading-1-detail">
+													<h4 class="panel-title">
+															<a role="button" data-toggle="collapse" data-parent="#accordion" href="#accordion-collapse-1-detail" aria-expanded="false" aria-controls="accordion-collapse-1-detail">
+																	<i class="fa fa-list-ul"></i>General Details
+															</a>
+													</h4>
+											</div>
+											<!--end panel-heading-->
+											<div id="accordion-collapse-1-detail" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="accordion-heading-1-detail">
+													<div class="panel-body">
+															<div class="row">
+																	<div class="col-md-3 col-sm-3">
+																			<strong>Brand</strong>
+																	</div>
+																	<!--end col-md-3-->
+																	<div class="col-md-9 col-sm-9">
+																		<div class="form-group">
+																				Hyundai
+																		</div>
+																		<!--end form-group-->
+																	</div>
+																	<!--end col-md-9-->
+															</div>
+															<!--end row-->
+															<div class="row">
+																	<div class="col-md-3 col-sm-3">
+																			<strong>Category</strong>
+																	</div>
+																	<!--end col-md-3-->
+																	<div class="col-md-9 col-sm-9">
+																		<div class="form-group">
+																				Sedan
+																		</div>
+																		<!--end form-group-->
+																	</div>
+																	<!--end col-md-9-->
+															</div>
+															<!--end row-->
+															<div class="row">
+																	<div class="col-md-3 col-sm-3">
+																			<strong>Model</strong>
+																	</div>
+																	<!--end col-md-3-->
+																	<div class="col-md-9 col-sm-9">
+																			<div class="form-group">
+																					Sonata
+																			</div>
+																			<!--end form-group-->
+																	</div>
+																	<!--end col-md-9-->
+															</div>
+															<!--end row-->
+															<div class="row">
+																	<div class="col-md-3 col-sm-3">
+																			<strong>Specification</strong>
+																	</div>
+																	<!--end col-md-3-->
+																	<div class="col-md-9 col-sm-9">
+																			<div class="form-group">
+																					GLS 1.6 Premium
+																			</div>
+																			<!--end form-group-->
+																	</div>
+																	<!--end col-md-9-->
+															</div>
+															<!--end row-->
+															<div class="row">
+																	<div class="col-md-3 col-sm-3">
+																			<strong>Year</strong>
+																	</div>
+																	<!--end col-md-3-->
+																	<div class="col-md-9 col-sm-9">
+																			<div class="form-group">
+																					2003
+																			</div>
+																			<!--end form-group-->
+																	</div>
+																	<!--end col-md-9-->
+															</div>
+															<!--end row-->
+															<div class="row">
+																	<div class="col-md-3 col-sm-3">
+																			<strong>Engine CC</strong>
+																	</div>
+																	<!--end col-md-3-->
+																	<div class="col-md-9 col-sm-9">
+																			<div class="form-group">
+																					1599
+																			</div>
+																			<!--end form-group-->
+																	</div>
+																	<!--end col-md-9-->
+															</div>
+															<!--end row-->
+															<div class="row">
+																	<div class="col-md-3 col-sm-3">
+																			<strong>Transmission</strong>
+																	</div>
+																	<!--end col-md-3-->
+																	<div class="col-md-9 col-sm-9">
+																			<div class="form-group">
+																					Automatic
+																			</div>
+																			<!--end form-group-->
+																	</div>
+																	<!--end col-md-9-->
+															</div>
+															<!--end row-->
+															<div class="row">
+																	<div class="col-md-3 col-sm-3">
+																			<strong>Seat Capacity</strong>
+																	</div>
+																	<!--end col-md-3-->
+																	<div class="col-md-9 col-sm-9">
+																			<div class="form-group">
+																					5
+																			</div>
+																			<!--end form-group-->
+																	</div>
+																	<!--end col-md-9-->
+															</div>
+															<!--end row-->
+															<div class="row">
+																	<div class="col-md-3 col-sm-3">
+																			<strong>Mileage (km)</strong>
+																	</div>
+																	<!--end col-md-3-->
+																	<div class="col-md-9 col-sm-9">
+																			<div class="form-group">
+																					100,000
+																			</div>
+																			<!--end form-group-->
+																	</div>
+																	<!--end col-md-9-->
+															</div>
+															<!--end row-->
+															<div class="row">
+																	<div class="col-md-3 col-sm-3">
+																			<strong>Colour</strong>
+																	</div>
+																	<!--end col-md-3-->
+																	<div class="col-md-9 col-sm-9">
+																			<div class="form-group">
+																					Red
+																			</div>
+																			<!--end form-group-->
+																	</div>
+																	<!--end col-md-9-->
+															</div>
+															<!--end row-->
+															<div class="row">
+																	<div class="col-md-3 col-sm-3">
+																			<strong>Doors</strong>
+																	</div>
+																	<!--end col-md-3-->
+																	<div class="col-md-9 col-sm-9">
+																			<div class="form-group">
+																					5
+																			</div>
+																			<!--end form-group-->
+																	</div>
+																	<!--end col-md-9-->
+															</div>
+															<!--end row-->
+															<div class="row">
+																	<div class="col-md-3 col-sm-3">
+																			<strong>Seat Capacity</strong>
+																	</div>
+																	<!--end col-md-3-->
+																	<div class="col-md-9 col-sm-9">
+																			<div class="form-group">
+																					5
+																			</div>
+																			<!--end form-group-->
+																	</div>
+																	<!--end col-md-9-->
+															</div>
+															<!--end row-->
+															<div class="row">
+																	<div class="col-md-3 col-sm-3">
+																			<strong>Assembled</strong>
+																	</div>
+																	<!--end col-md-3-->
+																	<div class="col-md-9 col-sm-9">
+																			<div class="form-group">
+																					Locally Build
+																			</div>
+																			<!--end form-group-->
+																	</div>
+																	<!--end col-md-9-->
+															</div>
+															<!--end row-->
+													</div>
+											</div>
+											<!--end panel-collapse-->
+									</div>
+									<!--end panel-->
+							</div>
+							<!--end panel-group-->
+					</section>
+					<section>
+							<div class="panel-group" id="accordion-2-detail" role="tablist" aria-multiselectable="true">
+									<div class="panel panel-default">
+											<div class="panel-heading" role="tab" id="accordion-heading-2-detail">
+													<h4 class="panel-title">
+															<a role="button" data-toggle="collapse" data-parent="#accordion" href="#accordion-collapse-2-detail" aria-expanded="false" aria-controls="accordion-collapse-2-detail">
+																	<i class="fa fa-list-ul"></i>Transmission
+															</a>
+													</h4>
+											</div>
+											<!--end panel-heading-->
+											<div id="accordion-collapse-2-detail" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="accordion-heading-2-detail">
+													<div class="panel-body">
+															<div class="row">
+																	<div class="col-md-3 col-sm-3">
+																			<strong>Transmission</strong>
+																	</div>
+																	<!--end col-md-3-->
+																	<div class="col-md-9 col-sm-9">
+																			<div class="form-group">
+																					Automatic
+																			</div>
+																			<!--end form-group-->
+																	</div>
+																	<!--end col-md-9-->
+															</div>
+															<!--end row-->
+															<div class="row">
+																	<div class="col-md-3 col-sm-3">
+																			<strong>Final Drive Ratio</strong>
+																	</div>
+																	<!--end col-md-3-->
+																	<div class="col-md-9 col-sm-9">
+																			<div class="form-group">
+																					4.042
+																			</div>
+																			<!--end form-group-->
+																	</div>
+																	<!--end col-md-9-->
+															</div>
+															<!--end row-->
+															<div class="row">
+																	<div class="col-md-3 col-sm-3">
+																			<strong>Number of Gears</strong>
+																	</div>
+																	<!--end col-md-3-->
+																	<div class="col-md-9 col-sm-9">
+																			<div class="form-group">
+																					5
+																			</div>
+																			<!--end form-group-->
+																	</div>
+																	<!--end col-md-9-->
+															</div>
+															<!--end row-->
+													</div>
+											</div>
+											<!--end panel-collapse-->
+									</div>
+									<!--end panel-->
+							</div>
+							<!--end panel-group-->
+					</section>
+					<section>
+							<div class="panel-group" id="accordion-3-detail" role="tablist" aria-multiselectable="true">
+									<div class="panel panel-default">
+											<div class="panel-heading" role="tab" id="accordion-heading-3-detail">
+													<h4 class="panel-title">
+															<a role="button" data-toggle="collapse" data-parent="#accordion" href="#accordion-collapse-3-detail" aria-expanded="false" aria-controls="accordion-collapse-3-detail">
+																	<i class="fa fa-list-ul"></i>Engine Specifications
+															</a>
+													</h4>
+											</div>
+											<!--end panel-heading-->
+											<div id="accordion-collapse-3-detail" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="accordion-heading-3-detail">
+													<div class="panel-body">
+															<div class="row">
+																	<div class="col-md-3 col-sm-3">
+																			<strong>Engine CC</strong>
+																	</div>
+																	<!--end col-md-3-->
+																	<div class="col-md-9 col-sm-9">
+																			<div class="form-group">
+																					1499
+																			</div>
+																			<!--end form-group-->
+																	</div>
+																	<!--end col-md-9-->
+															</div>
+															<!--end row-->
+															<div class="row">
+																	<div class="col-md-3 col-sm-3">
+																			<strong>Stroke (mm)</strong>
+																	</div>
+																	<!--end col-md-3-->
+																	<div class="col-md-9 col-sm-9">
+																			<div class="form-group">
+																					1499
+																			</div>
+																			<!--end form-group-->
+																	</div>
+																	<!--end col-md-9-->
+															</div>
+															<!--end row-->
+															<div class="row">
+																	<div class="col-md-3 col-sm-3">
+																			<strong>Peak Power (hp)</strong>
+																	</div>
+																	<!--end col-md-3-->
+																	<div class="col-md-9 col-sm-9">
+																			<div class="form-group">
+																					1499
+																			</div>
+																			<!--end form-group-->
+																	</div>
+																	<!--end col-md-9-->
+															</div>
+															<!--end row-->
+															<div class="row">
+																	<div class="col-md-3 col-sm-3">
+																			<strong>Engine Type</strong>
+																	</div>
+																	<!--end col-md-3-->
+																	<div class="col-md-9 col-sm-9">
+																			<div class="form-group">
+																					Piston
+																			</div>
+																			<!--end form-group-->
+																	</div>
+																	<!--end col-md-9-->
+															</div>
+															<!--end row-->
+															<div class="row">
+																	<div class="col-md-3 col-sm-3">
+																			<strong>Aspiration</strong>
+																	</div>
+																	<!--end col-md-3-->
+																	<div class="col-md-9 col-sm-9">
+																			<div class="form-group">
+																					Aspirated
+																			</div>
+																			<!--end form-group-->
+																	</div>
+																	<!--end col-md-9-->
+															</div>
+															<!--end row-->
+															<div class="row">
+																	<div class="col-md-3 col-sm-3">
+																			<strong>Bore (mm)</strong>
+																	</div>
+																	<!--end col-md-3-->
+																	<div class="col-md-9 col-sm-9">
+																			<div class="form-group">
+																					85
+																			</div>
+																			<!--end form-group-->
+																	</div>
+																	<!--end col-md-9-->
+															</div>
+															<!--end row-->
+															<div class="row">
+																	<div class="col-md-3 col-sm-3">
+																			<strong>Compression Ratio</strong>
+																	</div>
+																	<!--end col-md-3-->
+																	<div class="col-md-9 col-sm-9">
+																			<div class="form-group">
+																					10
+																			</div>
+																			<!--end form-group-->
+																	</div>
+																	<!--end col-md-9-->
+															</div>
+															<!--end row-->
+															<div class="row">
+																	<div class="col-md-3 col-sm-3">
+																			<strong>Peak Torque (Nm)</strong>
+																	</div>
+																	<!--end col-md-3-->
+																	<div class="col-md-9 col-sm-9">
+																			<div class="form-group">
+																					178
+																			</div>
+																			<!--end form-group-->
+																	</div>
+																	<!--end col-md-9-->
+															</div>
+															<!--end row-->
+															<div class="row">
+																	<div class="col-md-3 col-sm-3">
+																			<strong>Direct Injection</strong>
+																	</div>
+																	<!--end col-md-3-->
+																	<div class="col-md-9 col-sm-9">
+																			<div class="form-group">
+																					Multi-Point Injected
+																			</div>
+																			<!--end form-group-->
+																	</div>
+																	<!--end col-md-9-->
+															</div>
+															<!--end row-->
+															<div class="row">
+																	<div class="col-md-3 col-sm-3">
+																			<strong>Fuel Type</strong>
+																	</div>
+																	<!--end col-md-3-->
+																	<div class="col-md-9 col-sm-9">
+																			<div class="form-group">
+																					Petrol - Unleaded (ULP)
+																			</div>
+																			<!--end form-group-->
+																	</div>
+																	<!--end col-md-9-->
+															</div>
+															<!--end row-->
+													</div>
+											</div>
+											<!--end panel-collapse-->
+									</div>
+									<!--end panel-->
+							</div>
+							<!--end panel-group-->
+					</section>
+					<section>
+							<div class="panel-group" id="accordion-4-detail" role="tablist" aria-multiselectable="true">
+									<div class="panel panel-default">
+											<div class="panel-heading" role="tab" id="accordion-heading-4-detail">
+													<h4 class="panel-title">
+															<a role="button" data-toggle="collapse" data-parent="#accordion" href="#accordion-collapse-4-detail" aria-expanded="false" aria-controls="accordion-collapse-4-detail">
+																	<i class="fa fa-list-ul"></i>Dimensions & Weight
+															</a>
+													</h4>
+											</div>
+											<!--end panel-heading-->
+											<div id="accordion-collapse-4-detail" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="accordion-heading-4-detail">
+													<div class="panel-body">
+															<div class="row">
+																	<div class="col-md-3 col-sm-3">
+																			<strong>Length (mm)</strong>
+																	</div>
+																	<!--end col-md-3-->
+																	<div class="col-md-9 col-sm-9">
+																			<div class="form-group">
+																					4747
+																			</div>
+																			<!--end form-group-->
+																	</div>
+																	<!--end col-md-9-->
+															</div>
+															<!--end row-->
+															<div class="row">
+																	<div class="col-md-3 col-sm-3 horizontal-input-title">
+																			<strong>Height (mm)</strong>
+																	</div>
+																	<!--end col-md-3-->
+																	<div class="col-md-9 col-sm-9">
+																			<div class="form-group">
+																					1422
+																			</div>
+																			<!--end form-group-->
+																	</div>
+																	<!--end col-md-9-->
+															</div>
+															<!--end row-->
+															<div class="row">
+																	<div class="col-md-3 col-sm-3">
+																			<strong>Width (mm)</strong>
+																	</div>
+																	<!--end col-md-3-->
+																	<div class="col-md-9 col-sm-9">
+																			<div class="form-group">
+																					1820
+																			</div>
+																			<!--end form-group-->
+																	</div>
+																	<!--end col-md-9-->
+															</div>
+															<!--end row-->
+															<div class="row">
+																	<div class="col-md-3 col-sm-3">
+																			<strong>Wheel Base (mm)</strong>
+																	</div>
+																	<!--end col-md-3-->
+																	<div class="col-md-9 col-sm-9">
+																			<div class="form-group">
+																					2700
+																			</div>
+																			<!--end form-group-->
+																	</div>
+																	<!--end col-md-9-->
+															</div>
+															<!--end row-->
+															<div class="row">
+																	<div class="col-md-3 col-sm-3">
+																			<strong>Front Thread</strong>
+																	</div>
+																	<!--end col-md-3-->
+																	<div class="col-md-9 col-sm-9">
+																			<div class="form-group">
+																					1540
+																			</div>
+																			<!--end form-group-->
+																	</div>
+																	<!--end col-md-9-->
+															</div>
+															<!--end row-->
+															<div class="row">
+																	<div class="col-md-3 col-sm-3">
+																			<strong>Rear Thread</strong>
+																	</div>
+																	<!--end col-md-3-->
+																	<div class="col-md-9 col-sm-9">
+																			<div class="form-group">
+																					1530
+																			</div>
+																			<!--end form-group-->
+																	</div>
+																	<!--end col-md-9-->
+															</div>
+															<!--end row-->
+															<div class="row">
+																	<div class="col-md-3 col-sm-3">
+																			<strong>Fuel Tank (litres)</strong>
+																	</div>
+																	<!--end col-md-3-->
+																	<div class="col-md-9 col-sm-9">
+																			<div class="form-group">
+																					65
+																			</div>
+																			<!--end form-group-->
+																	</div>
+																	<!--end col-md-9-->
+															</div>
+															<!--end row-->
+													</div>
+											</div>
+											<!--end panel-collapse-->
+									</div>
+									<!--end panel-->
+							</div>
+							<!--end panel-group-->
+					</section>
+					<section>
+							<div class="panel-group" id="accordion-5-detail" role="tablist" aria-multiselectable="true">
+									<div class="panel panel-default">
+											<div class="panel-heading" role="tab" id="accordion-heading-5-detail">
+													<h4 class="panel-title">
+															<a role="button" data-toggle="collapse" data-parent="#accordion" href="#accordion-collapse-5-detail" aria-expanded="false" aria-controls="accordion-collapse-5-detail">
+																	<i class="fa fa-list-ul"></i>Brakes
+															</a>
+													</h4>
+											</div>
+											<!--end panel-heading-->
+											<div id="accordion-collapse-5-detail" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="accordion-heading-5-detail">
+													<div class="panel-body">
+															<div class="row">
+																	<div class="col-md-3 col-sm-3">
+																			<strong>Front Brakes</strong>
+																	</div>
+																	<!--end col-md-3-->
+																	<div class="col-md-9 col-sm-9">
+																			<div class="form-group">
+																					Ventilated Discs
+																			</div>
+																			<!--end form-group-->
+																	</div>
+																	<!--end col-md-9-->
+															</div>
+															<!--end row-->
+															<div class="row">
+																	<div class="col-md-3 col-sm-3">
+																			<strong>Rear Brakes</strong>
+																	</div>
+																	<!--end col-md-3-->
+																	<div class="col-md-9 col-sm-9">
+																			<div class="form-group">
+																					Discs
+																			</div>
+																			<!--end form-group-->
+																	</div>
+																	<!--end col-md-9-->
+															</div>
+															<!--end row-->
+													</div>
+											</div>
+											<!--end panel-collapse-->
+									</div>
+									<!--end panel-->
+							</div>
+							<!--end panel-group-->
+					</section>
+					<section>
+							<div class="panel-group" id="accordion-6-detail" role="tablist" aria-multiselectable="true">
+									<div class="panel panel-default">
+											<div class="panel-heading" role="tab" id="accordion-heading-6-detail">
+													<h4 class="panel-title">
+															<a role="button" data-toggle="collapse" data-parent="#accordion" href="#accordion-collapse-6-detail" aria-expanded="false" aria-controls="accordion-collapse-6-detail">
+																	<i class="fa fa-list-ul"></i>Suspensions
+															</a>
+													</h4>
+											</div>
+											<!--end panel-heading-->
+											<div id="accordion-collapse-6-detail" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="accordion-heading-6-detail">
+													<div class="panel-body">
+															<div class="row">
+																	<div class="col-md-3 col-sm-3">
+																			<strong>Front Suspension</strong>
+																	</div>
+																	<!--end col-md-3-->
+																	<div class="col-md-9 col-sm-9">
+																			<div class="form-group">
+																					Double Wishbone
+																			</div>
+																			<!--end form-group-->
+																	</div>
+																	<!--end col-md-9-->
+															</div>
+															<!--end row-->
+															<div class="row">
+																	<div class="col-md-3 col-sm-3">
+																			<strong>Rear Suspension</strong>
+																	</div>
+																	<!--end col-md-3-->
+																	<div class="col-md-9 col-sm-9">
+																			<div class="form-group">
+																					Multiple links
+																			</div>
+																			<!--end form-group-->
+																	</div>
+																	<!--end col-md-9-->
+															</div>
+															<!--end row-->
+													</div>
+											</div>
+											<!--end panel-collapse-->
+									</div>
+									<!--end panel-->
+							</div>
+							<!--end panel-group-->
+					</section>
+					<section>
+							<div class="panel-group" id="accordion-7-detail" role="tablist" aria-multiselectable="true">
+									<div class="panel panel-default">
+											<div class="panel-heading" role="tab" id="accordion-heading-7-detail">
+													<h4 class="panel-title">
+															<a role="button" data-toggle="collapse" data-parent="#accordion" href="#accordion-collapse-7-detail" aria-expanded="false" aria-controls="accordion-collapse-7-detail">
+																	<i class="fa fa-list-ul"></i>Tyres & Wheels
+															</a>
+													</h4>
+											</div>
+											<!--end panel-heading-->
+											<div id="accordion-collapse-7-detail" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="accordion-heading-7-detail">
+													<div class="panel-body">
+															<div class="row">
+																	<div class="col-md-3 col-sm-3">
+																			<strong>Front Tyres</strong>
+																	</div>
+																	<!--end col-md-3-->
+																	<div class="col-md-9 col-sm-9">
+																			<div class="form-group">
+																					195/65 R15
+																			</div>
+																			<!--end form-group-->
+																	</div>
+																	<!--end col-md-9-->
+															</div>
+															<!--end row-->
+															<div class="row">
+																	<div class="col-md-3 col-sm-3">
+																			<strong>Rear Tyres</strong>
+																	</div>
+																	<!--end col-md-3-->
+																	<div class="col-md-9 col-sm-9">
+																			<div class="form-group">
+																					195/65 R15
+																			</div>
+																			<!--end form-group-->
+																	</div>
+																	<!--end col-md-9-->
+															</div>
+															<!--end row-->
+															<div class="row">
+																	<div class="col-md-3 col-sm-3">
+																			<strong>Front Rims</strong>
+																	</div>
+																	<!--end col-md-3-->
+																	<div class="col-md-9 col-sm-9">
+																			<div class="form-group">
+																					15
+																			</div>
+																			<!--end form-group-->
+																	</div>
+																	<!--end col-md-9-->
+															</div>
+															<!--end row-->
+															<div class="row">
+																	<div class="col-md-3 col-sm-3">
+																			<strong>Rear Rims</strong>
+																	</div>
+																	<!--end col-md-3-->
+																	<div class="col-md-9 col-sm-9">
+																			<div class="form-group">
+																					15
+																			</div>
+																			<!--end form-group-->
+																	</div>
+																	<!--end col-md-9-->
+															</div>
+															<!--end row-->
+													</div>
+											</div>
+											<!--end panel-collapse-->
+									</div>
+									<!--end panel-->
+							</div>
+							<!--end panel-group-->
+					</section>
+					<p style="padding-bottom: 5px; font-size: 13px;"><i>All information and specifications stated here are automatically generated based on data available at the time of publication and subject to change without prior notice, thus, may differ from those shown in the website and brochure. Please kindly edit accordingly shall any of the specifications is changed or modified.</i></p>
                 </div>
                 <!--end col-md-7-->
                 <div class="col-md-4 col-sm-4">

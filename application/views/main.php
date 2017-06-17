@@ -1,31 +1,31 @@
 	<script>
-		
-		$(document).ready(function(){		
+
+		$(document).ready(function(){
 			$("#frmSearch").submit(function(e){
 				e.preventDefault();
-				
+
 				var keyword = $("#keyword").val();
 				if(keyword == ""){
 					keyword = "NA"
 				}
-				
+
 				var location = $("#location option:selected").text();
-				
+
 				var model = $("#model option:selected").text();
-				
+
 				var valuemin = $("#value-min").val();
 				valuemin = valuemin.replace("RM", "");
 				valuemin = valuemin.replace(".", "");
-				
+
 				var valuemax = $("#value-max").val();
 				valuemax = valuemax.replace("RM", "");
 				valuemax = valuemax.replace(".", "");
-				
+
 				window.location = "<?php echo base_url();?>listing/search/"+keyword+"/"+location+"/"+model+"/"+valuemin+"/" + valuemax;
 			});
-			
+
 			var updateSlider = document.getElementById('price-slider');
-			
+
 			$(updateSlider).noUiSlider({
 				start: [ parseInt(<?php echo $priceThresData->MinVal;?>), parseInt(<?php echo $priceThresData->MaxVal;?>) ],
 				connect: true,
@@ -36,7 +36,7 @@
 				},
 				step: 10
 			});
-			
+
 			if( $(updateSlider).attr('data-value-type') == 'price' ) {
 				if( $(updateSlider).attr('data-currency-placement') == 'before' ) {
 					$(updateSlider).Link('lower').to( $(updateSlider).children('.values').children('.value-min'), null, wNumb({ prefix: $(updateSlider).attr('data-currency'), decimals: 0, thousand: '.' }));
@@ -166,9 +166,9 @@
                             <a href="<?php echo base_url().'listing/details/'.$eachFeatured->LID.'/'.$eachFeatured->LAddedBy;?>">Contact Seller</a>
                             <div class="controls-more">
                                 <ul>
-                                    <li><a href="#">Favorite <i class="fa fa-heart" style="padding-left: 5px;"></i></a></li>
-                                    <li><a href="#">Compare <i class="fa fa-clone" style="padding-left: 5px;"></i></a></li>
-                                    <li><a href="#">Report <i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
+                                    <li><a href="#">Favorite<i class="fa fa-heart" style="padding-left: 5px;"></i></a></li>
+                                    <li><a href="#">Compare<i class="fa fa-clone" style="padding-left: 5px;"></i></a></li>
+                                    <li><a href="#">Report<i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
                                 </ul>
                             </div>
                             <!--end controls-more-->
@@ -283,7 +283,7 @@
                 </div>
                 <!--end section-title-->
                 <div class="row">
-				
+
 					<?php $i = 0;foreach($recentViewed as $eachViewed):$i++;?>
                     <div class="col-md-3 col-sm-3">
 						<div class="item" data-id="<?php echo $eachViewed->RVID;?>">
@@ -328,6 +328,47 @@
             <!--end container-->
         </section>
         <!--end block-->
+
+				<section class="block">
+						<div class="container">
+								<div class="center">
+										<div class="section-title">
+												<div class="center">
+														<h2>New Car</h2>
+												</div>
+										</div>
+										<!--end section-title-->
+								</div>
+								<!--end center-->
+								<div class="row" style="padding-bottom: 25px;">
+										<div class="col-md-3 col-sm-3" style="text-align: center;"><a href="#"><img src="assets/img/hyundai-i10.png"><br/>i10</a></div>
+										<div class="col-md-3 col-sm-3" style="text-align: center;"><a href="#"><img src="assets/img/hyundai-elantra.png"><br/>Elantra</a></div>
+										<div class="col-md-3 col-sm-3" style="text-align: center;"><a href="#"><img src="assets/img/hyundai-veloster.png"><br/>Veloster</a></div>
+										<div class="col-md-3 col-sm-3" style="text-align: center;"><a href="#"><img src="assets/img/hyundai-veloster-turbo.png"><br/>Veloster turbo</a></div>
+										<!--<end col-md-3-->
+								</div>
+								<!--end row-->
+								<div class="row" style="padding-bottom: 25px;">
+										<div class="col-md-3 col-sm-3" style="text-align: center;"><a href="#"><img src="assets/img/hyundai-ioniq.png"><br/>IONIQ Hybrid</a></div>
+										<div class="col-md-3 col-sm-3" style="text-align: center;"><a href="#"><img src="assets/img/hyundai-sonata.png"><br/>Sonata</a></div>
+										<div class="col-md-3 col-sm-3" style="text-align: center;"><a href="#"><img src="assets/img/hyundai-genesis.png"><br/>Genesis</a></div>
+										<div class="col-md-3 col-sm-3" style="text-align: center;"><a href="#"><img src="assets/img/hyundai-tucson.png"><br/>Tucson</a></div>
+										<!--<end col-md-3-->
+								</div>
+								<!--end row-->
+								<div class="row">
+										<div class="col-md-3 col-sm-3" style="text-align: center;"></div>
+										<div class="col-md-3 col-sm-3" style="text-align: center;"><a href="#"><img src="assets/img/hyundai-santa-fe.png"><br/>Santa FE</a></div>
+										<div class="col-md-3 col-sm-3" style="text-align: center;"><a href="#"><img src="assets/img/hyundai-starex.png"><br/>Grand Starex Royale</a></div>
+										<div class="col-md-3 col-sm-3" style="text-align: center;"></div>
+										<!--<end col-md-3-->
+								</div>
+								<!--end row-->
+						</div>
+						<!--end container-->
+				</section>
+				<!--end block-->
+
 
     </div>
     <!--end page-content-->
