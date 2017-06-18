@@ -1,35 +1,16 @@
 
     <footer id="page-footer">
         <div class="footer-wrapper">
-            <div class="block">
-                <div class="container">
-                    <div class="vertical-aligned-elements">
-                        <div class="element width-50">
-                            <p data-toggle="modal" data-target="#myModal">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque aliquam at neque sit amet vestibulum. <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a>.</p>
-                        </div>
-                        <div class="element width-50 text-align-right">
-                            <a href="#" class="circle-icon"><i class="social_twitter"></i></a>
-                            <a href="#" class="circle-icon"><i class="social_facebook"></i></a>
-                            <a href="#" class="circle-icon"><i class="social_youtube"></i></a>
-                        </div>
-                    </div>
-                    <div class="background-wrapper">
-                        <div class="bg-transfer opacity-50">
-                            <img src="<?php echo base_url();?>assets/img/footer-bg.png" alt="">
-                        </div>
-                    </div>
-                    <!--end background-wrapper-->
-                </div>
-            </div>
+
             <div class="footer-navigation">
                 <div class="container">
                     <div class="vertical-aligned-elements">
-                        <div class="element width-50">© 2017 Hyundai Used Car, All right reserved</div>
+                        <div class="element width-50">ï¿½ 2017 Hyundai Used Car, All right reserved</div>
                         <div class="element width-50 text-align-right">
                             <a href="#">Home</a>
                             <a href="<?php echo base_url();?>listing">Listings</a>
-                            <a href="#">Submit Item</a>
-                            <a href="#">Contact</a>
+                            <a id="aAddListing" href="#AddListing" data-toggle="modal">Create Ad</a>
+                            <a href="#">Contact Us</a>
                         </div>
                     </div>
                 </div>
@@ -64,7 +45,7 @@
 			type: "POST",
 			data: {"datastr":datastr},
 			success: function(data){
-				
+
 				window.location.replace("<?php echo base_url();?>main");
 			}
 		});
@@ -72,7 +53,7 @@
 	function validateSignInForm(){
 		var pEmailAddress = $("#email").val();
 		var pPassword = $("#password").val();
-		
+
 		var datastr = '{"mode":"SignIn","EmailAddress":"'+pEmailAddress+'","Password":"'+pPassword+'"}';
 		$.ajax({
 			url: "<?php echo base_url();?>main/ajax",
@@ -85,7 +66,7 @@
 					$("#SignInError").show();
 				}
 			}
-		});	
+		});
 	}
 	function validateRegForm(){
 		var pEmail = $("#reg_email").val();
@@ -129,20 +110,20 @@
 								//alert(data);
 							}
 						}
-					});				
-				}				
+					});
+				}
 			}
-		}	
+		}
 	}
 	$(document).ready(function(){
 		$("#btnSignInViaFB").click(function(){
 			checkLoginState();
 		});
-		
+
 		$("#btnRegisterFB").click(function(){
 			checkLoginState();
 		});
-		
+
 		$("#btnSubmitListing").click(function(){
 			alert($(this).val());
 		});
@@ -208,7 +189,7 @@
 		$("#aAddListing").click(function(){
 			//initializeAL();
 		});
-		
+
 		$('#AddListing').on('shown.bs.modal', function () {
 			//alert("at");
 			initializeAL();
@@ -216,11 +197,11 @@
 			//google.maps.event.trigger(map, "resize");
 		});
 	});
-	
+
 	window.fbAsyncInit = function() {
 		FB.init({
 			appId      : "132122217349275",
-			cookie     : true,  // enable cookies to allow the server to access 
+			cookie     : true,  // enable cookies to allow the server to access
 								// the session
 			xfbml      : true,  // parse social plugins on this page
 			version    : "v2.9" // use graph api version 2.8
@@ -234,7 +215,7 @@
 		js.src = "//connect.facebook.net/en_US/sdk.js";
 		fjs.parentNode.insertBefore(js, fjs);
 	}(document, "script", "facebook-jssdk"));
-		
+
 	function statusChangeCallback(response) {
 		if (response.status === "connected") {
 			getUserFBInfo();
@@ -244,14 +225,14 @@
 			}, {scope: "public_profile, email"});
 		}
 	}
-	
+
 	function checkLoginState() {
 		FB.getLoginStatus(function(response) {
 			//alert(response.status);
 			statusChangeCallback(response);
 		});
 	}
-	
+
 	function getUserFBInfo() {
 		FB.api("/me", {fields: "email,first_name,last_name"}, function(response) {
 			FB.api("/me/picture?width=600&height=600", function(responsepic) {
@@ -267,102 +248,102 @@
 						}else{
 							alert(data);
 						}
-						
+
 					}
-				});	
+				});
 			});
 		});
-	}		
-	var map;		
-	function initializeAL() {	
+	}
+	var map;
+	function initializeAL() {
 
-	
-		var markers = [];			
-		
+
+		var markers = [];
+
 		map = new google.maps.Map(
-			document.getElementById('map-modal'), 
-			{		
+			document.getElementById('map-modal'),
+			{
 				mapTypeId: google.maps.MapTypeId.ROADMAP
 			}
-		);	
-		
+		);
+
 		//alert(map);
-			
+
 		var defaultBounds = new google.maps.LatLngBounds(new google.maps.LatLng(3.0266654, 101.69214009999996));
 		map.fitBounds(defaultBounds);
-		
+
 		var listener = google.maps.event.addListener(map, "idle", function() {
 			if (map.getZoom() > 16) map.setZoom(16);
 			google.maps.event.removeListener(listener);
 			});
-			
+
 		var marker = new google.maps.Marker({
 			map: map,
 			position: new google.maps.LatLng(3.0266654, 101.69214009999996)
 			});
-			
+
 		markers.push(marker);
-		
+
 		var input = (document.getElementById('ALAddress'));
 		var searchBox = new google.maps.places.SearchBox((input));
-		
+
 		google.maps.event.addListener(map, "click", function(event) {
 			for (var i = 0, marker; marker = markers[i]; i++) {
 				marker.setMap(null);
 			}
-			
+
 			var lat = event.latLng.lat();
 			var lng = event.latLng.lng();
-			
+
 			$("#ALLatitude").val(lat);
 			$("#ALLongitude").val(lng);
-			
+
 			var marker = new google.maps.Marker({
 				map: map,
 				position: event.latLng
 			});
-			
+
 			markers.push(marker);
 		});
 		google.maps.event.addListener(searchBox, 'places_changed', function() {
 			var places = searchBox.getPlaces();
-			
+
 			for (var i = 0, marker; marker = markers[i]; i++) {
 				marker.setMap(null);
 			}
-			
+
 			markers = [];
-			
+
 			var bounds = new google.maps.LatLngBounds();
-			
+
 			for (var i = 0, place; place = places[i]; i++) {
 				var marker = new google.maps.Marker({
 					map: map,
 					title: place.name,
 					position: place.geometry.location
 				});
-				
+
 				markers.push(marker);
-				
+
 				$("#ALLatitude").val(place.geometry.location.lat());
 				$("#ALLongitude").val(place.geometry.location.lng());
-				
+
 				bounds.extend(place.geometry.location);
 			}
-			
+
 			map.fitBounds(bounds);
-			
+
 			var listener = google.maps.event.addListener(map, "idle", function() {
 				if (map.getZoom() > 16) map.setZoom(16);
 				google.maps.event.removeListener(listener);
 			});
 		});
-					
+
 		google.maps.event.addListener(map, 'bounds_changed', function() {
 			var bounds = map.getBounds();
 			searchBox.setBounds(bounds);
 		});
-	}		
+	}
 	//google.maps.event.addDomListener(window, 'load', initializeAL);
 </script>
 

@@ -7808,3 +7808,14 @@ body::before {
     padding-right: 10px;
   }
 }
+
+.newcar h3 {margin-bottom: 5px;}
+.newcar a:hover img, .newcar a:hover h3 {
+-webkit-transform: scale(1.25);
+-moz-transform: scale(1.25);
+-o-transform: scale(1.25);
+transform: scale(1.25);
+}
+.newcar span {
+  font-size: 12px;
+}

@@ -334,33 +334,33 @@
 								<div class="center">
 										<div class="section-title">
 												<div class="center">
-														<h2>New Car</h2>
+														<h2>Looking for a New Car?</h2>
 												</div>
 										</div>
 										<!--end section-title-->
 								</div>
 								<!--end center-->
 								<div class="row" style="padding-bottom: 25px;">
-										<div class="col-md-3 col-sm-3" style="text-align: center;"><a href="#"><img src="assets/img/hyundai-i10.png"><br/>i10</a></div>
-										<div class="col-md-3 col-sm-3" style="text-align: center;"><a href="#"><img src="assets/img/hyundai-elantra.png"><br/>Elantra</a></div>
-										<div class="col-md-3 col-sm-3" style="text-align: center;"><a href="#"><img src="assets/img/hyundai-veloster.png"><br/>Veloster</a></div>
-										<div class="col-md-3 col-sm-3" style="text-align: center;"><a href="#"><img src="assets/img/hyundai-veloster-turbo.png"><br/>Veloster turbo</a></div>
+										<div class="col-md-3 col-sm-3 newcar" style="text-align: center;"><a href="#"><img src="assets/img/hyundai-i10.png"><br/><h3>i10</h3><i><span>from</span> RM51,234.07</i></a></div>
+										<div class="col-md-3 col-sm-3 newcar" style="text-align: center;"><a href="#"><img src="assets/img/hyundai-elantra.png"><br/><h3>Elantra</h3><i><span>from</span> RM116,388.00</i></a></div>
+										<div class="col-md-3 col-sm-3 newcar" style="text-align: center;"><a href="#"><img src="assets/img/hyundai-veloster.png"><br/><h3>Veloster</h3><i><span>from</span> RM135,461.13</i></a></div>
+										<div class="col-md-3 col-sm-3 newcar" style="text-align: center;"><a href="#"><img src="assets/img/hyundai-veloster-turbo.png"><br/><h3>Veloster turbo</h3><i><span>from</span> RM154,437.49</i></a></div>
 										<!--<end col-md-3-->
 								</div>
 								<!--end row-->
 								<div class="row" style="padding-bottom: 25px;">
-										<div class="col-md-3 col-sm-3" style="text-align: center;"><a href="#"><img src="assets/img/hyundai-ioniq.png"><br/>IONIQ Hybrid</a></div>
-										<div class="col-md-3 col-sm-3" style="text-align: center;"><a href="#"><img src="assets/img/hyundai-sonata.png"><br/>Sonata</a></div>
-										<div class="col-md-3 col-sm-3" style="text-align: center;"><a href="#"><img src="assets/img/hyundai-genesis.png"><br/>Genesis</a></div>
-										<div class="col-md-3 col-sm-3" style="text-align: center;"><a href="#"><img src="assets/img/hyundai-tucson.png"><br/>Tucson</a></div>
+										<div class="col-md-3 col-sm-3 newcar" style="text-align: center;"><a href="#"><img src="assets/img/hyundai-ioniq.png"><br/><h3>IONIQ Hybrid</h3><i><span>from</span> RM100,328.00</i></a></div>
+										<div class="col-md-3 col-sm-3 newcar" style="text-align: center;"><a href="#"><img src="assets/img/hyundai-sonata.png"><br/><h3>Sonata</h3><i><span>from</span> RM139,295.24</i></a></div>
+										<div class="col-md-3 col-sm-3 newcar" style="text-align: center;"><a href="#"><img src="assets/img/hyundai-genesis.png"><br/><h3>Genesis</h3><i><span>from</span> RM388,921.52</i></a></div>
+										<div class="col-md-3 col-sm-3 newcar" style="text-align: center;"><a href="#"><img src="assets/img/hyundai-tucson.png"><br/><h3>Tucson</h3><i><span>from</span> RM129,990.87</i></a></div>
 										<!--<end col-md-3-->
 								</div>
 								<!--end row-->
 								<div class="row">
-										<div class="col-md-3 col-sm-3" style="text-align: center;"></div>
-										<div class="col-md-3 col-sm-3" style="text-align: center;"><a href="#"><img src="assets/img/hyundai-santa-fe.png"><br/>Santa FE</a></div>
-										<div class="col-md-3 col-sm-3" style="text-align: center;"><a href="#"><img src="assets/img/hyundai-starex.png"><br/>Grand Starex Royale</a></div>
-										<div class="col-md-3 col-sm-3" style="text-align: center;"></div>
+										<div class="col-md-3 col-sm-3 newcar" style="text-align: center;"></div>
+										<div class="col-md-3 col-sm-3 newcar" style="text-align: center;"><a href="#"><img src="assets/img/hyundai-santa-fe.png"><br/><h3>Santa FE</h3><i><span>from</span> RM167,735.65</i></a></div>
+										<div class="col-md-3 col-sm-3 newcar" style="text-align: center;"><a href="#"><img src="assets/img/hyundai-starex.png"><br/><h3>Grand Starex Royale</h3><i><span>from</span> RM164,018.32</i></a></div>
+										<div class="col-md-3 col-sm-3 newcar" style="text-align: center;"></div>
 										<!--<end col-md-3-->
 								</div>
 								<!--end row-->
