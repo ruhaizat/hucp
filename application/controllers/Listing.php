@@ -18,22 +18,21 @@ class Listing extends CI_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
-	public function index()
-	{
+	public function index(){
 		$data["bodyClass"] = "nav-btn-only homepage";
 		
 		$data["isSearch"] = 0;
 		$data["keyword"] = "";
 		$data["location"] = "";
-		$data["model"] = "";
+		$data["modelStr"] = "";
 		$data["minvalsrc"] = "";
 		$data["maxvalsrc"] = "";
 		
-		$queryRecent = $this->db->query("SELECT *, L.ID AS LID, M.Name AS ModelName, S.Name AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName FROM tbl_listing AS L INNER JOIN tbl_model AS M ON L.Model = M.ID INNER JOIN tbl_specification AS S ON L.Specification = S.ID LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE L.Status = 1 GROUP BY L.ID ORDER BY L.AddedOn DESC LIMIT 5");
+		$queryRecent = $this->db->query("SELECT *, L.ID AS LID, L.Model AS ModelName, L.Specification AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName FROM tbl_listing AS L LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE L.Status = 1 GROUP BY L.ID ORDER BY L.AddedOn DESC LIMIT 5");
 		$recentData = $queryRecent->result();
 		$data["recentData"] = $recentData;
 		
-		$query = $this->db->query("SELECT *, L.ID AS LID,M.Name AS ModelName, S.Name AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName, COUNT(LI.ListingID) AS TotalImg FROM tbl_listing AS L INNER JOIN tbl_model AS M ON L.Model = M.ID INNER JOIN tbl_specification AS S ON L.Specification = S.ID LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE L.Status = 1 GROUP BY L.ID");
+		$query = $this->db->query("SELECT *, L.ID AS LID,L.Model AS ModelName, L.Specification AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName, COUNT(LI.ListingID) AS TotalImg FROM tbl_listing AS L LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE L.Status = 1 GROUP BY L.ID");
 		$listingData = $query->result();
 		$data["listingData"] = $listingData;
 		
@@ -41,13 +40,20 @@ class Listing extends CI_Controller {
 		$stateData = $queryState->result();
 		$data["state"] = $stateData;
 		
-		$queryModel = $this->db->query("SELECT * FROM tbl_model");
+		$queryModel = $this->db->query("SELECT gs_model FROM tbl_specificationmaster GROUP BY gs_model");
 		$modelData = $queryModel->result();
 		$data["modelData"] = $modelData;
 		
-		$querySpecification = $this->db->query("SELECT * FROM tbl_specification");
-		$specificationData = $querySpecification->result();
-		$data["specificationData"] = $specificationData;
+		$query = $this->db->query("SELECT gs_model FROM tbl_specificationmaster Group By gs_model Order By gs_model ASC");
+		$data["model"] = $query->result();
+		
+		//$queryModel = $this->db->query("SELECT * FROM tbl_model");
+		//$modelData = $queryModel->result();
+		//$data["modelData"] = $modelData;
+		
+		//$querySpecification = $this->db->query("SELECT * FROM tbl_specification");
+		//$specificationData = $querySpecification->result();
+		//$data["specificationData"] = $specificationData;
 		
 		$queryPriceThres = $this->db->query("SELECT MIN(SellingPrice) AS MinVal, MAX(SellingPrice) AS MaxVal FROM tbl_listing WHERE Status = 1");
 		$priceThresData = $queryPriceThres->row();
@@ -71,15 +77,15 @@ class Listing extends CI_Controller {
 		}
 		
 		$data["location"] = $location;
-		$data["model"] = $model;
+		$data["modelStr"] = $model;
 		$data["minvalsrc"] = $minval;
 		$data["maxvalsrc"] = $maxval;
 		
-		$queryRecent = $this->db->query("SELECT *, L.ID AS LID, M.Name AS ModelName, S.Name AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName FROM tbl_listing AS L INNER JOIN tbl_model AS M ON L.Model = M.ID INNER JOIN tbl_specification AS S ON L.Specification = S.ID LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE L.Status = 1 GROUP BY L.ID ORDER BY L.AddedOn DESC LIMIT 5");
+		$queryRecent = $this->db->query("SELECT *, L.ID AS LID, L.Model AS ModelName, L.Specification AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName FROM tbl_listing AS L LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE L.Status = 1 GROUP BY L.ID ORDER BY L.AddedOn DESC LIMIT 5");
 		$recentData = $queryRecent->result();
 		$data["recentData"] = $recentData;
 		
-		$query = $this->db->query("SELECT *, L.ID AS LID,M.Name AS ModelName, S.Name AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName, COUNT(LI.ListingID) AS TotalImg FROM tbl_listing AS L INNER JOIN tbl_model AS M ON L.Model = M.ID INNER JOIN tbl_specification AS S ON L.Specification = S.ID LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE L.Status = 1 GROUP BY L.ID");
+		$query = $this->db->query("SELECT *, L.ID AS LID,L.Model AS ModelName, L.Specification AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName, COUNT(LI.ListingID) AS TotalImg FROM tbl_listing AS L LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE L.Status = 1 GROUP BY L.ID");
 		$listingData = $query->result();
 		$data["listingData"] = $listingData;
 		
@@ -87,13 +93,17 @@ class Listing extends CI_Controller {
 		$stateData = $queryState->result();
 		$data["state"] = $stateData;
 		
-		$queryModel = $this->db->query("SELECT * FROM tbl_model");
+		$queryModel = $this->db->query("SELECT gs_model FROM tbl_specificationmaster GROUP BY gs_model");
 		$modelData = $queryModel->result();
 		$data["modelData"] = $modelData;
 		
-		$querySpecification = $this->db->query("SELECT * FROM tbl_specification");
-		$specificationData = $querySpecification->result();
-		$data["specificationData"] = $specificationData;
+		//$queryModel = $this->db->query("SELECT * FROM tbl_model");
+		//$modelData = $queryModel->result();
+		//$data["modelData"] = $modelData;
+		
+		//$querySpecification = $this->db->query("SELECT * FROM tbl_specification");
+		//$specificationData = $querySpecification->result();
+		//$data["specificationData"] = $specificationData;
 		
 		$queryPriceThres = $this->db->query("SELECT MIN(SellingPrice) AS MinVal, MAX(SellingPrice) AS MaxVal FROM tbl_listing WHERE Status = 1");
 		$priceThresData = $queryPriceThres->row();
@@ -103,8 +113,8 @@ class Listing extends CI_Controller {
 		$this->load->view('listing/index.php', $data);
 		$this->load->view('footer');
 	}
-	public function details($id, $addedBy)
-	{
+	
+	public function details($id, $addedBy){
 		if($this->session->userdata("LoggedUser") != null){
 			$user_data = $this->session->userdata("LoggedUser");
 			$UserID = $user_data["UserID"];
@@ -125,7 +135,7 @@ class Listing extends CI_Controller {
 		
 		$data["bodyClass"] = "subpage-detail";
 		
-		$query = $this->db->query("SELECT *, L.ID AS LID, M.ID AS ModelID, M.Name AS ModelName, S.ID AS SpecificationID, S.Name AS SpecificationName, L.AddedBy AS LAddedBy, L.Status AS LStatus FROM tbl_listing AS L INNER JOIN tbl_model AS M ON L.Model = M.ID INNER JOIN tbl_specification AS S ON L.Specification = S.ID WHERE L.ID = $id");
+		$query = $this->db->query("SELECT *, L.ID AS LID, L.AddedBy AS LAddedBy, L.Status AS LStatus FROM tbl_listing AS L WHERE L.ID = $id");
 		$listingData = $query->row();
 		
 		$queryimg = $this->db->query("SELECT * FROM tbl_listingimage WHERE ListingID = '$id'");
@@ -134,33 +144,189 @@ class Listing extends CI_Controller {
 		$queryUser = $this->db->query("SELECT * FROM tbl_user WHERE ID = $addedBy");
 		$userData = $queryUser->row();
 		
-		$queryModel = $this->db->query("SELECT * FROM tbl_model");
-		$modelData = $queryModel->result();
+		//$queryModel = $this->db->query("SELECT * FROM tbl_model");
+		//$modelData = $queryModel->result();
 		
-		$querySpecification = $this->db->query("SELECT * FROM tbl_specification");
-		$specificationData = $querySpecification->result();
+		//$querySpecification = $this->db->query("SELECT * FROM tbl_specification");
+		//$specificationData = $querySpecification->result();
 		
-		$queryRelated = $this->db->query("SELECT *, L.ID AS LID, M.Name AS ModelName, S.Name AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName FROM tbl_listing AS L INNER JOIN tbl_model AS M ON L.Model = M.ID INNER JOIN tbl_specification AS S ON L.Specification = S.ID LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE L.Model = $listingData->Model AND L.ID <> $listingData->LID GROUP BY L.ID ORDER BY L.AddedOn DESC LIMIT 5");
+		$queryRelated = $this->db->query("SELECT *, L.ID AS LID, L.AddedBy AS LAddedBy, ST.Name AS StateName FROM tbl_listing AS L LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE L.Model = '$listingData->Model' AND L.ID <> $listingData->LID GROUP BY L.ID ORDER BY L.AddedOn DESC LIMIT 5");
 		$relatedData = $queryRelated->result();
 		$data["relatedData"] = $relatedData;
 		
 		$queryState = $this->db->query("SELECT * FROM tbl_state");
 		$stateData = $queryState->result();
 		$data["state"] = $stateData;
+		
+		$query = $this->db->query("SELECT gs_model FROM tbl_specificationmaster Group By gs_model Order By gs_model ASC");
+		$data["modelData"] = $query->result();
 				
 		$data["listingData"] = $listingData;
 		$data["listingImageData"] = $listingImageData;
-		$data["modelData"] = $modelData;
-		$data["specificationData"] = $specificationData;
+		//$data["modelData"] = $modelData;
+		//$data["specificationData"] = $specificationData;
 		$data["userData"] = $userData;
 		
 		$this->load->view('header', $data);
 		$this->load->view('listing/details.php', $data);
 		$this->load->view('footer');
 	}
+		
+	public function editlisting(){
+		$user_data = $this->session->userdata("LoggedUser");
+				
+		$LID = $this->input->post("hLID");
+		
+		$Brand = $this->input->post("editALBrand");
+		$Category = $this->input->post("editALCategory");
+		$Model = $this->input->post("editALModel");
+		$ManufacturingYear = $this->input->post("editALYear");
+		$Transmission = $this->input->post("editALGDTransmission");
+		$Specification = $this->input->post("editALSpecification");
+		$Condition = $this->input->post("editALCondition");
+		$Mileage = $this->input->post("editALMileage");
+		$SellingPrice = $this->input->post("editALSellingPrice");
+		$State = $this->input->post("editALState");
+		$Address = $this->input->post("editALAddress");
+		$Latitude = $this->input->post("editALLatitude");
+		$Longitude = $this->input->post("editALLongitude");
+		$Description = $this->input->post("editALDescription");
+		
+		
+		
+		$en_cc = $this->input->post("editALGDEngineCC");
+		$gn_seat_capacity = $this->input->post("editALSeatCapacity");
+		$Colour = $this->input->post("editALColour");
+		$gn_doors = $this->input->post("editALDoors");
+		$gn_assembled = $this->input->post("editALAssembled");
+		$tm_final_drive_ratio = $this->input->post("editALFinalDriveRatio");
+		$tm_gears = $this->input->post("editALNoofGears");
+		$en_stroke = $this->input->post("editALStroke");
+		$en_peak_power = $this->input->post("editALPeakPower");
+		$en_engine_type = $this->input->post("editALEngineType");
+		$en_aspiration = $this->input->post("editALAspiration");
+		$en_bore = $this->input->post("editALBore");
+		$en_compression_ratio = $this->input->post("editALCompressionRatio");
+		$en_peak_torque = $this->input->post("editALPeakTorque");
+		$en_direct_injection = $this->input->post("editALDirectInjection");
+		$en_fuel_type = $this->input->post("editALFuelType");
+		$dm_length = $this->input->post("editALLength");
+		$dm_height = $this->input->post("editALHeight");
+		$dm_width = $this->input->post("editALWidth");
+		$dm_wheel_base = $this->input->post("editALWheelBase");
+		$dm_front_thread = $this->input->post("editALFrontThread");
+		$dm_rear_thread = $this->input->post("editALRearThread");
+		$dm_fuel_tank = $this->input->post("editALFuelTank");
+		$br_front = $this->input->post("editALFrontBrakes");
+		$br_rear = $this->input->post("editALRearBrakes");
+		$sus_front = $this->input->post("editALFrontSuspension");
+		$sus_rear = $this->input->post("editALRearSuspension");
+		$tw_front = $this->input->post("editALFrontTyres");
+		$tw_rear = $this->input->post("editALRearTyres");
+		$tw_front_rim = $this->input->post("editALFrontRims");
+		$tw_rear_rim = $this->input->post("editALRearRims");				
+		
+		$dataarray = array(
+			"Brand" 				=> $Brand,
+			"body_style" 				=> $Category,
+			"Model" 				=> $Model,
+			"ManufacturingYear" 	=> $ManufacturingYear,
+			"Transmission" 			=> $Transmission,
+			"Specification" 		=> $Specification,	
+			"Colour" 				=> $Colour,	
+			"Mileage" 				=> $Mileage,
+			"State" 				=> $State,
+			"SellingPrice" 			=> $SellingPrice,
+			"Address" 				=> $Address,
+			"Latitude" 				=> $Latitude,
+			"Longitude" 			=> $Longitude,
+			"Description" 			=> $Description,
+			"en_cc" 				=> $en_cc,
+			"gn_seat_capacity" 		=> $gn_seat_capacity,
+			"Colour" 				=> $Colour,
+			"gn_doors" 				=> $gn_doors,
+			"gn_assembled" 			=> $gn_assembled,
+			"tm_final_drive_ratio" 	=>$tm_final_drive_ratio,
+			"tm_gears" 				=> $tm_gears,
+			"en_stroke" 			=> $en_stroke,
+			"en_peak_power" 		=> $en_peak_power,
+			"en_engine_type" 		=> $en_engine_type,
+			"en_aspiration" 		=> $en_aspiration,
+			"en_bore" 				=> $en_bore,
+			"en_compression_ratio" 	=>$en_compression_ratio,
+			"en_peak_torque" 		=> $en_peak_torque,
+			"en_direct_injection" 	=> $en_direct_injection,
+			"en_fuel_type" 			=> $en_fuel_type,
+			"dm_length" 			=> $dm_length,
+			"dm_height" 			=> $dm_height,
+			"dm_width" 				=> $dm_width,
+			"dm_wheel_base" 		=> $dm_wheel_base,
+			"dm_front_thread" 		=> $dm_front_thread,
+			"dm_rear_thread" 		=> $dm_rear_thread,
+			"dm_fuel_tank" 			=> $dm_fuel_tank,
+			"br_front" 				=> $br_front,
+			"br_rear" 				=> $br_rear,
+			"sus_front" 			=> $sus_front,
+			"sus_rear" 				=> $sus_rear,
+			"tw_front" 				=> $tw_front,
+			"tw_rear" 				=> $tw_rear,
+			"tw_front_rim" 			=> $tw_front_rim,
+			"tw_rear_rim" 			=> $tw_rear_rim,
+			"ModifiedBy"				=> $user_data["UserID"],
+			"ModifiedOn"				=> date("Y-m-d H:i:s")
+		);
+		
+		if($user_data["Group"] == 2){
+			$dataarray["Status"] = 0;
+		}
+
+		$this->db->set($dataarray);
+		$this->db->where("ID", $LID);
+		$this->db->update("tbl_listing");
+				
+		$this->db->delete('tbl_listingimage', array('ListingID' => $LID));
+				
+		$config["upload_path"]          = "assets/img/listing";
+		$config["allowed_types"]        = "gif|jpg|png";
+
+		$this->load->library("upload", $config);
+		
+		
+		$files = $_FILES;
+		$cpt = count($_FILES['userfile']['name']);
+		//echo $cpt;
+		for($i=0; $i<$cpt; $i++)
+		{           
+			$_FILES['userfile']['name']= $files['userfile']['name'][$i];
+			$_FILES['userfile']['type']= $files['userfile']['type'][$i];
+			$_FILES['userfile']['tmp_name']= $files['userfile']['tmp_name'][$i];
+			$_FILES['userfile']['error']= $files['userfile']['error'][$i];
+			$_FILES['userfile']['size']= $files['userfile']['size'][$i];    
+
+			if (!$this->upload->do_upload())
+			{
+					$error = array("error" => $this->upload->display_errors());
+					//echo $this->upload->display_errors();
+			}
+			else
+			{
+					$data = array("upload_data" => $this->upload->data());
+					$ProfilePic = $this->upload->data("file_name");
+					
+					$dataarraypic = array(
+						"ListingPic" => $ProfilePic,
+						"ListingID" => $LID,
+						"AddedOn" => date("Y-m-d H:i:s")
+					);
+		
+					$this->db->insert("tbl_listingimage", $dataarraypic);
+			}
+		}
 	
-	private function sendcontactselleremail($Name, $Email, $Telephone, $Message, $SellerEmail, $SellerName, $Model)
-	{
+		redirect("listing/details/".$LID."/".$user_data["UserID"]);
+	}
+	
+	private function sendcontactselleremail($Name, $Email, $Telephone, $Message, $SellerEmail, $SellerName, $Model){
 		$config = Array(
 			'protocol' => 'smtp',
 			'smtp_host' => 'mail.ruhaizat.my',
@@ -181,8 +347,7 @@ class Listing extends CI_Controller {
 		$this->email->send();
 	}
 	
-	public function ajax()
-	{
+	public function ajax(){
 		$obj = json_decode($this->input->post("datastr"));
 		$mode = $obj->mode;
 		
@@ -202,6 +367,39 @@ class Listing extends CI_Controller {
 				$SellerName = $userData->FirstName;
 				
 				$this->sendcontactselleremail($Name, $Email, $Telephone, $Description, $SellerEmail, $SellerName, $Model);
+			break;
+			case "AdChangeStatus":
+				$user_data = $this->session->userdata("LoggedUser");
+				$LID = $obj->ID;
+				$Status = $obj->Status;
+				
+				if($Status == "4"){
+					$this->db->delete('tbl_listing', array('ID' => $LID));
+				}else{
+					$dataarray = array(
+						"Status"		=> $Status,
+						"ModifiedBy"	=> $user_data["UserID"],
+						"ModifiedOn"	=> date("Y-m-d H:i:s")
+					);
+
+					$this->db->set($dataarray);
+					$this->db->where("ID", $LID);
+					$this->db->update("tbl_listing");					
+				}
+			break;
+			case "AdFeatured":
+				$user_data = $this->session->userdata("LoggedUser");
+				$LID = $obj->ID;
+				
+				$dataarray = array(
+					"IsFeatured"	=> 1,
+					"ModifiedBy"	=> $user_data["UserID"],
+					"ModifiedOn"	=> date("Y-m-d H:i:s")
+				);
+
+				$this->db->set($dataarray);
+				$this->db->where("ID", $LID);
+				$this->db->update("tbl_listing");
 			break;
 		}
 	}

@@ -45,8 +45,34 @@ Contact: kenny@kni.com.my
         <link href="<?php echo base_url();?>assets/pages/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
         <!-- END THEME LAYOUT STYLES -->
         <link rel="shortcut icon" href="<?php echo base_url();?>favicon.ico" /> </head>
+        <link href="<?php echo base_url();?>assets/css/jquery-ui.css" rel="stylesheet" type="text/css" />
 		<script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery-2.2.1.min.js"></script>
+		<script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery-ui.js"></script>
         <script src="<?php echo base_url();?>assets/global/plugins/bootstrap-sweetalert/sweetalert.min.js" type="text/javascript"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>assets/js/jQuery.MultiFile.min.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=AIzaSyD6mcdXONfb7KfUN0Z_ZaP6-QApnWxjS7U"></script>
+	<script>
+	$(document).ready(function(){
+			var datastr = '{"mode":"GetTotalPendingAd"}';
+			$.ajax({
+				url: "<?php echo base_url();?>admin/ajax",
+				type: "POST",
+				data: {"datastr":datastr},
+				success: function(data){
+					$(".sPendingAd").text(data);
+				}
+			});
+			var datastr = '{"mode":"GetTotalUser"}';
+			$.ajax({
+				url: "<?php echo base_url();?>admin/ajax",
+				type: "POST",
+				data: {"datastr":datastr},
+				success: function(data){
+					$(".sTotalUser").text(data);
+				}
+			});				
+	});
+	</script>
     <!-- END HEAD -->
 
     <body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
@@ -130,7 +156,7 @@ Contact: kenny@kni.com.my
                                   <li class="nav-item">
                                       <a href="<?php echo base_url();?>admin/userall" class="nav-link ">
                                           <span class="title">All User</span>
-                                          <span class="badge badge-success">1</span>
+                                          <span class="badge badge-success sTotalUser"></span>
                                       </a>
                                   </li>
                                     <li class="nav-item">
@@ -151,7 +177,7 @@ Contact: kenny@kni.com.my
                                   <li class="nav-item">
                                       <a href="<?php echo base_url();?>admin/adpending" class="nav-link ">
                                           <span class="title">Pending Advertisement</span>
-                                          <span class="badge badge-success">1</span>
+                                          <span class="badge badge-success sPendingAd"></span>
                                       </a>
                                   </li>
                                   <li class="nav-item">
@@ -160,7 +186,7 @@ Contact: kenny@kni.com.my
                                       </a>
                                   </li>
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link ">
+                                        <a href="<?php echo base_url();?>admin/adnew" class="nav-link ">
                                             <span class="title">Add Advertisement</span>
                                         </a>
                                     </li>

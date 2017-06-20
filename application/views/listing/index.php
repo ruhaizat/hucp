@@ -14,7 +14,7 @@
 		var table;
 		$(document).ready(function(){
 			table = $('#dataTableListing').DataTable({
-				"pageLength": 3,
+				"pageLength": 5,
 				"deferRender": true
 			});
 			$("#sRes").text(table.page.info().recordsDisplay);
@@ -146,7 +146,7 @@
 					return $(this).text() == location; 
 				}).prop('selected', true);
 				
-				var model = "<?php echo $model;?>";
+				var model = "<?php echo $modelStr;?>";
 				$("#model option").filter(function() {
 					return $(this).text() == model; 
 				}).prop('selected', true);
@@ -276,7 +276,7 @@
 
 				draggable: false,
 
-				icon: "http://localhost/devhucp/assets/img/marker.png",
+				icon: "http://localhost/hucp/assets/img/marker.png",
 
 				flat: true
 
@@ -312,7 +312,7 @@
                                     <select class="form-control selectpicker" name="model" id="model">
                                         <option value="">Model</option>
 										<?php foreach($modelData as $eachModel):?>
-										<option value="<?php echo $eachModel->ID;?>"><?php echo $eachModel->Name;?></option>
+										<option><?php echo $eachModel->gs_model;?></option>
 										<?php endforeach;?>
                                     </select>
                                 </div>
@@ -448,7 +448,7 @@
 												<div class="additional-info">
 													<h3 style="margin-bottom: 5px;">RM<?php echo number_format($eachList->SellingPrice);?></h3>
 													<h4>RM3,400/month</h4>
-													<h4><i class="fa fa-road"></i> <?php echo number_format($eachList->Mileage);?>km</h4>
+													<h4><i class="fa fa-road"></i> <?php echo $eachList->Mileage;?>km</h4>
 												</div>
 												<!--end additional-info-->
 											</a>
@@ -485,7 +485,7 @@
 		
                     </section>
 
-                    <section>
+                    <!--<section>
                         <div id="divPagination" class="center">
                             <nav aria-label="Page navigation">
                                 <ul class="pagination">
@@ -507,7 +507,7 @@
                                 </ul>
                             </nav>
                         </div>
-                    </section>
+                    </section>-->
                 </div>
                 <!--end col-md-9-->
             </div>

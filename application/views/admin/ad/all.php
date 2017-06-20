@@ -39,6 +39,40 @@
 							}
 						);						
 					}
+					function AdReject(id){
+						swal({
+							title: "Are you sure you want to reject this advertisement?",
+							text: "",
+							type: "error",
+							showCancelButton: true,
+							confirmButtonClass: "btn-info",
+							confirmButtonText: "Yes",
+							cancelButtonClass: "btn-danger",
+							cancelButtonText: "No",
+							closeOnConfirm: false,
+							allowOutsideClick: true
+							},
+							function(isConfirm) {
+								if (isConfirm) {
+									var datastr = '{"mode":"RejectAd","id":"'+id+'"}';
+									$.ajax({
+										url: "<?php echo base_url();?>admin/ajax",
+										type: "POST",
+										data: {"datastr":datastr}
+									});
+
+									swal({
+										title: "Selected advertisement has been rejected!",
+										text: "",
+										type: "success"
+										},
+										function(){
+											window.location.replace("<?php echo base_url();?>admin/adall");
+									});
+								}
+							}
+						);						
+					}
 					
 					function AdEdit(id,addedBy){
 						window.location.replace("<?php echo base_url();?>listing/details/" + id + "/" + addedBy);
@@ -136,14 +170,14 @@
 																<img width="41px" height="41px" <?php if($listing->Type == 2):echo "src='".$listing->ProfilePic."'";else: echo "src='../assets/img/profile/".$listing->ProfilePic."'";endif;?> />
 															</td>
 															<td>
-																<a href="<?php echo base_url().'listing/details/'.$listing->LID.'/'.$listing->LAB;?>" target="_blank"><span class="mt-action-author"><?php echo $listing->Name;?></span></a>
+																<a href="<?php echo base_url().'listing/details/'.$listing->LID.'/'.$listing->LAB;?>" target="_blank"><span class="mt-action-author"><?php echo $listing->MName;?></span></a>
                                                                 <p class="mt-action-desc">submitted by <a href="<?php echo base_url().'user/index/'.$listing->LAB;?>"><?php echo $listing->FirstName;?></a></p>
 															</td>
 															<td>
 																<p class="mt-action-desc"><?php echo sprintf('%06d', $listing->LID);?></p>
 															</td>
 															<td>
-																<?php if($listing->LS == 1):echo "<p class='mt-action-desc'>On-going</p>";elseif($listing->LS == 2):echo"<p class='mt-action-desc font-blue'>Featured</p>";elseif($listing->LS == 3):echo"<p class='mt-action-desc font-red-mint'>Expired</p>";endif;?>
+																<?php if($listing->LS == 1):echo "<p class='mt-action-desc'>On-going</p>";elseif($listing->LS == 2):echo"<p class='mt-action-desc font-blue'>Expired</p>";elseif($listing->LS == 3):echo"<p class='mt-action-desc font-red-mint'>Rejected</p>";endif;?>
 															</td>
 															<td>
 																<div class="btn-group btn-group-circle">

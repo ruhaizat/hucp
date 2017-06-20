@@ -87,8 +87,8 @@
                                         <div class="form-group">
                                             <select id="model" class="form-control selectpicker" name="model">
                                                 <option value="">Model</option>
-												<?php foreach($modelData as $eachModel):?>
-												<option value="<?php echo $eachModel->ID;?>"><?php echo $eachModel->Name;?></option>
+												<?php foreach($model as $eachModel):?>
+												<option><?php echo $eachModel->gs_model;?></option>
 												<?php endforeach;?>
                                             </select>
                                         </div>

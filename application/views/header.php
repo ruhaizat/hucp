@@ -327,80 +327,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<section>
 						<h3>Car Details</h3>
 							<div class="row">
-                <div class="col-md-6 col-sm-6">
+								<div class="col-md-6 col-sm-6">
 									<div class="form-group">
 										<label for="title">Brand</label>
-										<select class="form-control selectpicker" name="ALModel" id="ALModel">
-											<option value="">Hyundai</option>
-											<?php foreach($modelData as $eachModel):?>
-											<option value="<?php echo $eachModel->ID;?>"><?php echo $eachModel->Name;?></option>
-											<?php endforeach;?>
+										<select class="form-control selectpicker" name="selALBrand" id="selALBrand">
+											<option>Hyundai</option>
 										</select>
 									</div>
 									<!--end form-group-->
-                  <div class="form-group">
-										<label for="title">Model</label>
-										<select class="form-control selectpicker" name="ALModel" id="ALModel">
-											<option value="">Select a Model</option>
-											<?php foreach($modelData as $eachModel):?>
-											<option value="<?php echo $eachModel->ID;?>"><?php echo $eachModel->Name;?></option>
-											<?php endforeach;?>
+									<div class="form-group">
+										<label for="category">Year</label>
+										<select class="form-control selectpicker" name="selALYear">
+											<option>Select a Year</option>
 										</select>
 									</div>
 									<!--end form-group-->
-                  <div class="form-group">
-										<label for="category">Manufacturing Year</label>
-										<select class="form-control selectpicker" name="ALManufacturingYear" id="ALManufacturingYear">
-											<option value="">Manufacturing Year</option>
-											<option value="1">2018</option>
-											<option value="2">2017</option>
-											<option value="3">2016</option>
-											<option value="4">2015</option>
-											<option value="5">2014</option>
-											<option value="6">2013</option>
-											<option value="7">2012</option>
-											<option value="8">2011</option>
-											<option value="9">2010</option>
-										</select>
-									</div>
-									<!--end form-group-->
-                  <div class="form-group">
-										<label for="category">Transmission</label>
-										<select class="form-control selectpicker" name="ALTransmission" id="ALTransmission">
-											<option value="">Select a Transmission</option>
-											<option value="1">Automatic</option>
-											<option value="2">Manual</option>
-										</select>
-									</div>
-									<!--end form-group-->
-                  <div class="form-group">
+									<div class="form-group">
 										<label for="category">Specification</label>
-										<select class="form-control selectpicker" name="ALSpecification" id="ALSpecification">
-											<option value="">Select a Specification</option>
-											<?php foreach($specificationData as $eachSpecification):?>
-											<option value="<?php echo $eachSpecification->ID;?>"><?php echo $eachSpecification->Name;?></option>
-											<?php endforeach;?>
+										<select class="form-control selectpicker" name="selALSpecification">
+											<option>Select a Specification</option>
 										</select>
 									</div>
 									<!--end form-group-->
-                  <div class="form-group">
-										<label for="category">Condition</label>
-										<select class="form-control selectpicker" name="ALTransmission" id="ALTransmission">
-											<option value="">Select a Condition</option>
-											<option value="1">New</option>
-											<option value="2">Used</option>
-										</select>
-									</div>
-									<!--end form-group-->
-                  <div class="form-group">
-    								<label for="description">Description</label>
-    								<textarea class="form-control" id="ALDescription" rows="5" name="ALDescription" placeholder="Describe the listing"></textarea>
-    							</div>
-    							<!--end form-group-->
-								</div>
-								<!--end col-md-6-->
-                <div class="col-md-6 col-sm-6">
-                  <div class="form-group">
+									<div class="form-group">
 										<label for="category">Mileage</label>
 										<select class="form-control selectpicker" name="ALMileage" id="ALMileage">
 											<option value="">Select a Mileage</option>
@@ -425,7 +374,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											<option value="19">90,000 KM - 94,999 KM</option>
 											<option value="20">95,000 KM - 99,999 KM</option>
 											<option value="21">100,000 KM - 104,999 KM</option>
-                      <option value="22">105,000 KM - 109,999 KM</option>
+											<option value="22">105,000 KM - 109,999 KM</option>
 											<option value="23">110,000 KM - 114,999 KM</option>
 											<option value="24">115,000 KM - 119,999 KM</option>
 											<option value="25">120,000 KM - 124,999 KM</option>
@@ -444,39 +393,58 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											<option value="38">185,000 KM - 189,999 KM</option>
 											<option value="39">190,000 KM - 194,999 KM</option>
 											<option value="40">195,000 KM - 199,999 KM</option>
-                      <option value="40">≥ 200,000 KM</option>
+											<option value="41">≥ 200,000 KM</option>
 										</select>
 									</div>
 									<!--end form-group-->
-								</div>
-								<!--end col-md-6-->
-                <div class="col-md-6 col-sm-6">
 									<div class="form-group">
-										<label for="category">Colour</label>
-										<input type="text" class="form-control" name="ALColour" id="ALColour" placeholder="Colour">
+										<label for="category">State</label>
+										<select class="form-control selectpicker" name="ALState" id="ALState">
+											<option value="">Select a State</option>
+											<?php foreach($state as $eachState):?>
+											<option value="<?php echo $eachState->ID;?>"><?php echo $eachState->Name;?></option>
+											<?php endforeach;?>
+										</select>
+									</div>
+									<!--end form-group-->
+									<div class="form-group">
+										<label for="description">Description</label>
+										<textarea class="form-control" id="ALDescription" rows="5" name="ALDescription" placeholder="Describe the listing"></textarea>
 									</div>
 									<!--end form-group-->
 								</div>
-								<!--col-md-6-->
 								<div class="col-md-6 col-sm-6">
+									<div class="form-group">
+										<label for="title">Model</label>
+										<select class="form-control selectpicker" name="selALModel" id="selALModel">
+											<option>Select a Model</option>
+											<?php foreach($model as $eachModel):?>
+                                            <option><?php echo $eachModel->gs_model;?></option>
+											<?php endforeach;?>
+										</select>
+									</div>
+									<!--end form-group-->
+									<div class="form-group">
+										<label for="category">Transmission</label>
+										<select class="form-control selectpicker" name="selALTransmission" id="ALTransmission">
+											<option>Select a Transmission</option>
+										</select>
+									</div>
+									<!--end form-group-->
+									<div class="form-group">
+										<label for="category">Condition</label>
+										<select class="form-control selectpicker" name="ALCondition" id="ALCondition">
+											<option>Select a Condition</option>
+											<option>New</option>
+											<option>Used</option>
+										</select>
+									</div>
+									<!--end form-group-->
 									<div class="form-group">
 										<label for="category">Selling Price</label>
 										<input type="number" class="form-control" name="ALSellingPrice" id="ALSellingPrice" placeholder="Selling Price">
 									</div>
 									<!--end form-group-->
-								</div>
-								<!--col-md-6-->
-								<div class="col-md-6 col-sm-6">
-								<div class="form-group">
-									<label for="category">State</label>
-									<select class="form-control selectpicker" name="ALState" id="ALState">
-										<option value="">Select a State</option>
-										<?php foreach($state as $eachState):?>
-										<option value="<?php echo $eachState->ID;?>"><?php echo $eachState->Name;?></option>
-										<?php endforeach;?>
-									</select>
-								</div>
-								<!--end form-group-->
 								  <div class="form-group">
 									  <label for="address-autocomplete">Address</label>
 									  <input type="text" class="form-control" name="ALAddress" id="ALAddress" placeholder="Address">
@@ -489,9 +457,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									  <input type="text" class="form-control" id="ALLongitude" name="ALLongitude" hidden="">
 								  </div>
 								  <p class="note">Enter the exact address or drag the map marker to position</p>
-
 								</div>
-								<!--col-md-6-->
+								<div class="col-md-6 col-sm-6">
+								</div>
+								<!--end col-md-6-->
 							</div>
 							<!--end row-->
 
@@ -528,7 +497,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                   <!--end col-md-3-->
                                   <div class="col-md-9 col-sm-9">
                                       <div class="form-group">
-                                          <input type="text" class="form-control" name="open_hours[]" placeholder="Hyundai">
+                                          <input type="text" class="form-control" name="ALBrand" placeholder="Hyundai">
                                       </div>
                                       <!--end form-group-->
                                   </div>
@@ -542,7 +511,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="open_hours[]" placeholder="Sedan">
+                                            <input type="text" class="form-control" name="ALCategory" placeholder="Sedan">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -556,7 +525,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="open_hours[]" placeholder="Sonata">
+                                            <input type="text" class="form-control" name="ALModel" placeholder="Sonata">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -570,7 +539,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="open_hours[]" placeholder="GLS 1.6 Premium">
+                                            <input type="text" class="form-control" name="ALSpecification" placeholder="GLS 1.6 Premium">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -584,7 +553,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="open_hours[]" placeholder="2003">
+                                            <input type="text" class="form-control" name="ALYear" placeholder="2003">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -598,7 +567,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="open_hours[]" placeholder="1599">
+                                            <input type="text" class="form-control" name="ALGDEngineCC" placeholder="1599">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -612,7 +581,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="open_hours[]" placeholder="Automatic">
+                                            <input type="text" class="form-control" name="ALGDTransmission" placeholder="Automatic">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -626,7 +595,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="open_hours[]" placeholder="5">
+                                            <input type="text" class="form-control" name="ALSeatCapacity" placeholder="5">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -640,7 +609,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="open_hours[]" placeholder="100,000">
+                                            <input type="text" class="form-control" name="ALMileage" placeholder="100,000">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -654,7 +623,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="open_hours[]" placeholder="Red">
+                                            <input type="text" class="form-control" name="ALColour" placeholder="Red">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -668,21 +637,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="open_hours[]" placeholder="5">
-                                        </div>
-                                        <!--end form-group-->
-                                    </div>
-                                    <!--end col-md-9-->
-                                </div>
-                                <!--end row-->
-                                <div class="row">
-                                    <div class="col-md-3 col-sm-3 horizontal-input-title">
-                                        <strong>Seat Capacity</strong>
-                                    </div>
-                                    <!--end col-md-3-->
-                                    <div class="col-md-9 col-sm-9">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" name="open_hours[]" placeholder="5">
+                                            <input type="text" class="form-control" name="ALDoors" placeholder="5">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -696,7 +651,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="open_hours[]" placeholder="Locally Build">
+                                            <input type="text" class="form-control" name="ALAssembled" placeholder="Locally Build">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -731,7 +686,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="open_hours[]" placeholder="Automatic">
+                                            <input type="text" class="form-control" name="ALTTransmission" placeholder="Automatic">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -745,7 +700,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="open_hours[]" placeholder="4.042">
+                                            <input type="text" class="form-control" name="ALFinalDriveRatio" placeholder="4.042">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -759,7 +714,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="open_hours[]" placeholder="5">
+                                            <input type="text" class="form-control" name="ALNoofGears" placeholder="5">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -794,7 +749,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="open_hours[]" placeholder="1499">
+                                            <input type="text" class="form-control" name="ALESEngineCC" placeholder="1499">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -808,7 +763,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="open_hours[]" placeholder="1499">
+                                            <input type="text" class="form-control" name="ALStroke" placeholder="1499">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -822,7 +777,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="open_hours[]" placeholder="1499">
+                                            <input type="text" class="form-control" name="ALPeakPower" placeholder="1499">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -836,7 +791,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="open_hours[]" placeholder="Piston">
+                                            <input type="text" class="form-control" name="ALEngineType" placeholder="Piston">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -850,7 +805,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="open_hours[]" placeholder="Aspirated">
+                                            <input type="text" class="form-control" name="ALAspiration" placeholder="Aspirated">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -864,7 +819,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="open_hours[]" placeholder="85">
+                                            <input type="text" class="form-control" name="ALBore" placeholder="85">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -878,7 +833,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="open_hours[]" placeholder="10">
+                                            <input type="text" class="form-control" name="ALCompressionRatio" placeholder="10">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -892,7 +847,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="open_hours[]" placeholder="178">
+                                            <input type="text" class="form-control" name="ALPeakTorque" placeholder="178">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -906,7 +861,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="open_hours[]" placeholder="Multi-Point Injected">
+                                            <input type="text" class="form-control" name="ALDirectInjection" placeholder="Multi-Point Injected">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -920,7 +875,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="open_hours[]" placeholder="Petrol - Unleaded (ULP)">
+                                            <input type="text" class="form-control" name="ALFuelType" placeholder="Petrol - Unleaded (ULP)">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -955,7 +910,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="open_hours[]" placeholder="4747">
+                                            <input type="text" class="form-control" name="ALLength" placeholder="4747">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -969,7 +924,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="open_hours[]" placeholder="1422">
+                                            <input type="text" class="form-control" name="ALHeight" placeholder="1422">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -983,7 +938,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="open_hours[]" placeholder="1820">
+                                            <input type="text" class="form-control" name="ALWidth" placeholder="1820">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -997,7 +952,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="open_hours[]" placeholder="2700">
+                                            <input type="text" class="form-control" name="ALWheelBase" placeholder="2700">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -1011,7 +966,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="open_hours[]" placeholder="1540">
+                                            <input type="text" class="form-control" name="ALFrontThread" placeholder="1540">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -1025,7 +980,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="open_hours[]" placeholder="1530">
+                                            <input type="text" class="form-control" name="ALRearThread" placeholder="1530">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -1039,7 +994,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="open_hours[]" placeholder="65">
+                                            <input type="text" class="form-control" name="ALFuelTank" placeholder="65">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -1074,7 +1029,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="open_hours[]" placeholder="Ventilated Discs">
+                                            <input type="text" class="form-control" name="ALFrontBrakes" placeholder="Ventilated Discs">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -1088,7 +1043,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="open_hours[]" placeholder="Discs">
+                                            <input type="text" class="form-control" name="ALRearBrakes" placeholder="Discs">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -1123,7 +1078,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="open_hours[]" placeholder="Double Wishbone">
+                                            <input type="text" class="form-control" name="ALFrontSuspension" placeholder="Double Wishbone">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -1137,7 +1092,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="open_hours[]" placeholder="Multiple links">
+                                            <input type="text" class="form-control" name="ALRearSuspension" placeholder="Multiple links">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -1172,7 +1127,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="open_hours[]" placeholder="195/65 R15">
+                                            <input type="text" class="form-control" name="ALFrontTyres" placeholder="195/65 R15">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -1186,7 +1141,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="open_hours[]" placeholder="195/65 R15">
+                                            <input type="text" class="form-control" name="ALRearTyres" placeholder="195/65 R15">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -1200,7 +1155,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="open_hours[]" placeholder="15">
+                                            <input type="text" class="form-control" name="ALFrontRims" placeholder="15">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -1214,7 +1169,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="open_hours[]" placeholder="15">
+                                            <input type="text" class="form-control" name="ALRearRims" placeholder="15">
                                         </div>
                                         <!--end form-group-->
                                     </div>

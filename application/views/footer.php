@@ -116,6 +116,133 @@
 		}
 	}
 	$(document).ready(function(){
+		$("select[name=selALModel]").change(function(){
+			var gs_model = $("select[name=selALModel] option:selected").text();
+			var datastr = '{"mode":"SelectModel","gs_model":"'+gs_model+'"}';
+			$.ajax({
+				url: "<?php echo base_url();?>admin/ajax",
+				type: "POST",
+				data: {"datastr":datastr},
+				success: function(data){
+					$('select[name=selALYear]')
+						.find('option')
+						.remove()
+						.end()
+						.append('<option>Select a Year</option>');
+					var gs_manu_year = JSON.parse(data);
+					gs_manu_year.forEach(function(entry){
+						$('select[name=selALYear]').append('<option>' + entry.gs_manu_year + '</option>');
+					});
+					$('select[name=selALYear]').selectpicker('refresh');
+				}
+			});
+		});
+		$("select[name=selALYear]").change(function(){
+			var gs_model = $("select[name=selALModel] option:selected").text();
+			var gs_manu_year = $("select[name=selALYear] option:selected").text();
+			var datastr = '{"mode":"SelectYear","gs_model":"'+gs_model+'","gs_manu_year":"'+gs_manu_year+'"}';
+			$.ajax({
+				url: "<?php echo base_url();?>admin/ajax",
+				type: "POST",
+				data: {"datastr":datastr},
+				success: function(data){
+					$('select[name=selALTransmission]')
+						.find('option')
+						.remove()
+						.end()
+						.append('<option>Select a Transmission</option>');
+					var tm_transmission = JSON.parse(data);
+					tm_transmission.forEach(function(entry){
+						$('select[name=selALTransmission]').append('<option>' + entry.tm_transmission + '</option>');
+					});
+					$('select[name=selALTransmission]').selectpicker('refresh');
+				}
+			});
+		});
+		$("select[name=selALTransmission]").change(function(){
+			var gs_model = $("select[name=selALModel] option:selected").text();
+			var gs_manu_year = $("select[name=selALYear] option:selected").text();
+			var tm_transmission = $("select[name=selALTransmission] option:selected").text();
+			var datastr = '{"mode":"SelectTransmission","gs_model":"'+gs_model+'","gs_manu_year":"'+gs_manu_year+'","tm_transmission":"'+tm_transmission+'"}';
+			$.ajax({
+				url: "<?php echo base_url();?>admin/ajax",
+				type: "POST",
+				data: {"datastr":datastr},
+				success: function(data){
+					$('select[name=selALSpecification]')
+						.find('option')
+						.remove()
+						.end()
+						.append('<option>Select a Specification</option>');
+					var gs_variant = JSON.parse(data);
+					gs_variant.forEach(function(entry){
+						$('select[name=selALSpecification]').append('<option>' + entry.gs_variant + '</option>');
+					});
+					$('select[name=selALSpecification]').selectpicker('refresh');
+				}
+			});
+		});
+		$("select[name=selALSpecification]").change(function(){
+			var gs_model = $("select[name=selALModel] option:selected").text();
+			var gs_manu_year = $("select[name=selALYear] option:selected").text();
+			var tm_transmission = $("select[name=selALTransmission] option:selected").text();
+			var gs_variant = $("select[name=selALSpecification] option:selected").text();
+			var datastr = '{"mode":"SelectSpecification","gs_model":"'+gs_model+'","gs_manu_year":"'+gs_manu_year+'","tm_transmission":"'+tm_transmission+'","gs_variant":"'+gs_variant+'"}';
+			$.ajax({
+				url: "<?php echo base_url();?>admin/ajax",
+				type: "POST",
+				data: {"datastr":datastr},
+				success: function(data){
+					var qResult = JSON.parse(data);
+					$("input[name=ALBrand]").val(qResult.car_brand);
+					$("input[name=ALCategory]").val(qResult.body_style);
+					$("input[name=ALModel]").val(qResult.gs_model);
+					$("input[name=ALSpecification]").val(qResult.gs_variant);
+					$("input[name=ALYear]").val(qResult.gs_manu_year);
+					$("input[name=ALGDEngineCC]").val(qResult.en_cc);
+					$("input[name=ALGDTransmission]").val(qResult.tm_transmission);
+					$("input[name=ALSeatCapacity]").val(qResult.gn_seat_capacity);
+					$("input[name=ALMileage]").val("");
+					$("input[name=ALColour]").val("");
+					$("input[name=ALDoors]").val(qResult.gn_doors);
+					$("input[name=ALAssembled]").val(qResult.gn_assembled);
+					
+					$("input[name=ALTTransmission]").val(qResult.tm_transmission);
+					$("input[name=ALFinalDriveRatio]").val(qResult.tm_final_drive_ratio);
+					$("input[name=ALNoofGears]").val(qResult.tm_gears);
+					
+					$("input[name=ALESEngineCC]").val(qResult.en_cc);
+					$("input[name=ALStroke]").val(qResult.en_stroke);
+					$("input[name=ALPeakPower]").val(qResult.en_peak_power);
+					$("input[name=ALEngineType]").val(qResult.en_engine_type);
+					$("input[name=ALAspiration]").val(qResult.en_aspiration);
+					$("input[name=ALBore]").val(qResult.en_bore);
+					$("input[name=ALCompressionRatio]").val(qResult.en_compression_ratio);
+					$("input[name=ALPeakTorque]").val(qResult.en_peak_torque);
+					$("input[name=ALDirectInjection]").val(qResult.en_direct_injection);
+					$("input[name=ALFuelType]").val(qResult.en_fuel_type);
+					
+					$("input[name=ALLength]").val(qResult.dm_length);
+					$("input[name=ALHeight]").val(qResult.dm_height);
+					$("input[name=ALWidth]").val(qResult.dm_width);
+					$("input[name=ALWheelBase]").val(qResult.dm_wheel_base);
+					$("input[name=ALFrontThread]").val(qResult.dm_front_thread);
+					$("input[name=ALRearThread]").val(qResult.dm_rear_thread);
+					$("input[name=ALFuelTank]").val(qResult.dm_fuel_tank);
+					
+					$("input[name=ALFrontBrakes]").val(qResult.br_front);
+					$("input[name=ALRearBrakes]").val(qResult.br_rear);
+					
+					$("input[name=ALFrontSuspension]").val(qResult.sus_front);
+					$("input[name=ALRearSuspension]").val(qResult.sus_rear);
+					
+					$("input[name=ALFrontTyres]").val(qResult.tw_front);
+					$("input[name=ALRearTyres]").val(qResult.tw_rear);
+					$("input[name=ALFrontRims]").val(qResult.tw_front_rim);
+					$("input[name=ALRearRims]").val(qResult.tw_rear_rim);
+				}
+			});
+		});
 		$("#btnSignInViaFB").click(function(){
 			checkLoginState();
 		});

@@ -56,7 +56,41 @@
 									});
 
 									swal({
-										title: "Selected advertisement has been deleted!",
+										title: "Selected advertisement has been rejected!",
+										text: "",
+										type: "success"
+										},
+										function(){
+											window.location.replace("<?php echo base_url();?>admin");
+									});
+								}
+							}
+						);						
+					}
+					function AdReject(id){
+						swal({
+							title: "Are you sure you want to reject this advertisement?",
+							text: "",
+							type: "error",
+							showCancelButton: true,
+							confirmButtonClass: "btn-info",
+							confirmButtonText: "Yes",
+							cancelButtonClass: "btn-danger",
+							cancelButtonText: "No",
+							closeOnConfirm: false,
+							allowOutsideClick: true
+							},
+							function(isConfirm) {
+								if (isConfirm) {
+									var datastr = '{"mode":"RejectAd","id":"'+id+'"}';
+									$.ajax({
+										url: "<?php echo base_url();?>admin/ajax",
+										type: "POST",
+										data: {"datastr":datastr}
+									});
+
+									swal({
+										title: "Selected advertisement has been rejected!",
 										text: "",
 										type: "success"
 										},
@@ -479,7 +513,7 @@
                                                                     <div class="btn-group btn-group-circle">
 																		<button class="btn btn-outline dark btn-sm" onclick="AdEdit(<?php echo $pendinglisting->LID.','.$pendinglisting->LAB;?>)">Preview</button>
 																		<button class="btn btn-outline green btn-sm" onclick="AdApprove(<?php echo $pendinglisting->LID;?>)">Approve</button>
-																		<button class="btn btn-outline red btn-sm" onclick="AdDelete(<?php echo $pendinglisting->LID;?>)">Reject</button>
+																		<button class="btn btn-outline red btn-sm" onclick="AdReject(<?php echo $pendinglisting->LID;?>)">Reject</button>
                                                                     </div>
                                                                 </div>
                                                             </div>

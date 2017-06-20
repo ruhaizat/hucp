@@ -94,7 +94,7 @@
                                 <div class="additional-info">
                                     <h3 style="margin-bottom: 5px;">RM<?php echo number_format($eachList->SellingPrice);?></h3>
 									<h4>RM3,400/month</h4>
-                                    <h4><i class="fa fa-road"></i> <?php echo number_format($eachList->Mileage);?>km</h4>
+                                    <h4><i class="fa fa-road"></i> <?php echo $eachList->Mileage;?>km</h4>
                                 </div>
                                 <!--end additional-info-->
                             </a>
@@ -110,7 +110,7 @@
                         <!--end item.row-->
 						<?php endforeach;?>
                   </section>
-                  <section>
+                  <!--<section>
                       <div class="center">
                           <nav aria-label="Page navigation">
                               <ul class="pagination">
@@ -132,7 +132,7 @@
                               </ul>
                           </nav>
                       </div>
-                  </section>
+                  </section>-->
                 </div>
                 <!--end col-md-9-->
             </div>

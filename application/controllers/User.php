@@ -36,6 +36,9 @@ class User extends CI_Controller {
 		$stateData = $queryState->result();
 		$data["state"] = $stateData;
 		
+		$query = $this->db->query("SELECT gs_model FROM tbl_specificationmaster Group By gs_model Order By gs_model ASC");
+		$data["model"] = $query->result();
+		
 		$query = $this->db->query("SELECT * FROM tbl_user WHERE ID = '$userID'");
 		$data["user"] = $query->row();
 		$data["LoggedUser"] = $user_data;
@@ -53,9 +56,12 @@ class User extends CI_Controller {
 		$query = $this->db->query("SELECT * FROM tbl_user WHERE ID = '$userID'");
 		$data["user"] = $query->row();
 		
-		$query = $this->db->query("SELECT *, L.ID AS LID,M.Name AS ModelName, S.Name AS SpecificationName, L.AddedBy AS LAddedBy FROM tbl_listing AS L INNER JOIN tbl_model AS M ON L.Model = M.ID INNER JOIN tbl_specification AS S ON L.Specification = S.ID LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID WHERE L.AddedBy = $userID GROUP BY L.ID");
+		$query = $this->db->query("SELECT *, L.ID AS LID,L.Model AS ModelName, L.Specification AS SpecificationName, L.AddedBy AS LAddedBy FROM tbl_listing AS L LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID WHERE L.AddedBy = $userID GROUP BY L.ID");
 		$listingData = $query->result();
 		$data["listingData"] = $listingData;
+		
+		$query = $this->db->query("SELECT gs_model FROM tbl_specificationmaster Group By gs_model Order By gs_model ASC");
+		$data["model"] = $query->result();
 		
 		$this->load->view('header', $data);
 		$this->load->view('user/listing.php',$data);

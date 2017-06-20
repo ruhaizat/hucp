@@ -23,27 +23,30 @@ class Main extends CI_Controller {
 	{
 		$data["bodyClass"] = "nav-btn-only homepage";
 		
-		$queryRecent = $this->db->query("SELECT *, L.ID AS LID, M.Name AS ModelName, S.Name AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName FROM tbl_listing AS L INNER JOIN tbl_model AS M ON L.Model = M.ID INNER JOIN tbl_specification AS S ON L.Specification = S.ID LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE L.Status = 1 GROUP BY L.ID ORDER BY L.AddedOn DESC LIMIT 8");
+		$queryRecent = $this->db->query("SELECT *, L.ID AS LID, L.Model AS ModelName, L.Specification AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName FROM tbl_listing AS L LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE L.Status = 1 GROUP BY L.ID ORDER BY L.AddedOn DESC LIMIT 8");
 		$recentData = $queryRecent->result();
 		$data["recentData"] = $recentData;
 		
-		$queryFeatured = $this->db->query("SELECT *, L.ID AS LID,M.Name AS ModelName, S.Name AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName FROM tbl_listing AS L INNER JOIN tbl_model AS M ON L.Model = M.ID INNER JOIN tbl_specification AS S ON L.Specification = S.ID LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE L.Status = 1 AND L.IsFeatured = 1 GROUP BY L.ID ORDER BY L.AddedOn DESC LIMIT 12");
+		$queryFeatured = $this->db->query("SELECT *, L.ID AS LID,L.Model AS ModelName, L.Specification AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName FROM tbl_listing AS L LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE L.Status = 1 AND L.IsFeatured = 1 GROUP BY L.ID ORDER BY L.AddedOn DESC LIMIT 12");
 		$featuredData = $queryFeatured->result();
 		$data["featuredData"] = $featuredData;
 		$data["featuredDataCount"] = $queryFeatured->num_rows();
 		
 		$IPAddress = $this->get_client_ip();
-		$queryRecentViewed = $this->db->query("SELECT *, RV.ID AS RVID, L.ID AS LID, M.Name AS ModelName, S.Name AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName FROM tbl_recentlyviewed AS RV INNER JOIN tbl_listing AS L ON RV.ListingID = L.ID INNER JOIN tbl_model AS M ON L.Model = M.ID INNER JOIN tbl_specification AS S ON L.Specification = S.ID LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE RV.IPAddress = '$IPAddress' AND L.Status = 1 GROUP BY RV.ID ORDER BY RV.ViewedOn DESC LIMIT 4");
+		$queryRecentViewed = $this->db->query("SELECT *, RV.ID AS RVID, L.ID AS LID, L.Model AS ModelName, L.Specification AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName FROM tbl_recentlyviewed AS RV INNER JOIN tbl_listing AS L ON RV.ListingID = L.ID LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE RV.IPAddress = '$IPAddress' AND L.Status = 1 GROUP BY RV.ID ORDER BY RV.ViewedOn DESC LIMIT 4");
 		$recentViewedData = $queryRecentViewed->result();
 		$data["recentViewed"] = $recentViewedData;
 		
-		$queryModel = $this->db->query("SELECT * FROM tbl_model");
-		$modelData = $queryModel->result();
-		$data["modelData"] = $modelData;
+		//$queryModel = $this->db->query("SELECT * FROM tbl_model");
+		//$modelData = $queryModel->result();
+		//$data["modelData"] = $modelData;
 		
-		$querySpecification = $this->db->query("SELECT * FROM tbl_specification");
-		$specificationData = $querySpecification->result();
-		$data["specificationData"] = $specificationData;
+		$query = $this->db->query("SELECT gs_model FROM tbl_specificationmaster Group By gs_model Order By gs_model ASC");
+		$data["model"] = $query->result();
+		
+		//$querySpecification = $this->db->query("SELECT * FROM tbl_specification");
+		//$specificationData = $querySpecification->result();
+		//$data["specificationData"] = $specificationData;
 		
 		$queryState = $this->db->query("SELECT * FROM tbl_state");
 		$stateData = $queryState->result();
@@ -150,103 +153,104 @@ class Main extends CI_Controller {
 	public function addlisting(){
 		$user_data = $this->session->userdata("LoggedUser");
 		
+		$Brand = $this->input->post("ALBrand");
+		$Category = $this->input->post("ALCategory");
 		$Model = $this->input->post("ALModel");
+		$ManufacturingYear = $this->input->post("ALYear");
+		$Transmission = $this->input->post("ALGDTransmission");
 		$Specification = $this->input->post("ALSpecification");
-		$Transmission = $this->input->post("ALTransmission");
-		$ManufacturingYear = $this->input->post("ALManufacturingYear");
+		$Condition = $this->input->post("ALCondition");
 		$Mileage = $this->input->post("ALMileage");
-		$Colour = $this->input->post("ALColour");
 		$SellingPrice = $this->input->post("ALSellingPrice");
-		$Description = $this->input->post("ALDescription");
+		$State = $this->input->post("ALState");
 		$Address = $this->input->post("ALAddress");
 		$Latitude = $this->input->post("ALLatitude");
 		$Longitude = $this->input->post("ALLongitude");
-		$gs_category = $this->input->post("gs_category");
-		$gs_model_name = $this->input->post("gs_model_name");
-		$gs_body_type = $this->input->post("gs_body_type");
-		$gs_seats = $this->input->post("gs_seats");
-		$pf_eg_label = $this->input->post("pf_eg_label");
-		$pf_eg_capacity = $this->input->post("pf_eg_capacity");
-		$pf_eg_fuel_system = $this->input->post("pf_eg_fuel_system");
-		$pf_eg_displacement = $this->input->post("pf_eg_displacement");
-		$pf_eg_max_power_label = $this->input->post("pf_eg_max_power_label");
-		$pf_eg_max_power_ps = $this->input->post("pf_eg_max_power_ps");
-		$pf_eg_max_power_kw = $this->input->post("pf_eg_max_power_kw");
-		$pf_eg_max_power_rpm = $this->input->post("pf_eg_max_power_rpm");
-		$pf_eg_max_torque_label = $this->input->post("pf_eg_max_torque_label");
-		$pf_eg_max_touque_kgm = $this->input->post("pf_eg_max_touque_kgm");
-		$pf_eg_max_touque_nm = $this->input->post("pf_eg_max_touque_nm");
-		$pf_eg_max_touque_rpm = $this->input->post("pf_eg_max_touque_rpm");
-		$pf_eg_number_of_cylinders = $this->input->post("pf_eg_number_of_cylinders");
-		$pf_eg_valve_of_cylinder = $this->input->post("pf_eg_valve_of_cylinder");
-		$pf_tm_type = $this->input->post("pf_tm_type");
-		$pf_tm_drive_type = $this->input->post("pf_tm_drive_type");
-		$pf_tm_gear_speed = $this->input->post("pf_tm_gear_speed");
-		$pf_tm_drive_config = $this->input->post("pf_tm_drive_config");
-		$dm_ex_length = $this->input->post("dm_ex_length");
-		$dm_ex_width = $this->input->post("dm_ex_width");
-		$dm_ex_height = $this->input->post("dm_ex_height");
-		$dm_ex_wheel_base = $this->input->post("dm_ex_wheel_base");
-		$dm_ex_front_wheel_tread = $this->input->post("dm_ex_front_wheel_tread");
-		$dm_ex_rear_wheel_tread = $this->input->post("dm_ex_rear_wheel_tread");
-		$dm_ex_front_over_hang = $this->input->post("dm_ex_front_over_hang");
-		$dm_ex_rear_over_hang = $this->input->post("dm_ex_rear_over_hang");
-		$dm_cg_area_vda = $this->input->post("dm_cg_area_vda");
-		$wh_front_wheel = $this->input->post("wh_front_wheel");
-		$wh_rear_wheel = $this->input->post("wh_rear_wheel");
-		$wh_front_tires = $this->input->post("wh_front_tires");
-		$wh_rear_tires = $this->input->post("wh_rear_tires");				
+		$Description = $this->input->post("ALDescription");
+		
+		
+		
+		$en_cc = $this->input->post("ALGDEngineCC");
+		$gn_seat_capacity = $this->input->post("ALSeatCapacity");
+		$Colour = $this->input->post("ALColour");
+		$gn_doors = $this->input->post("ALDoors");
+		$gn_assembled = $this->input->post("ALAssembled");
+		$tm_final_drive_ratio = $this->input->post("ALFinalDriveRatio");
+		$tm_gears = $this->input->post("ALNoofGears");
+		$en_stroke = $this->input->post("ALStroke");
+		$en_peak_power = $this->input->post("ALPeakPower");
+		$en_engine_type = $this->input->post("ALEngineType");
+		$en_aspiration = $this->input->post("ALAspiration");
+		$en_bore = $this->input->post("ALBore");
+		$en_compression_ratio = $this->input->post("ALCompressionRatio");
+		$en_peak_torque = $this->input->post("ALPeakTorque");
+		$en_direct_injection = $this->input->post("ALDirectInjection");
+		$en_fuel_type = $this->input->post("ALFuelType");
+		$dm_length = $this->input->post("ALLength");
+		$dm_height = $this->input->post("ALHeight");
+		$dm_width = $this->input->post("ALWidth");
+		$dm_wheel_base = $this->input->post("ALWheelBase");
+		$dm_front_thread = $this->input->post("ALFrontThread");
+		$dm_rear_thread = $this->input->post("ALRearThread");
+		$dm_fuel_tank = $this->input->post("ALFuelTank");
+		$br_front = $this->input->post("ALFrontBrakes");
+		$br_rear = $this->input->post("ALRearBrakes");
+		$sus_front = $this->input->post("ALFrontSuspension");
+		$sus_rear = $this->input->post("ALRearSuspension");
+		$tw_front = $this->input->post("ALFrontTyres");
+		$tw_rear = $this->input->post("ALRearTyres");
+		$tw_front_rim = $this->input->post("ALFrontRims");
+		$tw_rear_rim = $this->input->post("ALRearRims");				
 		
 		$dataarray = array(
-			"Model" 					=> $Model,
-			"Specification" 			=> $Specification,
-			"Transmission" 				=> $Transmission,		
-			"ManufacturingYear" 		=> $ManufacturingYear,
-			"Mileage" 					=> $Mileage,
-			"Colour" 					=> $Colour,
-			"SellingPrice" 				=> $SellingPrice,
-			"Description" 				=> $Description,
-			"Address" 					=> $Address,
-			"Latitude" 					=> $Latitude,
-			"Longitude" 				=> $Longitude,
-			"gs_category"				=> $gs_category,
-			"gs_model_name" 			=> $gs_model_name,
-			"gs_body_type" 				=> $gs_body_type,
-			"gs_seats" 					=> $gs_seats,
-			"pf_eg_label"				=> $pf_eg_label,
-			"pf_eg_capacity" 			=> $pf_eg_capacity,
-			"pf_eg_fuel_system" 		=> $pf_eg_fuel_system,
-			"pf_eg_displacement" 		=> $pf_eg_displacement,
-			"pf_eg_max_power_label" 	=> $pf_eg_max_power_label,
-			"pf_eg_max_power_ps" 		=> $pf_eg_max_power_ps,
-			"pf_eg_max_power_kw" 		=> $pf_eg_max_power_kw,
-			"pf_eg_max_power_rpm" 		=> $pf_eg_max_power_rpm,
-			"pf_eg_max_torque_label" 	=> $pf_eg_max_torque_label,
-			"pf_eg_max_touque_kgm" 		=> $pf_eg_max_touque_kgm,
-			"pf_eg_max_touque_nm" 		=> $pf_eg_max_touque_nm,
-			"pf_eg_max_touque_rpm" 		=> $pf_eg_max_touque_rpm,
-			"pf_eg_number_of_cylinders" => $pf_eg_number_of_cylinders,
-			"pf_eg_valve_of_cylinder" 	=> $pf_eg_valve_of_cylinder,
-			"pf_tm_type" 				=> $pf_tm_type,
-			"pf_tm_drive_type" 			=> $pf_tm_drive_type,
-			"pf_tm_gear_speed" 			=> $pf_tm_gear_speed,
-			"pf_tm_drive_config" 		=> $pf_tm_drive_config,
-			"dm_ex_length" 				=> $dm_ex_length,
-			"dm_ex_width" 				=> $dm_ex_width,
-			"dm_ex_height" 				=> $dm_ex_height,
-			"dm_ex_wheel_base" 			=> $dm_ex_wheel_base,
-			"dm_ex_front_wheel_tread"	=> $dm_ex_front_wheel_tread,
-			"dm_ex_rear_wheel_tread" 	=> $dm_ex_rear_wheel_tread,
-			"dm_ex_front_over_hang" 	=> $dm_ex_front_over_hang,
-			"dm_ex_rear_over_hang" 		=> $dm_ex_rear_over_hang,
-			"dm_cg_area_vda" 			=> $dm_cg_area_vda,
-			"wh_front_wheel" 			=> $wh_front_wheel,
-			"wh_rear_wheel" 			=> $wh_rear_wheel,
-			"wh_front_tires" 			=> $wh_front_tires,
-			"wh_rear_tires" 			=> $wh_rear_tires,
-			"Status"					=> 0,
-			"AddedBy"					=> $user_data["UserID"],
-			"AddedOn"					=> date("Y-m-d H:i:s")
+			"Brand" 				=> $Brand,
+			"body_style" 				=> $Category,
+			"Model" 				=> $Model,
+			"ManufacturingYear" 	=> $ManufacturingYear,
+			"Transmission" 			=> $Transmission,
+			"Specification" 		=> $Specification,	
+			"Colour" 				=> $Colour,	
+			"Mileage" 				=> $Mileage,
+			"State" 				=> $State,
+			"SellingPrice" 			=> $SellingPrice,
+			"Address" 				=> $Address,
+			"Latitude" 				=> $Latitude,
+			"Longitude" 			=> $Longitude,
+			"Description" 			=> $Description,
+			"en_cc" 				=> $en_cc,
+			"gn_seat_capacity" 		=> $gn_seat_capacity,
+			"Colour" 				=> $Colour,
+			"gn_doors" 				=> $gn_doors,
+			"gn_assembled" 			=> $gn_assembled,
+			"tm_final_drive_ratio" 	=>$tm_final_drive_ratio,
+			"tm_gears" 				=> $tm_gears,
+			"en_stroke" 			=> $en_stroke,
+			"en_peak_power" 		=> $en_peak_power,
+			"en_engine_type" 		=> $en_engine_type,
+			"en_aspiration" 		=> $en_aspiration,
+			"en_bore" 				=> $en_bore,
+			"en_compression_ratio" 	=>$en_compression_ratio,
+			"en_peak_torque" 		=> $en_peak_torque,
+			"en_direct_injection" 	=> $en_direct_injection,
+			"en_fuel_type" 			=> $en_fuel_type,
+			"dm_length" 			=> $dm_length,
+			"dm_height" 			=> $dm_height,
+			"dm_width" 				=> $dm_width,
+			"dm_wheel_base" 		=> $dm_wheel_base,
+			"dm_front_thread" 		=> $dm_front_thread,
+			"dm_rear_thread" 		=> $dm_rear_thread,
+			"dm_fuel_tank" 			=> $dm_fuel_tank,
+			"br_front" 				=> $br_front,
+			"br_rear" 				=> $br_rear,
+			"sus_front" 			=> $sus_front,
+			"sus_rear" 				=> $sus_rear,
+			"tw_front" 				=> $tw_front,
+			"tw_rear" 				=> $tw_rear,
+			"tw_front_rim" 			=> $tw_front_rim,
+			"tw_rear_rim" 			=> $tw_rear_rim,
+			"Status"				=> 0,
+			"AddedBy"				=> $user_data["UserID"],
+			"AddedOn"				=> date("Y-m-d H:i:s")
 		);
 
 		$this->db->insert("tbl_listing", $dataarray);
@@ -455,6 +459,13 @@ class Main extends CI_Controller {
 				}
 				
 				echo "Account active";
+			break;
+			case "SelectModel":
+				$gs_model = $obj->gs_model;
+				$query = $this->db->query("SELECT gs_manu_year FROM tbl_specificationmaster WHERE gs_model = '$gs_model' AND gs_manu_year <> '' GROUP BY gs_manu_year");
+				$gs_manu_year = $query->result();
+				
+				echo json_encode($gs_manu_year);
 			break;
 		}
 	}
