@@ -70,7 +70,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="secondary-nav">
 					<?php if($this->session->userdata("LoggedUser") == null):?>
 						<a data-toggle="modal" href="#SignIn">Sign In</a>
-						<a data-toggle="modal" href="#Register">Register</a>
+						<a id="btnRegister" data-toggle="modal" href="#Register">Register</a>
 					<?php else:?>
 						<ul class="navigation" style="padding-left: 0;">
 							<li class="has-child"><a href="<?php echo base_url();?>user"><?php $user_data = $this->session->userdata("LoggedUser"); echo $user_data["FirstName"];?></a>
@@ -89,7 +89,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<?php endif;?>
                 </div>
                 <!--end secondary-nav-->
+				<?php if($this->session->userdata("LoggedUser") == null):?>
+				<a id="aAddListingNoUser" href="#" class="btn btn-primary btn-small btn-rounded icon shadow add-listing"><i class="fa fa-plus"></i><span>Create Ad</span></a>
+				<?php else:?>
                 <a id="aAddListing" href="#AddListing" class="btn btn-primary btn-small btn-rounded icon shadow add-listing" data-toggle="modal"><i class="fa fa-plus"></i><span>Create Ad</span></a>
+				<?php endif;?>
 				<?php if($this->session->userdata("LoggedUser")): if($user_data["Group"] == 1):?><a href="<?php echo base_url();?>admin" class="btn btn-primary btn-small btn-rounded icon shadow add-listing">Admin</a><?php endif;endif;?>
                 <div class="nav-btn">
                     <i></i>
@@ -152,7 +156,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 					<div class="section-title">
-						<h2>Register</h2>
+						<h2 class="h2RegisterTitle">Register</h2>
 					</div>
 				</div>
 				<div class="modal-body">

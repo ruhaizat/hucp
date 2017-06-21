@@ -116,6 +116,13 @@
 		}
 	}
 	$(document).ready(function(){
+		$("#aAddListingNoUser").click(function(){
+			$(".h2RegisterTitle").text("Please Register to Create Ad");
+			$("#Register").modal("show");
+		});
+		$("#btnRegister").click(function(){
+			$(".h2RegisterTitle").text("Register");
+		});
 		$("select[name=selALModel]").change(function(){
 			var gs_model = $("select[name=selALModel] option:selected").text();
 			var datastr = '{"mode":"SelectModel","gs_model":"'+gs_model+'"}';
