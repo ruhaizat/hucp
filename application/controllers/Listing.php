@@ -329,7 +329,7 @@ class Listing extends CI_Controller {
 		redirect("listing/details/".$LID."/".$user_data["UserID"]);
 	}
 	
-	private function sendcontactselleremail($Name, $Email, $Telephone, $Message, $SellerEmail, $SellerName, $Model){
+	private function sendcontactselleremail($Name, $Email, $Telephone, $Message, $SellerEmail, $SellerName, $Model, $LID, $AddedBy){
 		$config = Array(
 			'protocol' => 'smtp',
 			'smtp_host' => 'mail.ruhaizat.my',
@@ -346,7 +346,7 @@ class Listing extends CI_Controller {
 		$this->email->from('suhucp@ruhaizat.my', "Admin Hyundai Used Car Platform");
 		$this->email->to($SellerEmail);  
 		$this->email->subject("Contact Seller");
-		$this->email->message("Dear ".$SellerName.",<br/><br/>".$Name." has been contacted you regarding your advertisement of <a href='".base_url()."listing/details/7/1'>".$Model."</a>.<br/><br/>Below is the message:<br/>Name: ".$Name."<br/>Email Address: ".$Email."<br/>Telephone No.: ".$Telephone."<br/>Message: ".$Message."<br/><br/>Thanks<br/>Hyundai Used Car Platform");
+		$this->email->message("Dear ".$SellerName.",<br/><br/>".$Name." has been contacted you regarding your advertisement of <a href='".base_url()."listing/details/".$LID."/".$AddedBy."'>".$Model."</a>.<br/><br/>Below is the message:<br/>Name: ".$Name."<br/>Email Address: ".$Email."<br/>Telephone No.: ".$Telephone."<br/>Message: ".$Message."<br/><br/>Thanks<br/>Hyundai Used Car Platform");
 		$this->email->send();
 	}
 	
@@ -369,7 +369,7 @@ class Listing extends CI_Controller {
 				$SellerEmail = $userData->EmailAddress;
 				$SellerName = $userData->FirstName;
 				
-				$this->sendcontactselleremail($Name, $Email, $Telephone, $Description, $SellerEmail, $SellerName, $Model);
+				$this->sendcontactselleremail($Name, $Email, $Telephone, $Description, $SellerEmail, $SellerName, $Model, $ListingID, $SellerID);
 			break;
 			case "AdChangeStatus":
 				$user_data = $this->session->userdata("LoggedUser");
