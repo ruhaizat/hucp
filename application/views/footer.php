@@ -70,52 +70,70 @@
 	}
 	function validateRegForm(){
 		var pEmail = $("#reg_email").val();
+		var pMobile = $("#reg_mobile").val();
 		var pPassword = $("#reg_password").val();
 		var pConfirmPassword = $("#reg_confirm_password").val();
+		var isProceed = true;
 		//var pFirstName = $("#reg_first_name").val();
 		//var pLastName = $("#reg_last_name").val();
+		if(pMobile == ""){
+			isProceed = false;
+			$("#noti-error-mobile").show();
+		}else{
+			$("#noti-error-mobile").hide();
+		}
+		
 		if(pEmail == ""){
-			$("#noti-error-pwd-empty").hide();
-			$("#noti-error-pwd-match").hide();
+			isProceed = false;
 			$("#noti-error-email").show();
-			$("#noti-error-email").text("Email address cannot empty");
 		}else{
 			$("#noti-error-email").hide();
-			if(pPassword == ""){
-				$("#noti-error-pwd-empty").show();
-				$("#noti-error-pwd-match").hide();
+		}
+		
+		if(pPassword == ""){
+			isProceed = false;
+			$("#noti-error-pwd-empty").show();
+			$("#noti-error-pwd-match").hide();
+		}else{
+			if(pPassword != pConfirmPassword){
+				isProceed = false;
+				$("#noti-error-pwd-empty").hide();
+				$("#noti-error-pwd-match").show();
 			}else{
-				if(pPassword != pConfirmPassword){
-					$("#noti-error-pwd-empty").hide();
-					$("#noti-error-pwd-match").show();
-				}else{
-					$("#noti-error-pwd-empty").hide();
-					$("#noti-error-pwd-match").hide();
-					$("#noti-error-email").hide();
-					var datastr = '{"mode":"Register","EmailAddress":"'+pEmail+'","Password":"'+pPassword+'"}';
-					$.ajax({
-						url: "<?php echo base_url();?>main/ajax",
-						type: "POST",
-						data: {"datastr":datastr},
-						success: function(data){
-							//alert(data);
-							if(data == "Account registered"){
-								$("#RegisterSuccess").modal("show");
-								//alert("We have sent verification link to you registered email. Please verify your account before login.");
-							}else{
-								//alert(data);
-								$("#RegisterFailed").modal("show");
-								$("#noti-error-email").show();
-								$("#noti-error-email").text("Account with email address entered already exist");
-								//alert(data);
-							}
-						}
-					});
-				}
+				$("#noti-error-pwd-empty").hide();
+				$("#noti-error-pwd-match").hide();
 			}
+		}
+		
+		if(isProceed == true){
+			var datastr = '{"mode":"Register","EmailAddress":"'+pEmail+'","Password":"'+pPassword+'","Mobile":"'+pMobile+'"}';
+			$.ajax({
+				url: "<?php echo base_url();?>main/ajax",
+				type: "POST",
+				data: {"datastr":datastr},
+				success: function(data){
+					//alert(data);
+					if(data == "Account registered"){
+						$("#RegisterSuccess").modal("show");
+						//alert("We have sent verification link to you registered email. Please verify your account before login.");
+					}else{
+						//alert(data);
+						$("#RegisterFailed").modal("show");
+						$("#noti-error-email").show();
+						$("#noti-error-email").text("Account with email address entered already exist");
+						//alert(data);
+					}
+				}
+			});			
 		}
 	}
 	$(document).ready(function(){
+		$("input[name=ALColour]").change(function(){
+			$("input[name=ALColourDup]").val($("input[name=ALColour]").val());
+		});
+		$("#ALMileage").change(function(){
+			$("input[name=ALMileageDup]").val($("#ALMileage option:selected").text());
+		});
 		$("#aAddListingNoUser").click(function(){
 			$(".h2RegisterTitle").text("Please Register to Create Ad");
 			$("#Register").modal("show");
@@ -273,52 +291,64 @@
 			});
 		});
 		$("#frmAddListing").submit(function(){
-			var Model = $("#ALModel").val();
-			var Specification = $("#ALSpecification").val();
-			var Transmission = $("#ALTransmission").val();
-			var ManufacturingYear = $("#ALManufacturingYear").val();
-			var Mileage = $("#ALMileage").val();
-			var Colour = $("#ALColour").val();
+			$("#noti-error-car-details").hide();
+			$("#noti-error-ad-image").hide();
+			var isProceed = true;
+			
+			var Model = $("#ALModel option:selected").val();
+			if(Model == ""){
+				isProceed = false;
+			}
+			var ManufacturingYear = $("#ALManufacturingYear option:selected").val();
+			if(ManufacturingYear == ""){
+				isProceed = false;
+			}
+			var Transmission = $("#ALTransmission option:selected").val();
+			if(Transmission == ""){
+				isProceed = false;
+			}
+			var Specification = $("#ALSpecification option:selected").val();
+			if(Specification == ""){
+				isProceed = false;
+			}
+			var Condition = $("#ALCondition option:selected").val();
+			if(Condition == ""){
+				isProceed = false;
+			}
+			var Mileage = $("#ALMileage option:selected").val();
+			if(Mileage == ""){
+				isProceed = false;
+			}
 			var SellingPrice = $("#ALSellingPrice").val();
-			var Description = $("#ALAddress").val();
-			var Address = $("#ALLatitude").val();
-			var Latitude = $("#ALLongitude").val();
-			var Longitude = $("#ALDescription").val();
-			var gs_category = $("#gs_category").val();
-			var gs_model_name = $("#gs_model_name").val();
-			var gs_body_type = $("#gs_body_type").val();
-			var gs_seats = $("#gs_seats").val();
-			var pf_eg_label = $("#pf_eg_label").val();
-			var pf_eg_capacity = $("#pf_eg_capacity").val();
-			var pf_eg_fuel_system = $("#pf_eg_fuel_system").val();
-			var pf_eg_displacement = $("#pf_eg_displacement").val();
-			var pf_eg_max_power_label = $("#pf_eg_max_power_label").val();
-			var pf_eg_max_power_ps = $("#pf_eg_max_power_ps").val();
-			var pf_eg_max_power_kw = $("#pf_eg_max_power_kw").val();
-			var pf_eg_max_power_rpm = $("#pf_eg_max_power_rpm").val();
-			var pf_eg_max_torque_label = $("#pf_eg_max_torque_label").val();
-			var pf_eg_max_touque_kgm = $("#pf_eg_max_touque_kgm").val();
-			var pf_eg_max_touque_nm = $("#pf_eg_max_touque_nm").val();
-			var pf_eg_max_touque_rpm = $("#pf_eg_max_touque_rpm").val();
-			var pf_eg_number_of_cylinders = $("#pf_eg_number_of_cylinders").val();
-			var pf_eg_valve_of_cylinder = $("#pf_eg_valve_of_cylinder").val();
-			var pf_tm_type = $("#pf_tm_type").val();
-			var pf_tm_drive_type = $("#pf_tm_drive_type").val();
-			var pf_tm_gear_speed = $("#pf_tm_gear_speed").val();
-			var pf_tm_drive_config = $("#pf_tm_drive_config").val();
-			var dm_ex_length = $("#dm_ex_length").val();
-			var dm_ex_width = $("#dm_ex_width").val();
-			var dm_ex_height = $("#dm_ex_height").val();
-			var dm_ex_wheel_base = $("#dm_ex_wheel_base").val();
-			var dm_ex_front_wheel_tread = $("#dm_ex_front_wheel_tread").val();
-			var dm_ex_rear_wheel_tread = $("#dm_ex_rear_wheel_tread").val();
-			var dm_ex_front_over_hang = $("#dm_ex_front_over_hang").val();
-			var dm_ex_rear_over_hang = $("#dm_ex_rear_over_hang").val();
-			var dm_cg_area_vda = $("#dm_cg_area_vda").val();
-			var wh_front_wheel = $("#wh_front_wheel").val();
-			var wh_rear_wheel = $("#wh_rear_wheel").val();
-			var wh_front_tires = $("#wh_front_tires").val();
-			var wh_rear_tires = $("#wh_rear_tires").val();
+			if(SellingPrice == ""){
+				isProceed = false;
+			}
+			var State = $("#ALState option:selected").val();
+			if(State == ""){
+				isProceed = false;
+			}
+			var Address = $("#ALAdress").val();
+			if(Address == ""){
+				isProceed = false;
+			}
+			var Colour = $("#ALColour").val();
+			if(Colour == ""){
+				isProceed = false;
+			}
+			var Description = $("#ALDescription").val();
+			if(Description == ""){
+				isProceed = false;
+			}
+			
+			if($('input[name=userfile]').val() == ""){
+				$("#noti-error-ad-image").show();
+				isProceed = false;
+			}
+			
+			if(isProceed == false){
+				$("#noti-error-car-details").show();
+				event.preventDefault();
+			}
 		});
 		$("#aAddListing").click(function(){
 			//initializeAL();

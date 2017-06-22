@@ -75,7 +75,10 @@
 					}
 					
 					function AdEdit(id,addedBy){
-						window.location.replace("<?php echo base_url();?>listing/details/" + id + "/" + addedBy);
+						window.location.href = "<?php echo base_url();?>admin/adedit/" + id + "/" + addedBy;
+					}
+					function AdPreview(id,addedBy){
+						window.open("<?php echo base_url();?>listing/details/" + id + "/" + addedBy, "_blank");
 					}
 					
 					$(document).ready(function(){
@@ -170,7 +173,7 @@
 																<img width="41px" height="41px" <?php if($listing->Type == 2):echo "src='".$listing->ProfilePic."'";else: echo "src='../assets/img/profile/".$listing->ProfilePic."'";endif;?> />
 															</td>
 															<td>
-																<a href="<?php echo base_url().'listing/details/'.$listing->LID.'/'.$listing->LAB;?>" target="_blank"><span class="mt-action-author"><?php echo $listing->MName;?></span></a>
+																<a href="<?php echo base_url().'listing/details/'.$listing->LID.'/'.$listing->LAB;?>" target="_blank"><span class="mt-action-author"><?php echo $listing->ManufacturingYear." ".$listing->Brand." ".$listing->MName;?></span></a>
                                                                 <p class="mt-action-desc">submitted by <a href="<?php echo base_url().'user/index/'.$listing->LAB;?>"><?php echo $listing->FirstName;?></a></p>
 															</td>
 															<td>
@@ -181,7 +184,7 @@
 															</td>
 															<td>
 																<div class="btn-group btn-group-circle">
-																	<button type="button" class="btn btn-outline dark btn-sm" onclick="AdEdit(<?php echo $listing->LID.','.$listing->LAB;?>)">Preview</button>
+																	<button type="button" class="btn btn-outline dark btn-sm" onclick="AdPreview(<?php echo $listing->LID.','.$listing->LAB;?>)">Preview</button>
 																	<button type="button" class="btn btn-outline dark btn-sm" onclick="AdEdit(<?php echo $listing->LID.','.$listing->LAB;?>)">Edit</button>
 																	<button class="btn btn-outline red btn-sm mt-sweetalert" onclick="AdDelete(<?php echo $listing->LID;?>)">Delete</button>
 																</div>

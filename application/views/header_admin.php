@@ -47,6 +47,7 @@ Contact: kenny@kni.com.my
         <link rel="shortcut icon" href="<?php echo base_url();?>favicon.ico" /> </head>
         <link href="<?php echo base_url();?>assets/css/jquery-ui.css" rel="stylesheet" type="text/css" />
 		<script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery-2.2.1.min.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery-migrate-1.2.1.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery-ui.js"></script>
         <script src="<?php echo base_url();?>assets/global/plugins/bootstrap-sweetalert/sweetalert.min.js" type="text/javascript"></script>
 	<script type="text/javascript" src="<?php echo base_url();?>assets/js/jQuery.MultiFile.min.js"></script>

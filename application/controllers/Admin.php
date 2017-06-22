@@ -26,7 +26,7 @@ class Admin extends CI_Controller {
 		$query = $this->db->query("SELECT COUNT(ID) AS UTotal, (SELECT COUNT(ID) FROM tbl_user WHERE AddedOn BETWEEN DATE_ADD(CURDATE(), INTERVAL - WEEKDAY(CURDATE()) DAY) AND DATE_ADD(CURDATE() + 6, INTERVAL - WEEKDAY(CURDATE()) DAY)) AS UWeek FROM tbl_user");
 		$data["UserCount"] = $query->row();
 				
-		$query = $this->db->query("SELECT tbl_listing.Model AS MName,tbl_user.FirstName AS UFName,tbl_user.Type AS UType,tbl_user.ProfilePic AS UPPic,tbl_listing.ID AS LID,tbl_listing.AddedBy AS LAB FROM tbl_listing INNER JOIN tbl_user ON tbl_listing.AddedBy = tbl_user.ID WHERE tbl_listing.Status = 0 ORDER BY tbl_listing.AddedOn DESC");
+		$query = $this->db->query("SELECT tbl_listing.ManufacturingYear AS ManufacturingYear,tbl_listing.Brand AS Brand,tbl_listing.Model AS MName,tbl_user.FirstName AS UFName,tbl_user.Type AS UType,tbl_user.ProfilePic AS UPPic,tbl_listing.ID AS LID,tbl_listing.AddedBy AS LAB FROM tbl_listing INNER JOIN tbl_user ON tbl_listing.AddedBy = tbl_user.ID WHERE tbl_listing.Status = 0 ORDER BY tbl_listing.AddedOn DESC");
 		$data["pendinglistings"] = $query->result();		
 		$data["pendinglistingsview"] = 10;
 		
@@ -77,6 +77,36 @@ class Admin extends CI_Controller {
 		
 		$this->load->view('header_admin');
 		$this->load->view('admin/user/all.php', $data);
+		$this->load->view('footer_admin');
+	}
+	
+	public function adedit($id, $addedBy)
+	{		
+		$query = $this->db->query("SELECT * FROM tbl_user WHERE Status = 2");
+		$data["users"] = $query->result();
+		
+		$query = $this->db->query("SELECT gs_model FROM tbl_specificationmaster Group By gs_model Order By gs_model ASC");
+		$data["model"] = $query->result();
+		
+		$queryState = $this->db->query("SELECT * FROM tbl_state");
+		$stateData = $queryState->result();
+		$data["state"] = $stateData;
+		
+		$query = $this->db->query("SELECT *,L.IsFeatured AS LIsFeatured, L.ID AS LID, L.AddedBy AS LAddedBy, U.FirstName AS UFName, L.Status AS LStatus FROM tbl_listing AS L INNER JOIN tbl_user AS U ON L.AddedBy = U.ID WHERE L.ID = $id");
+		$listingData = $query->row();
+		
+		$queryimg = $this->db->query("SELECT * FROM tbl_listingimage WHERE ListingID = '$id'");
+		$listingImageData = $queryimg->result();
+		
+		$queryUser = $this->db->query("SELECT * FROM tbl_user WHERE ID = $addedBy");
+		$userData = $queryUser->row();
+		
+		$data["listingData"] = $listingData;
+		$data["listingImageData"] = $listingImageData;
+		$data["userData"] = $userData;
+		
+		$this->load->view('header_admin');
+		$this->load->view('admin/ad/edit.php', $data);
 		$this->load->view('footer_admin');
 	}
 	
@@ -260,6 +290,159 @@ class Admin extends CI_Controller {
 			}
 	
 		redirect("listing/details/".$insert_id."/".$user_data["UserID"]);
+	}	
+	public function editlisting(){
+		$user_data = $this->session->userdata("LoggedUser");
+				
+		$LID = $this->input->post("hLID");
+		
+		$Brand = $this->input->post("editALBrand");
+		$Category = $this->input->post("editALCategory");
+		$Model = $this->input->post("editALModel");
+		$ManufacturingYear = $this->input->post("editALYear");
+		$Transmission = $this->input->post("editALGDTransmission");
+		$Specification = $this->input->post("editALSpecification");
+		$Condition = $this->input->post("editALCondition");
+		$Mileage = $this->input->post("editALMileageDup");
+		$SellingPrice = $this->input->post("editALSellingPrice");
+		$State = $this->input->post("editALState");
+		$Address = $this->input->post("editALAddress");
+		$Latitude = $this->input->post("editALLatitude");
+		$Longitude = $this->input->post("editALLongitude");
+		$Description = $this->input->post("editALDescription");
+		
+		
+		
+		$en_cc = $this->input->post("editALGDEngineCC");
+		$gn_seat_capacity = $this->input->post("editALSeatCapacity");
+		$Colour = $this->input->post("editALColour");
+		$gn_doors = $this->input->post("editALDoors");
+		$gn_assembled = $this->input->post("editALAssembled");
+		$tm_final_drive_ratio = $this->input->post("editALFinalDriveRatio");
+		$tm_gears = $this->input->post("editALNoofGears");
+		$en_stroke = $this->input->post("editALStroke");
+		$en_peak_power = $this->input->post("editALPeakPower");
+		$en_engine_type = $this->input->post("editALEngineType");
+		$en_aspiration = $this->input->post("editALAspiration");
+		$en_bore = $this->input->post("editALBore");
+		$en_compression_ratio = $this->input->post("editALCompressionRatio");
+		$en_peak_torque = $this->input->post("editALPeakTorque");
+		$en_direct_injection = $this->input->post("editALDirectInjection");
+		$en_fuel_type = $this->input->post("editALFuelType");
+		$dm_length = $this->input->post("editALLength");
+		$dm_height = $this->input->post("editALHeight");
+		$dm_width = $this->input->post("editALWidth");
+		$dm_wheel_base = $this->input->post("editALWheelBase");
+		$dm_front_thread = $this->input->post("editALFrontThread");
+		$dm_rear_thread = $this->input->post("editALRearThread");
+		$dm_fuel_tank = $this->input->post("editALFuelTank");
+		$br_front = $this->input->post("editALFrontBrakes");
+		$br_rear = $this->input->post("editALRearBrakes");
+		$sus_front = $this->input->post("editALFrontSuspension");
+		$sus_rear = $this->input->post("editALRearSuspension");
+		$tw_front = $this->input->post("editALFrontTyres");
+		$tw_rear = $this->input->post("editALRearTyres");
+		$tw_front_rim = $this->input->post("editALFrontRims");
+		$tw_rear_rim = $this->input->post("editALRearRims");				
+		
+		$dataarray = array(
+			"Brand" 				=> $Brand,
+			"body_style" 				=> $Category,
+			"Model" 				=> $Model,
+			"ManufacturingYear" 	=> $ManufacturingYear,
+			"Transmission" 			=> $Transmission,
+			"Specification" 		=> $Specification,	
+			"Colour" 				=> $Colour,	
+			"Mileage" 				=> $Mileage,
+			"State" 				=> $State,
+			"SellingPrice" 			=> $SellingPrice,
+			"Address" 				=> $Address,
+			"Latitude" 				=> $Latitude,
+			"Longitude" 			=> $Longitude,
+			"Description" 			=> $Description,
+			"en_cc" 				=> $en_cc,
+			"gn_seat_capacity" 		=> $gn_seat_capacity,
+			"Colour" 				=> $Colour,
+			"gn_doors" 				=> $gn_doors,
+			"gn_assembled" 			=> $gn_assembled,
+			"tm_final_drive_ratio" 	=>$tm_final_drive_ratio,
+			"tm_gears" 				=> $tm_gears,
+			"en_stroke" 			=> $en_stroke,
+			"en_peak_power" 		=> $en_peak_power,
+			"en_engine_type" 		=> $en_engine_type,
+			"en_aspiration" 		=> $en_aspiration,
+			"en_bore" 				=> $en_bore,
+			"en_compression_ratio" 	=>$en_compression_ratio,
+			"en_peak_torque" 		=> $en_peak_torque,
+			"en_direct_injection" 	=> $en_direct_injection,
+			"en_fuel_type" 			=> $en_fuel_type,
+			"dm_length" 			=> $dm_length,
+			"dm_height" 			=> $dm_height,
+			"dm_width" 				=> $dm_width,
+			"dm_wheel_base" 		=> $dm_wheel_base,
+			"dm_front_thread" 		=> $dm_front_thread,
+			"dm_rear_thread" 		=> $dm_rear_thread,
+			"dm_fuel_tank" 			=> $dm_fuel_tank,
+			"br_front" 				=> $br_front,
+			"br_rear" 				=> $br_rear,
+			"sus_front" 			=> $sus_front,
+			"sus_rear" 				=> $sus_rear,
+			"tw_front" 				=> $tw_front,
+			"tw_rear" 				=> $tw_rear,
+			"tw_front_rim" 			=> $tw_front_rim,
+			"tw_rear_rim" 			=> $tw_rear_rim,
+			"ModifiedBy"				=> $user_data["UserID"],
+			"ModifiedOn"				=> date("Y-m-d H:i:s")
+		);
+		
+		if($user_data["Group"] == 2){
+			$dataarray["Status"] = 0;
+		}
+
+		$this->db->set($dataarray);
+		$this->db->where("ID", $LID);
+		$this->db->update("tbl_listing");
+				
+		$this->db->delete('tbl_listingimage', array('ListingID' => $LID));
+				
+		$config["upload_path"]          = "assets/img/listing";
+		$config["allowed_types"]        = "gif|jpg|png";
+
+		$this->load->library("upload", $config);
+		
+		
+		$files = $_FILES;
+		$cpt = count($_FILES['userfile']['name']);
+		//echo $cpt;
+		for($i=0; $i<$cpt; $i++)
+		{           
+			$_FILES['userfile']['name']= $files['userfile']['name'][$i];
+			$_FILES['userfile']['type']= $files['userfile']['type'][$i];
+			$_FILES['userfile']['tmp_name']= $files['userfile']['tmp_name'][$i];
+			$_FILES['userfile']['error']= $files['userfile']['error'][$i];
+			$_FILES['userfile']['size']= $files['userfile']['size'][$i];    
+
+			if (!$this->upload->do_upload())
+			{
+					$error = array("error" => $this->upload->display_errors());
+					//echo $this->upload->display_errors();
+			}
+			else
+			{
+					$data = array("upload_data" => $this->upload->data());
+					$ProfilePic = $this->upload->data("file_name");
+					
+					$dataarraypic = array(
+						"ListingPic" => $ProfilePic,
+						"ListingID" => $LID,
+						"AddedOn" => date("Y-m-d H:i:s")
+					);
+		
+					$this->db->insert("tbl_listingimage", $dataarraypic);
+			}
+		}
+	
+		redirect("listing/details/".$LID."/".$user_data["UserID"]);
 	}
 	
 	public function newsletternew()
@@ -315,6 +498,12 @@ class Admin extends CI_Controller {
 				$emailAddress = $obj->EmailAddress;
 				$password = $obj->Password;
 				$role = $obj->Role;
+				$FirstName = $obj->FirstName;
+				$LastName = $obj->LastName;
+				$MobileNo = $obj->MobileNo;
+				$ICNo = $obj->ICNo;
+				$State = $obj->State;
+				$Address = $obj->Address;
 				
 				if($role == "1"){
 					$status = 2;
@@ -336,7 +525,13 @@ class Admin extends CI_Controller {
 					$data = array(
 					   "Type" => 1,
 					   "Group" => $role,
+					   "FirstName" => $FirstName,
+					   "LastName" => $LastName,
 					   "EmailAddress" => $emailAddress,
+					   "MobileNo" => $MobileNo,
+					   "IdentityCardNo" => $ICNo,
+					   "State" => $State,
+					   "Address" => $Address,
 					   "Password" => $hash,
 					   "MembershipType" => "Basic",
 					   "ProfilePic" => "default.jpg",
@@ -356,10 +551,19 @@ class Admin extends CI_Controller {
 				}
 				
 				if($accountResult == 0){
-					echo "Account registered";
+					echo "Account registered|".$insert_id;
 				}elseif($accountResult == 1){
 					echo "Account already exist";
 				}
+			break;
+			case "UpdateUserImage":
+				$dataarray = array(
+					"ProfilePic" => $obj->ProfilePic
+				);	
+			
+				$this->db->set($dataarray);
+				$this->db->where("ID", $obj->UserID);
+				$this->db->update("tbl_user");
 			break;
 			case "DeleteUser":
 				$this->db->delete('tbl_user', array('ID' => $obj->id));

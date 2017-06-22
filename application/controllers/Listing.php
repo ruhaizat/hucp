@@ -135,7 +135,7 @@ class Listing extends CI_Controller {
 		
 		$data["bodyClass"] = "subpage-detail";
 		
-		$query = $this->db->query("SELECT *, L.ID AS LID, L.AddedBy AS LAddedBy, L.Status AS LStatus FROM tbl_listing AS L WHERE L.ID = $id");
+		$query = $this->db->query("SELECT *,L.IsFeatured AS LIsFeatured, L.ID AS LID, L.AddedBy AS LAddedBy, L.Status AS LStatus FROM tbl_listing AS L WHERE L.ID = $id");
 		$listingData = $query->row();
 		
 		$queryimg = $this->db->query("SELECT * FROM tbl_listingimage WHERE ListingID = '$id'");
@@ -160,6 +160,9 @@ class Listing extends CI_Controller {
 		
 		$query = $this->db->query("SELECT gs_model FROM tbl_specificationmaster Group By gs_model Order By gs_model ASC");
 		$data["modelData"] = $query->result();
+		
+		$query = $this->db->query("SELECT gs_model FROM tbl_specificationmaster Group By gs_model Order By gs_model ASC");
+		$data["model"] = $query->result();
 				
 		$data["listingData"] = $listingData;
 		$data["listingImageData"] = $listingImageData;
@@ -393,6 +396,20 @@ class Listing extends CI_Controller {
 				
 				$dataarray = array(
 					"IsFeatured"	=> 1,
+					"ModifiedBy"	=> $user_data["UserID"],
+					"ModifiedOn"	=> date("Y-m-d H:i:s")
+				);
+
+				$this->db->set($dataarray);
+				$this->db->where("ID", $LID);
+				$this->db->update("tbl_listing");
+			break;
+			case "AdUnFeatured":
+				$user_data = $this->session->userdata("LoggedUser");
+				$LID = $obj->ID;
+				
+				$dataarray = array(
+					"IsFeatured"	=> 0,
 					"ModifiedBy"	=> $user_data["UserID"],
 					"ModifiedOn"	=> date("Y-m-d H:i:s")
 				);

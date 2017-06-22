@@ -14,7 +14,7 @@
 		var table;
 		$(document).ready(function(){
 			table = $('#dataTableListing').DataTable({
-				"pageLength": 5,
+				"pageLength": 25,
 				"deferRender": true
 			});
 			$("#sRes").text(table.page.info().recordsDisplay);
@@ -359,7 +359,7 @@
 										<div class="description">
 											<h3>RM<?php echo number_format($eachRecent->SellingPrice);?></h3>
 											<div class="label label-default">Used</div>
-											<h3><?php echo $eachRecent->ModelName;?></h3>
+											<h3><?php echo $eachRecent->ManufacturingYear." ".$eachRecent->Brand." ".$eachRecent->ModelName;?></h3>
 											<h4 style="padding: 0 0 5px 0;"><?php echo $eachRecent->SpecificationName?></h4>
 											<h4><i class="fa fa-map-marker"></i> <?php echo $eachRecent->StateName;?></h4>
 										</div>
@@ -439,7 +439,7 @@
 													drawMapNow(mapCenter, "map<?php echo $eachList->LID;?>");
 												</script>
 												<div class="description">
-													<h3><?php echo $eachList->ModelName;?></h3>
+													<h3><?php echo $eachList->ManufacturingYear." ".$eachList->Brand." ".$eachList->ModelName;?></h3>
 													<h4 style="padding: 0 0 5px 0;"><?php echo $eachList->SpecificationName?></h4>
 													<h4><i class="fa fa-map-marker"></i> <?php echo $eachList->StateName;?></h4>
 													<div class="label label-default">Used</div>

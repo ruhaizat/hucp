@@ -160,7 +160,7 @@ class Main extends CI_Controller {
 		$Transmission = $this->input->post("ALGDTransmission");
 		$Specification = $this->input->post("ALSpecification");
 		$Condition = $this->input->post("ALCondition");
-		$Mileage = $this->input->post("ALMileage");
+		$Mileage = $this->input->post("ALMileageDup");
 		$SellingPrice = $this->input->post("ALSellingPrice");
 		$State = $this->input->post("ALState");
 		$Address = $this->input->post("ALAddress");
@@ -248,7 +248,7 @@ class Main extends CI_Controller {
 			"tw_rear" 				=> $tw_rear,
 			"tw_front_rim" 			=> $tw_front_rim,
 			"tw_rear_rim" 			=> $tw_rear_rim,
-			"Status"				=> 0,
+			"Status"				=> -1,
 			"AddedBy"				=> $user_data["UserID"],
 			"AddedOn"				=> date("Y-m-d H:i:s")
 		);
@@ -360,6 +360,7 @@ class Main extends CI_Controller {
 			case "Register":
 				$this->load->library('bcrypt');
 				$emailAddress = $obj->EmailAddress;
+				$mobile = $obj->Mobile;
 				$password = $obj->Password;
 				//$firstName = $obj->FirstName;
 				//$lastName = $obj->LastName;
@@ -376,6 +377,7 @@ class Main extends CI_Controller {
 					$data = array(
 					   "Type" => 1,
 					   "EmailAddress" => $emailAddress,
+					   "MobileNo" => $mobile,
 					   "Password" => $hash,
 					   //"FirstName" => $firstName,
 					   //"LastName" => $lastName,

@@ -139,7 +139,7 @@
 		
 		$(document).ready(function(){
 			RunSelModel("<?php echo $listingData->Model;?>");
-			
+			loadLData();
 			$("select[name=selEditALModel]").change(function(){
 				var gs_model = $("select[name=selEditALModel] option:selected").text();
 				var datastr = '{"mode":"SelectModel","gs_model":"'+gs_model+'"}';
@@ -229,6 +229,8 @@
 				}else if(buttonMode == "Reject"){
 					window.location.href = "<?php echo base_url();?>admin"
 				}else if(buttonMode == "Featured"){
+					window.location.href = "<?php echo base_url();?>admin"
+				}else if(buttonMode == "UnFeatured"){
 					window.location.href = "<?php echo base_url();?>admin"
 				}
 			});
@@ -447,16 +449,260 @@
 				}
 			});
 		}
+		function UnfeaturedAd(elem){
+			var LID = $(elem).attr("id").split("_")[1];
+			
+			var datastr = '{"mode":"AdUnFeatured","ID":"'+LID+'"}';
+			$.ajax({
+				url: "<?php echo base_url();?>listing/ajax",
+				type: "POST",
+				data: {"datastr":datastr},
+				success: function(data){
+					$("#sPCTitle").text("Success");
+					$("#sPCMsg").text("Advertisement successfully unfeatured.");
+					buttonMode = "UnFeatured";
+					$("#PopupCustom").modal("show");
+				}
+			});
+		}
 		window.addEventListener("beforeunload", function (e) {
 			var LStatus = "<?php echo $listingData->Status;?>";
 			var UserGroup = "<?php $user_data = $this->session->userdata("LoggedUser"); echo $user_data["Group"];?>";
-			if(LStatus == "0" && UserGroup == "2"){
+			if(LStatus == "-1" && UserGroup == "2" && buttonMode != "Submit"){
 				var confirmationMessage = "\o/";
 		
 				(e || window.event).returnValue = confirmationMessage;
 				return confirmationMessage;    	
 			}
 		});
+		function loadLData(){
+			var isTransmission = false;
+			var isEngineSpecification = false;
+			var isDimension = false;
+			var isBrake = false;
+			var isSuspension = false;
+			var isTyre = false;
+			
+			var TTransmission = "<?php echo $listingData->Transmission;?>";
+			if(TTransmission == ""){
+				$(".rowTransmission").hide();
+			}else{
+				isTransmission = true;
+			}
+			
+			var FinalDriveRatio = "<?php echo $listingData->tm_final_drive_ratio;?>";
+			if(FinalDriveRatio == ""){
+				$(".rowFinalDriveRatio").hide();
+			}else{
+				isTransmission = true;
+			}
+			
+			var NoofGears = "<?php echo $listingData->tm_gears;?>";
+			if(NoofGears == ""){
+				$(".rowNoOfGears").hide();
+			}else{
+				isTransmission = true;
+			}
+			
+			if(isTransmission == false){
+				$(".TransmissionBox").hide();
+			}
+			
+			var ESEngineCC = "<?php echo $listingData->en_cc;?>";
+			if(ESEngineCC == ""){
+				$(".rowEngineCC").hide();
+			}else{
+				isEngineSpecification = true;
+			}
+			
+			var Stroke = "<?php echo $listingData->en_stroke;?>";
+			if(Stroke == ""){
+				$(".rowStroke").hide();
+			}else{
+				isEngineSpecification = true;
+			}
+			
+			var PeakPower = "<?php echo $listingData->en_peak_power;?>";
+			if(PeakPower == ""){
+				$(".rowPeakPower").hide();
+			}else{
+				isEngineSpecification = true;
+			}
+			
+			var EngineType = "<?php echo $listingData->en_engine_type;?>";
+			if(EngineType == ""){
+				$(".rowEngineType").hide();
+			}else{
+				isEngineSpecification = true;
+			}
+			
+			var Aspiration = "<?php echo $listingData->en_aspiration;?>";
+			if(Aspiration == ""){
+				$(".rowAspiration").hide();
+			}else{
+				isEngineSpecification = true;
+			}
+			
+			var Bore = "<?php echo $listingData->en_bore;?>";
+			if(Bore == ""){
+				$(".rowBore").hide();
+			}else{
+				isEngineSpecification = true;
+			}
+			
+			var CompressionRatio = "<?php echo $listingData->en_compression_ratio;?>";
+			if(CompressionRatio == ""){
+				$(".rowCompressionRatio").hide();
+			}else{
+				isEngineSpecification = true;
+			}
+			
+			var PeakTorque = "<?php echo $listingData->en_peak_torque;?>";
+			if(PeakTorque == ""){
+				$(".rowPeakTorque").hide();
+			}else{
+				isEngineSpecification = true;
+			}
+			
+			var DirectInjection = "<?php echo $listingData->en_direct_injection;?>";
+			if(DirectInjection == ""){
+				$(".rowDirectInjection").hide();
+			}else{
+				isEngineSpecification = true;
+			}
+			
+			var FuelType = "<?php echo $listingData->en_fuel_type;?>";
+			if(FuelType == ""){
+				$(".rowFuelType").hide();
+			}else{
+				isEngineSpecification = true;
+			}
+			
+			if(isEngineSpecification == false){
+				$(".EngineSpecificationBox").hide();
+			}
+			
+			var Length = "<?php echo $listingData->dm_length;?>";
+			if(Length == ""){
+				$(".rowLength").hide();
+			}else{
+				isDimension = true;
+			}
+			
+			var Height = "<?php echo $listingData->dm_height;?>";
+			if(Height == ""){
+				$(".rowHeight").hide();
+			}else{
+				isDimension = true;
+			}
+			
+			var Width = "<?php echo $listingData->dm_width;?>";
+			if(Width == ""){
+				$(".rowWidth").hide();
+			}else{
+				isDimension = true;
+			}
+			
+			var WheelBase = "<?php echo $listingData->dm_wheel_base;?>";
+			if(WheelBase == ""){
+				$(".rowWheelBase").hide();
+			}else{
+				isDimension = true;
+			}
+			
+			var FrontThread = "<?php echo $listingData->dm_front_thread;?>";
+			if(FrontThread == ""){
+				$(".rowFrontThread").hide();
+			}else{
+				isDimension = true;
+			}
+			
+			var RearThread = "<?php echo $listingData->dm_rear_thread;?>";
+			if(RearThread == ""){
+				$(".rowRearThread").hide();
+			}else{
+				isDimension = true;
+			}
+			
+			var FuelTank = "<?php echo $listingData->dm_fuel_tank;?>";
+			if(FuelTank == ""){
+				$(".rowFuelTank").hide();
+			}else{
+				isDimension = true;
+			}
+			
+			if(isDimension == false){
+				$(".DimensionBox").hide();
+			}
+			
+			var FrontBrakes = "<?php echo $listingData->br_front;?>";
+			if(FrontBrakes == ""){
+				$(".rowFrontBrakes").hide();
+			}else{
+				isBrake = true;
+			}
+			
+			var RearBrakes = "<?php echo $listingData->br_rear;?>";
+			if(RearBrakes == ""){
+				$(".rowRearBrakes").hide();
+			}else{
+				isBrake = true;
+			}
+			
+			if(isBrake){
+				$(".BrakeBox").hide();
+			}
+			
+			var FrontSuspension = "<?php echo $listingData->sus_front;?>";
+			if(FrontSuspension == ""){
+				$(".rowFrontSuspension").hide();
+			}else{
+				isSuspension = true;
+			}
+			
+			var RearSuspension = "<?php echo $listingData->sus_rear;?>";
+			if(RearSuspension == ""){
+				$(".rowRearSuspension").hide();
+			}else{
+				isSuspension = true;
+			}
+			
+			if(isSuspension == false){
+				$(".SuspensionBox").hide();
+			}
+			 
+			var FrontTyres = "<?php echo $listingData->tw_front;?>";
+			if(FrontTyres == ""){
+				$(".rowFrontTyres").hide();
+			}else{
+				isTyre = true;
+			}
+			
+			var RearTyres = "<?php echo $listingData->tw_rear;?>";
+			if(RearTyres){
+				$(".rowRearTyres").hide();
+			}else{
+				isTyre = true;
+			}
+			
+			var FrontRims = "<?php echo $listingData->tw_front_rim;?>";
+			if(FrontRims){
+				$(".rowFrontRims").hide();
+			}else{
+				isTyre = true;
+			}
+			
+			var RearRims = "<?php echo $listingData->tw_rear_rim;?>";
+			if(RearRims == ""){
+				$(".rowRearRims").hide();
+			}else{
+				isTyre = true;
+			}
+			
+			if(isTyre == false){
+				$(".TyreBox").hide();
+			}
+		}
 	</script>
     <div id="page-content">
         <div class="container">
@@ -465,37 +711,53 @@
                 <li class="active">Listing Details</li>
             </ol>
             <section class="page-title pull-left">
-                <h1><?php echo $listingData->Model;?></h1>
+                <h1><?php echo $listingData->ManufacturingYear." ".$listingData->Brand." ".$listingData->Model;?></h1>
 								<h3 style="margin-bottom: 10px;"><?php echo $listingData->Specification;?></h3>
                 <h2>RM<?php echo number_format($listingData->SellingPrice);?></h2>
             </section>
             <!--end page-title-->
+			<?php if($this->session->userdata("LoggedUser") != null):?>
 			<?php $user_data = $this->session->userdata("LoggedUser"); if($user_data["Group"] == 1):?>
 				<?php if($listingData->LStatus == 0):?>
-					<a id="btnFeaturedListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right" onclick="FeaturedAd(this);"><i class="fa fa-star"></i>Featured </a>
+					<?php if($listingData->LIsFeatured == 0):?>
+						<a id="btnFeaturedListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right" onclick="FeaturedAd(this);"><i class="fa fa-star"></i>Featured </a>
+					<?php else:?>
+						<a id="btnUnFeaturedListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right" onclick="UnfeaturedAd(this);"><i class="fa fa-star"></i>Unfeatured </a>
+					<?php endif;?>
 					<a id="btnApproveListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right" onclick="ApproveAd(this);"><i class="fa fa-check"></i>Approve </a>
 					<a id="btnRejectListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right" onclick="RejectAd(this);"><i class="fa fa-close"></i>Reject </a>
 					<a href="#EditListing" class="btn btn-primary btn-rounded icon scroll pull-right" data-toggle="modal"><i class="fa fa-edit"></i>Edit</a>
-				<?php elseif($listingData->LStatus == 1):?>
-					<a id="btnFeaturedListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-rounded icon scroll pull-right" onclick="FeaturedAd(this);"><i class="fa fa-star"></i>Featured </a>
-					<a id="btnApproveListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right" onclick="ApproveAd(this);"><i class="fa fa-check"></i>Approve </a>
-					<a id="btnRejectListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right" onclick="RejectAd(this);"><i class="fa fa-close"></i>Reject </a>
+				<?php elseif($listingData->LStatus == 1):?>					
+					<?php if($listingData->LIsFeatured == 0):?>
+						<a id="btnFeaturedListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right" onclick="FeaturedAd(this);"><i class="fa fa-star"></i>Featured </a>
+					<?php else:?>
+						<a id="btnUnFeaturedListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right" onclick="UnfeaturedAd(this);"><i class="fa fa-star"></i>Unfeatured </a>
+					<?php endif;?>
+					<a id="btnDeleteListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-rounded icon scroll pull-right" onclick="DeleteAd(this);"><i class="fa fa-trash"></i>Delete</a>
 					<a href="#EditListing" class="btn btn-primary btn-rounded icon scroll pull-right" data-toggle="modal"><i class="fa fa-edit"></i>Edit</a>
 					<a id="btnPrintListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-print"></i>Print</a>
 					<a id="btnCompareListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-clone"></i>Compare</a>
 					<a id="btnFavoriteListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-heart"></i>Favourite </a>
 				<?php endif;?>
 			<?php elseif($user_data["Group"] == 2):?>
-				<?php if($listingData->LStatus == 0):?>
+				<?php if($listingData->LStatus == -1):?>
 					<a id="btnSubmitListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-rounded icon scroll pull-right" onclick="SubmitAd(this);"><i class="fa fa-check-circle"></i>Submit</a>
 					<a id="btnDeleteListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-rounded icon scroll pull-right" onclick="DeleteAd(this);"><i class="fa fa-trash"></i>Delete</a>
 					<a id="aEdit" href="#EditListing" class="btn btn-primary btn-rounded icon scroll pull-right" data-toggle="modal"><i class="fa fa-edit"></i>Edit</a>
+				<?php elseif($listingData->LStatus == 0):?>
 				<?php elseif($listingData->LStatus == 1):?>
+					<a id="aEdit" href="#EditListing" class="btn btn-primary btn-rounded icon scroll pull-right" data-toggle="modal"><i class="fa fa-edit"></i>Edit</a>
 					<a id="btnReportListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-flag"></i>Report Ad</a>
 					<a id="btnPrintListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-print"></i>Print</a>
 					<a id="btnCompareListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-clone"></i>Compare</a>
 					<a id="btnFavoriteListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-heart"></i>Favourite </a>
 				<?php endif;?>
+			<?php endif;?>
+			<?php else:?>
+					<a id="btnReportListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-flag"></i>Report Ad</a>
+					<a id="btnPrintListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-print"></i>Print</a>
+					<a id="btnCompareListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-clone"></i>Compare</a>
+					<a id="btnFavoriteListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-heart"></i>Favourite </a>
 			<?php endif;?>
 			<!--
 					<a id="btnSubmitListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-rounded icon scroll pull-right"><i class="fa fa-check-circle"></i>Submit</a>
@@ -737,7 +999,7 @@
 							</div>
 							<!--end panel-group-->
 					</section>
-					<section>
+					<section class="TransmissionBox">
 							<div class="panel-group" id="accordion-2-detail" role="tablist" aria-multiselectable="true">
 									<div class="panel panel-default">
 											<div class="panel-heading" role="tab" id="accordion-heading-2-detail">
@@ -750,7 +1012,7 @@
 											<!--end panel-heading-->
 											<div id="accordion-collapse-2-detail" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="accordion-heading-2-detail">
 													<div class="panel-body">
-															<div class="row">
+															<div class="row rowTransmission">
 																	<div class="col-md-3 col-sm-3">
 																			<strong>Transmission</strong>
 																	</div>
@@ -764,7 +1026,7 @@
 																	<!--end col-md-9-->
 															</div>
 															<!--end row-->
-															<div class="row">
+															<div class="row rowFinalDriveRatio">
 																	<div class="col-md-3 col-sm-3">
 																			<strong>Final Drive Ratio</strong>
 																	</div>
@@ -778,7 +1040,7 @@
 																	<!--end col-md-9-->
 															</div>
 															<!--end row-->
-															<div class="row">
+															<div class="row rowNoOfGears">
 																	<div class="col-md-3 col-sm-3">
 																			<strong>Number of Gears</strong>
 																	</div>
@@ -800,7 +1062,7 @@
 							</div>
 							<!--end panel-group-->
 					</section>
-					<section>
+					<section class="EngineSpecificationBox">
 							<div class="panel-group" id="accordion-3-detail" role="tablist" aria-multiselectable="true">
 									<div class="panel panel-default">
 											<div class="panel-heading" role="tab" id="accordion-heading-3-detail">
@@ -813,7 +1075,7 @@
 											<!--end panel-heading-->
 											<div id="accordion-collapse-3-detail" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="accordion-heading-3-detail">
 													<div class="panel-body">
-															<div class="row">
+															<div class="row rowEngineCC">
 																	<div class="col-md-3 col-sm-3">
 																			<strong>Engine CC</strong>
 																	</div>
@@ -827,7 +1089,7 @@
 																	<!--end col-md-9-->
 															</div>
 															<!--end row-->
-															<div class="row">
+															<div class="row rowStroke">
 																	<div class="col-md-3 col-sm-3">
 																			<strong>Stroke (mm)</strong>
 																	</div>
@@ -841,7 +1103,7 @@
 																	<!--end col-md-9-->
 															</div>
 															<!--end row-->
-															<div class="row">
+															<div class="row rowPeakPower">
 																	<div class="col-md-3 col-sm-3">
 																			<strong>Peak Power (hp)</strong>
 																	</div>
@@ -855,7 +1117,7 @@
 																	<!--end col-md-9-->
 															</div>
 															<!--end row-->
-															<div class="row">
+															<div class="row rowEngineType">
 																	<div class="col-md-3 col-sm-3">
 																			<strong>Engine Type</strong>
 																	</div>
@@ -869,7 +1131,7 @@
 																	<!--end col-md-9-->
 															</div>
 															<!--end row-->
-															<div class="row">
+															<div class="row rowAspiration">
 																	<div class="col-md-3 col-sm-3">
 																			<strong>Aspiration</strong>
 																	</div>
@@ -883,7 +1145,7 @@
 																	<!--end col-md-9-->
 															</div>
 															<!--end row-->
-															<div class="row">
+															<div class="row rowBore">
 																	<div class="col-md-3 col-sm-3">
 																			<strong>Bore (mm)</strong>
 																	</div>
@@ -897,7 +1159,7 @@
 																	<!--end col-md-9-->
 															</div>
 															<!--end row-->
-															<div class="row">
+															<div class="row rowCompressionRatio">
 																	<div class="col-md-3 col-sm-3">
 																			<strong>Compression Ratio</strong>
 																	</div>
@@ -911,7 +1173,7 @@
 																	<!--end col-md-9-->
 															</div>
 															<!--end row-->
-															<div class="row">
+															<div class="row rowPeakTorque">
 																	<div class="col-md-3 col-sm-3">
 																			<strong>Peak Torque (Nm)</strong>
 																	</div>
@@ -925,7 +1187,7 @@
 																	<!--end col-md-9-->
 															</div>
 															<!--end row-->
-															<div class="row">
+															<div class="row rowDirectInjection">
 																	<div class="col-md-3 col-sm-3">
 																			<strong>Direct Injection</strong>
 																	</div>
@@ -939,7 +1201,7 @@
 																	<!--end col-md-9-->
 															</div>
 															<!--end row-->
-															<div class="row">
+															<div class="row rowFuelType">
 																	<div class="col-md-3 col-sm-3">
 																			<strong>Fuel Type</strong>
 																	</div>
@@ -961,7 +1223,7 @@
 							</div>
 							<!--end panel-group-->
 					</section>
-					<section>
+					<section class="DimensionBox">
 							<div class="panel-group" id="accordion-4-detail" role="tablist" aria-multiselectable="true">
 									<div class="panel panel-default">
 											<div class="panel-heading" role="tab" id="accordion-heading-4-detail">
@@ -974,7 +1236,7 @@
 											<!--end panel-heading-->
 											<div id="accordion-collapse-4-detail" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="accordion-heading-4-detail">
 													<div class="panel-body">
-															<div class="row">
+															<div class="row rowLength">
 																	<div class="col-md-3 col-sm-3">
 																			<strong>Length (mm)</strong>
 																	</div>
@@ -988,7 +1250,7 @@
 																	<!--end col-md-9-->
 															</div>
 															<!--end row-->
-															<div class="row">
+															<div class="row rowHeight">
 																	<div class="col-md-3 col-sm-3">
 																			<strong>Height (mm)</strong>
 																	</div>
@@ -1002,7 +1264,7 @@
 																	<!--end col-md-9-->
 															</div>
 															<!--end row-->
-															<div class="row">
+															<div class="row rowWidth">
 																	<div class="col-md-3 col-sm-3">
 																			<strong>Width (mm)</strong>
 																	</div>
@@ -1016,7 +1278,7 @@
 																	<!--end col-md-9-->
 															</div>
 															<!--end row-->
-															<div class="row">
+															<div class="row rowWheelBase">
 																	<div class="col-md-3 col-sm-3">
 																			<strong>Wheel Base (mm)</strong>
 																	</div>
@@ -1030,7 +1292,7 @@
 																	<!--end col-md-9-->
 															</div>
 															<!--end row-->
-															<div class="row">
+															<div class="row rowFrontThread">
 																	<div class="col-md-3 col-sm-3">
 																			<strong>Front Thread</strong>
 																	</div>
@@ -1044,7 +1306,7 @@
 																	<!--end col-md-9-->
 															</div>
 															<!--end row-->
-															<div class="row">
+															<div class="row rowRearThread">
 																	<div class="col-md-3 col-sm-3">
 																			<strong>Rear Thread</strong>
 																	</div>
@@ -1058,7 +1320,7 @@
 																	<!--end col-md-9-->
 															</div>
 															<!--end row-->
-															<div class="row">
+															<div class="row rowFuelTank">
 																	<div class="col-md-3 col-sm-3">
 																			<strong>Fuel Tank (litres)</strong>
 																	</div>
@@ -1080,7 +1342,7 @@
 							</div>
 							<!--end panel-group-->
 					</section>
-					<section>
+					<section class="BrakeBox">
 							<div class="panel-group" id="accordion-5-detail" role="tablist" aria-multiselectable="true">
 									<div class="panel panel-default">
 											<div class="panel-heading" role="tab" id="accordion-heading-5-detail">
@@ -1093,7 +1355,7 @@
 											<!--end panel-heading-->
 											<div id="accordion-collapse-5-detail" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="accordion-heading-5-detail">
 													<div class="panel-body">
-															<div class="row">
+															<div class="row rowFrontBrakes">
 																	<div class="col-md-3 col-sm-3">
 																			<strong>Front Brakes</strong>
 																	</div>
@@ -1107,7 +1369,7 @@
 																	<!--end col-md-9-->
 															</div>
 															<!--end row-->
-															<div class="row">
+															<div class="row rowRearBrakes">
 																	<div class="col-md-3 col-sm-3">
 																			<strong>Rear Brakes</strong>
 																	</div>
@@ -1129,7 +1391,7 @@
 							</div>
 							<!--end panel-group-->
 					</section>
-					<section>
+					<section class="SuspensionBox">
 							<div class="panel-group" id="accordion-6-detail" role="tablist" aria-multiselectable="true">
 									<div class="panel panel-default">
 											<div class="panel-heading" role="tab" id="accordion-heading-6-detail">
@@ -1142,7 +1404,7 @@
 											<!--end panel-heading-->
 											<div id="accordion-collapse-6-detail" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="accordion-heading-6-detail">
 													<div class="panel-body">
-															<div class="row">
+															<div class="row rowFrontSuspension">
 																	<div class="col-md-3 col-sm-3">
 																			<strong>Front Suspension</strong>
 																	</div>
@@ -1156,7 +1418,7 @@
 																	<!--end col-md-9-->
 															</div>
 															<!--end row-->
-															<div class="row">
+															<div class="row rowRearSuspension">
 																	<div class="col-md-3 col-sm-3">
 																			<strong>Rear Suspension</strong>
 																	</div>
@@ -1178,7 +1440,7 @@
 							</div>
 							<!--end panel-group-->
 					</section>
-					<section>
+					<section class="TyreBox">
 							<div class="panel-group" id="accordion-7-detail" role="tablist" aria-multiselectable="true">
 									<div class="panel panel-default">
 											<div class="panel-heading" role="tab" id="accordion-heading-7-detail">
@@ -1191,7 +1453,7 @@
 											<!--end panel-heading-->
 											<div id="accordion-collapse-7-detail" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="accordion-heading-7-detail">
 													<div class="panel-body">
-															<div class="row">
+															<div class="row rowFrontTyres">
 																	<div class="col-md-3 col-sm-3">
 																			<strong>Front Tyres</strong>
 																	</div>
@@ -1205,7 +1467,7 @@
 																	<!--end col-md-9-->
 															</div>
 															<!--end row-->
-															<div class="row">
+															<div class="row rowRearTyres">
 																	<div class="col-md-3 col-sm-3">
 																			<strong>Rear Tyres</strong>
 																	</div>
@@ -1219,7 +1481,7 @@
 																	<!--end col-md-9-->
 															</div>
 															<!--end row-->
-															<div class="row">
+															<div class="row rowFrontRims">
 																	<div class="col-md-3 col-sm-3">
 																			<strong>Front Rims</strong>
 																	</div>
@@ -1233,7 +1495,7 @@
 																	<!--end col-md-9-->
 															</div>
 															<!--end row-->
-															<div class="row">
+															<div class="row rowRearRims">
 																	<div class="col-md-3 col-sm-3">
 																			<strong>Rear Rims</strong>
 																	</div>
@@ -1301,7 +1563,7 @@
                                 <div class="description">
                                     <figure>RM<?php echo number_format($eachRelated->SellingPrice);?></figure>
                                     <div class="label label-default">Used</div>
-                                    <h3><?php echo $eachRelated->Model;?></h3>
+                                    <h3><?php echo $eachRelated->ManufacturingYear." ".$eachRelated->Brand." ".$eachRelated->Model;?></h3>
                                     <h4><?php echo $eachRelated->StateName;?></h4>
                                 </div>
                                 <!--end description-->

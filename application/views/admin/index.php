@@ -505,7 +505,7 @@
                                                             <div class="mt-action-row">
                                                                 <div class="mt-action-info ">
                                                                     <div class="mt-action-details">
-                                                                        <a href="<?php echo base_url().'listing/details/'.$pendinglisting->LID.'/'.$pendinglisting->LAB;?>" target="_blank"><span class="mt-action-author"><?php echo $pendinglisting->MName;?></span></a>
+                                                                        <a href="<?php echo base_url().'listing/details/'.$pendinglisting->LID.'/'.$pendinglisting->LAB;?>" target="_blank"><span class="mt-action-author"><?php echo $pendinglisting->ManufacturingYear." ".$pendinglisting->Brand." ".$pendinglisting->MName;?></span></a>
                                                                         <p class="mt-action-desc">submitted by <?php echo $pendinglisting->UFName;?></p>
                                                                     </div>
                                                                 </div>

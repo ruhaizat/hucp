@@ -198,7 +198,7 @@
 																<img width="41px" height="41px" <?php if($listing->Type == 2):echo "src='".$listing->ProfilePic."'";else: echo "src='../assets/img/profile/".$listing->ProfilePic."'";endif;?> />
 															</td>
 															<td>
-																<a href="<?php echo base_url().'listing/details/'.$listing->LID.'/'.$listing->LAB;?>" target="_blank"><span class="mt-action-author"><?php echo $listing->MName;?></span></a>
+																<a href="<?php echo base_url().'listing/details/'.$listing->LID.'/'.$listing->LAB;?>" target="_blank"><span class="mt-action-author"><?php echo $listing->ManufacturingYear." ".$listing->Brand." ".$listing->MName;?></span></a>
                                                                 <p class="mt-action-desc">submitted by <a href="<?php echo base_url().'user/index/'.$listing->LAB;?>" target="_blank"><?php echo $listing->FirstName;?></a></p>
 															</td>
 															<td>

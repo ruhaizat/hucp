@@ -73,7 +73,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<a id="btnRegister" data-toggle="modal" href="#Register">Register</a>
 					<?php else:?>
 						<ul class="navigation" style="padding-left: 0;">
-							<li class="has-child"><a href="<?php echo base_url();?>user"><?php $user_data = $this->session->userdata("LoggedUser"); echo $user_data["FirstName"];?></a>
+							<li class="has-child"><a href="<?php echo base_url();?>user"><?php $user_data = $this->session->userdata("LoggedUser"); echo $user_data["EmailAddress"];?></a>
 								<div class="wrapper">
 									<div id="nav-homepages" class="nav-wrapper">
 										<ul>
@@ -165,6 +165,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<label for="email">Email</label>
 							<input type="email" class="form-control" name="email" id="reg_email" placeholder="email@example.com">
 							<div id="noti-error-email" class="noti-error" style="display:none;">Email address already exists for another account.</div>
+						</div>
+						<!--end form-group-->
+						<div class="form-group">
+							<label for="mobile">Phone No</label>
+							<input type="text" class="form-control" name="mobile" id="reg_mobile" placeholder="60123456789">
+							<div id="noti-error-mobile" class="noti-error" style="display:none;">Phone number cannot empty.</div>
 						</div>
 						<!--end form-group-->
 						<div class="form-group">
@@ -412,6 +418,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									</div>
 									<!--end form-group-->
 									<div class="form-group">
+										<label for="category">Car Colour</label>
+										<input type="text" class="form-control" name="ALColour" id="ALColour" placeholder="Car Colour">
+									</div>
+									<!--end form-group-->
+									<div class="form-group">
 										<label for="description">Description</label>
 										<textarea class="form-control" id="ALDescription" rows="5" name="ALDescription" placeholder="Describe the listing"></textarea>
 									</div>
@@ -474,7 +485,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<h3>Gallery</h3>
 							<div class="file-upload-previews"></div>
 							<div class="file-upload">
-								<input type="file" name="userfile[]" class="file-upload-input with-preview" multiple title="Click to add files" maxlength="10" accept="gif|jpg|png">
+								<input type="file" name="userfile" class="file-upload-input with-preview" multiple title="Click to add files" maxlength="10" accept="gif|jpg|png">
 								<span>Click or drag images here</span>
 							</div>
 							<!--end form-group-->
@@ -613,7 +624,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="ALMileage" placeholder="100,000">
+                                            <input type="text" class="form-control" name="ALMileageDup" placeholder="100,000">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -627,7 +638,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="ALColour" placeholder="Red">
+                                            <input type="text" class="form-control" name="ALColourDup" placeholder="Red">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -1188,13 +1199,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
                 <!--end panel-group-->
             </section>
-
+<div id="noti-error-car-details" class="noti-error" style="display:none;">Please fill in all details for Car Details.</div>
+<div id="noti-error-ad-image" class="noti-error" style="display:none;">Image is compulsory</div>
+						
 						<hr>
 						<section class="center">
 							<div class="form-group">
 								<button type="submit" class="btn btn-primary btn-rounded">Preview</button>
 								<!--<button type="submit" class="btn btn-primary btn-rounded">Save Changes</button>-->
-								<button type="submit" class="btn btn-primary btn-framed btn-rounded btn-light-frame">Cancel</button>
+								<button type="submit" class="btn btn-primary btn-framed btn-rounded btn-light-frame" onclick="event.preventDefault();$('#AddListing').modal('hide');">Cancel</button>
 							</div>
 							<!--end form-group-->
 						</section>

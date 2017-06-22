@@ -85,9 +85,9 @@
                                 <!--end image-->
                                 <div class="map"></div>
                                 <div class="description">
-                                    <h3><?php echo $eachList->ModelName;?></h3>
+                                    <h3><?php echo $eachList->ManufacturingYear." ".$eachList->Brand." ".$eachList->ModelName;?></h3>
 																		<h4 style="padding: 0 0 5px 0;"><?php echo $eachList->SpecificationName?></h4>
-                                    <h4><i class="fa fa-map-marker"></i> <?php echo $eachList->Address;?></h4>
+                                    <h4><i class="fa fa-map-marker"></i> <?php echo $eachList->StateName;?></h4>
                                     <div class="label label-default">Used</div>
                                 </div>
                                 <!--end description-->
