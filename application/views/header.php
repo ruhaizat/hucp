@@ -450,7 +450,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<label for="category">Condition</label>
 										<select class="form-control selectpicker" name="ALCondition" id="ALCondition">
 											<option>Select a Condition</option>
-											<option>New</option>
+											<?php if($this->session->userdata("LoggedUser") != null):?>
+												<?php if($user_data["Group"] == 1):?>
+												<option>New</option>
+												<?php endif;?>
+											<?php endif;?>
 											<option>Used</option>
 										</select>
 									</div>
@@ -485,7 +489,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<h3>Gallery</h3>
 							<div class="file-upload-previews"></div>
 							<div class="file-upload">
-								<input type="file" name="userfile" class="file-upload-input with-preview" multiple title="Click to add files" maxlength="10" accept="gif|jpg|png">
+								<input type="file" name="userfile[]" class="file-upload-input with-preview" multiple title="Click to add files" maxlength="10" accept="gif|jpg|png">
 								<span>Click or drag images here</span>
 							</div>
 							<!--end form-group-->

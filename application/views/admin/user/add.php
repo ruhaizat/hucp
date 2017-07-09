@@ -211,7 +211,7 @@
 											if($('input[name=userfile]')[0].files[0] != undefined){
 												var formData = new FormData();
 											
-												alert($('input[name=userfile]')[0].files[0]);
+												//alert($('input[name=userfile]')[0].files[0]);
 												formData.append('file', $('input[name=userfile]')[0].files[0]);
 												$.ajax({
 													url : '<?php echo base_url();?>user/upload/update',
@@ -220,7 +220,7 @@
 													processData: false,  // tell jQuery not to process the data
 													contentType: false,  // tell jQuery not to set contentType
 													success : function(data) {
-														alert(data);
+														//alert(data);
 														var datastr = '{"mode":"UpdateUserImage","UserID":"'+aResult[1]+'","ProfilePic":"'+data+'"}';
 														$.ajax({
 															url: "<?php echo base_url();?>admin/ajax",

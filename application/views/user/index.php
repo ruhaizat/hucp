@@ -177,13 +177,13 @@
 								var latitude = $("#latitude").val();
 								var longitude = $("#longitude").val();
 								var datastr = '{"mode":"UpdateDetails","hID":"'+hID+'","first_name":"'+first_name+'","last_name":"'+last_name+'","email":"'+email+'","phone":"'+phone+'","identity_card_no":"'+identity_card_no+'","state":"'+state+'","address":"'+address+'","latitude":"'+latitude+'","longitude":"'+longitude+'","ProfilePic":"'+data+'"}';
-								alert(datastr);
+								//alert(datastr);
 								$.ajax({
 									url: "<?php echo base_url();?>user/ajax",
 									type: "POST",
 									data: {"datastr":datastr},
 									success: function(data){
-										alert(data);
+										//alert(data);
 										$("#UserDetailsNoti").modal("show");
 										$("#h2Text").text("Change Saved");
 										$("#BodyMsg").text("Your changes is successfully saved.");

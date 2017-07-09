@@ -716,8 +716,8 @@
                 <h2>RM<?php echo number_format($listingData->SellingPrice);?></h2>
             </section>
             <!--end page-title-->
-			<?php if($this->session->userdata("LoggedUser") != null):?>
-			<?php $user_data = $this->session->userdata("LoggedUser"); if($user_data["Group"] == 1):?>
+			<?php if($this->session->userdata("LoggedUser") != null): $user_data = $this->session->userdata("LoggedUser");?>
+			<?php if($user_data["Group"] == 1):?>
 				<?php if($listingData->LStatus == 0):?>
 					<?php if($listingData->LIsFeatured == 0):?>
 						<a id="btnFeaturedListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right" onclick="FeaturedAd(this);"><i class="fa fa-star"></i>Featured </a>
@@ -746,7 +746,9 @@
 					<a id="aEdit" href="#EditListing" class="btn btn-primary btn-rounded icon scroll pull-right" data-toggle="modal"><i class="fa fa-edit"></i>Edit</a>
 				<?php elseif($listingData->LStatus == 0):?>
 				<?php elseif($listingData->LStatus == 1):?>
+					<?php if($listingData->LAddedBy == $user_data["UserID"]):?>
 					<a id="aEdit" href="#EditListing" class="btn btn-primary btn-rounded icon scroll pull-right" data-toggle="modal"><i class="fa fa-edit"></i>Edit</a>
+					<?php endif;?>
 					<a id="btnReportListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-flag"></i>Report Ad</a>
 					<a id="btnPrintListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-print"></i>Print</a>
 					<a id="btnCompareListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-clone"></i>Compare</a>
@@ -1539,7 +1541,7 @@
                                 </div>
                                 <hr>
                                 <address>
-                                    <figure><i class="fa fa-map-marker"></i><?php echo $userData->Address;?> </figure>
+                                    <figure><i class="fa fa-map-marker"></i><?php echo $listingData->Address;?> </figure>
                                     <figure><i class="fa fa-envelope"></i><a href="#"><?php echo $userData->EmailAddress;?></a></figure>
                                     <figure><i class="fa fa-phone"></i><?php echo $userData->MobileNo;?></figure>
                                 </address>

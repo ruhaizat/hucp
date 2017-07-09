@@ -64,6 +64,12 @@
 					window.location.replace("<?php echo base_url();?>main");
 				}else{
 					$("#SignInError").show();
+					if(data == "Account not verify"){
+						$("#SignInError").text(data);
+					}
+					else{
+						$("#SignInError").text("Sorry! You have entered an incorrect username/password combination.");
+					}
 				}
 			}
 		});
