@@ -53,6 +53,17 @@ Contact: kenny@kni.com.my
 	<script type="text/javascript" src="<?php echo base_url();?>assets/js/jQuery.MultiFile.min.js"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=AIzaSyD6mcdXONfb7KfUN0Z_ZaP6-QApnWxjS7U"></script>
 	<script>
+	function ExportCSVUser(){
+		var datastr = '{"mode":"ExportCSVUser"}';
+		$.ajax({
+			url: "<?php echo base_url();?>admin/ExportToCSV",
+			type: "POST",
+			data: {"datastr":datastr},
+			success: function(data){
+				//alert(data);
+			}
+		});		
+	}
 	$(document).ready(function(){
 			var datastr = '{"mode":"GetTotalPendingAd"}';
 			$.ajax({
@@ -196,19 +207,19 @@ Contact: kenny@kni.com.my
                             <li class="nav-item">
                                 <a href="javascript:;" class="nav-link nav-toggle">
                                     <i class="icon-bar-chart"></i>
-                                    <span class="title">Report</span>
+                                    <span class="title">Statistic</span>
                                     <span class="selected"></span>
                                     <span class="arrow open"></span>
                                 </a>
                                 <ul class="sub-menu">
                                   <li class="nav-item start ">
                                       <a href="#" class="nav-link ">
-                                          <span class="title">All Report</span>
+                                          <span class="title">All Statistic</span>
                                       </a>
                                   </li>
                                     <li class="nav-item start ">
                                         <a href="#" class="nav-link ">
-                                            <span class="title">Add Report</span>
+                                            <span class="title">Add Statistic</span>
                                         </a>
                                     </li>
                                 </ul>
@@ -241,6 +252,21 @@ Contact: kenny@kni.com.my
                                             <span class="title">Lists</span>
                                         </a>
                                     </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a href="javascript:;" class="nav-link nav-toggle">
+                                    <i class="icon-doc"></i>
+                                    <span class="title">Export CSV</span>
+                                    <span class="selected"></span>
+                                    <span class="arrow open"></span>
+                                </a>
+                                <ul class="sub-menu">
+                                  <li class="nav-item start ">
+                                      <a href="#" class="nav-link" onclick="ExportCSVUser();">
+                                          <span class="title">User</span>
+                                      </a>
+                                  </li>
                                 </ul>
                             </li>
                         </ul>

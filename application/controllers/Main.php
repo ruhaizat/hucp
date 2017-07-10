@@ -32,8 +32,8 @@ class Main extends CI_Controller {
 		$data["featuredData"] = $featuredData;
 		$data["featuredDataCount"] = $queryFeatured->num_rows();
 		
-		$IPAddress = $this->get_client_ip();
-		$queryRecentViewed = $this->db->query("SELECT *, RV.ID AS RVID, L.ID AS LID, L.Model AS ModelName, L.Specification AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName FROM tbl_recentlyviewed AS RV INNER JOIN tbl_listing AS L ON RV.ListingID = L.ID LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE RV.IPAddress = '$IPAddress' AND L.Status = 1 GROUP BY RV.ID ORDER BY RV.ViewedOn DESC LIMIT 4");
+		//$IPAddress = $this->get_client_ip();
+		$queryRecentViewed = $this->db->query("SELECT MAX(RV.ID), L.ManufacturingYear AS LManufacturingYear, L.Brand AS LBrand, L.SellingPrice AS LSellingPrice, RV.ID AS RVID, L.ID AS LID, L.Model AS ModelName, L.Specification AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName, LI.ListingPic AS LListingPic FROM tbl_recentlyviewed AS RV INNER JOIN tbl_listing AS L ON RV.ListingID = L.ID LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE L.Status = 1 GROUP BY RV.ListingID ORDER BY MAX(RV.ID) DESC LIMIT 4");
 		$recentViewedData = $queryRecentViewed->result();
 		$data["recentViewed"] = $recentViewedData;
 		

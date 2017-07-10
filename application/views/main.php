@@ -289,15 +289,15 @@
 						<div class="item" data-id="<?php echo $eachViewed->RVID;?>">
                             <a href="<?php echo base_url().'listing/details/'.$eachViewed->LID.'/'.$eachViewed->LAddedBy;?>">
                                 <div class="description">
-                                    <figure>RM<?php echo number_format($eachViewed->SellingPrice);?></figure>
+                                    <figure>RM<?php echo number_format($eachViewed->LSellingPrice);?></figure>
                                     <div class="label label-default">Used</div>
-                                    <h3><?php echo $eachViewed->ManufacturingYear." ".$eachViewed->Brand." ".$eachViewed->ModelName;?></h3>
+                                    <h3><?php echo $eachViewed->LManufacturingYear." ".$eachViewed->LBrand." ".$eachViewed->ModelName;?></h3>
                                     <h4 style="padding: 0 0 5px 0;"><?php echo $eachViewed->SpecificationName?></h4>
                                     <h4><i class="fa fa-map-marker"></i> <?php echo $eachViewed->StateName;?></h4>
                                 </div>
                                 <!--end description-->
                                 <div class="image bg-transfer">
-                                    <img src="<?php if($eachViewed->ListingPic): echo base_url();?>assets/img/listing/<?php echo $eachViewed->ListingPic;?><?php else: echo base_url().'assets/img/items/default.png'?><?php endif;?>" alt="">
+                                    <img src="<?php if($eachViewed->LListingPic): echo base_url();?>assets/img/listing/<?php echo $eachViewed->LListingPic;?><?php else: echo base_url().'assets/img/items/default.png'?><?php endif;?>" alt="">
                                 </div>
                                 <!--end image-->
                             </a>

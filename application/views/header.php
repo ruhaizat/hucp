@@ -73,11 +73,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<a id="btnRegister" data-toggle="modal" href="#Register">Register</a>
 					<?php else:?>
 						<ul class="navigation" style="padding-left: 0;">
-							<li class="has-child"><a href="<?php echo base_url();?>user"><?php $user_data = $this->session->userdata("LoggedUser"); echo $user_data["EmailAddress"];?></a>
+							<li class="has-child"><a href="<?php $user_data = $this->session->userdata("LoggedUser"); echo base_url();?>user/index/<?php echo $user_data["UserID"]?>"><?php echo $user_data["EmailAddress"];?></a>
 								<div class="wrapper">
 									<div id="nav-homepages" class="nav-wrapper">
 										<ul>
-											<li><a href="<?php echo base_url();?>user">My Profile</a></li>
+											<li><a href="<?php echo base_url();?>user/index/<?php echo $user_data["UserID"]?>">My Profile</a></li>
 											<li><a href="<?php echo base_url();?>user/listing">My Advertisements</a></li>
 											<li><a href="#">My Favourites</a></li>
 										</ul>

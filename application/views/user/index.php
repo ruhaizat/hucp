@@ -286,29 +286,6 @@
 	</script>
 
 	<div id="page-content">
-		<?php if($userView == "admin"):?>
-		<section class="block background-is-dark" style="padding: 10px 0;">
-			<div class="container">
-				<div class="section-title vertical-aligned-elements" style="margin-bottom: 5px">
-					<div class="element">
-						<h2>Managing (<?php echo $user->FirstName;?>) as Administrator</h2> (only have this bar when admin is using)
-					</div>
-					<div class="element text-align-right">
-						<a href="<?php echo base_url();?>admin/userall" class="btn btn-framed btn-rounded btn-default invisible-on-mobile">Back to Dashboard</a>
-						<div id="gallery-nav"></div>
-					</div>
-				</div>
-				<!--end section-title-->
-			</div>
-			<!--end gallery-->
-			<div class="background-wrapper">
-				<div class="background-color background-color-black opacity-90"></div>
-				<div class="background-color background-color-default opacity-30"></div>
-			</div>
-			<!--end background-wrapper-->
-		</section>
-		<!--end block-->
-		<?php endif;?>
         <div class="container">
             <ol class="breadcrumb">
                 <li><a href="main">Home</a></li>
@@ -345,9 +322,9 @@
 								  <?php endif;?>
                               </address>
                               <hr>
-                                <a href="<?php echo base_url();?>user"><h4>My Profile</h4></a>
+                                <a href="<?php echo base_url();?>user/index/<?php echo $user->ID;?>"><h4>My Profile</h4></a>
                               <hr>
-                                <a href="<?php echo base_url();?>user/listing"><h4>My Advertisements</h4></a>
+                                <a href="<?php echo base_url();?>user/listing/<?php echo $user->ID;?>"><h4>My Advertisements</h4></a>
                               <hr>
                                 <a href="#"><h4>My Favourites</h4></a>
                           </div>

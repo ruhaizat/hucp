@@ -146,9 +146,10 @@ class Admin extends CI_Controller {
 		$this->load->view('admin/ad/add.php', $data);
 		$this->load->view('footer_admin');
 	}
-	public function addlisting(){
+	public function publishlisting(){
 		$user_data = $this->session->userdata("LoggedUser");
 		
+		$AssignUserID = $this->input->post("AssignUserID");
 		$Brand = $this->input->post("Brand");
 		$Category = $this->input->post("Category");
 		$Model = $this->input->post("Model");
@@ -158,7 +159,153 @@ class Admin extends CI_Controller {
 		$Condition = $this->input->post("Condition");
 		$Mileage = $this->input->post("Mileage");
 		$SellingPrice = $this->input->post("SellingPrice");
-		$State = $this->input->post("State");
+		$State = $this->input->post("selState");
+		$Address = $this->input->post("Address");
+		$Latitude = $this->input->post("Latitude");
+		$Longitude = $this->input->post("Longitude");
+		$Description = $this->input->post("Description");
+		
+		
+		
+		$en_cc = $this->input->post("GDEngineCC");
+		$gn_seat_capacity = $this->input->post("SeatCapacity");
+		$Colour = $this->input->post("Colour");
+		$gn_doors = $this->input->post("Doors");
+		$gn_assembled = $this->input->post("Assembled");
+		$tm_final_drive_ratio = $this->input->post("FinalDriveRatio");
+		$tm_gears = $this->input->post("NoofGears");
+		$en_stroke = $this->input->post("Stroke");
+		$en_peak_power = $this->input->post("PeakPower");
+		$en_engine_type = $this->input->post("EngineType");
+		$en_aspiration = $this->input->post("Aspiration");
+		$en_bore = $this->input->post("Bore");
+		$en_compression_ratio = $this->input->post("CompressionRatio");
+		$en_peak_torque = $this->input->post("PeakTorque");
+		$en_direct_injection = $this->input->post("DirectInjection");
+		$en_fuel_type = $this->input->post("FuelType");
+		$dm_length = $this->input->post("Length");
+		$dm_height = $this->input->post("Height");
+		$dm_width = $this->input->post("Width");
+		$dm_wheel_base = $this->input->post("WheelBase");
+		$dm_front_thread = $this->input->post("FrontThread");
+		$dm_rear_thread = $this->input->post("RearThread");
+		$dm_fuel_tank = $this->input->post("FuelTank");
+		$br_front = $this->input->post("FrontBrakes");
+		$br_rear = $this->input->post("RearBrakes");
+		$sus_front = $this->input->post("FrontSuspension");
+		$sus_rear = $this->input->post("RearSuspension");
+		$tw_front = $this->input->post("FrontTyres");
+		$tw_rear = $this->input->post("RearTyres");
+		$tw_front_rim = $this->input->post("FrontRims");
+		$tw_rear_rim = $this->input->post("RearRims");				
+		
+		$dataarray = array(
+			"Brand" 				=> $Brand,
+			"body_style" 				=> $Category,
+			"Model" 				=> $Model,
+			"ManufacturingYear" 	=> $ManufacturingYear,
+			"Transmission" 			=> $Transmission,
+			"Specification" 		=> $Specification,	
+			"Colour" 				=> $Colour,	
+			"Mileage" 				=> $Mileage,
+			"State" 				=> $State,
+			"SellingPrice" 			=> $SellingPrice,
+			"Address" 				=> $Address,
+			"Latitude" 				=> $Latitude,
+			"Longitude" 			=> $Longitude,
+			"Description" 			=> $Description,
+			"en_cc" 				=> $en_cc,
+			"gn_seat_capacity" 		=> $gn_seat_capacity,
+			"Colour" 				=> $Colour,
+			"gn_doors" 				=> $gn_doors,
+			"gn_assembled" 			=> $gn_assembled,
+			"tm_final_drive_ratio" 	=>$tm_final_drive_ratio,
+			"tm_gears" 				=> $tm_gears,
+			"en_stroke" 			=> $en_stroke,
+			"en_peak_power" 		=> $en_peak_power,
+			"en_engine_type" 		=> $en_engine_type,
+			"en_aspiration" 		=> $en_aspiration,
+			"en_bore" 				=> $en_bore,
+			"en_compression_ratio" 	=>$en_compression_ratio,
+			"en_peak_torque" 		=> $en_peak_torque,
+			"en_direct_injection" 	=> $en_direct_injection,
+			"en_fuel_type" 			=> $en_fuel_type,
+			"dm_length" 			=> $dm_length,
+			"dm_height" 			=> $dm_height,
+			"dm_width" 				=> $dm_width,
+			"dm_wheel_base" 		=> $dm_wheel_base,
+			"dm_front_thread" 		=> $dm_front_thread,
+			"dm_rear_thread" 		=> $dm_rear_thread,
+			"dm_fuel_tank" 			=> $dm_fuel_tank,
+			"br_front" 				=> $br_front,
+			"br_rear" 				=> $br_rear,
+			"sus_front" 			=> $sus_front,
+			"sus_rear" 				=> $sus_rear,
+			"tw_front" 				=> $tw_front,
+			"tw_rear" 				=> $tw_rear,
+			"tw_front_rim" 			=> $tw_front_rim,
+			"tw_rear_rim" 			=> $tw_rear_rim,
+			"Status"				=> 1,
+			"AddedBy"				=> $AssignUserID,
+			"AddedOn"				=> date("Y-m-d H:i:s")
+		);
+
+		$this->db->insert("tbl_listing", $dataarray);
+		$insert_id = $this->db->insert_id();
+		
+		
+			$config["upload_path"]          = "assets/img/listing";
+			$config["allowed_types"]        = "gif|jpg|png";
+
+			$this->load->library("upload", $config);
+			
+			
+			$files = $_FILES;
+			$cpt = count($_FILES['userfile']['name']);
+			for($i=0; $i<$cpt; $i++)
+			{           
+				$_FILES['userfile']['name']= $files['userfile']['name'][$i];
+				$_FILES['userfile']['type']= $files['userfile']['type'][$i];
+				$_FILES['userfile']['tmp_name']= $files['userfile']['tmp_name'][$i];
+				$_FILES['userfile']['error']= $files['userfile']['error'][$i];
+				$_FILES['userfile']['size']= $files['userfile']['size'][$i];    
+
+				if (!$this->upload->do_upload())
+				{
+						$error = array("error" => $this->upload->display_errors());
+						//echo $this->upload->display_errors();
+				}
+				else
+				{
+						$data = array("upload_data" => $this->upload->data());
+						$ProfilePic = $this->upload->data("file_name");
+						
+						$dataarraypic = array(
+							"ListingPic" => $ProfilePic,
+							"ListingID" => $insert_id,
+							"AddedOn" => date("Y-m-d H:i:s")
+						);
+			
+						$this->db->insert("tbl_listingimage", $dataarraypic);
+				}
+			}
+		echo $insert_id."_".$AssignUserID;
+		//redirect("listing/details/".$insert_id."/".$AssignUserID);
+	}	
+	public function addlisting(){
+		$user_data = $this->session->userdata("LoggedUser");
+		
+		$AssignUserID = $this->input->post("AssignUserID");
+		$Brand = $this->input->post("Brand");
+		$Category = $this->input->post("Category");
+		$Model = $this->input->post("Model");
+		$ManufacturingYear = $this->input->post("Year");
+		$Transmission = $this->input->post("GDTransmission");
+		$Specification = $this->input->post("Specification");
+		$Condition = $this->input->post("Condition");
+		$Mileage = $this->input->post("Mileage");
+		$SellingPrice = $this->input->post("SellingPrice");
+		$State = $this->input->post("selState");
 		$Address = $this->input->post("Address");
 		$Latitude = $this->input->post("Latitude");
 		$Longitude = $this->input->post("Longitude");
@@ -245,7 +392,7 @@ class Admin extends CI_Controller {
 			"tw_front_rim" 			=> $tw_front_rim,
 			"tw_rear_rim" 			=> $tw_rear_rim,
 			"Status"				=> 0,
-			"AddedBy"				=> $user_data["UserID"],
+			"AddedBy"				=> $AssignUserID,
 			"AddedOn"				=> date("Y-m-d H:i:s")
 		);
 
@@ -272,7 +419,7 @@ class Admin extends CI_Controller {
 				if (!$this->upload->do_upload())
 				{
 						$error = array("error" => $this->upload->display_errors());
-						echo $this->upload->display_errors();
+						//echo $this->upload->display_errors();
 				}
 				else
 				{
@@ -288,8 +435,8 @@ class Admin extends CI_Controller {
 						$this->db->insert("tbl_listingimage", $dataarraypic);
 				}
 			}
-	
-		redirect("listing/details/".$insert_id."/".$user_data["UserID"]);
+		echo $insert_id."_".$AssignUserID;
+		//redirect("listing/details/".$insert_id."/".$AssignUserID);
 	}	
 	public function editlisting(){
 		$user_data = $this->session->userdata("LoggedUser");
@@ -567,6 +714,8 @@ class Admin extends CI_Controller {
 			break;
 			case "DeleteUser":
 				$this->db->delete('tbl_user', array('ID' => $obj->id));
+				$this->db->delete('tbl_listing', array('AddedBy' => $obj->id));
+				$this->db->delete('tbl_recentlyviewed', array('ListingID' => $obj->id));
 			break;
 			case "ApproveAd":
 				$user_data = $this->session->userdata("LoggedUser");
@@ -643,6 +792,32 @@ class Admin extends CI_Controller {
 				
 				echo $qResult->val;
 			break;
+			case "ExportCSVUser":
+				$this->load->dbutil(); // call db utility library
+				$this->load->helper('download'); // call download helper
+			 
+				$query = $this->db->query("SELECT * FROM tbl_user"); // whatever you want to export to CSV, just select in query
+				
+				$filename = 'dumpexport.csv'; // name of csv file to download with data
+				force_download($filename, $this->dbutil->csv_from_result($query)); // download file
+				//echo $filename;
+			break;
 		}
+	}
+	
+	function ExportToCSV(){
+		$this->load->dbutil();
+		$this->load->helper('file');
+		$this->load->helper('download');
+		/* get the object   */
+		$report = $this->db->query('select * from tbl_user');
+		$delimiter = ",";
+		$newline = "\r\n";
+		$new_report = $this->dbutil->csv_from_result($report, $delimiter, $newline);
+		write_file( 'application/third_party/file.csv', $new_report);
+		force_download('application/third_party/file.csv');
+		$filename = 'application/third_party/file.csv';
+		$data = file_get_contents("modulos/".$filename); // Read the file's contents
+		force_download($filename, $data); 
 	}
 }

@@ -147,6 +147,9 @@
 				</style>
 				<script>
 					$(document).ready(function(){
+						$("select[name=selMileage]").change(function(){
+							$("input[name=Mileage]").val($("select[name=selMileage] option:selected").text());
+						});
 						$("select[name=selModel]").change(function(){
 							var gs_model = $("select[name=selModel] option:selected").text();
 							var datastr = '{"mode":"SelectModel","gs_model":"'+gs_model+'"}';
@@ -283,7 +286,9 @@
 						<?php foreach($users as $user):?>
 							UsersData.push({
 								id: "<?php echo $user->ID;?>",
-								label: "<?php echo $user->FirstName;?>"
+								label: "<?php echo $user->FirstName." ".$user->LastName." [ ID : ".sprintf('%06d', $user->ID)." ]";?>",
+								images: "<?php echo $user->ProfilePic;?>",
+								type: "<?php echo $user->Type;?>"
 							});
 						<?php endforeach;?>
 						
@@ -292,8 +297,23 @@
 							select: function (event, ui) {
 								$("input[name=AssignUser]").val(ui.item.label); // display the selected text
 								$("input[name=AssignUserID]").val(ui.item.id); // save selected id to hidden input
+								//alert(ui.item.images);
 							}
-						});
+						}).data("ui-autocomplete")._renderItem = function (ul, item) {
+							var imgSrc = "";
+								
+							if(item.type == "1"){
+								imgSrc = "<?php echo base_url();?>assets/img/profile/" + item.images;
+							}else{
+								imgSrc = item.images;
+							}
+						
+							var inner_html = '<div><img width="30px" height="30px" src="' + imgSrc + '"> ' + item.label + '</div>';
+							return $("<li></li>")
+									.data("ui-autocomplete-item", item)
+									.append(inner_html)
+									.appendTo(ul);
+						};
 
 						$("#btnCreateUser").click(function () {
 							var Email = $("#email").val();
@@ -348,10 +368,34 @@
 						});
 					});		
 					function PublishAd(){
-						
+						event.preventDefault();
+						var formData = new FormData($("#frmAddAd")[0]);
+						$.ajax({
+							url : '<?php echo base_url();?>admin/publishlisting',
+							type : 'POST',
+							data : formData,
+							processData: false,  // tell jQuery not to process the data
+							contentType: false,  // tell jQuery not to set contentType
+							success : function(data) {
+								var splittedData = data.split("_");
+								window.open("<?php echo base_url();?>listing/details/" + splittedData[0] + "/" + splittedData[1]);
+							}
+						});							
 					}	
 					function PreviewAd(){
-						
+						event.preventDefault();
+						var formData = new FormData($("#frmAddAd")[0]);
+						$.ajax({
+							url : '<?php echo base_url();?>admin/addlisting',
+							type : 'POST',
+							data : formData,
+							processData: false,  // tell jQuery not to process the data
+							contentType: false,  // tell jQuery not to set contentType
+							success : function(data) {
+								var splittedData = data.split("_");
+								window.open("<?php echo base_url();?>listing/details/" + splittedData[0] + "/" + splittedData[1]);
+							}
+						});	
 					}
 				</script>
                 <!-- BEGIN CONTENT -->
@@ -740,15 +784,6 @@
 
                                             </div>
 
-                                        </form>
-
-
-                                    </div>
-
-
-
-
-                                            <div class="form-actions">
                                                 <div class="row">
                                                     <div class="col-md-offset-3 col-md-9">
                                                         <button type="submit" class="btn green" onclick="PreviewAd();">Preview</button>
@@ -756,7 +791,14 @@
                                                         <button type="button" class="btn default" onclick="window.location.href = '<?php echo base_url();?>admin'">Cancel</button>
                                                     </div>
                                                 </div>
-                                            </div>
+
+                                        </form>
+
+
+                                    </div>
+
+
+
                                     </div>
 
                                 </div>

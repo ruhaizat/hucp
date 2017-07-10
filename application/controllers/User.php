@@ -18,19 +18,19 @@ class User extends CI_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
-	public function index($id = NULL)
+	public function index($id)
 	{
 		$data["bodyClass"] = "nav-btn-only homepage";
 		
 		$user_data = $this->session->userdata("LoggedUser");
 		
-		if(isset($id)){
-			$userID = $id;
-			$data["userView"] = "admin";
-		}else{
-			$userID = $user_data["UserID"];
-			$data["userView"] = "self";
-		}
+		//if(isset($id)){
+		//	$userID = $id;
+		//	$data["userView"] = "admin";
+		//}else{
+		//	$userID = $user_data["UserID"];
+		//	$data["userView"] = "self";
+		//}
 		
 		$queryState = $this->db->query("SELECT * FROM tbl_state");
 		$stateData = $queryState->result();
@@ -39,7 +39,7 @@ class User extends CI_Controller {
 		$query = $this->db->query("SELECT gs_model FROM tbl_specificationmaster Group By gs_model Order By gs_model ASC");
 		$data["model"] = $query->result();
 		
-		$query = $this->db->query("SELECT * FROM tbl_user WHERE ID = '$userID'");
+		$query = $this->db->query("SELECT * FROM tbl_user WHERE ID = '$id'");
 		$data["user"] = $query->row();
 		$data["LoggedUser"] = $user_data;
 		$this->load->view('header', $data);
@@ -47,11 +47,11 @@ class User extends CI_Controller {
 		$this->load->view('footer');
 	}
 	
-	public function listing()
+	public function listing($userID)
 	{
 		$data["bodyClass"] = "";
-		$user_data = $this->session->userdata("LoggedUser");
-		$userID = $user_data["UserID"];
+		//$user_data = $this->session->userdata("LoggedUser");
+		//$userID = $user_data["UserID"];
 		
 		$query = $this->db->query("SELECT * FROM tbl_user WHERE ID = '$userID'");
 		$data["user"] = $query->row();
@@ -160,15 +160,21 @@ class User extends CI_Controller {
 		
 		$userData = $query->row();
 		
-		$session_data = array(
-			"UserID" => $userData->ID,
-			"FirstName" => $userData->FirstName,
-			"EmailAddress" => $userData->EmailAddress,
-			"Type" => $userData->Type,
-			"Group" => $userData->Group
-		);
-		$this->session->set_userdata("LoggedUser", $session_data);
-		echo "<script>alert('test 1234');</script>";
+		
+		
+		$user_data = $this->session->userdata("LoggedUser");
+		
+		if($user_data["UserID"] == $ID){
+			$session_data = array(
+				"UserID" => $userData->ID,
+				"FirstName" => $userData->FirstName,
+				"EmailAddress" => $userData->EmailAddress,
+				"Type" => $userData->Type,
+				"Group" => $userData->Group
+			);
+			$this->session->set_userdata("LoggedUser", $session_data);			
+		}
+		
 		redirect($_SERVER['HTTP_REFERER']);
 		//redirect("main");
 	}
@@ -529,14 +535,19 @@ class User extends CI_Controller {
 				
 				$userData = $query->row();
 				
-				$session_data = array(
-					"UserID" => $userData->ID,
-					"FirstName" => $userData->FirstName,
-					"EmailAddress" => $userData->EmailAddress,
-					"Type" => $userData->Type,
-					"Group" => $userData->Group
-				);
-				$this->session->set_userdata("LoggedUser", $session_data);
+				
+				$user_data = $this->session->userdata("LoggedUser");
+		
+				if($user_data["UserID"] == $ID){
+					$session_data = array(
+						"UserID" => $userData->ID,
+						"FirstName" => $userData->FirstName,
+						"EmailAddress" => $userData->EmailAddress,
+						"Type" => $userData->Type,
+						"Group" => $userData->Group
+					);
+					$this->session->set_userdata("LoggedUser", $session_data);			
+				}
 			break;
 		}
 	}

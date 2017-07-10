@@ -39,9 +39,9 @@
 								  <?php endif;?>
                               </address>
 															<hr>
-                                <a href="<?php echo base_url();?>user"><h4>My Profile</h4></a>
+                                <a href="<?php echo base_url();?>user/index/<?php echo $user->ID;?>"><h4>My Profile</h4></a>
                               <hr>
-                                <a href="<?php echo base_url();?>user/listing"><h4>My Advertisements</h4></a>
+                                <a href="<?php echo base_url();?>user/listing/<?php echo $user->ID;?>"><h4>My Advertisements</h4></a>
                               <hr>
                                 <a href="#"><h4>My Favourites</h4></a>
                           </div>

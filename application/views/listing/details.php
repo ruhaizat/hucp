@@ -483,6 +483,73 @@
 			var isSuspension = false;
 			var isTyre = false;
 			
+			
+			var GDBrand = "<?php echo $listingData->Brand;?>";
+			if(GDBrand == ""){
+				$(".rowGDBrand").hide();
+			}
+			
+			var GDCategory = "<?php echo $listingData->body_style;?>";
+			if(GDCategory == ""){
+				$(".rowGDCategory").hide();
+			}
+			
+			var GDModel = "<?php echo $listingData->Model;?>";
+			if(GDModel == ""){
+				$(".rowGDModel").hide();
+			}
+			
+			var GDSpecification = "<?php echo $listingData->Specification;?>";
+			if(GDSpecification == ""){
+				$(".rowGDSpecification").hide();
+			}
+			
+			var GDYear = "<?php echo $listingData->ManufacturingYear;?>";
+			if(GDYear == ""){
+				$(".rowGDYear").hide();
+			}
+			
+			var GDEngineCC= "<?php echo $listingData->en_cc;?>";
+			if(GDEngineCC == ""){
+				$(".rowGDEngineCC").hide();
+			}
+			
+			var GDTransmission = "<?php echo $listingData->Transmission;?>";
+			if(GDTransmission == ""){
+				$(".rowGDTransmission").hide();
+			}
+			
+			var GDSeatCapacity = "<?php echo $listingData->gn_seat_capacity;?>";
+			if(GDSeatCapacity == ""){
+				$(".rowGDSeatCapacity").hide();
+			}
+			
+			var GDMileage = "<?php echo $listingData->Mileage;?>";
+			if(GDMileage == ""){
+				$(".rowGDMileage").hide();
+			}
+			
+			var GDColour = "<?php echo $listingData->Colour;?>";
+			if(GDColour == ""){
+				$(".rowGDColour").hide();
+			}
+			
+			var GDDoors = "<?php echo $listingData->gn_doors;?>";
+			if(GDDoors == ""){
+				$(".rowGDDoors").hide();
+			}
+			
+			var GDSeatCapacity = "<?php echo $listingData->gn_seat_capacity;?>";
+			if(GDSeatCapacity == ""){
+				$(".rowGDSeatCapacity").hide();
+			}
+			
+			var GDAssembled = "<?php echo $listingData->gn_assembled;?>";
+			if(GDAssembled == ""){
+				$(".rowGDAssembled").hide();
+			}
+			
+			
 			var TTransmission = "<?php echo $listingData->Transmission;?>";
 			if(TTransmission == ""){
 				$(".rowTransmission").hide();
@@ -649,7 +716,7 @@
 				isBrake = true;
 			}
 			
-			if(isBrake){
+			if(isBrake == false){
 				$(".BrakeBox").hide();
 			}
 			
@@ -679,14 +746,14 @@
 			}
 			
 			var RearTyres = "<?php echo $listingData->tw_rear;?>";
-			if(RearTyres){
+			if(RearTyres == ""){
 				$(".rowRearTyres").hide();
 			}else{
 				isTyre = true;
 			}
 			
 			var FrontRims = "<?php echo $listingData->tw_front_rim;?>";
-			if(FrontRims){
+			if(FrontRims == ""){
 				$(".rowFrontRims").hide();
 			}else{
 				isTyre = true;
@@ -811,7 +878,7 @@
 											<!--end panel-heading-->
 											<div id="accordion-collapse-1-detail" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="accordion-heading-1-detail">
 													<div class="panel-body">
-															<div class="row">
+															<div class="row rowGDBrand">
 																	<div class="col-md-3 col-sm-3">
 																			<strong>Brand</strong>
 																	</div>
@@ -825,7 +892,7 @@
 																	<!--end col-md-9-->
 															</div>
 															<!--end row-->
-															<div class="row">
+															<div class="row rowGDCategory">
 																	<div class="col-md-3 col-sm-3">
 																			<strong>Category</strong>
 																	</div>
@@ -839,7 +906,7 @@
 																	<!--end col-md-9-->
 															</div>
 															<!--end row-->
-															<div class="row">
+															<div class="row rowGDModel">
 																	<div class="col-md-3 col-sm-3">
 																			<strong>Model</strong>
 																	</div>
@@ -853,7 +920,7 @@
 																	<!--end col-md-9-->
 															</div>
 															<!--end row-->
-															<div class="row">
+															<div class="row rowGDSpecification">
 																	<div class="col-md-3 col-sm-3">
 																			<strong>Specification</strong>
 																	</div>
@@ -867,7 +934,7 @@
 																	<!--end col-md-9-->
 															</div>
 															<!--end row-->
-															<div class="row">
+															<div class="row rowGDYear">
 																	<div class="col-md-3 col-sm-3">
 																			<strong>Year</strong>
 																	</div>
@@ -881,7 +948,7 @@
 																	<!--end col-md-9-->
 															</div>
 															<!--end row-->
-															<div class="row">
+															<div class="row rowGDEngineCC">
 																	<div class="col-md-3 col-sm-3">
 																			<strong>Engine CC</strong>
 																	</div>
@@ -895,7 +962,7 @@
 																	<!--end col-md-9-->
 															</div>
 															<!--end row-->
-															<div class="row">
+															<div class="row rowGDTransmission">
 																	<div class="col-md-3 col-sm-3">
 																			<strong>Transmission</strong>
 																	</div>
@@ -909,7 +976,7 @@
 																	<!--end col-md-9-->
 															</div>
 															<!--end row-->
-															<div class="row">
+															<div class="row rowGDSeatCapacity">
 																	<div class="col-md-3 col-sm-3">
 																			<strong>Seat Capacity</strong>
 																	</div>
@@ -923,7 +990,7 @@
 																	<!--end col-md-9-->
 															</div>
 															<!--end row-->
-															<div class="row">
+															<div class="row rowGDMileage">
 																	<div class="col-md-3 col-sm-3">
 																			<strong>Mileage (km)</strong>
 																	</div>
@@ -937,7 +1004,7 @@
 																	<!--end col-md-9-->
 															</div>
 															<!--end row-->
-															<div class="row">
+															<div class="row rowGDColour">
 																	<div class="col-md-3 col-sm-3">
 																			<strong>Colour</strong>
 																	</div>
@@ -951,7 +1018,7 @@
 																	<!--end col-md-9-->
 															</div>
 															<!--end row-->
-															<div class="row">
+															<div class="row rowGDDoors">
 																	<div class="col-md-3 col-sm-3">
 																			<strong>Doors</strong>
 																	</div>
@@ -965,7 +1032,7 @@
 																	<!--end col-md-9-->
 															</div>
 															<!--end row-->
-															<div class="row">
+															<div class="row rowGDSeatCapacity">
 																	<div class="col-md-3 col-sm-3">
 																			<strong>Seat Capacity</strong>
 																	</div>
@@ -979,7 +1046,7 @@
 																	<!--end col-md-9-->
 															</div>
 															<!--end row-->
-															<div class="row">
+															<div class="row rowGDAssembled">
 																	<div class="col-md-3 col-sm-3">
 																			<strong>Assembled</strong>
 																	</div>
