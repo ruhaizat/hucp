@@ -109,7 +109,7 @@ class Main extends CI_Controller {
 				);
 				$this->session->set_userdata("LoggedUser", $session_data);
 							
-				redirect("user");
+				redirect("user/index/".$userData->ID);
 				//echo "account verified";
 			}
 		}

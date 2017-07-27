@@ -630,7 +630,7 @@ class Admin extends CI_Controller {
 		$this->email->from('suhucp@ruhaizat.my', "Admin Hyundai Used Car Platform");
 		$this->email->to($pEmailAddress);  
 		$this->email->subject("Email Verification");
-		$this->email->message("Dear New User,<br/><br/>Please click on below URL or paste into your browser to verify your Email Address<br/><br/> <a href='http://localhost/devhucp/main/verify/".$genToken."'>Verification link</a>"."<br/><br/>This verification link will expired in 3 days.<br/><br/>Thanks<br/>Hyundai Used Car Platform");
+		$this->email->message("Dear New User,<br/><br/>Please click on below URL or paste into your browser to verify your Email Address<br/><br/> <a href='".base_url()."main/verify/".$genToken."'>Verification link</a>"."<br/><br/>This verification link will expired in 3 days.<br/><br/>Thanks<br/>Hyundai Used Car Platform");
 		$this->email->send();
 	}
 	
