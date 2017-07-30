@@ -1,5 +1,34 @@
 	<script>
-
+		function MakeFavourite(UserID, ListingID){
+			var datastr = '{"mode":"MakeFavourite","UserID":"'+UserID+'","ListingID":"'+ListingID+'"}';
+			$.ajax({
+				url: "<?php echo base_url();?>main/ajax",
+				type: "POST",
+				data: {"datastr":datastr},
+				success: function(data){
+					var FavID = data;
+					var lired = ".lired_fav_"+UserID+"_"+ListingID;
+					var liblack = ".liblack_fav_"+UserID+"_"+ListingID;
+					$(lired).show();
+					$(liblack).hide();
+				}
+			});
+		}
+		function RemoveFavourite(UserID, ListingID){
+			var datastr = '{"mode":"RemoveFavourite","UserID":"'+UserID+'","ListingID":"'+ListingID+'"}';
+			$.ajax({
+				url: "<?php echo base_url();?>main/ajax",
+				type: "POST",
+				data: {"datastr":datastr},
+				success: function(data){
+					var FavID = data;
+					var lired = ".lired_fav_"+UserID+"_"+ListingID;
+					var liblack = ".liblack_fav_"+UserID+"_"+ListingID;
+					$(lired).hide();
+					$(liblack).show();
+				}
+			});
+		}
 		$(document).ready(function(){
 			$("#frmSearch").submit(function(e){
 				e.preventDefault();
@@ -166,8 +195,13 @@
                             <a href="<?php echo base_url().'listing/details/'.$eachFeatured->LID.'/'.$eachFeatured->LAddedBy;?>">Contact Seller</a>
                             <div class="controls-more">
                                 <ul>
-                                    <li><a href="#">Favorite<i class="fa fa-heart" style="padding-left: 5px;"></i></a></li>
-                                    <li><a href="#">Compare<i class="fa fa-clone" style="padding-left: 5px;"></i></a></li>
+									<?php if($LoggedUser):?>
+										<?php $favEleID = $LoggedUser["UserID"]."_".$eachFeatured->LID;?>
+										<?php $query = $this->db->query("SELECT COUNT(ID) AS val FROM tbl_favourite WHERE UserID = ".$LoggedUser["UserID"]." AND ListingID = ".$eachFeatured->LID);$favCount = $query->row()->val;?>
+										<li class="lired_fav_<?php echo $favEleID;?>" style="<?php if($favCount > 0):?><?php echo 'display:block;'?><?php else:?><?php echo 'display:none;'?><?php endif;?>"><a onclick="RemoveFavourite(<?php echo $LoggedUser['UserID'];?>,<?php echo $eachFeatured->LID;?>)">Favorite<i class="fa fa-heart fi_<?php echo $favEleID;?>" style="padding-left:5px;color:red;"></i></a></li>
+										<li class="liblack_fav_<?php echo $favEleID;?>" style="<?php if($favCount > 0):?><?php echo 'display:none;'?><?php else:?><?php echo 'display:block;'?><?php endif;?>"><a onclick="MakeFavourite(<?php echo $LoggedUser['UserID'];?>,<?php echo $eachFeatured->LID;?>)">Favorite<i class="fa fa-heart fi_<?php echo $favEleID;?>" style="padding-left:5px;color:black;"></i></a></li>
+									<?php endif;?>
+									<li><a href="#">Compare<i class="fa fa-clone" style="padding-left: 5px;"></i></a></li>
                                     <li><a href="#">Report<i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
                                 </ul>
                             </div>
@@ -221,7 +255,12 @@
                                 <a href="<?php echo base_url().'listing/details/'.$eachRecent->LID.'/'.$eachRecent->LAddedBy;?>">Contact Seller</a>
                                 <div class="controls-more">
                                     <ul>
-                                        <li><a href="#">Favorite <i class="fa fa-heart" style="padding-left: 5px;"></i></a></li>
+										<?php if($LoggedUser):?>
+											<?php $favEleID = $LoggedUser["UserID"]."_".$eachRecent->LID;?>
+											<?php $query = $this->db->query("SELECT COUNT(ID) AS val FROM tbl_favourite WHERE UserID = ".$LoggedUser["UserID"]." AND ListingID = ".$eachRecent->LID);$favCount = $query->row()->val;?>
+											<li class="lired_fav_<?php echo $favEleID;?>" style="<?php if($favCount > 0):?><?php echo 'display:block;'?><?php else:?><?php echo 'display:none;'?><?php endif;?>"><a onclick="RemoveFavourite(<?php echo $LoggedUser['UserID'];?>,<?php echo $eachRecent->LID;?>)">Favorite<i class="fa fa-heart fi_<?php echo $favEleID;?>" style="padding-left:5px;color:red;"></i></a></li>
+											<li class="liblack_fav_<?php echo $favEleID;?>" style="<?php if($favCount > 0):?><?php echo 'display:none;'?><?php else:?><?php echo 'display:block;'?><?php endif;?>"><a onclick="MakeFavourite(<?php echo $LoggedUser['UserID'];?>,<?php echo $eachRecent->LID;?>)">Favorite<i class="fa fa-heart fi_<?php echo $favEleID;?>" style="padding-left:5px;color:black;"></i></a></li>
+										<?php endif;?>
                                         <li><a href="#">Compare <i class="fa fa-clone" style="padding-left: 5px;"></i></a></li>
                                         <li><a href="#">Report <i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
                                     </ul>
@@ -305,7 +344,12 @@
                                 <a href="<?php echo base_url().'listing/details/'.$eachViewed->LID.'/'.$eachViewed->LAddedBy;?>">Contact Seller</a>
                                 <div class="controls-more">
                                     <ul>
-                                        <li><a href="#">Favorite <i class="fa fa-heart" style="padding-left: 5px;"></i></a></li>
+										<?php if($LoggedUser):?>
+											<?php $favEleID = $LoggedUser["UserID"]."_".$eachViewed->LID;?>
+											<?php $query = $this->db->query("SELECT COUNT(ID) AS val FROM tbl_favourite WHERE UserID = ".$LoggedUser["UserID"]." AND ListingID = ".$eachViewed->LID);$favCount = $query->row()->val;?>
+											<li class="lired_fav_<?php echo $favEleID;?>" style="<?php if($favCount > 0):?><?php echo 'display:block;'?><?php else:?><?php echo 'display:none;'?><?php endif;?>"><a onclick="RemoveFavourite(<?php echo $LoggedUser['UserID'];?>,<?php echo $eachViewed->LID;?>)">Favorite<i class="fa fa-heart fi_<?php echo $favEleID;?>" style="padding-left:5px;color:red;"></i></a></li>
+											<li class="liblack_fav_<?php echo $favEleID;?>" style="<?php if($favCount > 0):?><?php echo 'display:none;'?><?php else:?><?php echo 'display:block;'?><?php endif;?>"><a onclick="MakeFavourite(<?php echo $LoggedUser['UserID'];?>,<?php echo $eachViewed->LID;?>)">Favorite<i class="fa fa-heart fi_<?php echo $favEleID;?>" style="padding-left:5px;color:black;"></i></a></li>
+										<?php endif;?>
                                         <li><a href="#">Compare <i class="fa fa-clone" style="padding-left: 5px;"></i></a></li>
                                         <li><a href="#">Report <i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
                                     </ul>

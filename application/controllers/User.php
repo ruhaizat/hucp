@@ -49,6 +49,9 @@ class User extends CI_Controller {
 	
 	public function listing($userID)
 	{
+		$user_data = $this->session->userdata("LoggedUser");
+		$data["LoggedUser"] = $user_data;
+		
 		$data["bodyClass"] = "";
 		//$user_data = $this->session->userdata("LoggedUser");
 		//$userID = $user_data["UserID"];
@@ -69,6 +72,34 @@ class User extends CI_Controller {
 		
 		$this->load->view('header', $data);
 		$this->load->view('user/listing.php',$data);
+		$this->load->view('footer');
+	}
+	
+	public function favourite($userID)
+	{
+		$user_data = $this->session->userdata("LoggedUser");
+		$data["LoggedUser"] = $user_data;
+		
+		$data["bodyClass"] = "";
+		//$user_data = $this->session->userdata("LoggedUser");
+		//$userID = $user_data["UserID"];
+		
+		$query = $this->db->query("SELECT * FROM tbl_user WHERE ID = '$userID'");
+		$data["user"] = $query->row();
+		
+		$query = $this->db->query("SELECT *,S.Name AS StateName, L.ID AS LID,L.Model AS ModelName, L.Specification AS SpecificationName, L.AddedBy AS LAddedBy FROM tbl_favourite AS F LEFT JOIN tbl_listing AS L ON F.ListingID = L.ID LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID LEFT JOIN tbl_state AS S ON L.State = S.ID WHERE F.UserID = $userID GROUP BY L.ID");
+		$listingData = $query->result();
+		$data["listingData"] = $listingData;
+		
+		$query = $this->db->query("SELECT gs_model FROM tbl_specificationmaster Group By gs_model Order By gs_model ASC");
+		$data["model"] = $query->result();
+		
+		$queryState = $this->db->query("SELECT * FROM tbl_state");
+		$stateData = $queryState->result();
+		$data["state"] = $stateData;
+		
+		$this->load->view('header', $data);
+		$this->load->view('user/favourite.php',$data);
 		$this->load->view('footer');
 	}
 	

@@ -1,4 +1,79 @@
-	<script>
+	<script>		
+		function FavActionNo(){
+			$("#sPCTitle").text("Warning");
+			$("#sPCMsg").text("You have to sign in to use favourite button");
+			buttonMode = "Warning";
+			$("#PopupCustom").modal("show");
+		}			
+		function FavAction(UserID, ListingID){
+			var fifav = ".fi_"+UserID+"_"+ListingID;
+			
+			if($(fifav).css("color") == "rgb(255, 0, 0)"){
+				var datastr = '{"mode":"RemoveFavourite","UserID":"'+UserID+'","ListingID":"'+ListingID+'"}';
+				$.ajax({
+					url: "<?php echo base_url();?>main/ajax",
+					type: "POST",
+					data: {"datastr":datastr},
+					success: function(data){
+						var FavID = data;
+						var lired = ".lired_fav_"+UserID+"_"+ListingID;
+						var liblack = ".liblack_fav_"+UserID+"_"+ListingID;
+						$(lired).hide();
+						$(liblack).show();
+						
+						var fifav = ".fi_"+UserID+"_"+ListingID;
+						$(fifav).css("color", "gray");
+					}
+				});				
+			}else{	
+				var datastr = '{"mode":"MakeFavourite","UserID":"'+UserID+'","ListingID":"'+ListingID+'"}';
+				$.ajax({
+					url: "<?php echo base_url();?>main/ajax",
+					type: "POST",
+					data: {"datastr":datastr},
+					success: function(data){
+						var FavID = data;
+						var lired = ".lired_fav_"+UserID+"_"+ListingID;
+						var liblack = ".liblack_fav_"+UserID+"_"+ListingID;
+						$(lired).show();
+						$(liblack).hide();
+						
+						var fifav = ".fi_"+UserID+"_"+ListingID;
+						$(fifav).css("color", "red");
+					}
+				});				
+			}
+		}		
+		function MakeFavourite(UserID, ListingID){
+			var datastr = '{"mode":"MakeFavourite","UserID":"'+UserID+'","ListingID":"'+ListingID+'"}';
+			$.ajax({
+				url: "<?php echo base_url();?>main/ajax",
+				type: "POST",
+				data: {"datastr":datastr},
+				success: function(data){
+					var FavID = data;
+					var lired = ".lired_fav_"+UserID+"_"+ListingID;
+					var liblack = ".liblack_fav_"+UserID+"_"+ListingID;
+					$(lired).show();
+					$(liblack).hide();
+				}
+			});
+		}
+		function RemoveFavourite(UserID, ListingID){
+			var datastr = '{"mode":"RemoveFavourite","UserID":"'+UserID+'","ListingID":"'+ListingID+'"}';
+			$.ajax({
+				url: "<?php echo base_url();?>main/ajax",
+				type: "POST",
+				data: {"datastr":datastr},
+				success: function(data){
+					var FavID = data;
+					var lired = ".lired_fav_"+UserID+"_"+ListingID;
+					var liblack = ".liblack_fav_"+UserID+"_"+ListingID;
+					$(lired).hide();
+					$(liblack).show();
+				}
+			});
+		}
 		function RunSelModel(gs_model){
 			$('select[name=selEditALModel] option:contains(' + gs_model +')').attr('selected', true);
 			var datastr = '{"mode":"SelectModel","gs_model":"'+gs_model+'"}';
@@ -784,6 +859,8 @@
             </section>
             <!--end page-title-->
 			<?php if($this->session->userdata("LoggedUser") != null): $user_data = $this->session->userdata("LoggedUser");?>
+			<?php $favEleID = $user_data["UserID"]."_".$listingData->ID;?>
+			<?php $query = $this->db->query("SELECT COUNT(ID) AS val FROM tbl_favourite WHERE UserID = ".$user_data["UserID"]." AND ListingID = ".$listingData->ID);$favCount = $query->row()->val;?>
 			<?php if($user_data["Group"] == 1):?>
 				<?php if($listingData->LStatus == 0):?>
 					<?php if($listingData->LIsFeatured == 0):?>
@@ -804,7 +881,7 @@
 					<a href="#EditListing" class="btn btn-primary btn-rounded icon scroll pull-right" data-toggle="modal"><i class="fa fa-edit"></i>Edit</a>
 					<a id="btnPrintListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-print"></i>Print</a>
 					<a id="btnCompareListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-clone"></i>Compare</a>
-					<a id="btnFavoriteListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-heart"></i>Favourite </a>
+					<a onclick="FavAction(<?php echo $user_data['UserID'];?>,<?php echo $listingData->ID;?>);" id="btnFavoriteListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-heart fi_<?php echo $favEleID;?>" style="color:<?php if($favCount > 0):?><?php echo 'red'?><?php else:?><?php echo 'gray'?><?php endif;?>;"></i>Favourite </a>
 				<?php endif;?>
 			<?php elseif($user_data["Group"] == 2):?>
 				<?php if($listingData->LStatus == -1):?>
@@ -819,14 +896,14 @@
 					<a id="btnReportListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-flag"></i>Report Ad</a>
 					<a id="btnPrintListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-print"></i>Print</a>
 					<a id="btnCompareListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-clone"></i>Compare</a>
-					<a id="btnFavoriteListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-heart"></i>Favourite </a>
+					<a onclick="FavAction(<?php echo $user_data['UserID'];?>,<?php echo $listingData->ID;?>);" id="btnFavoriteListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-heart fi_<?php echo $favEleID;?>" style="color:<?php if($favCount > 0):?><?php echo 'red'?><?php else:?><?php echo 'gray'?><?php endif;?>;"></i>Favourite </a>
 				<?php endif;?>
 			<?php endif;?>
 			<?php else:?>
 					<a id="btnReportListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-flag"></i>Report Ad</a>
 					<a id="btnPrintListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-print"></i>Print</a>
 					<a id="btnCompareListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-clone"></i>Compare</a>
-					<a id="btnFavoriteListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-heart"></i>Favourite </a>
+					<a onclick="FavActionNo();" id="btnFavoriteListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-heart"></i>Favourite </a>
 			<?php endif;?>
 			<!--
 					<a id="btnSubmitListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-rounded icon scroll pull-right"><i class="fa fa-check-circle"></i>Submit</a>
@@ -1643,9 +1720,14 @@
                             </a>
                             <div class="controls-more">
                                 <ul>
-																	<li><a href="#">Favorite <i class="fa fa-heart" style="padding-left: 5px;"></i></a></li>
-																	<li><a href="#">Compare <i class="fa fa-clone" style="padding-left: 5px;"></i></a></li>
-																	<li><a href="#">Report <i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
+									<?php if($LoggedUser):?>
+										<?php $favEleID = $LoggedUser["UserID"]."_".$eachRelated->LID;?>
+										<?php $query = $this->db->query("SELECT COUNT(ID) AS val FROM tbl_favourite WHERE UserID = ".$LoggedUser["UserID"]." AND ListingID = ".$eachRelated->LID);$favCount = $query->row()->val;?>
+										<li class="lired_fav_<?php echo $favEleID;?>" style="<?php if($favCount > 0):?><?php echo 'display:block;'?><?php else:?><?php echo 'display:none;'?><?php endif;?>"><a onclick="RemoveFavourite(<?php echo $LoggedUser['UserID'];?>,<?php echo $eachRelated->LID;?>)">Favorite<i class="fa fa-heart fi_<?php echo $favEleID;?>" style="padding-left:5px;color:red;"></i></a></li>
+										<li class="liblack_fav_<?php echo $favEleID;?>" style="<?php if($favCount > 0):?><?php echo 'display:none;'?><?php else:?><?php echo 'display:block;'?><?php endif;?>"><a onclick="MakeFavourite(<?php echo $LoggedUser['UserID'];?>,<?php echo $eachRelated->LID;?>)">Favorite<i class="fa fa-heart fi_<?php echo $favEleID;?>" style="padding-left:5px;color:black;"></i></a></li>
+									<?php endif;?>
+									<li><a href="#">Compare <i class="fa fa-clone" style="padding-left: 5px;"></i></a></li>
+									<li><a href="#">Report <i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
                                 </ul>
                             </div>
                         </div>

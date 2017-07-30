@@ -23,9 +23,11 @@
 				success: function(data){
 					var FavID = data;
 					var lired = ".lired_fav_"+UserID+"_"+ListingID;
+					var divred = ".divFav_"+UserID+"_"+ListingID;
 					var liblack = ".liblack_fav_"+UserID+"_"+ListingID;
 					$(lired).hide();
 					$(liblack).show();
+					$(divred).hide();
 				}
 			});
 		}
@@ -68,7 +70,7 @@
                                   <p>Verifying your mobile number will increase your chances to be contacted by interested buyers.</p>
 								  <?php endif;?>
                               </address>
-															<hr>
+							  <hr>
                                 <a href="<?php echo base_url();?>user/index/<?php echo $user->ID;?>"><h4>My Profile</h4></a>
                               <hr>
                                 <a href="<?php echo base_url();?>user/listing/<?php echo $user->ID;?>"><h4>My Advertisements</h4></a>
@@ -106,7 +108,7 @@
                   </section>
                   <section>
 						<?php $i = 0;foreach($listingData as $eachList):$i++;?>
-                        <div class="item item-row" data-id="<?php echo $eachList->LID;?>" data-latitude="<?php echo $eachList->Latitude;?>" data-longitude="<?php echo $eachList->Longitude;?>">
+                        <div class="item item-row divFav_<?php echo $LoggedUser['UserID'].'_'.$eachList->LID;?>" data-id="<?php echo $eachList->LID;?>" data-latitude="<?php echo $eachList->Latitude;?>" data-longitude="<?php echo $eachList->Longitude;?>">
                             <?php if($eachList->IsFeatured == 1):?><figure class="ribbon">Featured</figure><?php endif;?>
                             <a href="<?php echo base_url().'listing/details/'.$eachList->LID.'/'.$eachList->LAddedBy;?>">
                                 <div class="image bg-transfer">

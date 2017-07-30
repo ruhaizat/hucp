@@ -19,6 +19,9 @@ class Listing extends CI_Controller {
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
 	public function index(){
+		$user_data = $this->session->userdata("LoggedUser");
+		$data["LoggedUser"] = $user_data;
+		
 		$data["bodyClass"] = "nav-btn-only homepage";
 		
 		$data["isSearch"] = 0;
@@ -115,8 +118,10 @@ class Listing extends CI_Controller {
 	}
 	
 	public function details($id, $addedBy){
+		
+		$user_data = $this->session->userdata("LoggedUser");
+		
 		if($this->session->userdata("LoggedUser") != null){
-			$user_data = $this->session->userdata("LoggedUser");
 			$UserID = $user_data["UserID"];
 		}else{
 			$UserID = 0;
@@ -169,6 +174,7 @@ class Listing extends CI_Controller {
 		//$data["modelData"] = $modelData;
 		//$data["specificationData"] = $specificationData;
 		$data["userData"] = $userData;
+		$data["LoggedUser"] = $user_data;
 		
 		$this->load->view('header', $data);
 		$this->load->view('listing/details.php', $data);

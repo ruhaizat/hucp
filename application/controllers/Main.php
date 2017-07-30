@@ -21,6 +21,9 @@ class Main extends CI_Controller {
 	 */
 	public function index()
 	{
+		$user_data = $this->session->userdata("LoggedUser");
+		$data["LoggedUser"] = $user_data;
+		
 		$data["bodyClass"] = "nav-btn-only homepage";
 		
 		$queryRecent = $this->db->query("SELECT *, L.ID AS LID, L.Model AS ModelName, L.Specification AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName FROM tbl_listing AS L LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE L.Status = 1 GROUP BY L.ID ORDER BY L.AddedOn DESC LIMIT 8");
@@ -469,6 +472,28 @@ class Main extends CI_Controller {
 				$gs_manu_year = $query->result();
 				
 				echo json_encode($gs_manu_year);
+			break;
+			case "MakeFavourite":
+				$UserID = $obj->UserID;
+				$ListingID = $obj->ListingID;
+				
+				$data = array(
+				   "UserID" => $UserID,
+				   "ListingID" => $ListingID,
+				   "AddedOn" => date("Y-m-d H:i:s")
+				);
+
+				$this->db->insert('tbl_favourite', $data);
+				
+				$insert_id = $this->db->insert_id();
+				
+				echo $insert_id;
+			break;
+			case "RemoveFavourite":
+				$UserID = $obj->UserID;
+				$ListingID = $obj->ListingID;
+				
+				$this->db->delete('tbl_favourite', array('UserID' => $UserID,'ListingID' => $ListingID));
 			break;
 		}
 	}

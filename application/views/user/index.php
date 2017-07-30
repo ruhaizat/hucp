@@ -326,7 +326,7 @@
                               <hr>
                                 <a href="<?php echo base_url();?>user/listing/<?php echo $user->ID;?>"><h4>My Advertisements</h4></a>
                               <hr>
-                                <a href="#"><h4>My Favourites</h4></a>
+                                <a href="<?php echo base_url();?>user/favourite/<?php echo $user->ID;?>"><h4>My Favourites</h4></a>
                           </div>
                       </section>
                   </div>

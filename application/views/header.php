@@ -79,7 +79,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<ul>
 											<li><a href="<?php echo base_url();?>user/index/<?php echo $user_data["UserID"]?>">My Profile</a></li>
 											<li><a href="<?php echo base_url();?>user/listing/<?php echo $user_data["UserID"]?>">My Advertisements</a></li>
-											<li><a href="#">My Favourites</a></li>
+											<li><a href="<?php echo base_url();?>user/favourite/<?php echo $user_data["UserID"];?>">My Favourites</a></li>
 										</ul>
 									</div>
 								</div>
