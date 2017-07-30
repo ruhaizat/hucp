@@ -213,13 +213,13 @@ Contact: kenny@kni.com.my
                                 </a>
                                 <ul class="sub-menu">
                                   <li class="nav-item start ">
-                                      <a href="#" class="nav-link ">
-                                          <span class="title">All Statistic</span>
+                                      <a href="<?php echo base_url();?>admin/statisticadvertisement" class="nav-link ">
+                                          <span class="title">Advertisement</span>
                                       </a>
                                   </li>
                                     <li class="nav-item start ">
-                                        <a href="#" class="nav-link ">
-                                            <span class="title">Add Statistic</span>
+                                        <a href="<?php echo base_url();?>admin/statisticuser" class="nav-link ">
+                                            <span class="title">User</span>
                                         </a>
                                     </li>
                                 </ul>

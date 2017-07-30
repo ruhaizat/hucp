@@ -80,6 +80,118 @@ class Admin extends CI_Controller {
 		$this->load->view('footer_admin');
 	}
 	
+	public function statisticuser()
+	{
+		$query = $this->db->query("SELECT COUNT(id) AS val FROM tbl_user WHERE Status = 1");
+		$data["new"] = $query->row();
+		
+		$query = $this->db->query("SELECT COUNT(id) AS val FROM tbl_user WHERE Status = 2");
+		$data["emailverified"] = $query->row();
+		
+		$query = $this->db->query("SELECT COUNT(id) AS val FROM tbl_user WHERE Status = 3");
+		$data["deleted"] = $query->row();
+		
+		$query = $this->db->query("SELECT COUNT(id) AS val FROM tbl_user WHERE `Group` = 1");
+		$data["admin"] = $query->row();
+		
+		$query = $this->db->query("SELECT COUNT(id) AS val FROM tbl_user WHERE `Group` = 2");
+		$data["user"] = $query->row();
+		
+		$begin = new DateTime(date("Y")."-01-01");
+		$end = new DateTime(date("Y-m-d"));
+		$interval = DateInterval::createFromDateString('1 day');
+		$period = new DatePeriod($begin, $interval, $end);
+		
+		foreach($period as $dt)
+		{
+			$cdt = $dt->format("Y-m-d");
+			$query = $this->db->query("SELECT COUNT(ID) AS val FROM tbl_user WHERE SUBSTRING(AddedOn,1,10) = '".$cdt."'");
+			
+			$newdata =  array (
+				'year' => $dt->format("Y"),
+				'month' => $dt->format("m"),
+				'day' => $dt->format("d"),
+				'val' => $query->row()->val
+			);
+			$rvdata[] = $newdata;
+		}
+		
+		$query = $this->db->query("SELECT COUNT(ID) AS val FROM tbl_user WHERE SUBSTRING(AddedOn,1,10) = '".date("Y-m-d")."'");
+			
+		$newdata =  array (
+			'year' => date("Y"),
+			'month' => date("m"),
+			'day' => date("d"),
+			'val' => $query->row()->val
+		);
+		$rvdata[] = $newdata;
+		
+		$data["useradded"] = $rvdata;
+		
+		$this->load->view('header_admin');
+		$this->load->view('admin/statistic/user.php', $data);
+		$this->load->view('footer_admin');
+	}
+	
+	public function statisticadvertisement()
+	{
+		$query = $this->db->query("SELECT COUNT(id) AS val FROM tbl_listing WHERE Status = -1 AND SUBSTRING(AddedOn,1,10) = '".date("Y-m-d")."'");
+		$data["newpending"] = $query->row();
+		
+		$query = $this->db->query("SELECT COUNT(id) AS val FROM tbl_listing WHERE Status = 0 AND SUBSTRING(AddedOn,1,10) = '".date("Y-m-d")."'");
+		$data["submitted"] = $query->row();
+		
+		$query = $this->db->query("SELECT COUNT(id) AS val FROM tbl_listing WHERE Status = 1 AND SUBSTRING(AddedOn,1,10) = '".date("Y-m-d")."'");
+		$data["approved"] = $query->row();
+		
+		$query = $this->db->query("SELECT COUNT(id) AS val FROM tbl_listing WHERE Status = 2 AND SUBSTRING(AddedOn,1,10) = '".date("Y-m-d")."'");
+		$data["expired"] = $query->row();
+		
+		$query = $this->db->query("SELECT COUNT(id) AS val FROM tbl_listing WHERE Status = 3 AND SUBSTRING(AddedOn,1,10) = '".date("Y-m-d")."'");
+		$data["rejected"] = $query->row();
+		
+		$query = $this->db->query("SELECT COUNT(id) AS val FROM tbl_listing WHERE IsFeatured = 1 AND SUBSTRING(AddedOn,1,10) = '".date("Y-m-d")."'");
+		$data["featured"] = $query->row();
+		
+		$query = $this->db->query("SELECT COUNT(id) AS val FROM tbl_listing WHERE IsFeatured = 0 AND SUBSTRING(AddedOn,1,10) = '".date("Y-m-d")."'");
+		$data["notfeatured"] = $query->row();
+		
+		$begin = new DateTime(date("Y")."-01-01");
+		$end = new DateTime(date("Y-m-d"));
+		$interval = DateInterval::createFromDateString('1 day');
+		$period = new DatePeriod($begin, $interval, $end);
+		
+		foreach($period as $dt)
+		{
+			$cdt = $dt->format("Y-m-d");
+			$query = $this->db->query("SELECT COUNT(ID) AS val FROM tbl_recentlyviewed WHERE SUBSTRING(ViewedOn,1,10) = '".$cdt."'");
+			
+			$newdata =  array (
+				'year' => $dt->format("Y"),
+				'month' => $dt->format("m"),
+				'day' => $dt->format("d"),
+				'val' => $query->row()->val
+			);
+			$rvdata[] = $newdata;
+		}
+		
+		$query = $this->db->query("SELECT COUNT(ID) AS val FROM tbl_recentlyviewed WHERE SUBSTRING(ViewedOn,1,10) = '".date("Y-m-d")."'");
+			
+		$newdata =  array (
+			'year' => date("Y"),
+			'month' => date("m"),
+			'day' => date("d"),
+			'val' => $query->row()->val
+		);
+		$rvdata[] = $newdata;
+		
+		$data["recentlyviewed"] = $rvdata;
+		  
+		$this->load->view('header_admin');
+		$this->load->view('admin/statistic/advertisement.php', $data);
+		$this->load->view('footer_admin');
+	}
+	
 	public function adedit($id, $addedBy)
 	{		
 		$query = $this->db->query("SELECT * FROM tbl_user WHERE Status = 2");
