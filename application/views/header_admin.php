@@ -233,7 +233,7 @@ Contact: kenny@kni.com.my
                                 </a>
                                 <ul class="sub-menu">
                                   <li class="nav-item start ">
-                                      <a href="#" class="nav-link ">
+                                      <a href="<?php echo base_url();?>admin/newsletterall" class="nav-link ">
                                           <span class="title">All Campaign</span>
                                       </a>
                                   </li>
@@ -243,7 +243,7 @@ Contact: kenny@kni.com.my
                                         </a>
                                     </li>
                                     <li class="nav-item start ">
-                                        <a href="#" class="nav-link ">
+                                        <a href="<?php echo base_url();?>admin/subscriberall" class="nav-link ">
                                             <span class="title">Subscribers</span>
                                         </a>
                                     </li>

@@ -64,6 +64,50 @@ class Main extends CI_Controller {
 		$this->load->view("footer");
 	}
 	
+	public function newsletter()
+	{
+		$user_data = $this->session->userdata("LoggedUser");
+		$data["LoggedUser"] = $user_data;
+		
+		$queryRecent = $this->db->query("SELECT *, L.ID AS LID, L.Model AS ModelName, L.Specification AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName FROM tbl_listing AS L LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE L.Status = 1 GROUP BY L.ID ORDER BY L.AddedOn DESC LIMIT 8");
+		$recentData = $queryRecent->result();
+		$data["recentData"] = $recentData;
+		
+		$this->load->view('newsletter/view.php', $data);
+	}
+	
+	public function unsubscribe($id)
+	{
+		$user_data = $this->session->userdata("LoggedUser");
+		$data["LoggedUser"] = $user_data;
+		
+		$data["bodyClass"] = "nav-btn-only homepage";
+		
+		$queryRecent = $this->db->query("SELECT *, L.ID AS LID, L.Model AS ModelName, L.Specification AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName FROM tbl_listing AS L LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE L.Status = 1 GROUP BY L.ID ORDER BY L.AddedOn DESC LIMIT 8");
+		$recentData = $queryRecent->result();
+		$data["recentData"] = $recentData;
+		
+		$queryFeatured = $this->db->query("SELECT *, L.ID AS LID,L.Model AS ModelName, L.Specification AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName FROM tbl_listing AS L LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE L.Status = 1 AND L.IsFeatured = 1 GROUP BY L.ID ORDER BY L.AddedOn DESC LIMIT 12");
+		$featuredData = $queryFeatured->result();
+		$data["featuredData"] = $featuredData;
+		$data["featuredDataCount"] = $queryFeatured->num_rows();
+		
+		//$IPAddress = $this->get_client_ip();
+		$queryRecentViewed = $this->db->query("SELECT MAX(RV.ID), L.ManufacturingYear AS LManufacturingYear, L.Brand AS LBrand, L.SellingPrice AS LSellingPrice, RV.ID AS RVID, L.ID AS LID, L.Model AS ModelName, L.Specification AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName, LI.ListingPic AS LListingPic FROM tbl_recentlyviewed AS RV INNER JOIN tbl_listing AS L ON RV.ListingID = L.ID LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE L.Status = 1 GROUP BY RV.ListingID ORDER BY MAX(RV.ID) DESC LIMIT 4");
+		$recentViewedData = $queryRecentViewed->result();
+		$data["recentViewed"] = $recentViewedData;
+		
+		$query = $this->db->query("SELECT * FROM tbl_subscriber WHERE ID = '$id'");
+		$subscriberData = $query->row();
+		
+		$data["optEmail"] = $subscriberData->EmailAddress;
+		$data["SubscriberID"] = $id;
+		
+		$this->load->view("header", $data);
+		$this->load->view('newsletter/unsubscribe.php', $data);
+		$this->load->view("footer");
+	}
+	
 	public function verify($token)
 	{
 		$query = $this->db->query("SELECT * FROM tbl_verifyemail WHERE Token = '$token'");
@@ -494,6 +538,70 @@ class Main extends CI_Controller {
 				$ListingID = $obj->ListingID;
 				
 				$this->db->delete('tbl_favourite', array('UserID' => $UserID,'ListingID' => $ListingID));
+			break;
+			case "OptOut":
+				$SubscriberID = $obj->SubscriberID;
+				
+				$dataarray = array(
+					"IsSubscribe" => 0
+				);
+
+				$this->db->set($dataarray);
+				$this->db->where("ID", $SubscriberID);
+				$this->db->update("tbl_subscriber");
+			break;
+			case "OptIn":
+				$EmailAddress = $obj->EmailAddress;
+				
+				$query = $this->db->query("SELECT * FROM tbl_subscriber WHERE EmailAddress = '$EmailAddress'");
+				
+				if($query->num_rows() == 0){
+					$data = array(
+					   "Type" => 2,
+					   "EmailAddress" => $EmailAddress,
+					   "IsSubscribe" => 1,
+						"AddedOn" => date("Y-m-d H:i:s")
+					);
+
+					$this->db->insert('tbl_subscriber', $data);		
+					
+					echo "OK";
+				}else{
+					echo "KO";
+				}
+			break;
+			case "OptInAgain":
+				$SubscriberID = $obj->SubscriberID;
+				
+				$dataarray = array(
+					"IsSubscribe" => 1
+				);
+
+				$this->db->set($dataarray);
+				$this->db->where("ID", $SubscriberID);
+				$this->db->update("tbl_subscriber");
+			break;
+			case "NewsletterOptOut":
+				$NewsletterID = $obj->NewsletterID;
+				
+				$dataarray = array(
+					"Status" => 0
+				);
+
+				$this->db->set($dataarray);
+				$this->db->where("ID", $NewsletterID);
+				$this->db->update("tbl_newsletter");
+			break;
+			case "NewsletterOptInAgain":
+				$NewsletterID = $obj->NewsletterID;
+				
+				$dataarray = array(
+					"Status" => 1
+				);
+
+				$this->db->set($dataarray);
+				$this->db->where("ID", $NewsletterID);
+				$this->db->update("tbl_newsletter");
 			break;
 		}
 	}

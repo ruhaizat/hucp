@@ -80,6 +80,16 @@ class Admin extends CI_Controller {
 		$this->load->view('footer_admin');
 	}
 	
+	public function subscriberall()
+	{
+		$query = $this->db->query("SELECT S.ID AS ID, U.FirstName AS FirstName, S.EmailAddress AS EmailAddress, S.AddedOn AS AddedOn, S.IsSubscribe AS IsSubscribe FROM tbl_subscriber AS S LEFT JOIN tbl_user AS U ON S.EmailAddress = U.EmailAddress");
+		$data["users"] = $query->result();
+		
+		$this->load->view('header_admin');
+		$this->load->view('admin/newsletter/subscriber.php', $data);
+		$this->load->view('footer_admin');
+	}
+	
 	public function statisticuser()
 	{
 		$query = $this->db->query("SELECT COUNT(id) AS val FROM tbl_user WHERE Status = 1");
@@ -705,10 +715,66 @@ class Admin extends CI_Controller {
 	}
 	
 	public function newsletternew()
-	{
+	{		
+		$queryRecent = $this->db->query("SELECT *, L.ID AS LID, L.Model AS ModelName, L.Specification AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName FROM tbl_listing AS L LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE L.Status = 1 GROUP BY L.ID ORDER BY L.AddedOn DESC LIMIT 8");
+		$recentData = $queryRecent->result();
+		$data["recentData"] = $recentData;
+		
 		$this->load->view('header_admin');
-		$this->load->view('admin/newsletter/new.php');
+		$this->load->view('admin/newsletter/new.php', $data);
 		$this->load->view('footer_admin');
+	}
+	
+	public function newsletterall()
+	{
+		$query = $this->db->query("SELECT * FROM tbl_newsletter");
+		$data["newsletters"] = $query->result();
+		
+		$this->load->view('header_admin');
+		$this->load->view('admin/newsletter/all.php', $data);
+		$this->load->view('footer_admin');
+	}
+	
+	public function newsletteredit($id)
+	{
+		$query = $this->db->query("SELECT * FROM tbl_newsletter WHERE ID = $id");
+		$data["newsletter"] = $query->row();
+		
+		$queryRecent = $this->db->query("SELECT *, L.ID AS LID, L.Model AS ModelName, L.Specification AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName FROM tbl_listing AS L LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE L.Status = 1 GROUP BY L.ID ORDER BY L.AddedOn DESC LIMIT 8");
+		$recentData = $queryRecent->result();
+		$data["recentData"] = $recentData;
+		
+		$this->load->view('header_admin');
+		$this->load->view('admin/newsletter/edit.php', $data);
+		$this->load->view('footer_admin');
+	}
+	
+	public function newslettersendmail()
+	{
+		$data_array = array(
+			'HTML' 		=> preg_replace('/\r|\n/','',$this->input->post("hhtmlstr")),
+			'Subject'	=> $this->input->post('subject'),
+			'AddedOn'	=> date('Y-m-d H:i:s'),
+			'Status'	=> 1
+		);
+		
+		$this->db->insert('tbl_newsletter',$data_array);
+		
+		redirect(base_url().'admin/newsletterall');
+	}
+	
+	public function newsletterupdate()
+	{
+		$dataarray = array(
+			'HTML' 		=> preg_replace('/\r|\n/','',$this->input->post("hhtmlstr")),
+			'Subject'	=> $this->input->post('subject')
+		);	
+		
+		$this->db->set($dataarray);
+		$this->db->where("ID", $this->input->post("hID"));
+		$this->db->update("tbl_newsletter");
+		
+		redirect(base_url().'admin/newsletterall');
 	}
 	
 	private function sendverifyemail($pUserID, $pEmailAddress)
@@ -914,6 +980,92 @@ class Admin extends CI_Controller {
 				force_download($filename, $this->dbutil->csv_from_result($query)); // download file
 				//echo $filename;
 			break;
+			case "DeleteNewsletter":
+				$this->db->delete('tbl_newsletter', array('ID' => $obj->id));
+			break;
+			case "NewsletterSendToSubscribers":
+				$newsletterID = $obj->id;
+				$query = $this->db->query('SELECT EmailAddress FROM tbl_subscriber WHERE IsSubscribe = 1');
+				
+				$emails = '';
+				foreach($query->result() as $eachEmail){
+					$emails .= $eachEmail->EmailAddress.',';
+				}
+			
+				$query = $this->db->query('SELECT * FROM tbl_newsletter WHERE ID = '.$newsletterID);
+				$newsletter = $query->row();
+			
+				$config = Array(
+					'protocol' => 'smtp',
+					'smtp_host' => 'mail.ruhaizat.my',
+					'smtp_port' => 587,
+					'smtp_user' => 'suhucp@ruhaizat.my', // change it to yours
+					'smtp_pass' => 'hyundai1234', // change it to yours
+					'mailtype' => 'html',
+					'charset' => 'iso-8859-1',
+					'wordwrap' => TRUE
+				);
+				
+				
+				$html = '<!DOCTYPE html>
+
+				<html lang="en-US">
+				<head>
+					<meta charset="UTF-8"/>
+					<meta name="viewport" content="width=device-width, initial-scale=1.0">
+					<meta name="author" content="KNI">
+
+					<link href="'.base_url().'assets/fonts/font-awesome.css" rel="stylesheet" type="text/css">
+					<link href="'.base_url().'assets/fonts/elegant-fonts.css" rel="stylesheet" type="text/css">
+					<link href="https://fonts.googleapis.com/css?family=Lato:400,300,700,900,400italic" rel="stylesheet" type="text/css">
+					<link rel="stylesheet" href="'.base_url().'assets/bootstrap/css/bootstrap.css" type="text/css">
+					<link rel="stylesheet" href="'.base_url().'assets/css/jquery.nouislider.min.css" type="text/css">
+
+					<link rel="stylesheet" href="'.base_url().'assets/css/owl.carousel.css" type="text/css">
+					<link rel="stylesheet" href="'.base_url().'assets/css/style.css" type="text/css">
+
+					<title>Hyundai Used Car</title>
+
+				</head>
+
+				<body class="subpage-detail">
+				<div class="page-wrapper">
+
+					<div id="page-content">';
+		
+				$html .= $newsletter->HTML;
+		
+				$html .= '</div>
+					<!--end page-content-->
+
+					<footer id="page-footer">
+
+							<div class="footer-navigation">
+								<div class="container" style="width: 550px;">
+									<div class="vertical-aligned-elements">
+										<div class="element width-50">© 2017 Hyundai Used Car, All right reserved</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</footer>
+					<!--end page-footer-->
+				</div>
+				<!--end page-wrapper-->
+				<a href="#" class="to-top scroll" data-show-after-scroll="600"><i class="arrow_up"></i></a>
+				<a href="#" class="to-top scroll" data-show-after-scroll="600"><i class="arrow_up"></i></a>
+
+				</body>
+				</html>';
+				
+				$this->load->library('email', $config);
+				$this->email->set_newline("\r\n");
+				$this->email->from('suhucp@ruhaizat.my', "Admin Hyundai Used Car Platform");
+				$this->email->bcc($emails);  
+				$this->email->subject($newsletter->Subject);
+				$this->email->message($html);
+				$this->email->send();
+			break;
 		}
 	}
 	
@@ -931,5 +1083,17 @@ class Admin extends CI_Controller {
 		$filename = 'application/third_party/file.csv';
 		$data = file_get_contents("modulos/".$filename); // Read the file's contents
 		force_download($filename, $data); 
+	}
+	
+	function savePNG(){
+		$image = $_POST['image'];
+		$name = time();
+
+		$image = str_replace('data:image/png;base64,', '', $image);
+		$decoded = base64_decode($image);
+
+		file_put_contents(APPPATH . "../assets/img/newsletter/" . $name . ".png", $decoded);
+
+		echo $name . ".png";
 	}
 }

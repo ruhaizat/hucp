@@ -21,7 +21,7 @@
 				<script>
 					function renderContent() {
 						
-						var htmlstr = $("#summernote").code() + '<center><div class="container" style="width: 550px;"><ol class="breadcrumb"></ol><img src="<?php echo base_url();?>assets/img/logo_hyundai_grey.png" height="20px" align="left"><p class="pull-right"><a href="<?php echo base_url();?>listing"><b>Click here</b></a> to view all listings.</p></div><div class="container" style="width: 550px; padding-top: 50px;text-align:left;"><div class="row"><div class="col-md-12 col-sm-12"><div id="gallery-nav"></div><section style="text-align:left;"><h1>Hyundai Veloster</h1><h2>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h2><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec efficitur tristique enim, ac tincidunt massa pulvinar non. Donec scelerisque libero eu tincidunt cursus. Phasellus vel commodo nunc, nec suscipit enim. Integer suscipit, mauris consectetur pharetra ultrices, neque sem malesuada mauris, id tristique ante leo vel magna. Phasellus ac risus vel erat elementum fringilla et non massa. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p></section><section><div class="row">';
+						var htmlstr = $("#summernote").code() + '<center><div class="container" style="width: 550px;text-align:left;"><ol class="breadcrumb"></ol><img src="<?php echo base_url();?>assets/img/logo_hyundai_grey.png" height="20px"><p class="pull-right"><a href="<?php echo base_url();?>listing"><b>Click here</b></a> to view all listings.</p></div><div class="container" style="width: 550px; padding-top: 50px;text-align:left;"><div class="row"><div class="col-md-12 col-sm-12"><div id="gallery-nav"></div><section style="text-align:left;"><h1>Hyundai Veloster</h1><h2>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h2><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec efficitur tristique enim, ac tincidunt massa pulvinar non. Donec scelerisque libero eu tincidunt cursus. Phasellus vel commodo nunc, nec suscipit enim. Integer suscipit, mauris consectetur pharetra ultrices, neque sem malesuada mauris, id tristique ante leo vel magna. Phasellus ac risus vel erat elementum fringilla et non massa. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p></section><section><div class="row">';
 						htmlstr += '<?php $i = 0;foreach($recentData as $eachRecent):$i++;?>';
 						htmlstr += '<a href="<?php echo base_url().'listing/details/'.$eachRecent->LID.'/'.$eachRecent->LAddedBy;?>"><img id="divEROri_<?php echo $i;?>" class="col-md-6 col-sm-6" style="width:245px;height:220px;"></img></a>';
 						htmlstr += '<?php endforeach;?></div>';
@@ -34,12 +34,14 @@
 					}
 					
 					$(document).ready(function(){
+						$('#summernote').code('<?php echo preg_replace( "/\r|\n/", "", $newsletter->HTML );?>');
+						$('input[name=subject]').val('<?php echo $newsletter->Subject;?>');
 						//document.body.style.overflow = 'hidden';
 						$("#iLL").click(function () {
 							renderContent();
 						});
 						
-						$("#frmNewCampaign").submit(function(e){
+						$("#frmEditCampaign").submit(function(e){
 							$("#hhtmlstr").val($("#summernote").code());
 						});
 					});
@@ -93,8 +95,9 @@
                                   </div>
                                   <div class="portlet-body form">
                                       <!-- BEGIN FORM-->
-                                      <form id="frmNewCampaign" method="post" action="newslettersendmail" class="form-horizontal">
-                                          <div class="form-body">
+                                      <form id="frmEditCampaign" method="post" action="<?php echo base_url();?>admin/newsletterupdate" class="form-horizontal">
+										  <input type="hidden" name="hID" value="<?php echo $newsletter->ID;?>"/>
+										  <div class="form-body">
 											  <input id="iLL" type="button" class="btn green" value="Latest Listings" />
                                           </div>
 										  <div class="form-body">

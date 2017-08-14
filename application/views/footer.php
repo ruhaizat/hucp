@@ -366,6 +366,28 @@
 			google.maps.event.trigger(map, 'resize');
 			//google.maps.event.trigger(map, "resize");
 		});
+		$("#frmNewsletter").submit(function(){
+			var EmailAddress = $("input[name=newsletterEmail]").val();
+			var datastr = '{"mode":"OptIn","EmailAddress":"'+EmailAddress+'"}';
+			$.ajax({
+				url: "<?php echo base_url();?>main/ajax",
+				type: "POST",
+				data: {"datastr":datastr},
+				success: function(data){
+					if(data == "OK"){
+						$("#OISH").text("Success");
+						$("#OISValue").text("You have successfully subscribed.");
+						$("#OptInSuccess").modal("show");
+					}else{
+						$("#OISH").text("Failed");
+						$("#OISValue").text("Email address already subscribed.");
+						$("#OptInSuccess").modal("show");
+					}
+					
+				}
+			});
+			event.preventDefault();
+		});
 	});
 
 	window.fbAsyncInit = function() {
