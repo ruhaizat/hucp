@@ -33,7 +33,7 @@ class Compare extends CI_Controller {
 		
 		$compareID = substr($compareID, 0, -1);
 		
-		$querycompareL = $this->db->query("SELECT *, L.ID AS LID, L.Model AS ModelName, L.Specification AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName FROM tbl_listing AS L LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE L.ID IN(".$compareID.")");
+		$querycompareL = $this->db->query("SELECT *, L.ID AS LID, L.Model AS ModelName, L.Specification AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName FROM tbl_listing AS L LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE L.ID IN(".$compareID.") GROUP BY L.ID");
 		$compareLData = $querycompareL->result();
 		$data["compareLData"] = $compareLData;
 				

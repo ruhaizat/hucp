@@ -38,10 +38,6 @@
 		}
 
 		function submitContactSeller(){
-			alert(ListingID);
-			alert(Model);
-			alert(SellerID);
-			
 			var Name = $("#name").val();
 			var Email = $("#buyer_email").val();
 			var Telephone = $("#telephone").val();
@@ -227,7 +223,15 @@
 								<li><?php if($eachCLD->tw_front_rim): echo $eachCLD->tw_front_rim; else: echo"-"; endif;?></li>
 								<li><?php if($eachCLD->tw_rear_rim): echo $eachCLD->tw_rear_rim; else: echo"-"; endif;?></li>
 							</ul>
-							  <a href="#" class="btn btn-primary btn-rounded">Contact Seller</a><a href="#" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll" style="margin: 10px 0;"><i class="fa fa-heart"></i></a>
+							<a onclick="TriggerCS(<?php echo $eachCLD->LID;?>,'<?php echo $eachCLD->ModelName;?>',<?php echo $eachCLD->LAddedBy;?>)" href="#" class="btn btn-primary btn-rounded" style="margin: 10px 0;">Contact Seller</a>
+							<?php if($LoggedUser):?>
+								<?php $favEleID = $LoggedUser["UserID"]."_".$eachCLD->LID;?>
+								<?php $query = $this->db->query("SELECT COUNT(ID) AS val FROM tbl_favourite WHERE UserID = ".$LoggedUser["UserID"]." AND ListingID = ".$eachCLD->LID);$favCount = $query->row()->val;?>
+								<a id="a_fav_<?php echo $favEleID;?>" href="#" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon" style="margin: 10px 0;" onclick="<?php if($favCount > 0):?><?php echo 'RemoveFavourite'?><?php else:?><?php echo 'MakeFavourite'?><?php endif;?>(<?php echo $LoggedUser['UserID'];?>,<?php echo $eachCLD->LID;?>)">
+								<li class="lired_fav_<?php echo $favEleID;?>" style="<?php if($favCount > 0):?><?php echo 'display:block;'?><?php else:?><?php echo 'display:none;'?><?php endif;?>"><i class="fa fa-heart fi_<?php echo $favEleID;?>" style="color:red;"></i></li>
+								<li class="liblack_fav_<?php echo $favEleID;?>" style="<?php if($favCount > 0):?><?php echo 'display:none;'?><?php else:?><?php echo 'display:block;'?><?php endif;?>"><i class="fa fa-heart fi_<?php echo $favEleID;?>" style="color:#8a8a8a;"></i></li>
+								</a>
+							<?php endif;?>
 						  </div>
 						  <!--end pricing-box-->
 					  </div>
