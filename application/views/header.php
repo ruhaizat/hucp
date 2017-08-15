@@ -63,6 +63,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 </div>
                             </div>
                         </li>
+                        <li class="has-child liCompare"><a href="#nav-homepages">Compare (<span class="sCompare"><?php echo count($this->session->userdata('compareData'));?></span>)</a>
+                            <div class="wrapper">
+                                <div id="nav-homepages" class="nav-wrapper">
+                                    <ul class="ulCompare">
+										<?php if($this->session->userdata('compareData')):?>
+											<?php $compareData = $this->session->userdata('compareData'); foreach($compareData as $compareEach):?>
+											<?php $query = $this->db->query("SELECT L.Brand AS BrandName, L.ID AS LID, L.Model AS ModelName, L.Specification AS SpecificationName, L.SellingPrice AS SellingPrice, L.Mileage AS Mileage, LI.ListingPic AS ListingPic FROM tbl_listing AS L LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID WHERE L.ID = ".$compareEach);$queryCompare = $query->row();?>
+											<li id="liCompare_<?php echo $compareEach;?>" style="padding: 5px; height: 90px;">
+											  <div style="width: 80px; height: 80px; float: left; background-image: url('<?php if($queryCompare->ListingPic): echo base_url();?>assets/img/listing/<?php echo $queryCompare->ListingPic;?><?php else: echo base_url().'assets/img/items/default.png'?><?php endif;?>'); background-position: center; overflow: hidden; background-size: cover; margin-right: 10px;"></div>
+											  <div class="row" style="width: 400px; height: 80px;">
+												<b><?php echo $queryCompare->BrandName;?> <?php echo $queryCompare->ModelName;?></b><br/>
+												<?php echo $queryCompare->SpecificationName;?> | RM<?php echo number_format($queryCompare->SellingPrice);?> | <?php echo $queryCompare->Mileage;?>KM<br/>
+												<a href="#" onclick="RemoveCompare(<?php echo $compareEach;?>);"><i class="fa fa-close"></i> Remove</a>
+											  </div>
+											</li>
+											<?php endforeach;?>
+											<li id="liCompareNow"><a href="<?php echo base_url();?>compare">Compare Now</a></li>
+										<?php else:?>
+											<li id="liNoCompare"><a href="#">You have not selected any listing</a></li>
+										<?php endif;?>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
                     </ul>
                     <!--end navigation-->
                 </div>

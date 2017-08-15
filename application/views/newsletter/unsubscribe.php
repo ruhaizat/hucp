@@ -1,4 +1,59 @@
     <script>
+		function AddCompare(ListingID){
+			var datastr = '{"mode":"AddCompare","ListingID":"'+ListingID+'"}';
+			$.ajax({
+				url: "<?php echo base_url();?>main/ajax",
+				type: "POST",
+				data: {"datastr":datastr},
+				success: function(data){
+					if(data == "3"){
+						alert("You can only compare 3 listing");
+					}else{
+						var dataArr = data.split("|");
+						var BrandName = dataArr[1];
+						var ModelName = dataArr[2];
+						var SpecificationName = dataArr[3];
+						var SellingPrice = dataArr[4];
+						var Mileage = dataArr[5];
+						var ListingPIC = dataArr[6];
+						
+						var imgURL = "";
+						if(ListingPIC == ""){
+							imgURL = "<?php echo base_url().'assets/img/items/default.png';?>";
+						}else{
+							imgURL = "<?php echo base_url().'assets/img/listing/';?>"+ListingPIC;
+						}
+						
+						if($("#liCompareNow").length == 0){
+							$(".ulCompare").append('<li id="liCompareNow"><a href="<?php echo base_url();?>compare">Compare Now</a></li>');
+						}
+						
+						$("#liNoCompare").remove();
+						var sCompare = parseInt($(".sCompare").text());
+						$(".sCompare").text(sCompare+1);
+						$(".ulCompare li:last").before('<li id="liCompare_'+ListingID+'" style="padding: 5px; height: 90px;"><div style="width: 80px; height: 80px; float: left; background-position: center; overflow: hidden; background-size: cover; margin-right: 10px;background-image:url('+imgURL+');"></div><div class="row" style="width: 400px; height: 80px;"><b>'+BrandName+' '+ModelName+'</b><br/>'+SpecificationName+' | RM'+SellingPrice+' | '+Mileage+'KM<br/><a href="#" onclick="RemoveCompare('+ListingID+');"><i class="fa fa-close"></i> Remove</a></div></li>');
+					}
+				}
+			});
+		}
+		function RemoveCompare(ListingID){
+			var datastr = '{"mode":"RemoveCompare","ListingID":"'+ListingID+'"}';
+			$.ajax({
+				url: "<?php echo base_url();?>main/ajax",
+				type: "POST",
+				data: {"datastr":datastr},
+				success: function(data){
+					var sCompare = parseInt($(".sCompare").text());
+					$(".sCompare").text(sCompare-1);
+					$("#liCompare_"+ListingID).remove();
+					
+					if($('.ulCompare li').length == 1){
+						$("#liCompareNow").remove();
+						$(".ulCompare").append('<li id="liNoCompare"><a href="#">You have not selected any listing</a></li>');
+					}
+				}
+			});
+		}
 		function OptOut(){
 			var datastr = '{"mode":"OptOut","SubscriberID":"<?php echo $SubscriberID;?>"}';
 			$.ajax({
@@ -78,7 +133,7 @@
 										<li class="lired_fav_<?php echo $favEleID;?>" style="<?php if($favCount > 0):?><?php echo 'display:block;'?><?php else:?><?php echo 'display:none;'?><?php endif;?>"><a onclick="RemoveFavourite(<?php echo $LoggedUser['UserID'];?>,<?php echo $eachFeatured->LID;?>)">Favorite<i class="fa fa-heart fi_<?php echo $favEleID;?>" style="padding-left:5px;color:red;"></i></a></li>
 										<li class="liblack_fav_<?php echo $favEleID;?>" style="<?php if($favCount > 0):?><?php echo 'display:none;'?><?php else:?><?php echo 'display:block;'?><?php endif;?>"><a onclick="MakeFavourite(<?php echo $LoggedUser['UserID'];?>,<?php echo $eachFeatured->LID;?>)">Favorite<i class="fa fa-heart fi_<?php echo $favEleID;?>" style="padding-left:5px;color:black;"></i></a></li>
 									<?php endif;?>
-									<li><a href="#">Compare<i class="fa fa-clone" style="padding-left: 5px;"></i></a></li>
+									<li><a href="#" onclick="AddCompare(<?php echo $eachFeatured->LID;?>)">Compare<i class="fa fa-clone" style="padding-left: 5px;"></i></a></li>
                                     <li><a href="#">Report<i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
                                 </ul>
                             </div>
@@ -138,7 +193,7 @@
 											<li class="lired_fav_<?php echo $favEleID;?>" style="<?php if($favCount > 0):?><?php echo 'display:block;'?><?php else:?><?php echo 'display:none;'?><?php endif;?>"><a onclick="RemoveFavourite(<?php echo $LoggedUser['UserID'];?>,<?php echo $eachRecent->LID;?>)">Favorite<i class="fa fa-heart fi_<?php echo $favEleID;?>" style="padding-left:5px;color:red;"></i></a></li>
 											<li class="liblack_fav_<?php echo $favEleID;?>" style="<?php if($favCount > 0):?><?php echo 'display:none;'?><?php else:?><?php echo 'display:block;'?><?php endif;?>"><a onclick="MakeFavourite(<?php echo $LoggedUser['UserID'];?>,<?php echo $eachRecent->LID;?>)">Favorite<i class="fa fa-heart fi_<?php echo $favEleID;?>" style="padding-left:5px;color:black;"></i></a></li>
 										<?php endif;?>
-                                        <li><a href="#">Compare <i class="fa fa-clone" style="padding-left: 5px;"></i></a></li>
+                                        <li><a href="#" onclick="AddCompare(<?php echo $eachRecent->LID;?>)">Compare <i class="fa fa-clone" style="padding-left: 5px;"></i></a></li>
                                         <li><a href="#">Report <i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
                                     </ul>
                                 </div>
@@ -195,7 +250,7 @@
 											<li class="lired_fav_<?php echo $favEleID;?>" style="<?php if($favCount > 0):?><?php echo 'display:block;'?><?php else:?><?php echo 'display:none;'?><?php endif;?>"><a onclick="RemoveFavourite(<?php echo $LoggedUser['UserID'];?>,<?php echo $eachViewed->LID;?>)">Favorite<i class="fa fa-heart fi_<?php echo $favEleID;?>" style="padding-left:5px;color:red;"></i></a></li>
 											<li class="liblack_fav_<?php echo $favEleID;?>" style="<?php if($favCount > 0):?><?php echo 'display:none;'?><?php else:?><?php echo 'display:block;'?><?php endif;?>"><a onclick="MakeFavourite(<?php echo $LoggedUser['UserID'];?>,<?php echo $eachViewed->LID;?>)">Favorite<i class="fa fa-heart fi_<?php echo $favEleID;?>" style="padding-left:5px;color:black;"></i></a></li>
 										<?php endif;?>
-                                        <li><a href="#">Compare <i class="fa fa-clone" style="padding-left: 5px;"></i></a></li>
+                                        <li><a href="#" onclick="AddCompare(<?php echo $eachViewed->LID;?>)">Compare <i class="fa fa-clone" style="padding-left: 5px;"></i></a></li>
                                         <li><a href="#">Report <i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
                                     </ul>
                                 </div>

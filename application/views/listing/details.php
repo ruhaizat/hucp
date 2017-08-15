@@ -1,4 +1,59 @@
-	<script>		
+	<script>	
+		function AddCompare(ListingID){
+			var datastr = '{"mode":"AddCompare","ListingID":"'+ListingID+'"}';
+			$.ajax({
+				url: "<?php echo base_url();?>main/ajax",
+				type: "POST",
+				data: {"datastr":datastr},
+				success: function(data){
+					if(data == "3"){
+						alert("You can only compare 3 listing");
+					}else{
+						var dataArr = data.split("|");
+						var BrandName = dataArr[1];
+						var ModelName = dataArr[2];
+						var SpecificationName = dataArr[3];
+						var SellingPrice = dataArr[4];
+						var Mileage = dataArr[5];
+						var ListingPIC = dataArr[6];
+						
+						var imgURL = "";
+						if(ListingPIC == ""){
+							imgURL = "<?php echo base_url().'assets/img/items/default.png';?>";
+						}else{
+							imgURL = "<?php echo base_url().'assets/img/listing/';?>"+ListingPIC;
+						}
+						
+						if($("#liCompareNow").length == 0){
+							$(".ulCompare").append('<li id="liCompareNow"><a href="<?php echo base_url();?>compare">Compare Now</a></li>');
+						}
+						
+						$("#liNoCompare").remove();
+						var sCompare = parseInt($(".sCompare").text());
+						$(".sCompare").text(sCompare+1);
+						$(".ulCompare li:last").before('<li id="liCompare_'+ListingID+'" style="padding: 5px; height: 90px;"><div style="width: 80px; height: 80px; float: left; background-position: center; overflow: hidden; background-size: cover; margin-right: 10px;background-image:url('+imgURL+');"></div><div class="row" style="width: 400px; height: 80px;"><b>'+BrandName+' '+ModelName+'</b><br/>'+SpecificationName+' | RM'+SellingPrice+' | '+Mileage+'KM<br/><a href="#" onclick="RemoveCompare('+ListingID+');"><i class="fa fa-close"></i> Remove</a></div></li>');
+					}
+				}
+			});
+		}	
+		function RemoveCompare(ListingID){
+			var datastr = '{"mode":"RemoveCompare","ListingID":"'+ListingID+'"}';
+			$.ajax({
+				url: "<?php echo base_url();?>main/ajax",
+				type: "POST",
+				data: {"datastr":datastr},
+				success: function(data){
+					var sCompare = parseInt($(".sCompare").text());
+					$(".sCompare").text(sCompare-1);
+					$("#liCompare_"+ListingID).remove();
+					
+					if($('.ulCompare li').length == 1){
+						$("#liCompareNow").remove();
+						$(".ulCompare").append('<li id="liNoCompare"><a href="#">You have not selected any listing</a></li>');
+					}
+				}
+			});
+		}
 		function FavActionNo(){
 			$("#sPCTitle").text("Warning");
 			$("#sPCMsg").text("You have to sign in to use favourite button");
@@ -880,7 +935,7 @@
 					<a id="btnDeleteListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-rounded icon scroll pull-right" onclick="DeleteAd(this);"><i class="fa fa-trash"></i>Delete</a>
 					<a href="#EditListing" class="btn btn-primary btn-rounded icon scroll pull-right" data-toggle="modal"><i class="fa fa-edit"></i>Edit</a>
 					<a id="btnPrintListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-print"></i>Print</a>
-					<a id="btnCompareListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-clone"></i>Compare</a>
+					<a id="btnCompareListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right" onclick="AddCompare(<?php echo $listingData->ID;?>)"><i class="fa fa-clone"></i>Compare</a>
 					<a onclick="FavAction(<?php echo $user_data['UserID'];?>,<?php echo $listingData->ID;?>);" id="btnFavoriteListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-heart fi_<?php echo $favEleID;?>" style="color:<?php if($favCount > 0):?><?php echo 'red'?><?php else:?><?php echo 'gray'?><?php endif;?>;"></i>Favourite </a>
 				<?php endif;?>
 			<?php elseif($user_data["Group"] == 2):?>
@@ -895,14 +950,14 @@
 					<?php endif;?>
 					<a id="btnReportListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-flag"></i>Report Ad</a>
 					<a id="btnPrintListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-print"></i>Print</a>
-					<a id="btnCompareListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-clone"></i>Compare</a>
+					<a id="btnCompareListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right" onclick="AddCompare(<?php echo $listingData->ID;?>)"><i class="fa fa-clone"></i>Compare</a>
 					<a onclick="FavAction(<?php echo $user_data['UserID'];?>,<?php echo $listingData->ID;?>);" id="btnFavoriteListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-heart fi_<?php echo $favEleID;?>" style="color:<?php if($favCount > 0):?><?php echo 'red'?><?php else:?><?php echo 'gray'?><?php endif;?>;"></i>Favourite </a>
 				<?php endif;?>
 			<?php endif;?>
 			<?php else:?>
 					<a id="btnReportListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-flag"></i>Report Ad</a>
 					<a id="btnPrintListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-print"></i>Print</a>
-					<a id="btnCompareListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-clone"></i>Compare</a>
+					<a id="btnCompareListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right" onclick="AddCompare(<?php echo $listingData->ID;?>)"><i class="fa fa-clone"></i>Compare</a>
 					<a onclick="FavActionNo();" id="btnFavoriteListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-heart"></i>Favourite </a>
 			<?php endif;?>
 			<!--
