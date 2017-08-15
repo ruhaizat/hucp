@@ -603,6 +603,113 @@ class Main extends CI_Controller {
 				$this->db->where("ID", $NewsletterID);
 				$this->db->update("tbl_newsletter");
 			break;
+			case "AddCompare":
+			    $compareData = $this->session->userdata('compareData');
+				$ListingID = $obj->ListingID;
+				$compareCount = count($compareData);
+				
+				$query = $this->db->query("SELECT L.Brand AS BrandName, L.ID AS LID, L.Model AS ModelName, L.Specification AS SpecificationName, L.SellingPrice AS SellingPrice, L.Mileage AS Mileage, LI.ListingPic AS ListingPic FROM tbl_listing AS L LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID WHERE L.ID = ".$ListingID);
+				$queryCompare = $query->row();
+				
+				if($compareCount == 1){
+					$compareCount = 1;
+					$compareData = array(
+						'CD1' => $compareData["CD1"],
+						'CD2' => $ListingID
+					);
+				}elseif($compareCount == 2){
+					$compareCount = 2;
+					$compareData = array(
+						'CD1' => $compareData["CD1"],
+						'CD2' => $compareData["CD2"],
+						'CD3' => $ListingID
+					);
+				}elseif($compareCount == 3){
+					$compareCount = 3;
+					$compareData = array(
+						'CD1' => $compareData["CD1"],
+						'CD2' => $compareData["CD2"],
+						'CD3' => $compareData["CD3"]
+					);
+				}elseif($compareCount == 0){
+					$compareData = array(
+						'CD1' => $ListingID
+					);
+				}
+				
+				$this->session->set_userdata('compareData', $compareData); 
+				//$this->session->unset_userdata('compareData');
+				echo $compareCount."|".$queryCompare->BrandName."|".$queryCompare->ModelName."|".$queryCompare->SpecificationName."|".number_format($queryCompare->SellingPrice)."|".$queryCompare->Mileage."|".$queryCompare->ListingPic;
+			break;
+			case "RemoveCompare":
+			    $compareData = $this->session->userdata('compareData');
+				$ListingID = $obj->ListingID;
+				$compareCount = count($compareData);
+				
+				if($compareCount == 1){
+					$CD1 = $compareData["CD1"];
+				}elseif($compareCount == 2){
+					$CD1 = $compareData["CD1"];
+					$CD2 = $compareData["CD2"];
+				}elseif($compareCount == 3){
+					$CD1 = $compareData["CD1"];
+					$CD2 = $compareData["CD2"];
+					$CD3 = $compareData["CD3"];
+				}
+				
+				$key = array_search($ListingID,$compareData);
+				
+				if($compareCount == 1 && $key == "CD1"){
+					$this->session->unset_userdata('compareData');
+				}
+				
+				if($compareCount == 2 && $key == "CD1"){
+					$this->session->unset_userdata('compareData');
+					$compareData = array(
+						'CD1' => $CD2
+					);
+					$this->session->set_userdata('compareData', $compareData); 
+				}
+				if($compareCount == 2 && $key == "CD2"){
+					$this->session->unset_userdata('compareData');
+					$compareData = array(
+						'CD1' => $CD1
+					);
+					$this->session->set_userdata('compareData', $compareData); 
+				}
+				
+				if($compareCount == 3 && $key == "CD1"){
+					$this->session->unset_userdata('compareData');
+					$compareData = array(
+						'CD1' => $CD2,
+						'CD2' => $CD3
+					);
+					$this->session->set_userdata('compareData', $compareData); 
+				}
+				if($compareCount == 3 && $key == "CD2"){
+					$this->session->unset_userdata('compareData');
+					$compareData = array(
+						'CD1' => $CD1,
+						'CD2' => $CD3
+					);
+					$this->session->set_userdata('compareData', $compareData); 
+				}
+				if($compareCount == 3 && $key == "CD3"){
+					$this->session->unset_userdata('compareData');
+					$compareData = array(
+						'CD1' => $CD1,
+						'CD2' => $CD2
+					);
+					$this->session->set_userdata('compareData', $compareData); 
+				}
+				echo $key;
+			break;
+			case "RemoveFavourite":
+				$UserID = $obj->UserID;
+				$ListingID = $obj->ListingID;
+				
+				$this->db->delete('tbl_favourite', array('UserID' => $UserID,'ListingID' => $ListingID));
+			break;
 		}
 	}
 	
