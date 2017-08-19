@@ -65,8 +65,12 @@ class Admin extends CI_Controller {
 	
 	public function useradd()
 	{
+		$queryState = $this->db->query("SELECT * FROM tbl_state");
+		$stateData = $queryState->result();
+		$data["state"] = $stateData;
+		
 		$this->load->view('header_admin');
-		$this->load->view('admin/user/add.php');
+		$this->load->view('admin/user/add.php',$data);
 		$this->load->view('footer_admin');
 	}
 	
@@ -829,11 +833,14 @@ class Admin extends CI_Controller {
 				$ICNo = $obj->ICNo;
 				$State = $obj->State;
 				$Address = $obj->Address;
+				$newsletter_subscription = $obj->newsletter_subscription;
 				
 				if($role == "1"){
 					$status = 2;
+					$membership = "Administrator";
 				}else{
 					$status = 1;
+					$membership = "Basic Member";
 				}
 				//$firstName = $obj->FirstName;
 				//$lastName = $obj->LastName;
@@ -858,7 +865,7 @@ class Admin extends CI_Controller {
 					   "State" => $State,
 					   "Address" => $Address,
 					   "Password" => $hash,
-					   "MembershipType" => "Basic",
+					   "MembershipType" => $membership,
 					   "ProfilePic" => "default.jpg",
 					   "Status" => $status,
 					   "AddedOn" => date("Y-m-d H:i:s")
@@ -866,6 +873,17 @@ class Admin extends CI_Controller {
 
 					$this->db->insert("tbl_user", $data);
 					$insert_id = $this->db->insert_id();
+					
+					if($newsletter_subscription == "true"){
+						$datans = array(
+						   "Type" => 1,
+						   "EmailAddress" => $emailAddress,
+						   "IsSubscribe" => 1,
+						   "AddedOn" => date("Y-m-d H:i:s")
+						);
+
+						$this->db->insert("tbl_subscriber", $datans);
+					}
 					
 					if($role == "2"){
 						$this->sendverifyemail($insert_id, $emailAddress);

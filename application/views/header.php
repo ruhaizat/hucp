@@ -38,7 +38,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <header id="page-header">
         <nav>
             <div class="left">
-                <a href="<?php echo base_url();?>main" class="brand"><img src="<?php echo base_url();?>assets/img/logo_hyundai_grey.png" height="20"></a>
+                <a href="<?php echo base_url();?>main" class="brand"><img src="<?php echo base_url();?>assets/img/logo_kuc.png" height="20"></a>
             </div>
             <!--end left-->
             <div class="right">
@@ -69,11 +69,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <ul class="ulCompare">
 										<?php if($this->session->userdata('compareData')):?>
 											<?php $compareData = $this->session->userdata('compareData'); foreach($compareData as $compareEach):?>
-											<?php $query = $this->db->query("SELECT L.Brand AS BrandName, L.ID AS LID, L.Model AS ModelName, L.Specification AS SpecificationName, L.SellingPrice AS SellingPrice, L.Mileage AS Mileage, LI.ListingPic AS ListingPic FROM tbl_listing AS L LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID WHERE L.ID = ".$compareEach);$queryCompare = $query->row();?>
+											<?php $query = $this->db->query("SELECT L.Brand AS BrandName, L.ID AS LID, L.Model AS ModelName, L.Specification AS SpecificationName, L.SellingPrice AS SellingPrice, L.Mileage AS Mileage, LI.ListingPic AS ListingPic, L.AddedBy AS LAddedBy FROM tbl_listing AS L LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID WHERE L.ID = ".$compareEach);$queryCompare = $query->row();?>
 											<li id="liCompare_<?php echo $compareEach;?>" style="padding: 5px; height: 90px;">
 											  <div style="width: 80px; height: 80px; float: left; background-image: url('<?php if($queryCompare->ListingPic): echo base_url();?>assets/img/listing/<?php echo $queryCompare->ListingPic;?><?php else: echo base_url().'assets/img/items/default.png'?><?php endif;?>'); background-position: center; overflow: hidden; background-size: cover; margin-right: 10px;"></div>
 											  <div class="row" style="width: 400px; height: 80px;">
-												<b><?php echo $queryCompare->BrandName;?> <?php echo $queryCompare->ModelName;?></b><br/>
+												<a href="<?php echo base_url().'listing/details/'.$queryCompare->LID.'/'.$queryCompare->LAddedBy;?>"><b><?php echo $queryCompare->BrandName;?> <?php echo $queryCompare->ModelName;?></b></a>
 												<?php echo $queryCompare->SpecificationName;?> | RM<?php echo number_format($queryCompare->SellingPrice);?> | <?php echo $queryCompare->Mileage;?>KM<br/>
 												<a href="#" onclick="RemoveCompare(<?php echo $compareEach;?>);"><i class="fa fa-close"></i> Remove</a>
 											  </div>
@@ -209,6 +209,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<div id="noti-error-pwd-match" class="noti-error" style="display:none;">Password does not match.</div>
 						</div>
 						<!--end form-group-->
+						<div class="form-group">
+							<label for="confirm_password">Newsletter Subscription</label>
+							<br/>
+							<br/>
+							<input type="checkbox" name="newsletter_subscription" id="newsletter_subscription">Allow system to send marketing email
+						</div>
+						<!--end form-group-->
+							<br/>
 						<div class="form-group center">
 							<button id="btnRegister" type="submit" class="btn btn-primary width-100" value="Reg">Register Now</button>
 						</div>

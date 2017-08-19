@@ -537,7 +537,7 @@
                                                   <label class="col-md-2 control-label">State</label>
                                                   <div class="col-md-4">
                                                     <select name="selState" class="form-control">
-                                                        <option>Select a State</option>
+                                                        <option value="">Select a State</option>
 														<?php foreach($state as $eachState):?>
 														<option value="<?php echo $eachState->ID;?>"><?php echo $eachState->Name;?></option>
 														<?php endforeach;?>

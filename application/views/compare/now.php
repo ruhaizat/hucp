@@ -1,4 +1,8 @@
-	<script>		
+	<script>	
+		<?php if(!$compareLData):?>
+		alert("No data to compare");
+		window.location.href = "<?php echo base_url();?>";
+		<?php endif;?>
 		function MakeFavourite(UserID, ListingID){
 			var datastr = '{"mode":"MakeFavourite","UserID":"'+UserID+'","ListingID":"'+ListingID+'"}';
 			$.ajax({
@@ -150,7 +154,7 @@
 					  <div class="col-md-3 col-sm-3">
 						  <div style="text-align: center;">
 						  <div style="width: 100%; height: 200px; background-image: url('<?php if($eachCLD->ListingPic): echo base_url();?>assets/img/listing/<?php echo $eachCLD->ListingPic;?><?php else: echo base_url().'assets/img/items/default.png'?><?php endif;?>'); background-position: center; overflow: hidden; background-size: cover; margin-right: 10px;"></div>
-						  <h3 style="margin: 10px 0"><?php echo $eachCLD->ManufacturingYear?> <?php echo $eachCLD->Brand;?> <?php echo $eachCLD->ModelName?></h3>
+						  <a href="<?php echo base_url().'listing/details/'.$eachCLD->LID.'/'.$eachCLD->LAddedBy;?>"><h3 style="margin: 10px 0"><?php echo $eachCLD->ManufacturingYear?> <?php echo $eachCLD->Brand;?> <?php echo $eachCLD->ModelName?></h3></a>
 						  <b>RM<?php echo number_format($eachCLD->SellingPrice)?></b> | <?php echo $eachCLD->Mileage;?>KM<br/>
 						  <?php echo $eachCLD->StateName?><br/>
 						  <a onclick="TriggerCS(<?php echo $eachCLD->LID;?>,'<?php echo $eachCLD->ModelName;?>',<?php echo $eachCLD->LAddedBy;?>)" href="#" class="btn btn-primary btn-rounded" style="margin: 10px 0;">Contact Seller</a>

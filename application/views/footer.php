@@ -79,7 +79,16 @@
 		var pMobile = $("#reg_mobile").val();
 		var pPassword = $("#reg_password").val();
 		var pConfirmPassword = $("#reg_confirm_password").val();
+		var pNewsletter_subscription = "";
 		var isProceed = true;
+		
+		if($("#newsletter_subscription").is(':checked')){
+			pNewsletter_subscription = "true";
+		}
+		else{
+			pNewsletter_subscription = "false";
+		}
+		
 		//var pFirstName = $("#reg_first_name").val();
 		//var pLastName = $("#reg_last_name").val();
 		if(pMobile == ""){
@@ -112,7 +121,7 @@
 		}
 		
 		if(isProceed == true){
-			var datastr = '{"mode":"Register","EmailAddress":"'+pEmail+'","Password":"'+pPassword+'","Mobile":"'+pMobile+'"}';
+			var datastr = '{"mode":"Register","EmailAddress":"'+pEmail+'","Password":"'+pPassword+'","Mobile":"'+pMobile+'","newsletter_subscription":"'+pNewsletter_subscription+'"}';
 			$.ajax({
 				url: "<?php echo base_url();?>main/ajax",
 				type: "POST",

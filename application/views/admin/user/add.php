@@ -160,7 +160,15 @@
 							var Address = $("#Address").val();
 							var Password = $("#password").val();
 							var ConfirmPassword = $("#confirm_password").val();
+							var Newsletter_subscription = "";
 							var IsProceed = true;
+		
+							if($("#newsletter_subscription").is(':checked')){
+								Newsletter_subscription = "true";
+							}
+							else{
+								Newsletter_subscription = "false";
+							}
 							
 							if(Role == "0"){
 								IsProceed = false;
@@ -200,7 +208,7 @@
 							}
 							
 							if(IsProceed == true){
-								var datastr = '{"mode":"CreateUser","Role":"'+Role+'","FirstName":"'+FirstName+'","LastName":"'+LastName+'","EmailAddress":"'+Email+'","MobileNo":"'+MobileNo+'","ICNo":"'+ICNo+'","State":"'+State+'","Address":"'+Address+'","Password":"'+Password+'"}';
+								var datastr = '{"mode":"CreateUser","Role":"'+Role+'","FirstName":"'+FirstName+'","LastName":"'+LastName+'","EmailAddress":"'+Email+'","MobileNo":"'+MobileNo+'","ICNo":"'+ICNo+'","State":"'+State+'","Address":"'+Address+'","Password":"'+Password+'","newsletter_subscription":"'+Newsletter_subscription+'"}';
 								$.ajax({
 									url: "<?php echo base_url();?>admin/ajax",
 									type: "POST",
@@ -318,7 +326,7 @@
                                                   <label class="col-md-3 control-label">Phone No.</label>
                                                   <div class="col-md-4">
                                                       <div class="input-group">
-                                                          <input id="MobileNo" type="text" class="form-control" value="+60" placeholder=""></div>
+                                                          <input id="MobileNo" type="text" class="form-control" value="" placeholder=""></div>
                                                   </div>
                                               </div>
                                               <div class="form-group">
@@ -331,9 +339,10 @@
                                                   <label class="col-md-3 control-label">State</label>
                                                   <div class="col-md-4">
                                                       <select id="selState" class="form-control">
-                                                          <option>Select a state</option>
-                                                          <option>Kuala Lumpur</option>
-                                                          <option>Selangor</option>
+                                                          <option value="">Select a state</option>
+														  <?php foreach($state as $eachState):?>
+														  <option value="<?php echo $eachState->ID;?>"><?php echo $eachState->Name;?></option>
+														  <?php endforeach;?>
                                                       </select>
                                                       <span class="help-block font-red-mint err-state" style="display:none;"> Please select a state. </span>
                                                   </div>
@@ -360,6 +369,14 @@
                                                           <span class="help-block font-red-mint err-pwd" style="display:none;"> Password does not match. </span>
                                                   </div>
                                               </div>
+												<div class="form-group">
+													<label for="confirm_password">Newsletter Subscription</label>
+													<br/>
+													<br/>
+													<input type="checkbox" name="newsletter_subscription" id="newsletter_subscription">Allow system to send marketing email
+												</div>
+												<!--end form-group-->
+													<br/>
                                           </div>
                                           <div class="form-actions">
                                               <div class="row">

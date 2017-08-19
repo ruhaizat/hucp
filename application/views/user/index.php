@@ -355,7 +355,7 @@
                                           <!--end user-image-->
                                           <div class="description clearfix">
                                               <h3>Your current membership</h3>
-                                              <h2><?php echo $user->MembershipType;?> Member</h2>
+                                              <h2><?php echo $user->MembershipType;?></h2>
                                               <!--<a href="#" class="btn btn-default btn-rounded btn-xs">Upgrade</a>-->
                                               <hr>
                                               <figure>

@@ -409,6 +409,7 @@ class Main extends CI_Controller {
 				$emailAddress = $obj->EmailAddress;
 				$mobile = $obj->Mobile;
 				$password = $obj->Password;
+				$newsletter_subscription = $obj->newsletter_subscription;
 				//$firstName = $obj->FirstName;
 				//$lastName = $obj->LastName;
 				$query = $this->db->query("SELECT * FROM tbl_user WHERE EmailAddress = '$emailAddress'");
@@ -429,7 +430,7 @@ class Main extends CI_Controller {
 					   "Password" => $hash,
 					   //"FirstName" => $firstName,
 					   //"LastName" => $lastName,
-					   "MembershipType" => "Basic",
+					   "MembershipType" => "Basic Member",
 					   "ProfilePic" => "default.jpg",
 					   "Status" => 1,
 					   "AddedOn" => date("Y-m-d H:i:s")
@@ -437,6 +438,17 @@ class Main extends CI_Controller {
 
 					$this->db->insert("tbl_user", $data);
 					$insert_id = $this->db->insert_id();
+					
+					if($newsletter_subscription == "true"){
+						$datans = array(
+						   "Type" => 1,
+						   "EmailAddress" => $emailAddress,
+						   "IsSubscribe" => 1,
+						   "AddedOn" => date("Y-m-d H:i:s")
+						);
+
+						$this->db->insert("tbl_subscriber", $datans);
+					}
 					
 					$this->sendverifyemail($insert_id, $emailAddress);
 					//echo $this->email->print_debugger();
@@ -608,7 +620,7 @@ class Main extends CI_Controller {
 				$ListingID = $obj->ListingID;
 				$compareCount = count($compareData);
 				
-				$query = $this->db->query("SELECT L.Brand AS BrandName, L.ID AS LID, L.Model AS ModelName, L.Specification AS SpecificationName, L.SellingPrice AS SellingPrice, L.Mileage AS Mileage, LI.ListingPic AS ListingPic FROM tbl_listing AS L LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID WHERE L.ID = ".$ListingID);
+				$query = $this->db->query("SELECT L.Brand AS BrandName, L.ID AS LID, L.Model AS ModelName, L.Specification AS SpecificationName, L.SellingPrice AS SellingPrice, L.Mileage AS Mileage, LI.ListingPic AS ListingPic, L.AddedBy AS LAddedBy FROM tbl_listing AS L LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID WHERE L.ID = ".$ListingID);
 				$queryCompare = $query->row();
 				
 				if($compareCount == 1){
@@ -639,7 +651,7 @@ class Main extends CI_Controller {
 				
 				$this->session->set_userdata('compareData', $compareData); 
 				//$this->session->unset_userdata('compareData');
-				echo $compareCount."|".$queryCompare->BrandName."|".$queryCompare->ModelName."|".$queryCompare->SpecificationName."|".number_format($queryCompare->SellingPrice)."|".$queryCompare->Mileage."|".$queryCompare->ListingPic;
+				echo $compareCount."|".$queryCompare->BrandName."|".$queryCompare->ModelName."|".$queryCompare->SpecificationName."|".number_format($queryCompare->SellingPrice)."|".$queryCompare->Mileage."|".$queryCompare->ListingPic."|".$queryCompare->LID."|".$queryCompare->LAddedBy;
 			break;
 			case "RemoveCompare":
 			    $compareData = $this->session->userdata('compareData');

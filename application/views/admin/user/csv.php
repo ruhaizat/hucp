@@ -331,7 +331,7 @@
                                                   <label class="col-md-3 control-label">State</label>
                                                   <div class="col-md-4">
                                                       <select id="selState" class="form-control">
-                                                          <option>Select a state</option>
+                                                          <option value="">Select a state</option>
                                                           <option>Kuala Lumpur</option>
                                                           <option>Selangor</option>
                                                       </select>

@@ -17,6 +17,8 @@
 							var SellingPrice = dataArr[4];
 							var Mileage = dataArr[5];
 							var ListingPIC = dataArr[6];
+							var ListingID = dataArr[7];
+							var LAddedBy = dataArr[8];
 							
 							var imgURL = "";
 							if(ListingPIC == ""){
@@ -32,7 +34,7 @@
 							$("#liNoCompare").remove();
 							var sCompare = parseInt($(".sCompare").text());
 							$(".sCompare").text(sCompare+1);
-							$(".ulCompare li:last").before('<li id="liCompare_'+ListingID+'" style="padding: 5px; height: 90px;"><div style="width: 80px; height: 80px; float: left; background-position: center; overflow: hidden; background-size: cover; margin-right: 10px;background-image:url('+imgURL+');"></div><div class="row" style="width: 400px; height: 80px;"><b>'+BrandName+' '+ModelName+'</b><br/>'+SpecificationName+' | RM'+SellingPrice+' | '+Mileage+'KM<br/><a href="#" onclick="RemoveCompare('+ListingID+');"><i class="fa fa-close"></i> Remove</a></div></li>');
+							$(".ulCompare li:last").before('<li id="liCompare_'+ListingID+'" style="padding: 5px; height: 90px;"><div style="width: 80px; height: 80px; float: left; background-position: center; overflow: hidden; background-size: cover; margin-right: 10px;background-image:url('+imgURL+');"></div><div class="row" style="width: 400px; height: 80px;"><a href="<?php echo base_url();?>listing/details/'+ListingID+'/'+LAddedBy+'"><b>'+BrandName+' '+ModelName+'</b></a>'+SpecificationName+' | RM'+SellingPrice+' | '+Mileage+'KM<br/><a href="#" onclick="RemoveCompare('+ListingID+');"><i class="fa fa-close"></i> Remove</a></div></li>');
 						}
 					}
 				});				
@@ -361,9 +363,11 @@
 				}else if(buttonMode == "Reject"){
 					window.location.href = "<?php echo base_url();?>admin"
 				}else if(buttonMode == "Featured"){
-					window.location.href = "<?php echo base_url();?>admin"
+					window.location.reload();
+					//window.location.href = "<?php echo base_url();?>admin"
 				}else if(buttonMode == "UnFeatured"){
-					window.location.href = "<?php echo base_url();?>admin"
+					window.location.reload();
+					//window.location.href = "<?php echo base_url();?>admin"
 				}
 			});
 		});
