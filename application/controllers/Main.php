@@ -40,6 +40,10 @@ class Main extends CI_Controller {
 		$recentViewedData = $queryRecentViewed->result();
 		$data["recentViewed"] = $recentViewedData;
 		
+		$queryNew = $this->db->query("SELECT *, L.ID AS LID,L.Model AS ModelName, L.Specification AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName FROM tbl_listing AS L LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE L.Status = 1 AND L.Condition = 'New' GROUP BY L.ID ORDER BY L.AddedOn DESC LIMIT 12");
+		$newData = $queryNew->result();
+		$data["newData"] = $newData;
+		
 		//$queryModel = $this->db->query("SELECT * FROM tbl_model");
 		//$modelData = $queryModel->result();
 		//$data["modelData"] = $modelData;
@@ -178,19 +182,19 @@ class Main extends CI_Controller {
 		$this->db->insert("tbl_verifyemail", $data);
 		
 		$config = Array(
-			'protocol' => 'smtp',
-			'smtp_host' => 'mail.ruhaizat.my',
-			'smtp_port' => 587,
-			'smtp_user' => 'suhucp@ruhaizat.my', // change it to yours
-			'smtp_pass' => 'hyundai1234', // change it to yours
-			'mailtype' => 'html',
-			'charset' => 'iso-8859-1',
-			'wordwrap' => TRUE
+			'protocol' => $this->config->item('hucp_mail_protocol'),
+			'smtp_host' => $this->config->item('hucp_mail_smtp_host'),
+			'smtp_port' => $this->config->item('hucp_mail_smtp_port'),
+			'smtp_user' => $this->config->item('hucp_mail_smtp_user'),
+			'smtp_pass' => $this->config->item('hucp_mail_smtp_pass'),
+			'mailtype' => $this->config->item('hucp_mail_mailtype'),
+			'charset' => $this->config->item('hucp_mail_charset'),
+			'wordwrap' => $this->config->item('hucp_mail_wordwrap')
 		);
 		
 		$this->load->library('email', $config);
 		$this->email->set_newline("\r\n");
-		$this->email->from('suhucp@ruhaizat.my', "Admin Hyundai Used Car Platform");
+		$this->email->from($this->config->item('hucp_mail_mailer_email'), $this->config->item('hucp_mail_mailer_name'));
 		$this->email->to($pEmailAddress);  
 		$this->email->subject("Email Verification");
 		$this->email->message("Dear New User,<br/><br/>Please click on below URL or paste into your browser to verify your Email Address<br/><br/> <a href='".base_url()."main/verify/".$genToken."'>Verification link</a>"."<br/><br/>This verification link will expired in 3 days.<br/><br/>Thanks<br/>Hyundai Used Car Platform");
@@ -256,6 +260,7 @@ class Main extends CI_Controller {
 			"ManufacturingYear" 	=> $ManufacturingYear,
 			"Transmission" 			=> $Transmission,
 			"Specification" 		=> $Specification,	
+			"Condition" 		=> $Condition,	
 			"Colour" 				=> $Colour,	
 			"Mileage" 				=> $Mileage,
 			"State" 				=> $State,

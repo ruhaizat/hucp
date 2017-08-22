@@ -84,6 +84,36 @@ class Admin extends CI_Controller {
 		$this->load->view('footer_admin');
 	}
 	
+	public function contacttracking()
+	{
+		$query = $this->db->query("SELECT * FROM tbl_contactseller");
+		$data["contacttrackings"] = $query->result();
+		
+		$this->load->view('header_admin');
+		$this->load->view('admin/contacttracking.php', $data);
+		$this->load->view('footer_admin');
+	}
+	
+	public function report()
+	{
+		$query = $this->db->query("SELECT * FROM tbl_report");
+		$data["reports"] = $query->result();
+		
+		$this->load->view('header_admin');
+		$this->load->view('admin/report.php', $data);
+		$this->load->view('footer_admin');
+	}
+	
+	public function emailsetting()
+	{
+		$query = $this->db->query("SELECT * FROM tbl_emailsetting");
+		$data["emailsettings"] = $query->result();
+		
+		$this->load->view('header_admin');
+		$this->load->view('admin/emailsetting.php', $data);
+		$this->load->view('footer_admin');
+	}
+	
 	public function subscriberall()
 	{
 		$query = $this->db->query("SELECT S.ID AS ID, U.FirstName AS FirstName, S.EmailAddress AS EmailAddress, S.AddedOn AS AddedOn, S.IsSubscribe AS IsSubscribe FROM tbl_subscriber AS S LEFT JOIN tbl_user AS U ON S.EmailAddress = U.EmailAddress");
@@ -272,6 +302,118 @@ class Admin extends CI_Controller {
 		$this->load->view('admin/ad/add.php', $data);
 		$this->load->view('footer_admin');
 	}
+	
+	public function updatetopublish(){
+		$LID = $this->input->post("hLID");
+		
+		$user_data = $this->session->userdata("LoggedUser");
+		
+		$AssignUserID = $this->input->post("AssignUserID");
+		$Brand = $this->input->post("Brand");
+		$Category = $this->input->post("Category");
+		$Model = $this->input->post("Model");
+		$ManufacturingYear = $this->input->post("Year");
+		$Transmission = $this->input->post("GDTransmission");
+		$Specification = $this->input->post("Specification");
+		$Condition = $this->input->post("Condition");
+		$Mileage = $this->input->post("Mileage");
+		$SellingPrice = $this->input->post("SellingPrice");
+		$State = $this->input->post("selState");
+		$Address = $this->input->post("Address");
+		$Latitude = $this->input->post("Latitude");
+		$Longitude = $this->input->post("Longitude");
+		$Description = $this->input->post("Description");
+		
+		
+		
+		$en_cc = $this->input->post("GDEngineCC");
+		$gn_seat_capacity = $this->input->post("SeatCapacity");
+		$Colour = $this->input->post("Colour");
+		$gn_doors = $this->input->post("Doors");
+		$gn_assembled = $this->input->post("Assembled");
+		$tm_final_drive_ratio = $this->input->post("FinalDriveRatio");
+		$tm_gears = $this->input->post("NoofGears");
+		$en_stroke = $this->input->post("Stroke");
+		$en_peak_power = $this->input->post("PeakPower");
+		$en_engine_type = $this->input->post("EngineType");
+		$en_aspiration = $this->input->post("Aspiration");
+		$en_bore = $this->input->post("Bore");
+		$en_compression_ratio = $this->input->post("CompressionRatio");
+		$en_peak_torque = $this->input->post("PeakTorque");
+		$en_direct_injection = $this->input->post("DirectInjection");
+		$en_fuel_type = $this->input->post("FuelType");
+		$dm_length = $this->input->post("Length");
+		$dm_height = $this->input->post("Height");
+		$dm_width = $this->input->post("Width");
+		$dm_wheel_base = $this->input->post("WheelBase");
+		$dm_front_thread = $this->input->post("FrontThread");
+		$dm_rear_thread = $this->input->post("RearThread");
+		$dm_fuel_tank = $this->input->post("FuelTank");
+		$br_front = $this->input->post("FrontBrakes");
+		$br_rear = $this->input->post("RearBrakes");
+		$sus_front = $this->input->post("FrontSuspension");
+		$sus_rear = $this->input->post("RearSuspension");
+		$tw_front = $this->input->post("FrontTyres");
+		$tw_rear = $this->input->post("RearTyres");
+		$tw_front_rim = $this->input->post("FrontRims");
+		$tw_rear_rim = $this->input->post("RearRims");				
+		
+		$dataarray = array(
+			"Brand" 				=> $Brand,
+			"body_style" 			=> $Category,
+			"Model" 				=> $Model,
+			"ManufacturingYear" 	=> $ManufacturingYear,
+			"Transmission" 			=> $Transmission,
+			"Specification" 		=> $Specification,	
+			"Colour" 				=> $Colour,	
+			"Mileage" 				=> $Mileage,
+			"State" 				=> $State,
+			"SellingPrice" 			=> $SellingPrice,
+			"Address" 				=> $Address,
+			"Latitude" 				=> $Latitude,
+			"Longitude" 			=> $Longitude,
+			"Description" 			=> $Description,
+			"en_cc" 				=> $en_cc,
+			"gn_seat_capacity" 		=> $gn_seat_capacity,
+			"Colour" 				=> $Colour,
+			"gn_doors" 				=> $gn_doors,
+			"gn_assembled" 			=> $gn_assembled,
+			"tm_final_drive_ratio" 	=>$tm_final_drive_ratio,
+			"tm_gears" 				=> $tm_gears,
+			"en_stroke" 			=> $en_stroke,
+			"en_peak_power" 		=> $en_peak_power,
+			"en_engine_type" 		=> $en_engine_type,
+			"en_aspiration" 		=> $en_aspiration,
+			"en_bore" 				=> $en_bore,
+			"en_compression_ratio" 	=>$en_compression_ratio,
+			"en_peak_torque" 		=> $en_peak_torque,
+			"en_direct_injection" 	=> $en_direct_injection,
+			"en_fuel_type" 			=> $en_fuel_type,
+			"dm_length" 			=> $dm_length,
+			"dm_height" 			=> $dm_height,
+			"dm_width" 				=> $dm_width,
+			"dm_wheel_base" 		=> $dm_wheel_base,
+			"dm_front_thread" 		=> $dm_front_thread,
+			"dm_rear_thread" 		=> $dm_rear_thread,
+			"dm_fuel_tank" 			=> $dm_fuel_tank,
+			"br_front" 				=> $br_front,
+			"br_rear" 				=> $br_rear,
+			"sus_front" 			=> $sus_front,
+			"sus_rear" 				=> $sus_rear,
+			"tw_front" 				=> $tw_front,
+			"tw_rear" 				=> $tw_rear,
+			"tw_front_rim" 			=> $tw_front_rim,
+			"tw_rear_rim" 			=> $tw_rear_rim,
+			"Status"				=> 1,
+			"ModifiedBy"			=> $AssignUserID,
+			"ModifiedOn"			=> date("Y-m-d H:i:s")
+		);
+
+		$this->db->set($dataarray);
+		$this->db->where("ID", $LID);
+		$this->db->update("tbl_listing");
+	}
+	
 	public function publishlisting(){
 		$user_data = $this->session->userdata("LoggedUser");
 		
@@ -327,7 +469,7 @@ class Admin extends CI_Controller {
 		
 		$dataarray = array(
 			"Brand" 				=> $Brand,
-			"body_style" 				=> $Category,
+			"body_style" 			=> $Category,
 			"Model" 				=> $Model,
 			"ManufacturingYear" 	=> $ManufacturingYear,
 			"Transmission" 			=> $Transmission,
@@ -797,14 +939,14 @@ class Admin extends CI_Controller {
 		$this->db->insert("tbl_verifyemail", $data);
 		
 		$config = Array(
-			'protocol' => 'smtp',
-			'smtp_host' => 'mail.ruhaizat.my',
-			'smtp_port' => 587,
-			'smtp_user' => 'suhucp@ruhaizat.my', // change it to yours
-			'smtp_pass' => 'hyundai1234', // change it to yours
-			'mailtype' => 'html',
-			'charset' => 'iso-8859-1',
-			'wordwrap' => TRUE
+			'protocol' => $this->config->item('hucp_mail_protocol'),
+			'smtp_host' => $this->config->item('hucp_mail_smtp_host'),
+			'smtp_port' => $this->config->item('hucp_mail_smtp_port'),
+			'smtp_user' => $this->config->item('hucp_mail_smtp_user'),
+			'smtp_pass' => $this->config->item('hucp_mail_smtp_pass'),
+			'mailtype' => $this->config->item('hucp_mail_mailtype'),
+			'charset' => $this->config->item('hucp_mail_charset'),
+			'wordwrap' => $this->config->item('hucp_mail_wordwrap')
 		);
 		
 		$this->load->library('email', $config);
@@ -925,6 +1067,30 @@ class Admin extends CI_Controller {
 				$this->db->set($dataarray);
 				$this->db->where("ID", $obj->id);
 				$this->db->update("tbl_listing");
+		
+				$query = $this->db->query("SELECT AddedBy FROM tbl_listing WHERE ID = ".$obj->id);
+				$AddedBy = $query->row()->AddedBy;
+				$query = $this->db->query("SELECT * FROM tbl_user WHERE ID = ".$AddedBy);
+				$adsOwner = $query->row();
+				
+				$config = Array(
+					'protocol' => $this->config->item('hucp_mail_protocol'),
+					'smtp_host' => $this->config->item('hucp_mail_smtp_host'),
+					'smtp_port' => $this->config->item('hucp_mail_smtp_port'),
+					'smtp_user' => $this->config->item('hucp_mail_smtp_user'),
+					'smtp_pass' => $this->config->item('hucp_mail_smtp_pass'),
+					'mailtype' => $this->config->item('hucp_mail_mailtype'),
+					'charset' => $this->config->item('hucp_mail_charset'),
+					'wordwrap' => $this->config->item('hucp_mail_wordwrap')
+				);
+				
+				$this->load->library('email', $config);
+				$this->email->set_newline("\r\n");
+				$this->email->from($this->config->item('hucp_mail_mailer_email'), $this->config->item('hucp_mail_mailer_name'));
+				$this->email->to($adsOwner->EmailAddress);    
+				$this->email->subject("Advertisement Approved");
+				$this->email->message("Dear ".$adsOwner->FirstName.",<br/><br/>Your edited advertisement is submitted for approval. Click <a href='".base_url()."listing/details/".$obj->id."/".$AddedBy."'>here</a> to view.<br/><br/>Thanks<br/>Hyundai Used Car Platform");
+				$this->email->send();
 			break;
 			case "RejectAd":
 				$user_data = $this->session->userdata("LoggedUser");
@@ -1014,14 +1180,14 @@ class Admin extends CI_Controller {
 				$newsletter = $query->row();
 			
 				$config = Array(
-					'protocol' => 'smtp',
-					'smtp_host' => 'mail.ruhaizat.my',
-					'smtp_port' => 587,
-					'smtp_user' => 'suhucp@ruhaizat.my', // change it to yours
-					'smtp_pass' => 'hyundai1234', // change it to yours
-					'mailtype' => 'html',
-					'charset' => 'iso-8859-1',
-					'wordwrap' => TRUE
+					'protocol' => $this->config->item('hucp_mail_protocol'),
+					'smtp_host' => $this->config->item('hucp_mail_smtp_host'),
+					'smtp_port' => $this->config->item('hucp_mail_smtp_port'),
+					'smtp_user' => $this->config->item('hucp_mail_smtp_user'),
+					'smtp_pass' => $this->config->item('hucp_mail_smtp_pass'),
+					'mailtype' => $this->config->item('hucp_mail_mailtype'),
+					'charset' => $this->config->item('hucp_mail_charset'),
+					'wordwrap' => $this->config->item('hucp_mail_wordwrap')
 				);
 				
 				
@@ -1083,6 +1249,50 @@ class Admin extends CI_Controller {
 				$this->email->subject($newsletter->Subject);
 				$this->email->message($html);
 				$this->email->send();
+			break;
+			case "ReportStatus":
+				$Status = $obj->Status;
+				
+				$dataarray = array(
+					"Status" => $Status
+				);	
+			
+				$this->db->set($dataarray);
+				$this->db->where("ID", $obj->ReportID);
+				$this->db->update("tbl_report");
+			break;
+			case "SaveEmailSetting":				
+				$NewAds = $obj->NewAds;
+				$dataarray = array(
+					"EmailAddress" => $NewAds
+				);	
+				$this->db->set($dataarray);
+				$this->db->where("Setting", "New Ads");
+				$this->db->update("tbl_emailsetting");
+				
+				$NewUser = $obj->NewUser;
+				$dataarray = array(
+					"EmailAddress" => $NewUser
+				);	
+				$this->db->set($dataarray);
+				$this->db->where("Setting", "New User");
+				$this->db->update("tbl_emailsetting");
+				
+				$ContactSeller = $obj->ContactSeller;
+				$dataarray = array(
+					"EmailAddress" => $ContactSeller
+				);	
+				$this->db->set($dataarray);
+				$this->db->where("Setting", "Contact Seller");
+				$this->db->update("tbl_emailsetting");
+				
+				$Report = $obj->Report;
+				$dataarray = array(
+					"EmailAddress" => $Report
+				);	
+				$this->db->set($dataarray);
+				$this->db->where("Setting", "Report");
+				$this->db->update("tbl_emailsetting");
 			break;
 		}
 	}

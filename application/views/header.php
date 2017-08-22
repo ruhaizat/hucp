@@ -213,7 +213,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<label for="confirm_password">Newsletter Subscription</label>
 							<br/>
 							<br/>
-							<input type="checkbox" name="newsletter_subscription" id="newsletter_subscription">Allow system to send marketing email
+							<input type="checkbox" name="newsletter_subscription" id="newsletter_subscription" checked>Allow system to send marketing email
 						</div>
 						<!--end form-group-->
 							<br/>

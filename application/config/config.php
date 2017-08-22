@@ -532,3 +532,21 @@ $config['rewrite_short_tags'] = FALSE;
 | Array:		array('10.0.1.200', '192.168.5.0/24')
 */
 $config['proxy_ips'] = '';
+
+/*
+|--------------------------------------------------------------------------
+| Additional Configuration
+|--------------------------------------------------------------------------
+|
+*/			
+$config['hucp_mail_protocol'] = 'smtp';
+$config['hucp_mail_smtp_host'] = 'mail.ruhaizat.my';
+$config['hucp_mail_smtp_port'] = 587;
+$config['hucp_mail_smtp_user'] = 'suhucp@ruhaizat.my';
+$config['hucp_mail_smtp_pass'] = 'hyundai1234';
+$config['hucp_mail_mailtype'] = 'html';
+$config['hucp_mail_charset'] = 'iso-8859-1';
+$config['hucp_mail_wordwrap'] = TRUE;
+
+$config['hucp_mail_mailer_email'] = 'suhucp@ruhaizat.my';
+$config['hucp_mail_mailer_name'] = 'Korean Used Car Admin';

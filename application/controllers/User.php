@@ -213,14 +213,14 @@ class User extends CI_Controller {
 	public function sendchangepwdnotfication($pEmailAddress, $pFullName)
 	{
 		$config = Array(
-			'protocol' => 'smtp',
-			'smtp_host' => 'mail.ruhaizat.my',
-			'smtp_port' => 587,
-			'smtp_user' => 'suhucp@ruhaizat.my', // change it to yours
-			'smtp_pass' => 'hyundai1234', // change it to yours
-			'mailtype' => 'html',
-			'charset' => 'iso-8859-1',
-			'wordwrap' => TRUE
+			'protocol' => $this->config->item('hucp_mail_protocol'),
+			'smtp_host' => $this->config->item('hucp_mail_smtp_host'),
+			'smtp_port' => $this->config->item('hucp_mail_smtp_port'),
+			'smtp_user' => $this->config->item('hucp_mail_smtp_user'),
+			'smtp_pass' => $this->config->item('hucp_mail_smtp_pass'),
+			'mailtype' => $this->config->item('hucp_mail_mailtype'),
+			'charset' => $this->config->item('hucp_mail_charset'),
+			'wordwrap' => $this->config->item('hucp_mail_wordwrap')
 		);
 		
 		$this->load->library('email', $config);

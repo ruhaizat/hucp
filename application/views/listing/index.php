@@ -147,6 +147,7 @@
 				var location = $("#location option:selected").text();
 				var model = $("#model option:selected").text();
 				var year = $("#year option:selected").text();
+				var condition = $("#condition option:selected").text();
 				var valuemin = $("#value-min").val();
 				valuemin = valuemin.replace("RM", "");
 				valuemin = valuemin.replace(".", "");
@@ -188,6 +189,18 @@
 				}else{
 					table
 						.column(5)
+						.search("")
+						.draw();					
+				}
+				
+				if(condition != "Condition"){
+					table
+						.column(6)
+						.search(condition)
+						.draw();					
+				}else{
+					table
+						.column(6)
 						.search("")
 						.draw();					
 				}
@@ -238,6 +251,11 @@
 				var model = "<?php echo $modelStr;?>";
 				$("#model option").filter(function() {
 					return $(this).text() == model; 
+				}).prop('selected', true);
+				
+				var condition = "<?php echo $condition;?>";
+				$("#condition option").filter(function() {
+					return $(this).text() == condition; 
 				}).prop('selected', true);
 				
 				var valuemin = "<?php echo $minvalsrc;?>";
@@ -300,6 +318,18 @@
 				}else{
 					table
 						.column(5)
+						.search("")
+						.draw();					
+				}
+
+				if(condition != "Condition"){
+					table
+						.column(6)
+						.search(condition)
+						.draw();
+				}else{
+					table
+						.column(6)
 						.search("")
 						.draw();					
 				}
@@ -409,20 +439,20 @@
                                 <div class="form-group">
                                     <select class="form-control selectpicker" name="year" id="year">
                                         <option value="">Year</option>
-                                        <option value="1">2010</option>
-                                        <option value="2">2011</option>
-                                        <option value="3">2012</option>
-                                        <option value="4">2013</option>
-                                        <option value="5">2014</option>
-                                        <option value="6">2015</option>
-                                        <option value="7">2016</option>
-                                        <option value="8">2017</option>
-                                        <option value="9">2018</option>
-                                        <option value="10">2019</option>
+										<?php foreach($yearData as $eachYear):?>
+                                        <option><?php echo $eachYear->ManufacturingYear;?></option>
+										<?php endforeach;?>
                                     </select>
                                 </div>
                                 <!--end form-group-->
-
+                                <div class="form-group">
+                                    <select class="form-control selectpicker" name="condition" id="condition">
+                                        <option value="">Condition</option>
+                                        <option>Used</option>
+                                        <option>New</option>
+                                    </select>
+                                </div>
+                                <!--end form-group-->
                                 <div class="form-group">
                                     <div class="ui-slider" id="price-slider" data-value-min="<?php echo $priceThresData->MinVal?>" data-value-max="<?php echo $priceThresData->MaxVal?>" data-value-type="price" data-currency="RM" data-currency-placement="before">
                                         <div class="values clearfix">
@@ -513,6 +543,7 @@
 									<th class="cellHide">Mileage</th>
 									<th class="cellHide">Location</th>
 									<th class="cellHide">Model</th>
+									<th class="cellHide">Condition</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -576,6 +607,9 @@
 									</td>
 									<td class="cellHide">
 										<?php echo $eachList->ModelName;?>
+									</td>
+									<td class="cellHide">
+										<?php echo $eachList->Condition;?>
 									</td>
 								</tr>
 								<?php endforeach;?>	

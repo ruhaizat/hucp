@@ -370,6 +370,16 @@
 					//window.location.href = "<?php echo base_url();?>admin"
 				}
 			});
+			loadGallery(true, 'a.thumbnail');
+			var text_max = 100;
+			$('#count_message').html(text_max + ' remaining');
+
+			$('#SR_description').keyup(function() {
+			  var text_length = $('#SR_description').val().length;
+			  var text_remaining = text_max - text_length;
+			  
+			  $('#count_message').html(text_remaining + ' remaining');
+			});
 		});
 		var map;
 		function aEditClick(){
@@ -503,12 +513,35 @@
 				}
 			});
 		}
+
+		function submitReport(){
+			var Name = $("#SR_name").val();
+			var Email = $("#SR_buyer_email").val();
+			var Telephone = $("#SR_telephone").val();
+			var Description = $("#SR_description").val();
+			var ListingID = "<?php echo $listingData->LID;?>";
+			var Model = "<?php echo $listingData->Model;?>";
+			var SellerID = "<?php echo $listingData->LAddedBy;?>";
+
+			var datastr = '{"mode":"Report","Name":"'+Name+'","Email":"'+Email+'","Telephone":"'+Telephone+'","Description":"'+Description+'","ListingID":"'+ListingID+'","SellerID":"'+SellerID+'","Model":"'+Model+'"}';
+			$.ajax({
+				url: "<?php echo base_url();?>listing/ajax",
+				type: "POST",
+				data: {"datastr":datastr},
+				success: function(data){
+					$("#ReportSuccess").modal("show");
+				}
+			});
+		}
 	
 		var buttonMode = "";
 		function SubmitAd(elem){
 			var LID = $(elem).attr("id").split("_")[1];
+			var AddedBy = "<?php echo $userData->ID;?>";
+			var FirstName = "<?php echo $userData->FirstName;?>";
+			var EmailAddress = "<?php echo $userData->EmailAddress;?>";
 			
-			var datastr = '{"mode":"AdChangeStatus","ID":"'+LID+'","Status":"0"}';
+			var datastr = '{"mode":"AdChangeStatus","ID":"'+LID+'","Status":"0","AddedBy":"'+AddedBy+'","FirstName":"'+FirstName+'","EmailAddress":"'+EmailAddress+'"}';
 			$.ajax({
 				url: "<?php echo base_url();?>listing/ajax",
 				type: "POST",
@@ -539,8 +572,11 @@
 		}
 		function ApproveAd(elem){
 			var LID = $(elem).attr("id").split("_")[1];
+			var AddedBy = "<?php echo $userData->ID;?>";
+			var FirstName = "<?php echo $userData->FirstName;?>";
+			var EmailAddress = "<?php echo $userData->EmailAddress;?>";
 			
-			var datastr = '{"mode":"AdChangeStatus","ID":"'+LID+'","Status":"1"}';
+			var datastr = '{"mode":"AdChangeStatus","ID":"'+LID+'","Status":"1","AddedBy":"'+AddedBy+'","FirstName":"'+FirstName+'","EmailAddress":"'+EmailAddress+'"}';
 			$.ajax({
 				url: "<?php echo base_url();?>listing/ajax",
 				type: "POST",
@@ -906,6 +942,70 @@
 				$(".TyreBox").hide();
 			}
 		}
+		
+		function calculateLoan(){
+			var LCSellingPrice = parseFloat($("#LCSellingPrice").val().replace(",",""));
+			var LCDepositAmount = parseFloat($("#LCDepositAmount").val().replace(",",""));
+			var LCInterest = parseFloat($("#LCInterest").val().replace(",",""));
+			var LCTotalMonth = parseFloat($("#LCTotalMonth").val().replace(",",""));
+			//alert(LCSellingPrice + "|" + LCDepositAmount + "|" + LCInterest + "|" + LCTotalMonth);
+			
+			var LCMonthlyInstallment = ((LCInterest/100) * (LCSellingPrice - LCDepositAmount) + (LCSellingPrice - LCDepositAmount)) / LCTotalMonth;
+			//alert(LCMonthlyInstallment);
+			$("#LCMonthlyInstallment").text("RM"+parseFloat(LCMonthlyInstallment.toFixed(2)));
+		}
+		
+		//This function disables buttons when needed
+		function disableButtons(counter_max, counter_current){
+			$('#show-previous-image, #show-next-image').show();
+			if(counter_max == counter_current){
+				$('#show-next-image').hide();
+			} else if (counter_current == 1){
+				$('#show-previous-image').hide();
+			}
+		}
+
+		/**
+		 *
+		 * @param setIDs        Sets IDs when DOM is loaded. If using a PHP counter, set to false.
+		 * @param setClickAttr  Sets the attribute for the click handler.
+		 */
+
+		function loadGallery(setIDs, setClickAttr){
+			var current_image,
+				selector,
+				counter = 0;
+
+			$('#show-next-image, #show-previous-image').click(function(){
+				if($(this).attr('id') == 'show-previous-image'){
+					current_image--;
+				} else {
+					current_image++;
+				}
+
+				selector = $('[data-image-id="' + current_image + '"]');
+				updateGallery(selector);
+			});
+
+			function updateGallery(selector) {
+				var $sel = selector;
+				current_image = $sel.data('image-id');
+				$('#image-gallery-caption').text($sel.data('caption'));
+				$('#image-gallery-title').text($sel.data('title'));
+				$('#image-gallery-image').attr('src', $sel.data('image'));
+				disableButtons(counter, $sel.data('image-id'));
+			}
+
+			if(setIDs == true){
+				$('[data-image-id]').each(function(){
+					counter++;
+					$(this).attr('data-image-id',counter);
+				});
+			}
+			$(setClickAttr).on('click',function(){
+				updateGallery($(this));
+			});
+		}
 	</script>
     <div id="page-content">
         <div class="container">
@@ -920,51 +1020,55 @@
             </section>
             <!--end page-title-->
 			<?php if($this->session->userdata("LoggedUser") != null): $user_data = $this->session->userdata("LoggedUser");?>
-			<?php $favEleID = $user_data["UserID"]."_".$listingData->ID;?>
-			<?php $query = $this->db->query("SELECT COUNT(ID) AS val FROM tbl_favourite WHERE UserID = ".$user_data["UserID"]." AND ListingID = ".$listingData->ID);$favCount = $query->row()->val;?>
-			<?php if($user_data["Group"] == 1):?>
-				<?php if($listingData->LStatus == 0):?>
-					<?php if($listingData->LIsFeatured == 0):?>
-						<a id="btnFeaturedListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right" onclick="FeaturedAd(this);"><i class="fa fa-star"></i>Featured </a>
-					<?php else:?>
-						<a id="btnUnFeaturedListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right" onclick="UnfeaturedAd(this);"><i class="fa fa-star"></i>Unfeatured </a>
+				<?php $favEleID = $user_data["UserID"]."_".$listingData->ID;?>
+				<?php $query = $this->db->query("SELECT COUNT(ID) AS val FROM tbl_favourite WHERE UserID = ".$user_data["UserID"]." AND ListingID = ".$listingData->ID);$favCount = $query->row()->val;?>
+				<?php if($user_data["Group"] == 1):?>
+					<?php if($listingData->LStatus == 0):?>
+						<?php if($listingData->LIsFeatured == 0):?>
+							<a id="btnFeaturedListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right" onclick="FeaturedAd(this);"><i class="fa fa-star"></i>Featured </a>
+						<?php else:?>
+							<a id="btnUnFeaturedListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right" onclick="UnfeaturedAd(this);"><i class="fa fa-star"></i>Unfeatured </a>
+						<?php endif;?>
+						<a id="btnApproveListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right" onclick="ApproveAd(this);"><i class="fa fa-check"></i>Approve </a>
+						<a id="btnRejectListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right" onclick="RejectAd(this);"><i class="fa fa-close"></i>Reject </a>
+						<a href="#EditListing" class="btn btn-primary btn-rounded icon scroll pull-right" data-toggle="modal"><i class="fa fa-edit"></i>Edit</a>
+					<?php elseif($listingData->LStatus == 1):?>			
+						<?php if($listingData->LIsFeatured == 0):?>
+							<a id="btnFeaturedListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right" onclick="FeaturedAd(this);"><i class="fa fa-star"></i>Featured </a>
+						<?php else:?>
+							<a id="btnUnFeaturedListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right" onclick="UnfeaturedAd(this);"><i class="fa fa-star"></i>Unfeatured </a>
+						<?php endif;?>
+						<a id="btnDeleteListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-rounded icon scroll pull-right" onclick="DeleteAd(this);"><i class="fa fa-trash"></i>Delete</a>
+						<a href="#EditListing" class="btn btn-primary btn-rounded icon scroll pull-right" data-toggle="modal"><i class="fa fa-edit"></i>Edit</a>
+						<a id="btnPrintListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-print"></i>Print</a>
+						<a id="btnCompareListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right" onclick="AddCompare(<?php echo $listingData->ID;?>)"><i class="fa fa-clone"></i>Compare</a>
+						<a onclick="FavAction(<?php echo $user_data['UserID'];?>,<?php echo $listingData->ID;?>);" id="btnFavoriteListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-heart fi_<?php echo $favEleID;?>" style="color:<?php if($favCount > 0):?><?php echo 'red'?><?php else:?><?php echo 'gray'?><?php endif;?>;"></i>Favourite </a>
 					<?php endif;?>
-					<a id="btnApproveListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right" onclick="ApproveAd(this);"><i class="fa fa-check"></i>Approve </a>
-					<a id="btnRejectListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right" onclick="RejectAd(this);"><i class="fa fa-close"></i>Reject </a>
-					<a href="#EditListing" class="btn btn-primary btn-rounded icon scroll pull-right" data-toggle="modal"><i class="fa fa-edit"></i>Edit</a>
-				<?php elseif($listingData->LStatus == 1):?>					
-					<?php if($listingData->LIsFeatured == 0):?>
-						<a id="btnFeaturedListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right" onclick="FeaturedAd(this);"><i class="fa fa-star"></i>Featured </a>
-					<?php else:?>
-						<a id="btnUnFeaturedListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right" onclick="UnfeaturedAd(this);"><i class="fa fa-star"></i>Unfeatured </a>
+				<?php elseif($user_data["Group"] == 2):?>
+					<?php if($listingData->LStatus == -1):?>
+						<a id="btnSubmitListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-rounded icon scroll pull-right" onclick="SubmitAd(this);"><i class="fa fa-check-circle"></i>Submit</a>
+						<a id="btnDeleteListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-rounded icon scroll pull-right" onclick="DeleteAd(this);"><i class="fa fa-trash"></i>Delete</a>
+						<a id="aEdit" href="#EditListing" class="btn btn-primary btn-rounded icon scroll pull-right" data-toggle="modal"><i class="fa fa-edit"></i>Edit</a>
+					<?php elseif($listingData->LStatus == 0):?>
+						<?php if($listingData->LAddedBy == $user_data["UserID"]):?>
+						<a id="aEdit" href="#EditListing" class="btn btn-primary btn-rounded icon scroll pull-right" data-toggle="modal"><i class="fa fa-edit"></i>Edit</a>
+						<span class="pull-right" style="padding:6px;">Waiting for Approval</span>
+						<?php endif;?>
+					<?php elseif($listingData->LStatus == 1):?>
+						<?php if($listingData->LAddedBy == $user_data["UserID"]):?>
+						<a id="aEdit" href="#EditListing" class="btn btn-primary btn-rounded icon scroll pull-right" data-toggle="modal"><i class="fa fa-edit"></i>Edit</a>
+						<?php endif;?>
+						<a href="#Report" data-toggle="modal" id="btnReportListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-flag"></i>Report Ad</a>
+						<a id="btnPrintListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-print"></i>Print</a>
+						<a id="btnCompareListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right" onclick="AddCompare(<?php echo $listingData->ID;?>)"><i class="fa fa-clone"></i>Compare</a>
+						<a onclick="FavAction(<?php echo $user_data['UserID'];?>,<?php echo $listingData->ID;?>);" id="btnFavoriteListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-heart fi_<?php echo $favEleID;?>" style="color:<?php if($favCount > 0):?><?php echo 'red'?><?php else:?><?php echo 'gray'?><?php endif;?>;"></i>Favourite </a>
 					<?php endif;?>
-					<a id="btnDeleteListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-rounded icon scroll pull-right" onclick="DeleteAd(this);"><i class="fa fa-trash"></i>Delete</a>
-					<a href="#EditListing" class="btn btn-primary btn-rounded icon scroll pull-right" data-toggle="modal"><i class="fa fa-edit"></i>Edit</a>
-					<a id="btnPrintListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-print"></i>Print</a>
-					<a id="btnCompareListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right" onclick="AddCompare(<?php echo $listingData->ID;?>)"><i class="fa fa-clone"></i>Compare</a>
-					<a onclick="FavAction(<?php echo $user_data['UserID'];?>,<?php echo $listingData->ID;?>);" id="btnFavoriteListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-heart fi_<?php echo $favEleID;?>" style="color:<?php if($favCount > 0):?><?php echo 'red'?><?php else:?><?php echo 'gray'?><?php endif;?>;"></i>Favourite </a>
 				<?php endif;?>
-			<?php elseif($user_data["Group"] == 2):?>
-				<?php if($listingData->LStatus == -1):?>
-					<a id="btnSubmitListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-rounded icon scroll pull-right" onclick="SubmitAd(this);"><i class="fa fa-check-circle"></i>Submit</a>
-					<a id="btnDeleteListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-rounded icon scroll pull-right" onclick="DeleteAd(this);"><i class="fa fa-trash"></i>Delete</a>
-					<a id="aEdit" href="#EditListing" class="btn btn-primary btn-rounded icon scroll pull-right" data-toggle="modal"><i class="fa fa-edit"></i>Edit</a>
-				<?php elseif($listingData->LStatus == 0):?>
-				<?php elseif($listingData->LStatus == 1):?>
-					<?php if($listingData->LAddedBy == $user_data["UserID"]):?>
-					<a id="aEdit" href="#EditListing" class="btn btn-primary btn-rounded icon scroll pull-right" data-toggle="modal"><i class="fa fa-edit"></i>Edit</a>
-					<?php endif;?>
-					<a id="btnReportListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-flag"></i>Report Ad</a>
-					<a id="btnPrintListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-print"></i>Print</a>
-					<a id="btnCompareListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right" onclick="AddCompare(<?php echo $listingData->ID;?>)"><i class="fa fa-clone"></i>Compare</a>
-					<a onclick="FavAction(<?php echo $user_data['UserID'];?>,<?php echo $listingData->ID;?>);" id="btnFavoriteListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-heart fi_<?php echo $favEleID;?>" style="color:<?php if($favCount > 0):?><?php echo 'red'?><?php else:?><?php echo 'gray'?><?php endif;?>;"></i>Favourite </a>
-				<?php endif;?>
-			<?php endif;?>
 			<?php else:?>
-					<a id="btnReportListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-flag"></i>Report Ad</a>
-					<a id="btnPrintListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-print"></i>Print</a>
-					<a id="btnCompareListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right" onclick="AddCompare(<?php echo $listingData->ID;?>)"><i class="fa fa-clone"></i>Compare</a>
-					<a onclick="FavActionNo();" id="btnFavoriteListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-heart"></i>Favourite </a>
+				<a href="#Report" data-toggle="modal" id="btnReportListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-flag"></i>Report Ad</a>
+				<a id="btnPrintListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-print"></i>Print</a>
+				<a id="btnCompareListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right" onclick="AddCompare(<?php echo $listingData->ID;?>)"><i class="fa fa-clone"></i>Compare</a>
+				<a onclick="FavActionNo();" id="btnFavoriteListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-heart"></i>Favourite </a>
 			<?php endif;?>
 			<!--
 					<a id="btnSubmitListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-rounded icon scroll pull-right"><i class="fa fa-check-circle"></i>Submit</a>
@@ -982,7 +1086,9 @@
                 <div class="owl-carousel" data-owl-items="3" data-owl-loop="1" data-owl-auto-width="1" data-owl-nav="1" data-owl-dots="0" data-owl-margin="2" data-owl-nav-container="#gallery-nav">
 					<?php foreach($listingImageData as $lid):?>
 					<div class="image">
-                        <div class="bg-transfer"><img src="<?php echo base_url();?>assets/img/listing/<?php echo $lid->ListingPic;?>" alt=""></div>
+						<a style="background-size:cover;height:100%;" class="thumbnail" href="#" data-image-id="" data-toggle="modal" data-title="<?php echo $listingData->ManufacturingYear." ".$listingData->Brand." ".$listingData->Model;?>" data-caption="" data-image="<?php echo base_url();?>assets/img/listing/<?php echo $lid->ListingPic;?>" data-target="#image-gallery">
+							<img src="<?php echo base_url();?>assets/img/listing/<?php echo $lid->ListingPic;?>" alt="">
+						</a>
                     </div>
 					<?php endforeach;?>
                 </div>
@@ -1002,6 +1108,101 @@
                         </p>
                     </section>
 					<?php endif;?>
+                    <section>
+                      <h3>Loan Calculator</h3>
+                        <div class="panel-group" id="accordion-1" role="tablist" aria-multiselectable="true">
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="accordion-heading-1">
+                                    <h4 class="panel-title">
+                                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#accordion-collapse-9" aria-expanded="false" aria-controls="accordion-collapse-9">
+                                            <i class="fa  fa-calculator"></i>Car Loan Monthly Installment - RM1,000/month
+                                        </a>
+                                    </h4>
+                                </div>
+                                <!--end panel-heading-->
+                                <div id="accordion-collapse-9" class="panel-collapse collapse" role="tabpanel" aria-labelledby="accordion-heading-9">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-md-3 col-sm-3 horizontal-input-title">
+                                                <strong>Vehicle Price (RM)</strong>
+                                            </div>
+                                            <!--end col-md-3-->
+                                            <div class="col-md-9 col-sm-9">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" id="LCSellingPrice" placeholder="XX,XXX.XX" value="<?php echo number_format($listingData->SellingPrice);?>" onkeyup="calculateLoan();">
+                                                </div>
+                                                <!--end form-group-->
+                                            </div>
+                                            <!--end col-md-9-->
+                                        </div>
+                                        <!--end row-->
+                                        <div class="row">
+                                            <div class="col-md-3 col-sm-3 horizontal-input-title">
+                                                <strong>Deposit Amount (RM)</strong>
+                                            </div>
+                                            <!--end col-md-3-->
+                                            <div class="col-md-9 col-sm-9">
+                                                <div class="form-group">
+													<?php $depositAmount = $listingData->SellingPrice * 0.10;?>
+                                                    <input type="text" class="form-control" id="LCDepositAmount" placeholder="XX,XXX.XX" value="<?php echo $depositAmount;?>" onkeyup="calculateLoan();">
+                                                </div>
+                                                <!--end form-group-->
+                                            </div>
+                                            <!--end col-md-9-->
+                                        </div>
+                                        <!--end row-->
+                                        <div class="row">
+                                            <div class="col-md-3 col-sm-3 horizontal-input-title">
+                                                <strong>Interest Rate (%)</strong>
+                                            </div>
+                                            <!--end col-md-3-->
+                                            <div class="col-md-9 col-sm-9">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" id="LCInterest" placeholder="X" value="4" onkeyup="calculateLoan();">
+                                                </div>
+                                                <!--end form-group-->
+                                            </div>
+                                            <!--end col-md-9-->
+                                        </div>
+                                        <!--end row-->
+                                        <div class="row">
+                                            <div class="col-md-3 col-sm-3 horizontal-input-title">
+                                                <strong>Payment Period (Month/s)</strong>
+                                            </div>
+                                            <!--end col-md-3-->
+                                            <div class="col-md-9 col-sm-9">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" id="LCTotalMonth" placeholder="XX" value="60" onkeyup="calculateLoan();">
+                                                </div>
+                                                <!--end form-group-->
+                                            </div>
+                                            <!--end col-md-9-->
+                                        </div>
+                                        <!--end row-->
+                                        <div class="row">
+                                            <div class="col-md-3 col-sm-3" style="padding: 12px;">
+                                                <strong>Monthly Installment</strong>
+                                            </div>
+                                            <!--end col-md-3-->
+                                            <div class="col-md-9 col-sm-9">
+                                                <div class="form-group">
+													<?php $monthlyInstallment = (0.04 * ($listingData->SellingPrice - $depositAmount) + ($listingData->SellingPrice - $depositAmount)) / 60;?>
+                                                    <h3 style="padding: 12px; margin-bottom: 15px;"><span id="LCMonthlyInstallment"><?php echo "RM".number_format($monthlyInstallment);?></span> per month</h3>
+                                                    <p><i>*Please use this calculator as a guide only. All interest rates, amounts and terms are based on a personal simulation by you and your assumptions of same. The results in every case are approximate. We does not guarantee it's accuracy or applicability to your circumstances.</i></p>
+                                                </div>
+                                                <!--end form-group-->
+                                            </div>
+                                            <!--end col-md-9-->
+                                        </div>
+                                        <!--end row-->
+                                    </div>
+                                </div>
+                                <!--end panel-collapse-->
+                            </div>
+                            <!--end panel-->
+                        </div>
+                        <!--end panel-group-->
+                    </section>
 					<section>
 							<h2>Specification</h2>
 							<div class="panel-group" id="accordion-1-detail" role="tablist" aria-multiselectable="true">
@@ -1819,6 +2020,9 @@
 				<div class="modal-body">
 					<form id="frmEditListing" method="post" action="<?php echo base_url();?>listing/editlisting" class="form inputs-underline" enctype="multipart/form-data">
 					<input name="hLID" type="hidden" value="<?php echo $listingData->LID;?>"/>
+					<input name="hAddedBy" type="hidden" value="<?php echo $userData->ID;?>"/>
+					<input name="hFirstName" type="hidden" value="<?php echo $userData->FirstName;?>"/>
+					<input name="hEmailAddress" type="hidden" value="<?php echo $userData->EmailAddress;?>"/>
 						<section>
 						<h3>Car Details</h3>
 							<div class="row">
@@ -2779,6 +2983,78 @@
 		</div>
 		<!--end modal-dialog-->
 	</div>
+	<div class="modal fade" id="Report" tabindex="-1" role="basic" aria-hidden="true">
+		<div class="modal-dialog width-400px" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<div class="section-title">
+						<h2>Report</h2>
+					</div>
+				</div>
+				<div class="modal-body">
+					<form id="frmSubmitReport" onsubmit="event.preventDefault();submitReport();" class="form inputs-underline">
+						<div class="form-group">
+							<label for="name">Name<span class="noti-error">*</span></label>
+							<input type="text" class="form-control" name="SR_name" id="SR_name" placeholder="Your Name">
+						</div>
+						<!--end form-group-->
+						<div class="form-group">
+							<label for="email">Email<span class="noti-error">*</span></label>
+							<input type="email" class="form-control" name="SR_email" id="SR_buyer_email" placeholder="Your email">
+						</div>
+						<!--end form-group-->
+						<div class="form-group">
+							<label for="telephone">Telephone<span class="noti-error">*</span></label>
+							<input type="text" class="form-control" name="SR_telephone" id="SR_telephone" placeholder="+601234567890">
+						</div>
+						<!--end form-group-->
+						<div class="form-group">
+							<label for="description">Message<span class="noti-error">*</span></label>
+							<textarea class="form-control" id="SR_description" rows="4" name="SR_description" placeholder="Message to the seller" maxlength="100"></textarea>
+							<h6 class="pull-right" id="count_message"></h6>
+						</div>
+						<!--end form-group-->
+						<button id="btnSubmitReport" type="submit" value="Submit Report" class="btn btn-primary width-100">Submit Report</button>
+					</form>
+				</div>
+				<!--end modal-body-->
+				<hr>
+				<span class="noti-error">*</span>All field are required.
+			</div>
+			<!--end modal-content-->
+		</div>
+		<!--end modal-dialog-->
+	</div>
+
+	<div class="modal fade" id="ReportSuccess" tabindex="-1" role="basic" aria-hidden="true">
+		<div class="modal-dialog width-400px" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<div class="section-title center">
+						<h2>Success</h2>
+					</div>
+				</div>
+				<div class="modal-body">
+					<form class="form inputs-underline">
+						<div class="form-group center">
+						Your report to successfully submitted.
+						</div>
+						<!--end form-group-->
+						<div class="form-group center">
+							<button type="submit" class="btn btn-primary width-100">OK</button>
+						</div>
+						<!--end form-group-->
+					</form>
+					<!--end form-->
+				</div>
+				<!--end modal-body-->
+			</div>
+			<!--end modal-content-->
+		</div>
+		<!--end modal-dialog-->
+	</div>
 	<script>
 	document.addEventListener('DOMContentLoaded', function() {
 		<?php $i = 0; foreach($listingImageData as $lid): $i++;?>
@@ -2815,3 +3091,30 @@
 		</div>
 		<!--end modal-dialog-->
 	</div>
+<div class="modal fade" id="image-gallery" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="image-gallery-title"></h4>
+            </div>
+            <div class="modal-body">
+                <img id="image-gallery-image" class="img-responsive" src="">
+            </div>
+            <div class="modal-footer">
+
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-primary" id="show-previous-image">Previous</button>
+                </div>
+
+                <div class="col-md-8 text-justify" id="image-gallery-caption">
+                    This text will be overwritten by jQuery
+                </div>
+
+                <div class="col-md-2">
+                    <button type="button" id="show-next-image" class="btn btn-default">Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

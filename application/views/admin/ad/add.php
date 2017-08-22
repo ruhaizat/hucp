@@ -297,7 +297,6 @@
 							select: function (event, ui) {
 								$("input[name=AssignUser]").val(ui.item.label); // display the selected text
 								$("input[name=AssignUserID]").val(ui.item.id); // save selected id to hidden input
-								//alert(ui.item.images);
 							}
 						}).data("ui-autocomplete")._renderItem = function (ul, item) {
 							var imgSrc = "";
@@ -369,33 +368,57 @@
 					});		
 					function PublishAd(){
 						event.preventDefault();
-						var formData = new FormData($("#frmAddAd")[0]);
-						$.ajax({
-							url : '<?php echo base_url();?>admin/publishlisting',
-							type : 'POST',
-							data : formData,
-							processData: false,  // tell jQuery not to process the data
-							contentType: false,  // tell jQuery not to set contentType
-							success : function(data) {
-								var splittedData = data.split("_");
-								window.open("<?php echo base_url();?>listing/details/" + splittedData[0] + "/" + splittedData[1]);
-							}
-						});							
+						if($("#hIsAdded").val() == "True"){
+							var formData = new FormData($("#frmAddAd")[0]);
+							$.ajax({
+								url : '<?php echo base_url();?>admin/updatetopublish',
+								type : 'POST',
+								data : formData,
+								processData: false,  // tell jQuery not to process the data
+								contentType: false,  // tell jQuery not to set contentType
+								success : function(data) {
+									window.open("<?php echo base_url();?>listing/details/" + $("#hLID").val() + "/" + $("#hLAddedBy").val());
+								}
+							});
+						}else{
+							var formData = new FormData($("#frmAddAd")[0]);
+							$.ajax({
+								url : '<?php echo base_url();?>admin/publishlisting',
+								type : 'POST',
+								data : formData,
+								processData: false,  // tell jQuery not to process the data
+								contentType: false,  // tell jQuery not to set contentType
+								success : function(data) {
+									$("#hIsAdded").val("True");
+									var splittedData = data.split("_");
+									$("#hLID").val(splittedData[0]);
+									$("#hLAddedBy").val(splittedData[1]);
+									window.open("<?php echo base_url();?>listing/details/" + splittedData[0] + "/" + splittedData[1]);
+								}
+							});								
+						}
 					}	
 					function PreviewAd(){
 						event.preventDefault();
-						var formData = new FormData($("#frmAddAd")[0]);
-						$.ajax({
-							url : '<?php echo base_url();?>admin/addlisting',
-							type : 'POST',
-							data : formData,
-							processData: false,  // tell jQuery not to process the data
-							contentType: false,  // tell jQuery not to set contentType
-							success : function(data) {
-								var splittedData = data.split("_");
-								window.open("<?php echo base_url();?>listing/details/" + splittedData[0] + "/" + splittedData[1]);
-							}
-						});	
+						if($("#hIsAdded").val() == "True"){
+							window.open("<?php echo base_url();?>listing/details/" + $("#hLID").val() + "/" + $("#hLAddedBy").val());
+						}else{
+							var formData = new FormData($("#frmAddAd")[0]);
+							$.ajax({
+								url : '<?php echo base_url();?>admin/addlisting',
+								type : 'POST',
+								data : formData,
+								processData: false,  // tell jQuery not to process the data
+								contentType: false,  // tell jQuery not to set contentType
+								success : function(data) {
+									$("#hIsAdded").val("True");
+									var splittedData = data.split("_");
+									$("#hLID").val(splittedData[0]);
+									$("#hLAddedBy").val(splittedData[1]);
+									window.open("<?php echo base_url();?>listing/details/" + splittedData[0] + "/" + splittedData[1]);
+								}
+							});	
+						}
 					}
 				</script>
                 <!-- BEGIN CONTENT -->
@@ -786,19 +809,15 @@
 
                                                 <div class="row">
                                                     <div class="col-md-offset-3 col-md-9">
+														<input type="hidden" id="hIsAdded" name="hIsAdded" />
+														<input type="hidden" id="hLID" name="hLID" />
+														<input type="hidden" id="hLAddedBy" name="hLAddedBy" />
                                                         <button type="submit" class="btn green" onclick="PreviewAd();">Preview</button>
                                                         <button type="submit" class="btn green" onclick="PublishAd();">Publish</button>
                                                         <button type="button" class="btn default" onclick="window.location.href = '<?php echo base_url();?>admin'">Cancel</button>
                                                     </div>
                                                 </div>
-
                                         </form>
-
-
-                                    </div>
-
-
-
                                     </div>
 
                                 </div>
