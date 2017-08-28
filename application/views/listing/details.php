@@ -513,26 +513,6 @@
 				}
 			});
 		}
-
-		function submitReport(){
-			var Name = $("#SR_name").val();
-			var Email = $("#SR_buyer_email").val();
-			var Telephone = $("#SR_telephone").val();
-			var Description = $("#SR_description").val();
-			var ListingID = "<?php echo $listingData->LID;?>";
-			var Model = "<?php echo $listingData->Model;?>";
-			var SellerID = "<?php echo $listingData->LAddedBy;?>";
-
-			var datastr = '{"mode":"Report","Name":"'+Name+'","Email":"'+Email+'","Telephone":"'+Telephone+'","Description":"'+Description+'","ListingID":"'+ListingID+'","SellerID":"'+SellerID+'","Model":"'+Model+'"}';
-			$.ajax({
-				url: "<?php echo base_url();?>listing/ajax",
-				type: "POST",
-				data: {"datastr":datastr},
-				success: function(data){
-					$("#ReportSuccess").modal("show");
-				}
-			});
-		}
 	
 		var buttonMode = "";
 		function SubmitAd(elem){
@@ -952,7 +932,7 @@
 			
 			var LCMonthlyInstallment = ((LCInterest/100) * (LCSellingPrice - LCDepositAmount) + (LCSellingPrice - LCDepositAmount)) / LCTotalMonth;
 			//alert(LCMonthlyInstallment);
-			$("#LCMonthlyInstallment").text("RM"+parseFloat(LCMonthlyInstallment.toFixed(2)));
+			$(".LCMonthlyInstallment").text("RM"+parseFloat(LCMonthlyInstallment.toFixed(2)).toLocaleString());
 		}
 		
 		//This function disables buttons when needed
@@ -1115,7 +1095,9 @@
                                 <div class="panel-heading" role="tab" id="accordion-heading-1">
                                     <h4 class="panel-title">
                                         <a role="button" data-toggle="collapse" data-parent="#accordion" href="#accordion-collapse-9" aria-expanded="false" aria-controls="accordion-collapse-9">
-                                            <i class="fa  fa-calculator"></i>Car Loan Monthly Installment - RM1,000/month
+													<?php $depositAmount = $listingData->SellingPrice * 0.10;?>
+													<?php $monthlyInstallment = (0.04 * ($listingData->SellingPrice - $depositAmount) + ($listingData->SellingPrice - $depositAmount)) / 60;?>
+                                            <i class="fa  fa-calculator"></i>Car Loan Monthly Installment - <span class="LCMonthlyInstallment"><?php echo "RM".number_format($monthlyInstallment);?></span>/month
                                         </a>
                                     </h4>
                                 </div>
@@ -1143,7 +1125,6 @@
                                             <!--end col-md-3-->
                                             <div class="col-md-9 col-sm-9">
                                                 <div class="form-group">
-													<?php $depositAmount = $listingData->SellingPrice * 0.10;?>
                                                     <input type="text" class="form-control" id="LCDepositAmount" placeholder="XX,XXX.XX" value="<?php echo $depositAmount;?>" onkeyup="calculateLoan();">
                                                 </div>
                                                 <!--end form-group-->
@@ -1186,8 +1167,7 @@
                                             <!--end col-md-3-->
                                             <div class="col-md-9 col-sm-9">
                                                 <div class="form-group">
-													<?php $monthlyInstallment = (0.04 * ($listingData->SellingPrice - $depositAmount) + ($listingData->SellingPrice - $depositAmount)) / 60;?>
-                                                    <h3 style="padding: 12px; margin-bottom: 15px;"><span id="LCMonthlyInstallment"><?php echo "RM".number_format($monthlyInstallment);?></span> per month</h3>
+                                                    <h3 style="padding: 12px; margin-bottom: 15px;"><span class="LCMonthlyInstallment"><?php echo "RM".number_format($monthlyInstallment);?></span> per month</h3>
                                                     <p><i>*Please use this calculator as a guide only. All interest rates, amounts and terms are based on a personal simulation by you and your assumptions of same. The results in every case are approximate. We does not guarantee it's accuracy or applicability to your circumstances.</i></p>
                                                 </div>
                                                 <!--end form-group-->
@@ -1989,7 +1969,7 @@
 										<li class="liblack_fav_<?php echo $favEleID;?>" style="<?php if($favCount > 0):?><?php echo 'display:none;'?><?php else:?><?php echo 'display:block;'?><?php endif;?>"><a onclick="MakeFavourite(<?php echo $LoggedUser['UserID'];?>,<?php echo $eachRelated->LID;?>)">Favorite<i class="fa fa-heart fi_<?php echo $favEleID;?>" style="padding-left:5px;color:black;"></i></a></li>
 									<?php endif;?>
 									<li><a href="#">Compare <i class="fa fa-clone" style="padding-left: 5px;"></i></a></li>
-									<li><a href="#">Report <i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
+									<li><a href="#Report" data-toggle="modal" onclick="RCurrLID='<?php echo $eachRelated->LID;?>';RCurrModel='<?php echo $eachRelated->Model;?>';RCurrSellerID='<?php echo $eachRelated->LAddedBy;?>';">Report <i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
                                 </ul>
                             </div>
                         </div>
@@ -2983,78 +2963,7 @@
 		</div>
 		<!--end modal-dialog-->
 	</div>
-	<div class="modal fade" id="Report" tabindex="-1" role="basic" aria-hidden="true">
-		<div class="modal-dialog width-400px" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<div class="section-title">
-						<h2>Report</h2>
-					</div>
-				</div>
-				<div class="modal-body">
-					<form id="frmSubmitReport" onsubmit="event.preventDefault();submitReport();" class="form inputs-underline">
-						<div class="form-group">
-							<label for="name">Name<span class="noti-error">*</span></label>
-							<input type="text" class="form-control" name="SR_name" id="SR_name" placeholder="Your Name">
-						</div>
-						<!--end form-group-->
-						<div class="form-group">
-							<label for="email">Email<span class="noti-error">*</span></label>
-							<input type="email" class="form-control" name="SR_email" id="SR_buyer_email" placeholder="Your email">
-						</div>
-						<!--end form-group-->
-						<div class="form-group">
-							<label for="telephone">Telephone<span class="noti-error">*</span></label>
-							<input type="text" class="form-control" name="SR_telephone" id="SR_telephone" placeholder="+601234567890">
-						</div>
-						<!--end form-group-->
-						<div class="form-group">
-							<label for="description">Message<span class="noti-error">*</span></label>
-							<textarea class="form-control" id="SR_description" rows="4" name="SR_description" placeholder="Message to the seller" maxlength="100"></textarea>
-							<h6 class="pull-right" id="count_message"></h6>
-						</div>
-						<!--end form-group-->
-						<button id="btnSubmitReport" type="submit" value="Submit Report" class="btn btn-primary width-100">Submit Report</button>
-					</form>
-				</div>
-				<!--end modal-body-->
-				<hr>
-				<span class="noti-error">*</span>All field are required.
-			</div>
-			<!--end modal-content-->
-		</div>
-		<!--end modal-dialog-->
-	</div>
-
-	<div class="modal fade" id="ReportSuccess" tabindex="-1" role="basic" aria-hidden="true">
-		<div class="modal-dialog width-400px" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<div class="section-title center">
-						<h2>Success</h2>
-					</div>
-				</div>
-				<div class="modal-body">
-					<form class="form inputs-underline">
-						<div class="form-group center">
-						Your report to successfully submitted.
-						</div>
-						<!--end form-group-->
-						<div class="form-group center">
-							<button type="submit" class="btn btn-primary width-100">OK</button>
-						</div>
-						<!--end form-group-->
-					</form>
-					<!--end form-->
-				</div>
-				<!--end modal-body-->
-			</div>
-			<!--end modal-content-->
-		</div>
-		<!--end modal-dialog-->
-	</div>
+	
 	<script>
 	document.addEventListener('DOMContentLoaded', function() {
 		<?php $i = 0; foreach($listingImageData as $lid): $i++;?>

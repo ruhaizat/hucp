@@ -198,7 +198,7 @@
 										<li class="liblack_fav_<?php echo $favEleID;?>" style="<?php if($favCount > 0):?><?php echo 'display:none;'?><?php else:?><?php echo 'display:block;'?><?php endif;?>"><a onclick="MakeFavourite(<?php echo $LoggedUser['UserID'];?>,<?php echo $eachList->LID;?>)">Favorite<i class="fa fa-heart fi_<?php echo $favEleID;?>" style="padding-left:5px;color:black;"></i></a></li>
 									<?php endif;?>
 									<li><a href="#" onclick="AddCompare(<?php echo $eachList->LID;?>)">Compare <i class="fa fa-clone" style="padding-left: 5px;"></i></a></li>
-									<li><a href="#">Report <i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
+									<li><a href="#Report" data-toggle="modal">Report <i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
                                 </ul>
                             </div>
                             <!--end controls-more-->

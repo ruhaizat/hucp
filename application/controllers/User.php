@@ -41,6 +41,10 @@ class User extends CI_Controller {
 		
 		$query = $this->db->query("SELECT * FROM tbl_user WHERE ID = '$id'");
 		$data["user"] = $query->row();
+		
+		$query = $this->db->query("SELECT car_brand FROM tbl_specificationmaster Group By car_brand Order By car_brand ASC");
+		$data["brand"] = $query->result();
+		
 		$data["LoggedUser"] = $user_data;
 		$this->load->view('header', $data);
 		$this->load->view('user/index.php',$data);

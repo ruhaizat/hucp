@@ -156,6 +156,27 @@
 		$("#btnRegister").click(function(){
 			$(".h2RegisterTitle").text("Register");
 		});
+		$("select[name=selALBrand]").change(function(){
+			var car_brand = $("select[name=selALBrand] option:selected").text();
+			var datastr = '{"mode":"SelectBrand","car_brand":"'+car_brand+'"}';
+			$.ajax({
+				url: "<?php echo base_url();?>admin/ajax",
+				type: "POST",
+				data: {"datastr":datastr},
+				success: function(data){
+					$('select[name=selALModel]')
+						.find('option')
+						.remove()
+						.end()
+						.append('<option>Select a Model</option>');
+					var gs_model = JSON.parse(data);
+					gs_model.forEach(function(entry){
+						$('select[name=selALModel]').append('<option>' + entry.gs_model + '</option>');
+					});
+					$('select[name=selALModel]').selectpicker('refresh');
+				}
+			});
+		});
 		$("select[name=selALModel]").change(function(){
 			var gs_model = $("select[name=selALModel] option:selected").text();
 			var datastr = '{"mode":"SelectModel","gs_model":"'+gs_model+'"}';
@@ -546,6 +567,29 @@
 		});
 	}
 	//google.maps.event.addDomListener(window, 'load', initializeAL);
+	var RCurrLID = "";
+	var RCurrModel = "";
+	var RCurrSellerID = "";
+	function submitReport(){
+		var Name = $("#SR_name").val();
+		var Email = $("#SR_buyer_email").val();
+		var Telephone = $("#SR_telephone").val();
+		var Description = $("#SR_description").val();
+		var ListingID = RCurrLID;
+		var Model = RCurrModel;
+		var SellerID = RCurrSellerID;
+
+		var datastr = '{"mode":"Report","Name":"'+Name+'","Email":"'+Email+'","Telephone":"'+Telephone+'","Description":"'+Description+'","ListingID":"'+ListingID+'","SellerID":"'+SellerID+'","Model":"'+Model+'"}';
+		//alert(datastr);
+		$.ajax({
+			url: "<?php echo base_url();?>listing/ajax",
+			type: "POST",
+			data: {"datastr":datastr},
+			success: function(data){
+				$("#ReportSuccess").modal("show");
+			}
+		});
+	}
 </script>
 
 </body>

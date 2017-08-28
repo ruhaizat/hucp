@@ -67,6 +67,9 @@ class Listing extends CI_Controller {
 		$yearData = $queryYear->result();
 		$data["yearData"] = $yearData;
 		
+		$query = $this->db->query("SELECT car_brand FROM tbl_specificationmaster Group By car_brand Order By car_brand ASC");
+		$data["brand"] = $query->result();
+		
 		$this->load->view('header', $data);
 		$this->load->view('listing/index.php', $data);
 		$this->load->view('footer');
@@ -118,6 +121,9 @@ class Listing extends CI_Controller {
 		$priceThresData = $queryPriceThres->row();
 		$data["priceThresData"] = $priceThresData;
 		
+		$query = $this->db->query("SELECT car_brand FROM tbl_specificationmaster Group By car_brand Order By car_brand ASC");
+		$data["brand"] = $query->result();
+		
 		$this->load->view('header', $data);
 		$this->load->view('listing/index.php', $data);
 		$this->load->view('footer');
@@ -164,6 +170,9 @@ class Listing extends CI_Controller {
 		$queryPriceThres = $this->db->query("SELECT MIN(SellingPrice) AS MinVal, MAX(SellingPrice) AS MaxVal FROM tbl_listing WHERE Status = 1");
 		$priceThresData = $queryPriceThres->row();
 		$data["priceThresData"] = $priceThresData;
+		
+		$query = $this->db->query("SELECT car_brand FROM tbl_specificationmaster Group By car_brand Order By car_brand ASC");
+		$data["brand"] = $query->result();
 		
 		$this->load->view('header', $data);
 		$this->load->view('listing/index.php', $data);
@@ -228,6 +237,9 @@ class Listing extends CI_Controller {
 		//$data["specificationData"] = $specificationData;
 		$data["userData"] = $userData;
 		$data["LoggedUser"] = $user_data;
+		
+		$query = $this->db->query("SELECT car_brand FROM tbl_specificationmaster Group By car_brand Order By car_brand ASC");
+		$data["brand"] = $query->result();
 		
 		$this->load->view('header', $data);
 		$this->load->view('listing/details.php', $data);

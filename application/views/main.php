@@ -250,7 +250,7 @@
                             <a href="<?php echo base_url().'listing/details/'.$eachFeatured->LID.'/'.$eachFeatured->LAddedBy;?>">
                             <div class="description">
                                 <figure>RM<?php echo number_format($eachFeatured->SellingPrice);?></figure>
-                                <div class="label label-default">Used</div>
+                                <div class="label label-default"><?php echo $eachFeatured->Condition?></div>
                                 <h3><?php echo $eachFeatured->ManufacturingYear." ".$eachFeatured->Brand." ".$eachFeatured->ModelName;?></h3>
                                 <h4 style="padding: 0 0 5px 0;"><?php echo $eachFeatured->SpecificationName?></h4>
                                 <h4><i class="fa fa-map-marker"></i> <?php echo $eachFeatured->StateName;?></h4>
@@ -272,7 +272,7 @@
 										<li class="liblack_fav_<?php echo $favEleID;?>" style="<?php if($favCount > 0):?><?php echo 'display:none;'?><?php else:?><?php echo 'display:block;'?><?php endif;?>"><a onclick="MakeFavourite(<?php echo $LoggedUser['UserID'];?>,<?php echo $eachFeatured->LID;?>)">Favorite<i class="fa fa-heart fi_<?php echo $favEleID;?>" style="padding-left:5px;color:black;"></i></a></li>
 									<?php endif;?>
 									<li><a onclick="AddCompare(<?php echo $eachFeatured->LID;?>)">Compare<i class="fa fa-clone" style="padding-left: 5px;"></i></a></li>
-                                    <li><a href="#">Report<i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
+                                    <li><a href="#Report" data-toggle="modal">Report<i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
                                 </ul>
                             </div>
                             <!--end controls-more-->
@@ -310,7 +310,7 @@
                             <a href="<?php echo base_url().'listing/details/'.$eachRecent->LID.'/'.$eachRecent->LAddedBy;?>">
                                 <div class="description">
                                     <figure>RM<?php echo number_format($eachRecent->SellingPrice);?></figure>
-                                    <div class="label label-default">Used</div>
+                                    <div class="label label-default"><?php echo $eachRecent->Condition?></div>
                                     <h3><?php echo $eachRecent->ManufacturingYear." ".$eachRecent->Brand." ".$eachRecent->ModelName;?></h3>
                                     <h4 style="padding: 0 0 5px 0;"><?php echo $eachRecent->SpecificationName?></h4>
                                     <h4><i class="fa fa-map-marker"></i> <?php echo $eachRecent->StateName;?></h4>
@@ -332,7 +332,7 @@
 											<li class="liblack_fav_<?php echo $favEleID;?>" style="<?php if($favCount > 0):?><?php echo 'display:none;'?><?php else:?><?php echo 'display:block;'?><?php endif;?>"><a onclick="MakeFavourite(<?php echo $LoggedUser['UserID'];?>,<?php echo $eachRecent->LID;?>)">Favorite<i class="fa fa-heart fi_<?php echo $favEleID;?>" style="padding-left:5px;color:black;"></i></a></li>
 										<?php endif;?>
                                         <li><a onclick="AddCompare(<?php echo $eachRecent->LID;?>)">Compare <i class="fa fa-clone" style="padding-left: 5px;"></i></a></li>
-                                        <li><a href="#">Report <i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
+                                        <li><a href="#Report" data-toggle="modal">Report <i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
                                     </ul>
                                 </div>
                                 <!--end controls-more-->
@@ -399,7 +399,7 @@
                             <a href="<?php echo base_url().'listing/details/'.$eachViewed->LID.'/'.$eachViewed->LAddedBy;?>">
                                 <div class="description">
                                     <figure>RM<?php echo number_format($eachViewed->LSellingPrice);?></figure>
-                                    <div class="label label-default">Used</div>
+                                    <div class="label label-default"><?php echo $eachViewed->LCondition?></div>
                                     <h3><?php echo $eachViewed->LManufacturingYear." ".$eachViewed->LBrand." ".$eachViewed->ModelName;?></h3>
                                     <h4 style="padding: 0 0 5px 0;"><?php echo $eachViewed->SpecificationName?></h4>
                                     <h4><i class="fa fa-map-marker"></i> <?php echo $eachViewed->StateName;?></h4>
@@ -421,7 +421,7 @@
 											<li class="liblack_fav_<?php echo $favEleID;?>" style="<?php if($favCount > 0):?><?php echo 'display:none;'?><?php else:?><?php echo 'display:block;'?><?php endif;?>"><a onclick="MakeFavourite(<?php echo $LoggedUser['UserID'];?>,<?php echo $eachViewed->LID;?>)">Favorite<i class="fa fa-heart fi_<?php echo $favEleID;?>" style="padding-left:5px;color:black;"></i></a></li>
 										<?php endif;?>
                                         <li><a onclick="AddCompare(<?php echo $eachViewed->LID;?>)">Compare <i class="fa fa-clone" style="padding-left: 5px;"></i></a></li>
-                                        <li><a href="#">Report <i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
+                                        <li><a href="#Report" data-toggle="modal">Report <i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
                                     </ul>
                                 </div>
                                 <!--end controls-more-->
@@ -464,7 +464,7 @@
                             <a href="<?php echo base_url().'listing/details/'.$eachNew->LID.'/'.$eachNew->LAddedBy;?>">
                             <div class="description">
                                 <figure>RM<?php echo number_format($eachNew->SellingPrice);?></figure>
-                                <div class="label label-default">Used</div>
+                                <div class="label label-default"><?php echo $eachNew->Condition?></div>
                                 <h3><?php echo $eachNew->ManufacturingYear." ".$eachNew->Brand." ".$eachNew->ModelName;?></h3>
                                 <h4 style="padding: 0 0 5px 0;"><?php echo $eachNew->SpecificationName?></h4>
                                 <h4><i class="fa fa-map-marker"></i> <?php echo $eachNew->StateName;?></h4>
@@ -486,7 +486,7 @@
 										<li class="liblack_fav_<?php echo $favEleID;?>" style="<?php if($favCount > 0):?><?php echo 'display:none;'?><?php else:?><?php echo 'display:block;'?><?php endif;?>"><a onclick="MakeFavourite(<?php echo $LoggedUser['UserID'];?>,<?php echo $eachNew->LID;?>)">Favorite<i class="fa fa-heart fi_<?php echo $favEleID;?>" style="padding-left:5px;color:black;"></i></a></li>
 									<?php endif;?>
                                     <li><a onclick="AddCompare(<?php echo $eachNew->LID;?>)">Compare<i class="fa fa-clone" style="padding-left: 5px;"></i></a></li>
-                                    <li><a href="#">Report<i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
+                                    <li><a href="#Report" data-toggle="modal">Report<i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
                                 </ul>
                             </div>
                             <!--end controls-more-->

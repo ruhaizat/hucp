@@ -298,6 +298,9 @@ class Admin extends CI_Controller {
 		$stateData = $queryState->result();
 		$data["state"] = $stateData;
 		
+		$query = $this->db->query("SELECT car_brand FROM tbl_specificationmaster Group By car_brand Order By car_brand ASC");
+		$data["brand"] = $query->result();
+		
 		$this->load->view('header_admin');
 		$this->load->view('admin/ad/add.php', $data);
 		$this->load->view('footer_admin');
@@ -1107,6 +1110,13 @@ class Admin extends CI_Controller {
 			break;
 			case "DeleteAd":
 				$this->db->delete('tbl_listing', array('ID' => $obj->id));
+			break;
+			case "SelectBrand":
+				$car_brand = $obj->car_brand;
+				$query = $this->db->query("SELECT gs_model FROM tbl_specificationmaster WHERE car_brand = '$car_brand' AND gs_model <> '' GROUP BY gs_model");
+				$gs_model = $query->result();
+				
+				echo json_encode($gs_model);
 			break;
 			case "SelectModel":
 				$gs_model = $obj->gs_model;

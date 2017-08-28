@@ -150,6 +150,26 @@
 						$("select[name=selMileage]").change(function(){
 							$("input[name=Mileage]").val($("select[name=selMileage] option:selected").text());
 						});
+						$("select[name=selBrand]").change(function(){
+							var car_brand = $("select[name=selBrand] option:selected").text();
+							var datastr = '{"mode":"SelectBrand","car_brand":"'+car_brand+'"}';
+							$.ajax({
+								url: "<?php echo base_url();?>admin/ajax",
+								type: "POST",
+								data: {"datastr":datastr},
+								success: function(data){
+									$('select[name=selModel]')
+										.find('option')
+										.remove()
+										.end()
+										.append('<option>Select a Model</option>');
+									var gs_model = JSON.parse(data);
+									gs_model.forEach(function(entry){
+										$('select[name=selModel]').append('<option>' + entry.gs_model + '</option>');
+									});
+								}
+							});
+						});
 						$("select[name=selModel]").change(function(){
 							var gs_model = $("select[name=selModel] option:selected").text();
 							var datastr = '{"mode":"SelectModel","gs_model":"'+gs_model+'"}';
@@ -459,16 +479,16 @@
                                                     <label class="col-md-2 control-label">Brand</label>
                                                     <div class="col-md-4">
                                                         <select name="selBrand" class="form-control">
-                                                            <option>Hyundai</option>
+															<option>Select a Brand</option>
+															<?php foreach($brand as $eachbrand):?>
+															<option><?php echo $eachbrand->car_brand;?></option>
+															<?php endforeach;?>
                                                         </select>
                                                     </div>
                                                     <label class="col-md-2 control-label">Model</label>
                                                     <div class="col-md-4">
                                                         <select name="selModel" class="form-control">
                                                             <option>Select a Model</option>
-															<?php foreach($model as $eachModel):?>
-                                                            <option><?php echo $eachModel->gs_model;?></option>
-															<?php endforeach;?>
                                                         </select>
                                                     </div>
                                                 </div>
