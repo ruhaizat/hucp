@@ -63,6 +63,15 @@ class Admin extends CI_Controller {
 		$this->load->view('footer_admin');
 	}
 	
+	public function userimportexport()
+	{
+		$data['upload_ok'] = false;
+		$data['upload_error'] = false;
+		$this->load->view('header_admin');
+		$this->load->view('admin/user/importexport.php',$data);
+		$this->load->view('footer_admin');
+	}
+	
 	public function useradd()
 	{
 		$queryState = $this->db->query("SELECT * FROM tbl_state");
@@ -116,6 +125,8 @@ class Admin extends CI_Controller {
 	
 	public function subscriberall()
 	{
+		$data['upload_ok'] = false;
+		$data['upload_error'] = false;
 		$query = $this->db->query("SELECT S.ID AS ID, U.FirstName AS FirstName, S.EmailAddress AS EmailAddress, S.AddedOn AS AddedOn, S.IsSubscribe AS IsSubscribe FROM tbl_subscriber AS S LEFT JOIN tbl_user AS U ON S.EmailAddress = U.EmailAddress");
 		$data["users"] = $query->result();
 		
@@ -865,7 +876,7 @@ class Admin extends CI_Controller {
 	
 	public function newsletternew()
 	{		
-		$queryRecent = $this->db->query("SELECT *, L.ID AS LID, L.Model AS ModelName, L.Specification AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName FROM tbl_listing AS L LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE L.Status = 1 GROUP BY L.ID ORDER BY L.AddedOn DESC LIMIT 8");
+		$queryRecent = $this->db->query("SELECT * FROM tbl_latestlisting ORDER BY TS DESC LIMIT 8");
 		$recentData = $queryRecent->result();
 		$data["recentData"] = $recentData;
 		
@@ -1333,5 +1344,170 @@ class Admin extends CI_Controller {
 		file_put_contents(APPPATH . "../assets/img/newsletter/" . $name . ".png", $decoded);
 
 		echo $name . ".png";
+	}
+	
+	function exportSubscriber(){
+		// Load database and query
+		$this->load->database();
+		$query = $this->db->get('tbl_subscriber');
+
+		// Load database utility class
+		$this->load->dbutil();
+		// Create CSV output
+		$data = $this->dbutil->csv_from_result($query);
+
+		// Load download helper
+		$this->load->helper('download');
+		// Stream download
+		force_download('KUC_Subscribers.csv', $data);
+	}
+	
+	function importSubscriber(){
+		$config['upload_path']		='./assets/uploads';
+		$config['allowed_types']	= 'csv';
+		$config['max_size']			= '10240';
+			
+		$this->load->library('upload', $config);
+		
+		if ($this->upload->do_upload('file')){
+
+			$data = $this->upload->data();
+			
+			$total_updates = 0;			
+			$total_new = 0;			
+			$row = 0;			
+			
+			if (($handle = fopen(base_url().'assets/uploads/'.$data['file_name'], 'r')) !== FALSE) {
+			    while (($data = fgetcsv($handle, 1000, ',')) !== FALSE) {
+			        $num = count($data);
+			        if ($row == 0){
+				        for ($c=0; $c < $num; $c++) {
+							echo $data[$c];
+				        	$colnames[$c] = $data[$c];
+				        }
+			        } else {
+				        for ($c=0; $c < $num; $c++) {
+
+				            $rows[$row][$colnames[$c]] = $data[$c];
+				        }
+				        
+			        }
+			        $row++;
+			    }
+			    fclose($handle);
+			}
+			foreach ($rows as $row){
+				$ID = $row['ID'];				
+				$query = $this->db->query("SELECT * FROM tbl_subscriber WHERE ID = ?", array($ID));
+				if ($query->num_rows()){
+					$this->db->update("tbl_subscriber", $row, "ID = '{$ID}'");
+					$total_updates++;
+				} else {
+					$this->db->insert("tbl_subscriber", $row);
+					$total_new++;
+				}
+			
+			}
+			
+			$data['upload_ok'] = true;
+			$data['upload_error'] = false;
+			
+		} else {
+			$data['upload_ok'] = false;
+			$data['upload_error'] = true;
+		}
+		
+		$data['tab'] = 'main';
+		
+		$data['total_updates'] 	= $total_updates;
+		$data['total_new']		= $total_new;
+		
+		$query = $this->db->query("SELECT S.ID AS ID, U.FirstName AS FirstName, S.EmailAddress AS EmailAddress, S.AddedOn AS AddedOn, S.IsSubscribe AS IsSubscribe FROM tbl_subscriber AS S LEFT JOIN tbl_user AS U ON S.EmailAddress = U.EmailAddress");
+		$data["users"] = $query->result();
+		
+		$this->load->view('header_admin');
+		$this->load->view('admin/user/importexport.php', $data);
+		$this->load->view('footer_admin');
+	}
+	
+	function exportUser(){
+		// Load database and query
+		$this->load->database();
+		$query = $this->db->get('tbl_user');
+
+		// Load database utility class
+		$this->load->dbutil();
+		// Create CSV output
+		$data = $this->dbutil->csv_from_result($query);
+
+		// Load download helper
+		$this->load->helper('download');
+		// Stream download
+		force_download('KUC_Users.csv', $data);
+	}
+	
+	function importUser(){
+		$config['upload_path']		='./assets/uploads';
+		$config['allowed_types']	= 'csv';
+		$config['max_size']			= '10240';
+			
+		$this->load->library('upload', $config);
+		
+		if ($this->upload->do_upload('file')){
+
+			$data = $this->upload->data();
+			
+			$total_updates = 0;			
+			$total_new = 0;			
+			$row = 0;			
+			
+			if (($handle = fopen(base_url().'assets/uploads/'.$data['file_name'], 'r')) !== FALSE) {
+			    while (($data = fgetcsv($handle, 1000, ',')) !== FALSE) {
+			        $num = count($data);
+			        if ($row == 0){
+				        for ($c=0; $c < $num; $c++) {
+							echo $data[$c];
+				        	$colnames[$c] = $data[$c];
+				        }
+			        } else {
+				        for ($c=0; $c < $num; $c++) {
+
+				            $rows[$row][$colnames[$c]] = $data[$c];
+				        }
+				        
+			        }
+			        $row++;
+			    }
+			    fclose($handle);
+			}
+			foreach ($rows as $row){
+				$ID = $row['ID'];				
+				$query = $this->db->query("SELECT * FROM tbl_user WHERE ID = ?", array($ID));
+				if ($query->num_rows()){
+					$this->db->update("tbl_user", $row, "ID = '{$ID}'");
+					$total_updates++;
+				} else {
+					$this->db->insert("tbl_user", $row);
+					$total_new++;
+				}
+			
+			}
+			
+			$data['upload_ok'] = true;
+			$data['upload_error'] = false;
+			
+		} else {
+			$data['upload_ok'] = false;
+			$data['upload_error'] = true;
+		}
+		
+		$data['tab'] = 'main';
+		
+		$data['total_updates'] 	= $total_updates;
+		$data['total_new']		= $total_new;
+		
+		$this->load->view('header_admin');
+		$this->load->view('admin/user/importexport.php', $data);
+		$this->load->view('footer_admin');
 	}
 }

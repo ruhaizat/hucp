@@ -393,13 +393,13 @@ class Main extends CI_Controller {
 							);
 							$this->session->set_userdata("LoggedUser", $session_data);
 							
-							$accountResult = 0;					
+							$accountResult = 0;			
 						}
 					}
 				}
 				
 				if($accountResult == 0){
-					echo "Account active";
+					echo "Account active|".$_SERVER['HTTP_REFERER'];
 				}elseif($accountResult == 1){
 					echo "Account not found";
 				}elseif($accountResult == 2){
@@ -750,5 +750,43 @@ class Main extends CI_Controller {
 		else
 			$ipaddress = 'UNKNOWN';
 		return $ipaddress;
+	}
+	
+	function savePNG(){
+		$image = $_POST['image'];
+		$name = time();
+
+		$image = str_replace('data:image/jpeg;base64,', '', $image);
+		$decoded = base64_decode($image);
+		
+		file_put_contents(APPPATH . "../assets/img/newsletter/" . $name . ".jpeg", $decoded);
+		
+		$LID = $_POST['LID'];
+		$LAddedBy = $_POST['LAddedBy'];
+
+		$filename = $name . ".jpeg";
+		
+		$data = array(
+			"FileName" => $filename,
+			"ListingID" => $LID,
+			"AddedBy" => $LAddedBy,
+			"TS" => date("Y-m-d H:i:s")
+		);
+
+		$this->db->insert('tbl_latestlisting', $data);		
+		
+		echo $name . ".png";
+	}
+	
+	function getLatestListingByID(){
+		$LID = $_POST['LID'];
+		
+		$query = $this->db->query("SELECT * FROM tbl_latestlisting WHERE ListingID = '$LID'");
+		
+		if($query->num_rows() == 0){
+			echo "OK";
+		}else{
+			echo "KO";
+		}
 	}
 }

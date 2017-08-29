@@ -60,8 +60,9 @@
 			type: "POST",
 			data: {"datastr":datastr},
 			success: function(data){
-				if(data == "Account active"){
-					window.location.replace("<?php echo base_url();?>main");
+				if(data.includes("Account active")){
+					var httprefer = data.split("|")[1];
+					window.location.replace(httprefer);
 				}else{
 					$("#SignInError").show();
 					if(data == "Account not verify"){

@@ -176,6 +176,11 @@ Contact: kenny@kni.com.my
                                             <span class="title">Add User</span>
                                         </a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a href="<?php echo base_url();?>admin/userimportexport" class="nav-link ">
+                                            <span class="title">Import / Export</span>
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
                             <li class="nav-item">
@@ -254,7 +259,7 @@ Contact: kenny@kni.com.my
                                     </li>
                                 </ul>
                             </li>
-                            <li class="nav-item">
+                            <!--<li class="nav-item">
                                 <a href="javascript:;" class="nav-link nav-toggle">
                                     <i class="icon-doc"></i>
                                     <span class="title">Export CSV</span>
@@ -268,7 +273,7 @@ Contact: kenny@kni.com.my
                                       </a>
                                   </li>
                                 </ul>
-                            </li>
+                            </li>-->
                             <li class="nav-item">
                                 <a href="javascript:;" class="nav-link nav-toggle">
                                     <i class="icon-doc"></i>

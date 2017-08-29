@@ -1,3 +1,5 @@
+	
+	<script src="<?php echo base_url();?>assets/js/html2canvas.min.js"></script>
 	<script>
 		function AddCompare(ListingID){
 			if($("#liCompare_"+ListingID).length == 0){
@@ -150,6 +152,49 @@
 			valuemax = valuemax.replace(".", "");
 			
 			window.location = "<?php echo base_url();?>listing/ViewNewCars/"+valuemin+"/" + valuemax;
+		}
+			
+		var counth2c = 1;
+		window.onload = function() {
+			soch2c();
+		};
+		window.soch2c = function(){
+			var nameAttr = $("#divER_"+counth2c).attr("name");
+			var LID = nameAttr.split("_")[0];
+			$.ajax({
+				type: "POST",
+				url: "Main/getLatestListingByID",
+				data: "LID="+LID,
+				success : function(data)
+				{
+					if(data == "OK"){
+						html2canvas(document.getElementById("divER_"+counth2c), {
+							onrendered: function(canvas) {
+								var img = canvas.toDataURL("image/jpeg");
+								var output = encodeURIComponent(img);
+								var LAddedBy = nameAttr.split("_")[1];
+								var Parameters = "image="+output+"&LID="+LID+"&LAddedBy="+LAddedBy;
+								$.ajax({
+									type: "POST",
+									url: "Main/savePNG",
+									data: Parameters,
+									success : function(data)
+									{
+										counth2c++;
+										if(counth2c <= 8){setTimeout(function(){ soch2c(); }, 1000);}
+										else{counth2c = 1;}
+									}
+								});
+							}
+						});						
+					}else{
+						counth2c++;
+						if(counth2c <= 8){setTimeout(function(){ soch2c(); }, 1000);}
+						else{counth2c = 1;}
+					}
+				}
+			});
+
 		}
 	</script>
     <div id="page-content">
@@ -306,7 +351,7 @@
                 <div class="row">
 					<?php $i = 0;foreach($recentData as $eachRecent):$i++;?>
                     <div class="col-md-3 col-sm-3">
-						<div class="item" data-id="<?php echo $eachRecent->LID;?>">
+						<div id="divER_<?php echo $i;?>" class="item" data-id="<?php echo $eachRecent->LID;?>" name="<?php echo $eachRecent->LID.'_'.$eachRecent->LAddedBy;?>">
                             <a href="<?php echo base_url().'listing/details/'.$eachRecent->LID.'/'.$eachRecent->LAddedBy;?>">
                                 <div class="description">
                                     <figure>RM<?php echo number_format($eachRecent->SellingPrice);?></figure>
@@ -316,7 +361,7 @@
                                     <h4><i class="fa fa-map-marker"></i> <?php echo $eachRecent->StateName;?></h4>
                                 </div>
                                 <!--end description-->
-                                <div class="image bg-transfer">
+                                <div class="bg-transfer">
                                     <img src="<?php if($eachRecent->ListingPic): echo base_url();?>assets/img/listing/<?php echo $eachRecent->ListingPic;?><?php else: echo base_url().'assets/img/items/default.png'?><?php endif;?>" alt="">
                                 </div>
                                 <!--end image-->
