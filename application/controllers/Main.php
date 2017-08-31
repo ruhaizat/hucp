@@ -36,9 +36,13 @@ class Main extends CI_Controller {
 		$data["featuredDataCount"] = $queryFeatured->num_rows();
 		
 		//$IPAddress = $this->get_client_ip();
-		$queryRecentViewed = $this->db->query("SELECT MAX(RV.ID), L.ManufacturingYear AS LManufacturingYear, L.Brand AS LBrand, L.SellingPrice AS LSellingPrice, RV.ID AS RVID, L.ID AS LID, L.Model AS ModelName, L.Specification AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName, LI.ListingPic AS LListingPic FROM tbl_recentlyviewed AS RV INNER JOIN tbl_listing AS L ON RV.ListingID = L.ID LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE L.Status = 1 GROUP BY RV.ListingID ORDER BY MAX(RV.ID) DESC LIMIT 4");
+		$queryRecentViewed = $this->db->query("SELECT MAX(RV.ID), L.ManufacturingYear AS LManufacturingYear, L.Brand AS LBrand, L.SellingPrice AS LSellingPrice, RV.ID AS RVID, L.ID AS LID, L.Model AS ModelName, L.Specification AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName, LI.ListingPic AS LListingPic, L.Condition AS LCondition FROM tbl_recentlyviewed AS RV INNER JOIN tbl_listing AS L ON RV.ListingID = L.ID LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE L.Status = 1 GROUP BY RV.ListingID ORDER BY MAX(RV.ID) DESC LIMIT 4");
 		$recentViewedData = $queryRecentViewed->result();
 		$data["recentViewed"] = $recentViewedData;
+		
+		$queryNew = $this->db->query("SELECT *, L.ID AS LID,L.Model AS ModelName, L.Specification AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName FROM tbl_listing AS L LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE L.Status = 1 AND L.Condition = 'New' GROUP BY L.ID ORDER BY L.AddedOn DESC LIMIT 12");
+		$newData = $queryNew->result();
+		$data["newData"] = $newData;
 		
 		//$queryModel = $this->db->query("SELECT * FROM tbl_model");
 		//$modelData = $queryModel->result();
@@ -58,6 +62,9 @@ class Main extends CI_Controller {
 		$queryPriceThres = $this->db->query("SELECT MIN(SellingPrice) AS MinVal, MAX(SellingPrice) AS MaxVal FROM tbl_listing WHERE Status = 1");
 		$priceThresData = $queryPriceThres->row();
 		$data["priceThresData"] = $priceThresData;
+		
+		$query = $this->db->query("SELECT car_brand FROM tbl_specificationmaster Group By car_brand Order By car_brand ASC");
+		$data["brand"] = $query->result();
 		
 		$this->load->view("header", $data);
 		$this->load->view("main", $data);
@@ -178,19 +185,19 @@ class Main extends CI_Controller {
 		$this->db->insert("tbl_verifyemail", $data);
 		
 		$config = Array(
-			'protocol' => 'smtp',
-			'smtp_host' => 'mail.ruhaizat.my',
-			'smtp_port' => 587,
-			'smtp_user' => 'suhucp@ruhaizat.my', // change it to yours
-			'smtp_pass' => 'hyundai1234', // change it to yours
-			'mailtype' => 'html',
-			'charset' => 'iso-8859-1',
-			'wordwrap' => TRUE
+			'protocol' => $this->config->item('hucp_mail_protocol'),
+			'smtp_host' => $this->config->item('hucp_mail_smtp_host'),
+			'smtp_port' => $this->config->item('hucp_mail_smtp_port'),
+			'smtp_user' => $this->config->item('hucp_mail_smtp_user'),
+			'smtp_pass' => $this->config->item('hucp_mail_smtp_pass'),
+			'mailtype' => $this->config->item('hucp_mail_mailtype'),
+			'charset' => $this->config->item('hucp_mail_charset'),
+			'wordwrap' => $this->config->item('hucp_mail_wordwrap')
 		);
 		
 		$this->load->library('email', $config);
 		$this->email->set_newline("\r\n");
-		$this->email->from('suhucp@ruhaizat.my', "Admin Hyundai Used Car Platform");
+		$this->email->from($this->config->item('hucp_mail_mailer_email'), $this->config->item('hucp_mail_mailer_name'));
 		$this->email->to($pEmailAddress);  
 		$this->email->subject("Email Verification");
 		$this->email->message("Dear New User,<br/><br/>Please click on below URL or paste into your browser to verify your Email Address<br/><br/> <a href='".base_url()."main/verify/".$genToken."'>Verification link</a>"."<br/><br/>This verification link will expired in 3 days.<br/><br/>Thanks<br/>Hyundai Used Car Platform");
@@ -256,6 +263,7 @@ class Main extends CI_Controller {
 			"ManufacturingYear" 	=> $ManufacturingYear,
 			"Transmission" 			=> $Transmission,
 			"Specification" 		=> $Specification,	
+			"Condition" 		=> $Condition,	
 			"Colour" 				=> $Colour,	
 			"Mileage" 				=> $Mileage,
 			"State" 				=> $State,
@@ -385,13 +393,13 @@ class Main extends CI_Controller {
 							);
 							$this->session->set_userdata("LoggedUser", $session_data);
 							
-							$accountResult = 0;					
+							$accountResult = 0;			
 						}
 					}
 				}
 				
 				if($accountResult == 0){
-					echo "Account active";
+					echo "Account active|".$_SERVER['HTTP_REFERER'];
 				}elseif($accountResult == 1){
 					echo "Account not found";
 				}elseif($accountResult == 2){
@@ -409,6 +417,7 @@ class Main extends CI_Controller {
 				$emailAddress = $obj->EmailAddress;
 				$mobile = $obj->Mobile;
 				$password = $obj->Password;
+				$newsletter_subscription = $obj->newsletter_subscription;
 				//$firstName = $obj->FirstName;
 				//$lastName = $obj->LastName;
 				$query = $this->db->query("SELECT * FROM tbl_user WHERE EmailAddress = '$emailAddress'");
@@ -429,7 +438,7 @@ class Main extends CI_Controller {
 					   "Password" => $hash,
 					   //"FirstName" => $firstName,
 					   //"LastName" => $lastName,
-					   "MembershipType" => "Basic",
+					   "MembershipType" => "Basic Member",
 					   "ProfilePic" => "default.jpg",
 					   "Status" => 1,
 					   "AddedOn" => date("Y-m-d H:i:s")
@@ -437,6 +446,17 @@ class Main extends CI_Controller {
 
 					$this->db->insert("tbl_user", $data);
 					$insert_id = $this->db->insert_id();
+					
+					if($newsletter_subscription == "true"){
+						$datans = array(
+						   "Type" => 1,
+						   "EmailAddress" => $emailAddress,
+						   "IsSubscribe" => 1,
+						   "AddedOn" => date("Y-m-d H:i:s")
+						);
+
+						$this->db->insert("tbl_subscriber", $datans);
+					}
 					
 					$this->sendverifyemail($insert_id, $emailAddress);
 					//echo $this->email->print_debugger();
@@ -608,7 +628,7 @@ class Main extends CI_Controller {
 				$ListingID = $obj->ListingID;
 				$compareCount = count($compareData);
 				
-				$query = $this->db->query("SELECT L.Brand AS BrandName, L.ID AS LID, L.Model AS ModelName, L.Specification AS SpecificationName, L.SellingPrice AS SellingPrice, L.Mileage AS Mileage, LI.ListingPic AS ListingPic FROM tbl_listing AS L LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID WHERE L.ID = ".$ListingID);
+				$query = $this->db->query("SELECT L.Brand AS BrandName, L.ID AS LID, L.Model AS ModelName, L.Specification AS SpecificationName, L.SellingPrice AS SellingPrice, L.Mileage AS Mileage, LI.ListingPic AS ListingPic, L.AddedBy AS LAddedBy FROM tbl_listing AS L LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID WHERE L.ID = ".$ListingID);
 				$queryCompare = $query->row();
 				
 				if($compareCount == 1){
@@ -639,7 +659,7 @@ class Main extends CI_Controller {
 				
 				$this->session->set_userdata('compareData', $compareData); 
 				//$this->session->unset_userdata('compareData');
-				echo $compareCount."|".$queryCompare->BrandName."|".$queryCompare->ModelName."|".$queryCompare->SpecificationName."|".number_format($queryCompare->SellingPrice)."|".$queryCompare->Mileage."|".$queryCompare->ListingPic;
+				echo $compareCount."|".$queryCompare->BrandName."|".$queryCompare->ModelName."|".$queryCompare->SpecificationName."|".number_format($queryCompare->SellingPrice)."|".$queryCompare->Mileage."|".$queryCompare->ListingPic."|".$queryCompare->LID."|".$queryCompare->LAddedBy;
 			break;
 			case "RemoveCompare":
 			    $compareData = $this->session->userdata('compareData');
@@ -730,5 +750,43 @@ class Main extends CI_Controller {
 		else
 			$ipaddress = 'UNKNOWN';
 		return $ipaddress;
+	}
+	
+	function savePNG(){
+		$image = $_POST['image'];
+		$name = time();
+
+		$image = str_replace('data:image/jpeg;base64,', '', $image);
+		$decoded = base64_decode($image);
+		
+		file_put_contents(APPPATH . "../assets/img/newsletter/" . $name . ".jpeg", $decoded);
+		
+		$LID = $_POST['LID'];
+		$LAddedBy = $_POST['LAddedBy'];
+
+		$filename = $name . ".jpeg";
+		
+		$data = array(
+			"FileName" => $filename,
+			"ListingID" => $LID,
+			"AddedBy" => $LAddedBy,
+			"TS" => date("Y-m-d H:i:s")
+		);
+
+		$this->db->insert('tbl_latestlisting', $data);		
+		
+		echo $name . ".png";
+	}
+	
+	function getLatestListingByID(){
+		$LID = $_POST['LID'];
+		
+		$query = $this->db->query("SELECT * FROM tbl_latestlisting WHERE ListingID = '$LID'");
+		
+		if($query->num_rows() == 0){
+			echo "OK";
+		}else{
+			echo "KO";
+		}
 	}
 }

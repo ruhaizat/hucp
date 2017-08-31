@@ -90,6 +90,9 @@
 									.draw();
 							}
 						});
+						$('#iExport').click(function(){
+							window.location.href = "exportSubscriber";
+						});
 					});
 				</script>
                 <!-- BEGIN CONTENT -->
@@ -113,12 +116,32 @@
                                     </div>
 
                                         <div class="form-body">
+											<div class="form-body">
+												<input id="iExport" type="button" class="btn green" value="Export CSV" />
+												<br/>
+												<br/>
+												<br/>
+												<form method="post" enctype="multipart/form-data" action="importSubscriber">
+													<input type="file" name="file" /><br />
+													<input type="submit" class="btn green" value="Import (CSV)" />
+												</form>
+												<?php if ($upload_error): ?>
+													<p class="notice">Invalid file</p>
+												<?php endif; ?>
+												<?php if ($upload_ok): ?>
+													<p class="notice">
+														<?php echo number_format($total_updates); ?> Record Updated. <?php echo number_format($total_new); ?> Record Added. 
+													</p>
+												<?php endif; ?>
+											</div>
+											<br/>
                                             <div class="form-group">
                                                 <div class="input-group">
                                                     <span class="input-group-addon">
                                                         <i class="fa fa-search"></i>
                                                     </span>
-                                                    <input id="txtSearch" type="text" class="form-control" placeholder="Search advertisement title or user's name"> </div>
+                                                    <input id="txtSearch" type="text" class="form-control" placeholder="Search name, email address or subscribe date">
+												</div>
                                             </div>
                                         </div>
 

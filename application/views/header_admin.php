@@ -176,6 +176,11 @@ Contact: kenny@kni.com.my
                                             <span class="title">Add User</span>
                                         </a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a href="<?php echo base_url();?>admin/userimportexport" class="nav-link ">
+                                            <span class="title">Import / Export</span>
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
                             <li class="nav-item">
@@ -254,7 +259,7 @@ Contact: kenny@kni.com.my
                                     </li>
                                 </ul>
                             </li>
-                            <li class="nav-item">
+                            <!--<li class="nav-item">
                                 <a href="javascript:;" class="nav-link nav-toggle">
                                     <i class="icon-doc"></i>
                                     <span class="title">Export CSV</span>
@@ -265,6 +270,51 @@ Contact: kenny@kni.com.my
                                   <li class="nav-item start ">
                                       <a href="#" class="nav-link" onclick="ExportCSVUser();">
                                           <span class="title">User</span>
+                                      </a>
+                                  </li>
+                                </ul>
+                            </li>-->
+                            <li class="nav-item">
+                                <a href="javascript:;" class="nav-link nav-toggle">
+                                    <i class="icon-doc"></i>
+                                    <span class="title">Contact Tracking</span>
+                                    <span class="selected"></span>
+                                    <span class="arrow open"></span>
+                                </a>
+                                <ul class="sub-menu">
+                                  <li class="nav-item start ">
+                                      <a href="<?php echo base_url();?>admin/contacttracking" class="nav-link">
+                                          <span class="title">View</span>
+                                      </a>
+                                  </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a href="javascript:;" class="nav-link nav-toggle">
+                                    <i class="icon-doc"></i>
+                                    <span class="title">Report</span>
+                                    <span class="selected"></span>
+                                    <span class="arrow open"></span>
+                                </a>
+                                <ul class="sub-menu">
+                                  <li class="nav-item start ">
+                                      <a href="<?php echo base_url();?>admin/report" class="nav-link">
+                                          <span class="title">View</span>
+                                      </a>
+                                  </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a href="javascript:;" class="nav-link nav-toggle">
+                                    <i class="icon-doc"></i>
+                                    <span class="title">Email Setting</span>
+                                    <span class="selected"></span>
+                                    <span class="arrow open"></span>
+                                </a>
+                                <ul class="sub-menu">
+                                  <li class="nav-item start ">
+                                      <a href="<?php echo base_url();?>admin/emailsetting" class="nav-link">
+                                          <span class="title">Set Now</span>
                                       </a>
                                   </li>
                                 </ul>

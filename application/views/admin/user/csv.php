@@ -331,6 +331,7 @@
                                                   <label class="col-md-3 control-label">State</label>
                                                   <div class="col-md-4">
                                                       <select id="selState" class="form-control">
+<<<<<<< HEAD
                                                           <option>Select a state</option>
 																													<option value="1">Kuala Lumpur</option>
 													                                <option value="2">Selangor</option>
@@ -348,6 +349,11 @@
 													                                <option value="9">Perlis</option>
 													                                <option value="9">Putrajaya</option>
 													                                <option value="9">Labuan</option>
+=======
+                                                          <option value="">Select a state</option>
+                                                          <option>Kuala Lumpur</option>
+                                                          <option>Selangor</option>
+>>>>>>> 59466521cf931206fd5d02a2373b686eb2ed1d38
                                                       </select>
                                                       <span class="help-block font-red-mint err-state" style="display:none;"> Please select a state. </span>
                                                   </div>

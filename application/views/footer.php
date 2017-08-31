@@ -60,8 +60,9 @@
 			type: "POST",
 			data: {"datastr":datastr},
 			success: function(data){
-				if(data == "Account active"){
-					window.location.replace("<?php echo base_url();?>main");
+				if(data.includes("Account active")){
+					var httprefer = data.split("|")[1];
+					window.location.replace(httprefer);
 				}else{
 					$("#SignInError").show();
 					if(data == "Account not verify"){
@@ -79,7 +80,16 @@
 		var pMobile = $("#reg_mobile").val();
 		var pPassword = $("#reg_password").val();
 		var pConfirmPassword = $("#reg_confirm_password").val();
+		var pNewsletter_subscription = "";
 		var isProceed = true;
+		
+		if($("#newsletter_subscription").is(':checked')){
+			pNewsletter_subscription = "true";
+		}
+		else{
+			pNewsletter_subscription = "false";
+		}
+		
 		//var pFirstName = $("#reg_first_name").val();
 		//var pLastName = $("#reg_last_name").val();
 		if(pMobile == ""){
@@ -112,7 +122,7 @@
 		}
 		
 		if(isProceed == true){
-			var datastr = '{"mode":"Register","EmailAddress":"'+pEmail+'","Password":"'+pPassword+'","Mobile":"'+pMobile+'"}';
+			var datastr = '{"mode":"Register","EmailAddress":"'+pEmail+'","Password":"'+pPassword+'","Mobile":"'+pMobile+'","newsletter_subscription":"'+pNewsletter_subscription+'"}';
 			$.ajax({
 				url: "<?php echo base_url();?>main/ajax",
 				type: "POST",
@@ -146,6 +156,27 @@
 		});
 		$("#btnRegister").click(function(){
 			$(".h2RegisterTitle").text("Register");
+		});
+		$("select[name=selALBrand]").change(function(){
+			var car_brand = $("select[name=selALBrand] option:selected").text();
+			var datastr = '{"mode":"SelectBrand","car_brand":"'+car_brand+'"}';
+			$.ajax({
+				url: "<?php echo base_url();?>admin/ajax",
+				type: "POST",
+				data: {"datastr":datastr},
+				success: function(data){
+					$('select[name=selALModel]')
+						.find('option')
+						.remove()
+						.end()
+						.append('<option>Select a Model</option>');
+					var gs_model = JSON.parse(data);
+					gs_model.forEach(function(entry){
+						$('select[name=selALModel]').append('<option>' + entry.gs_model + '</option>');
+					});
+					$('select[name=selALModel]').selectpicker('refresh');
+				}
+			});
 		});
 		$("select[name=selALModel]").change(function(){
 			var gs_model = $("select[name=selALModel] option:selected").text();
@@ -537,6 +568,29 @@
 		});
 	}
 	//google.maps.event.addDomListener(window, 'load', initializeAL);
+	var RCurrLID = "";
+	var RCurrModel = "";
+	var RCurrSellerID = "";
+	function submitReport(){
+		var Name = $("#SR_name").val();
+		var Email = $("#SR_buyer_email").val();
+		var Telephone = $("#SR_telephone").val();
+		var Description = $("#SR_description").val();
+		var ListingID = RCurrLID;
+		var Model = RCurrModel;
+		var SellerID = RCurrSellerID;
+
+		var datastr = '{"mode":"Report","Name":"'+Name+'","Email":"'+Email+'","Telephone":"'+Telephone+'","Description":"'+Description+'","ListingID":"'+ListingID+'","SellerID":"'+SellerID+'","Model":"'+Model+'"}';
+		//alert(datastr);
+		$.ajax({
+			url: "<?php echo base_url();?>listing/ajax",
+			type: "POST",
+			data: {"datastr":datastr},
+			success: function(data){
+				$("#ReportSuccess").modal("show");
+			}
+		});
+	}
 </script>
 
 </body>

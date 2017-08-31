@@ -69,11 +69,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <ul class="ulCompare">
 										<?php if($this->session->userdata('compareData')):?>
 											<?php $compareData = $this->session->userdata('compareData'); foreach($compareData as $compareEach):?>
-											<?php $query = $this->db->query("SELECT L.Brand AS BrandName, L.ID AS LID, L.Model AS ModelName, L.Specification AS SpecificationName, L.SellingPrice AS SellingPrice, L.Mileage AS Mileage, LI.ListingPic AS ListingPic FROM tbl_listing AS L LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID WHERE L.ID = ".$compareEach);$queryCompare = $query->row();?>
+											<?php $query = $this->db->query("SELECT L.Brand AS BrandName, L.ID AS LID, L.Model AS ModelName, L.Specification AS SpecificationName, L.SellingPrice AS SellingPrice, L.Mileage AS Mileage, LI.ListingPic AS ListingPic, L.AddedBy AS LAddedBy FROM tbl_listing AS L LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID WHERE L.ID = ".$compareEach);$queryCompare = $query->row();?>
 											<li id="liCompare_<?php echo $compareEach;?>" style="padding: 5px; height: 90px;">
 											  <div style="width: 80px; height: 80px; float: left; background-image: url('<?php if($queryCompare->ListingPic): echo base_url();?>assets/img/listing/<?php echo $queryCompare->ListingPic;?><?php else: echo base_url().'assets/img/items/default.png'?><?php endif;?>'); background-position: center; overflow: hidden; background-size: cover; margin-right: 10px;"></div>
 											  <div class="row" style="width: 400px; height: 80px;">
-												<b><?php echo $queryCompare->BrandName;?> <?php echo $queryCompare->ModelName;?></b><br/>
+												<a href="<?php echo base_url().'listing/details/'.$queryCompare->LID.'/'.$queryCompare->LAddedBy;?>"><b><?php echo $queryCompare->BrandName;?> <?php echo $queryCompare->ModelName;?></b></a>
 												<?php echo $queryCompare->SpecificationName;?> | RM<?php echo number_format($queryCompare->SellingPrice);?> | <?php echo $queryCompare->Mileage;?>KM<br/>
 												<a href="#" onclick="RemoveCompare(<?php echo $compareEach;?>);"><i class="fa fa-close"></i> Remove</a>
 											  </div>
@@ -209,6 +209,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<div id="noti-error-pwd-match" class="noti-error" style="display:none;">Password does not match.</div>
 						</div>
 						<!--end form-group-->
+						<div class="form-group">
+							<label for="confirm_password">Newsletter Subscription</label>
+							<br/>
+							<br/>
+							<input type="checkbox" name="newsletter_subscription" id="newsletter_subscription" checked>Allow system to send marketing email
+						</div>
+						<!--end form-group-->
+							<br/>
 						<div class="form-group center">
 							<button id="btnRegister" type="submit" class="btn btn-primary width-100" value="Reg">Register Now</button>
 						</div>
@@ -365,7 +373,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="form-group">
 										<label for="title">Brand</label>
 										<select class="form-control selectpicker" name="selALBrand" id="selALBrand">
-											<option>Hyundai</option>
+											<option>Select a Brand</option>
+											<?php foreach($brand as $eachbrand):?>
+                                            <option><?php echo $eachbrand->car_brand;?></option>
+											<?php endforeach;?>
 										</select>
 									</div>
 									<!--end form-group-->
@@ -457,9 +468,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<label for="title">Model</label>
 										<select class="form-control selectpicker" name="selALModel" id="selALModel">
 											<option>Select a Model</option>
-											<?php foreach($model as $eachModel):?>
-                                            <option><?php echo $eachModel->gs_model;?></option>
-											<?php endforeach;?>
 										</select>
 									</div>
 									<!--end form-group-->
@@ -1247,4 +1255,79 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<!--end modal-content-->
 		</div>
 		<!--end modal-dialog-->
+<<<<<<< HEAD
 	</div>
+=======
+	</div><div class="modal fade" id="Report" tabindex="-1" role="basic" aria-hidden="true">
+		<div class="modal-dialog width-400px" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<div class="section-title">
+						<h2>Report</h2>
+					</div>
+				</div>
+				<div class="modal-body">
+					<form id="frmSubmitReport" onsubmit="event.preventDefault();submitReport();" class="form inputs-underline">
+						<div class="form-group">
+							<label for="name">Name<span class="noti-error">*</span></label>
+							<input type="text" class="form-control" name="SR_name" id="SR_name" placeholder="Your Name">
+						</div>
+						<!--end form-group-->
+						<div class="form-group">
+							<label for="email">Email<span class="noti-error">*</span></label>
+							<input type="email" class="form-control" name="SR_email" id="SR_buyer_email" placeholder="Your email">
+						</div>
+						<!--end form-group-->
+						<div class="form-group">
+							<label for="telephone">Telephone<span class="noti-error">*</span></label>
+							<input type="text" class="form-control" name="SR_telephone" id="SR_telephone" placeholder="+601234567890">
+						</div>
+						<!--end form-group-->
+						<div class="form-group">
+							<label for="description">Message<span class="noti-error">*</span></label>
+							<textarea class="form-control" id="SR_description" rows="4" name="SR_description" placeholder="Message to the seller" maxlength="100"></textarea>
+							<h6 class="pull-right" id="count_message"></h6>
+						</div>
+						<!--end form-group-->
+						<button id="btnSubmitReport" type="submit" value="Submit Report" class="btn btn-primary width-100">Submit Report</button>
+					</form>
+				</div>
+				<!--end modal-body-->
+				<hr>
+				<span class="noti-error">*</span>All field are required.
+			</div>
+			<!--end modal-content-->
+		</div>
+		<!--end modal-dialog-->
+	</div>
+
+	<div class="modal fade" id="ReportSuccess" tabindex="-1" role="basic" aria-hidden="true">
+		<div class="modal-dialog width-400px" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<div class="section-title center">
+						<h2>Success</h2>
+					</div>
+				</div>
+				<div class="modal-body">
+					<form class="form inputs-underline">
+						<div class="form-group center">
+						Your report to successfully submitted.
+						</div>
+						<!--end form-group-->
+						<div class="form-group center">
+							<button type="submit" class="btn btn-primary width-100" onclick="event.preventDefault();">OK</button>
+						</div>
+						<!--end form-group-->
+					</form>
+					<!--end form-->
+				</div>
+				<!--end modal-body-->
+			</div>
+			<!--end modal-content-->
+		</div>
+		<!--end modal-dialog-->
+	</div>
+>>>>>>> 59466521cf931206fd5d02a2373b686eb2ed1d38

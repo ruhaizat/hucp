@@ -30,6 +30,7 @@ class Listing extends CI_Controller {
 		$data["modelStr"] = "";
 		$data["minvalsrc"] = "";
 		$data["maxvalsrc"] = "";
+		$data["condition"] = "";
 		
 		$queryRecent = $this->db->query("SELECT *, L.ID AS LID, L.Model AS ModelName, L.Specification AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName FROM tbl_listing AS L LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE L.Status = 1 GROUP BY L.ID ORDER BY L.AddedOn DESC LIMIT 5");
 		$recentData = $queryRecent->result();
@@ -62,6 +63,13 @@ class Listing extends CI_Controller {
 		$priceThresData = $queryPriceThres->row();
 		$data["priceThresData"] = $priceThresData;
 		
+		$queryYear = $this->db->query("SELECT ManufacturingYear FROM tbl_listing GROUP BY ManufacturingYear ORDER BY ManufacturingYear ASC;");
+		$yearData = $queryYear->result();
+		$data["yearData"] = $yearData;
+		
+		$query = $this->db->query("SELECT car_brand FROM tbl_specificationmaster Group By car_brand Order By car_brand ASC");
+		$data["brand"] = $query->result();
+		
 		$this->load->view('header', $data);
 		$this->load->view('listing/index.php', $data);
 		$this->load->view('footer');
@@ -83,6 +91,7 @@ class Listing extends CI_Controller {
 		$data["modelStr"] = $model;
 		$data["minvalsrc"] = $minval;
 		$data["maxvalsrc"] = $maxval;
+		$data["condition"] = "";
 		
 		$queryRecent = $this->db->query("SELECT *, L.ID AS LID, L.Model AS ModelName, L.Specification AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName FROM tbl_listing AS L LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE L.Status = 1 GROUP BY L.ID ORDER BY L.AddedOn DESC LIMIT 5");
 		$recentData = $queryRecent->result();
@@ -111,6 +120,59 @@ class Listing extends CI_Controller {
 		$queryPriceThres = $this->db->query("SELECT MIN(SellingPrice) AS MinVal, MAX(SellingPrice) AS MaxVal FROM tbl_listing WHERE Status = 1");
 		$priceThresData = $queryPriceThres->row();
 		$data["priceThresData"] = $priceThresData;
+		
+		$query = $this->db->query("SELECT car_brand FROM tbl_specificationmaster Group By car_brand Order By car_brand ASC");
+		$data["brand"] = $query->result();
+		
+		$this->load->view('header', $data);
+		$this->load->view('listing/index.php', $data);
+		$this->load->view('footer');
+	}
+	
+	public function ViewNewCars($minval, $maxval){
+		
+		$data["bodyClass"] = "nav-btn-only homepage";
+		
+		$data["isSearch"] = 1;
+		
+			$data["keyword"] = "";
+		
+		$data["location"] = "";
+		$data["modelStr"] = "";
+		$data["minvalsrc"] = $minval;
+		$data["maxvalsrc"] = $maxval;
+		$data["condition"] = "New";
+		
+		$queryRecent = $this->db->query("SELECT *, L.ID AS LID, L.Model AS ModelName, L.Specification AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName FROM tbl_listing AS L LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE L.Status = 1 GROUP BY L.ID ORDER BY L.AddedOn DESC LIMIT 5");
+		$recentData = $queryRecent->result();
+		$data["recentData"] = $recentData;
+		
+		$query = $this->db->query("SELECT *, L.ID AS LID,L.Model AS ModelName, L.Specification AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName, COUNT(LI.ListingID) AS TotalImg FROM tbl_listing AS L LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE L.Status = 1 GROUP BY L.ID");
+		$listingData = $query->result();
+		$data["listingData"] = $listingData;
+		
+		$queryState = $this->db->query("SELECT * FROM tbl_state");
+		$stateData = $queryState->result();
+		$data["state"] = $stateData;
+		
+		$queryModel = $this->db->query("SELECT gs_model FROM tbl_specificationmaster GROUP BY gs_model");
+		$modelData = $queryModel->result();
+		$data["modelData"] = $modelData;
+		
+		//$queryModel = $this->db->query("SELECT * FROM tbl_model");
+		//$modelData = $queryModel->result();
+		//$data["modelData"] = $modelData;
+		
+		//$querySpecification = $this->db->query("SELECT * FROM tbl_specification");
+		//$specificationData = $querySpecification->result();
+		//$data["specificationData"] = $specificationData;
+		
+		$queryPriceThres = $this->db->query("SELECT MIN(SellingPrice) AS MinVal, MAX(SellingPrice) AS MaxVal FROM tbl_listing WHERE Status = 1");
+		$priceThresData = $queryPriceThres->row();
+		$data["priceThresData"] = $priceThresData;
+		
+		$query = $this->db->query("SELECT car_brand FROM tbl_specificationmaster Group By car_brand Order By car_brand ASC");
+		$data["brand"] = $query->result();
 		
 		$this->load->view('header', $data);
 		$this->load->view('listing/index.php', $data);
@@ -175,6 +237,9 @@ class Listing extends CI_Controller {
 		//$data["specificationData"] = $specificationData;
 		$data["userData"] = $userData;
 		$data["LoggedUser"] = $user_data;
+		
+		$query = $this->db->query("SELECT car_brand FROM tbl_specificationmaster Group By car_brand Order By car_brand ASC");
+		$data["brand"] = $query->result();
 		
 		$this->load->view('header', $data);
 		$this->load->view('listing/details.php', $data);
@@ -242,6 +307,7 @@ class Listing extends CI_Controller {
 			"ManufacturingYear" 	=> $ManufacturingYear,
 			"Transmission" 			=> $Transmission,
 			"Specification" 		=> $Specification,	
+			"Condition" 			=> $Condition,	
 			"Colour" 				=> $Colour,	
 			"Mileage" 				=> $Mileage,
 			"State" 				=> $State,
@@ -331,29 +397,107 @@ class Listing extends CI_Controller {
 					$this->db->insert("tbl_listingimage", $dataarraypic);
 			}
 		}
+		
+		$AddedBy = $this->input->post("hAddedBy");
+		$FirstName = $this->input->post("hFirstName");
+		$EmailAddress = $this->input->post("hEmailAddress");
+		
+		$config = Array(
+			'protocol' => $this->config->item('hucp_mail_protocol'),
+			'smtp_host' => $this->config->item('hucp_mail_smtp_host'),
+			'smtp_port' => $this->config->item('hucp_mail_smtp_port'),
+			'smtp_user' => $this->config->item('hucp_mail_smtp_user'),
+			'smtp_pass' => $this->config->item('hucp_mail_smtp_pass'),
+			'mailtype' => $this->config->item('hucp_mail_mailtype'),
+			'charset' => $this->config->item('hucp_mail_charset'),
+			'wordwrap' => $this->config->item('hucp_mail_wordwrap')
+		);
+		
+		$this->load->library('email', $config);
+		$this->email->set_newline("\r\n");
+		$this->email->from($this->config->item('hucp_mail_mailer_email'), $this->config->item('hucp_mail_mailer_name'));
+		$this->email->to($EmailAddress);    
+		$this->email->subject("Advertisement Submitted");
+		$this->email->message("Dear ".$FirstName.",<br/><br/>Your edited advertisement is submitted for approval. Click <a href='".base_url()."listing/details/".$LID."/".$AddedBy."'>here</a> to view.<br/><br/>Thanks<br/>Hyundai Used Car Platform");
+		$this->email->send();
 	
 		redirect("listing/details/".$LID."/".$user_data["UserID"]);
 	}
 	
 	private function sendcontactselleremail($Name, $Email, $Telephone, $Message, $SellerEmail, $SellerName, $Model, $LID, $AddedBy){
+		$query = $this->db->query("SELECT EmailAddress FROM tbl_emailsetting WHERE Setting = 'Contact Seller';");
+		$toEmailAddress = $query->row()->EmailAddress;
+		
 		$config = Array(
-			'protocol' => 'smtp',
-			'smtp_host' => 'mail.ruhaizat.my',
-			'smtp_port' => 587,
-			'smtp_user' => 'suhucp@ruhaizat.my', // change it to yours
-			'smtp_pass' => 'hyundai1234', // change it to yours
-			'mailtype' => 'html',
-			'charset' => 'iso-8859-1',
-			'wordwrap' => TRUE
+			'protocol' => $this->config->item('hucp_mail_protocol'),
+			'smtp_host' => $this->config->item('hucp_mail_smtp_host'),
+			'smtp_port' => $this->config->item('hucp_mail_smtp_port'),
+			'smtp_user' => $this->config->item('hucp_mail_smtp_user'),
+			'smtp_pass' => $this->config->item('hucp_mail_smtp_pass'),
+			'mailtype' => $this->config->item('hucp_mail_mailtype'),
+			'charset' => $this->config->item('hucp_mail_charset'),
+			'wordwrap' => $this->config->item('hucp_mail_wordwrap')
 		);
 		
 		$this->load->library('email', $config);
 		$this->email->set_newline("\r\n");
 		$this->email->from('suhucp@ruhaizat.my', "Admin Hyundai Used Car Platform");
 		$this->email->to($SellerEmail);  
+		$this->email->bcc($toEmailAddress);  
 		$this->email->subject("Contact Seller");
 		$this->email->message("Dear ".$SellerName.",<br/><br/>".$Name." has been contacted you regarding your advertisement of <a href='".base_url()."listing/details/".$LID."/".$AddedBy."'>".$Model."</a>.<br/><br/>Below is the message:<br/>Name: ".$Name."<br/>Email Address: ".$Email."<br/>Telephone No.: ".$Telephone."<br/>Message: ".$Message."<br/><br/>Thanks<br/>Hyundai Used Car Platform");
 		$this->email->send();
+		
+		
+		$data = array(
+		   "FromName" => $Name,
+		   "FromEmail" => $Email,
+		   "ToName" => $SellerName,
+		   "ToEmail" => $SellerEmail,
+		   "Message" => $Message,
+		   "SentOn" => date("Y-m-d H:i:s"),
+		   "AdsID" => $LID,
+		   "SellerID" => $AddedBy
+		);
+
+		$this->db->insert("tbl_contactseller", $data);
+	}
+	
+	private function submitreportemail($Name, $Email, $Telephone, $Message, $Model, $LID, $AddedBy){
+		$query = $this->db->query("SELECT EmailAddress FROM tbl_emailsetting WHERE Setting = 'Report';");
+		$toEmailAddress = $query->row()->EmailAddress;
+		
+		$config = Array(
+			'protocol' => $this->config->item('hucp_mail_protocol'),
+			'smtp_host' => $this->config->item('hucp_mail_smtp_host'),
+			'smtp_port' => $this->config->item('hucp_mail_smtp_port'),
+			'smtp_user' => $this->config->item('hucp_mail_smtp_user'),
+			'smtp_pass' => $this->config->item('hucp_mail_smtp_pass'),
+			'mailtype' => $this->config->item('hucp_mail_mailtype'),
+			'charset' => $this->config->item('hucp_mail_charset'),
+			'wordwrap' => $this->config->item('hucp_mail_wordwrap')
+		);
+		
+		$this->load->library('email', $config);
+		$this->email->set_newline("\r\n");
+		$this->email->from($this->config->item('hucp_mail_mailer_email'), $this->config->item('hucp_mail_mailer_name'));
+		$this->email->to($toEmailAddress);  
+		$this->email->subject("Report Submitted");
+		$this->email->message("Dear Admin,<br/><br/>".$Name." has been submitted a report for advertisement <a href='".base_url()."listing/details/".$LID."/".$AddedBy."'>".$Model."</a>.<br/><br/>Below is the details:<br/>Submitted by: ".$Name."<br/>Email Address: ".$Email."<br/>Telephone No.: ".$Telephone."<br/>Message: ".$Message."<br/><br/>Thanks<br/>Hyundai Used Car Platform");
+		$this->email->send();
+		
+		$data = array(
+		   "Name" => $Name,
+		   "EmailAddress" => $Email,
+		   "Telephone" => $Telephone,
+		   "Message" => $Message,
+		   "AdsID" => $LID,
+		   "SellerID" => $AddedBy,
+		   "SentOn" => date("Y-m-d H:i:s"),
+		   "Status" => 0
+		);
+
+		$this->db->insert("tbl_report", $data);
 	}
 	
 	public function ajax(){
@@ -361,6 +505,17 @@ class Listing extends CI_Controller {
 		$mode = $obj->mode;
 		
 		switch($mode){
+			case "Report":
+				$Name = $obj->Name;
+				$Email = $obj->Email;
+				$Telephone = $obj->Telephone;
+				$Description = $obj->Description;
+				$ListingID = $obj->ListingID;
+				$SellerID = $obj->SellerID;
+				$Model = $obj->Model;
+				
+				$this->submitreportemail($Name, $Email, $Telephone, $Description, $Model, $ListingID, $SellerID);
+			break;
 			case "ContactSeller":
 				$Name = $obj->Name;
 				$Email = $obj->Email;
@@ -394,6 +549,54 @@ class Listing extends CI_Controller {
 					$this->db->set($dataarray);
 					$this->db->where("ID", $LID);
 					$this->db->update("tbl_listing");					
+				}
+				
+				if($Status == "0"){
+					$AddedBy = $obj->AddedBy;
+					$FirstName = $obj->FirstName;
+					$EmailAddress = $obj->EmailAddress;
+					
+					$config = Array(
+						'protocol' => $this->config->item('hucp_mail_protocol'),
+						'smtp_host' => $this->config->item('hucp_mail_smtp_host'),
+						'smtp_port' => $this->config->item('hucp_mail_smtp_port'),
+						'smtp_user' => $this->config->item('hucp_mail_smtp_user'),
+						'smtp_pass' => $this->config->item('hucp_mail_smtp_pass'),
+						'mailtype' => $this->config->item('hucp_mail_mailtype'),
+						'charset' => $this->config->item('hucp_mail_charset'),
+						'wordwrap' => $this->config->item('hucp_mail_wordwrap')
+					);
+					
+					$this->load->library('email', $config);
+					$this->email->set_newline("\r\n");
+					$this->email->from($this->config->item('hucp_mail_mailer_email'), $this->config->item('hucp_mail_mailer_name'));
+					$this->email->to($EmailAddress);    
+					$this->email->subject("Advertisement Submitted");
+					$this->email->message("Dear ".$FirstName.",<br/><br/>Your advertisement is submitted for approval. Click <a href='".base_url()."listing/details/".$LID."/".$AddedBy."'>here</a> to view.<br/><br/>Thanks<br/>Hyundai Used Car Platform");
+					$this->email->send();
+				}else if($Status == "1"){
+					$AddedBy = $obj->AddedBy;
+					$FirstName = $obj->FirstName;
+					$EmailAddress = $obj->EmailAddress;
+					
+					$config = Array(
+						'protocol' => $this->config->item('hucp_mail_protocol'),
+						'smtp_host' => $this->config->item('hucp_mail_smtp_host'),
+						'smtp_port' => $this->config->item('hucp_mail_smtp_port'),
+						'smtp_user' => $this->config->item('hucp_mail_smtp_user'),
+						'smtp_pass' => $this->config->item('hucp_mail_smtp_pass'),
+						'mailtype' => $this->config->item('hucp_mail_mailtype'),
+						'charset' => $this->config->item('hucp_mail_charset'),
+						'wordwrap' => $this->config->item('hucp_mail_wordwrap')
+					);
+					
+					$this->load->library('email', $config);
+					$this->email->set_newline("\r\n");
+					$this->email->from($this->config->item('hucp_mail_mailer_email'), $this->config->item('hucp_mail_mailer_name'));
+					$this->email->to($EmailAddress);    
+					$this->email->subject("Advertisement Approved");
+					$this->email->message("Dear ".$FirstName.",<br/><br/>Your advertisement is approved. Click <a href='".base_url()."listing/details/".$LID."/".$AddedBy."'>here</a> to view.<br/><br/>Thanks<br/>Hyundai Used Car Platform");
+					$this->email->send();
 				}
 			break;
 			case "AdFeatured":

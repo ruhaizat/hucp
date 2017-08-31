@@ -1,3 +1,5 @@
+	
+	<script src="<?php echo base_url();?>assets/js/html2canvas.min.js"></script>
 	<script>
 		function AddCompare(ListingID){
 			if($("#liCompare_"+ListingID).length == 0){
@@ -17,6 +19,8 @@
 							var SellingPrice = dataArr[4];
 							var Mileage = dataArr[5];
 							var ListingPIC = dataArr[6];
+							var ListingID = dataArr[7];
+							var LAddedBy = dataArr[8];
 							
 							var imgURL = "";
 							if(ListingPIC == ""){
@@ -32,7 +36,7 @@
 							$("#liNoCompare").remove();
 							var sCompare = parseInt($(".sCompare").text());
 							$(".sCompare").text(sCompare+1);
-							$(".ulCompare li:last").before('<li id="liCompare_'+ListingID+'" style="padding: 5px; height: 90px;"><div style="width: 80px; height: 80px; float: left; background-position: center; overflow: hidden; background-size: cover; margin-right: 10px;background-image:url('+imgURL+');"></div><div class="row" style="width: 400px; height: 80px;"><b>'+BrandName+' '+ModelName+'</b><br/>'+SpecificationName+' | RM'+SellingPrice+' | '+Mileage+'KM<br/><a href="#" onclick="RemoveCompare('+ListingID+');"><i class="fa fa-close"></i> Remove</a></div></li>');
+							$(".ulCompare li:last").before('<li id="liCompare_'+ListingID+'" style="padding: 5px; height: 90px;"><div style="width: 80px; height: 80px; float: left; background-position: center; overflow: hidden; background-size: cover; margin-right: 10px;background-image:url('+imgURL+');"></div><div class="row" style="width: 400px; height: 80px;"><a href="<?php echo base_url();?>listing/details/'+ListingID+'/'+LAddedBy+'"><b>'+BrandName+' '+ModelName+'</b></a>'+SpecificationName+' | RM'+SellingPrice+' | '+Mileage+'KM<br/><a href="#" onclick="RemoveCompare('+ListingID+');"><i class="fa fa-close"></i> Remove</a></div></li>');
 						}
 					}
 				});				
@@ -138,6 +142,60 @@
 				$(updateSlider).Link('upper').to( $(updateSlider).children('.values').children('.value-max'), null, wNumb({ decimals: 0 }));
 			}
 		});
+		function ViewAllNewCars(){
+			var valuemin = $("#value-min").val();
+			valuemin = valuemin.replace("RM", "");
+			valuemin = valuemin.replace(".", "");
+
+			var valuemax = $("#value-max").val();
+			valuemax = valuemax.replace("RM", "");
+			valuemax = valuemax.replace(".", "");
+			
+			window.location = "<?php echo base_url();?>listing/ViewNewCars/"+valuemin+"/" + valuemax;
+		}
+			
+		var counth2c = 1;
+		window.onload = function() {
+			soch2c();
+		};
+		window.soch2c = function(){
+			var nameAttr = $("#divER_"+counth2c).attr("name");
+			var LID = nameAttr.split("_")[0];
+			$.ajax({
+				type: "POST",
+				url: "Main/getLatestListingByID",
+				data: "LID="+LID,
+				success : function(data)
+				{
+					if(data == "OK"){
+						html2canvas(document.getElementById("divER_"+counth2c), {
+							onrendered: function(canvas) {
+								var img = canvas.toDataURL("image/jpeg");
+								var output = encodeURIComponent(img);
+								var LAddedBy = nameAttr.split("_")[1];
+								var Parameters = "image="+output+"&LID="+LID+"&LAddedBy="+LAddedBy;
+								$.ajax({
+									type: "POST",
+									url: "Main/savePNG",
+									data: Parameters,
+									success : function(data)
+									{
+										counth2c++;
+										if(counth2c <= 8){setTimeout(function(){ soch2c(); }, 1000);}
+										else{counth2c = 1;}
+									}
+								});
+							}
+						});						
+					}else{
+						counth2c++;
+						if(counth2c <= 8){setTimeout(function(){ soch2c(); }, 1000);}
+						else{counth2c = 1;}
+					}
+				}
+			});
+
+		}
 	</script>
     <div id="page-content">
         <div class="hero-section has-background height-500px">
@@ -145,7 +203,7 @@
                 <div class="inner">
                     <div class="container">
                         <div class="page-title center">
-                            <img src="assets/img/logo_hyundai_white.png">
+                            <img src="assets/img/logo_kuc_white.png">
                         </div>
                         <div class="form search-form horizontal inputs-dark">
                             <form id="frmSearch">
@@ -237,7 +295,7 @@
                             <a href="<?php echo base_url().'listing/details/'.$eachFeatured->LID.'/'.$eachFeatured->LAddedBy;?>">
                             <div class="description">
                                 <figure>RM<?php echo number_format($eachFeatured->SellingPrice);?></figure>
-                                <div class="label label-default">Used</div>
+                                <div class="label label-default"><?php echo $eachFeatured->Condition?></div>
                                 <h3><?php echo $eachFeatured->ManufacturingYear." ".$eachFeatured->Brand." ".$eachFeatured->ModelName;?></h3>
                                 <h4 style="padding: 0 0 5px 0;"><?php echo $eachFeatured->SpecificationName?></h4>
                                 <h4><i class="fa fa-map-marker"></i> <?php echo $eachFeatured->StateName;?></h4>
@@ -259,7 +317,7 @@
 										<li class="liblack_fav_<?php echo $favEleID;?>" style="<?php if($favCount > 0):?><?php echo 'display:none;'?><?php else:?><?php echo 'display:block;'?><?php endif;?>"><a onclick="MakeFavourite(<?php echo $LoggedUser['UserID'];?>,<?php echo $eachFeatured->LID;?>)">Favorite<i class="fa fa-heart fi_<?php echo $favEleID;?>" style="padding-left:5px;color:black;"></i></a></li>
 									<?php endif;?>
 									<li><a onclick="AddCompare(<?php echo $eachFeatured->LID;?>)">Compare<i class="fa fa-clone" style="padding-left: 5px;"></i></a></li>
-                                    <li><a href="#">Report<i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
+                                    <li><a href="#Report" data-toggle="modal">Report<i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
                                 </ul>
                             </div>
                             <!--end controls-more-->
@@ -293,17 +351,17 @@
                 <div class="row">
 					<?php $i = 0;foreach($recentData as $eachRecent):$i++;?>
                     <div class="col-md-3 col-sm-3">
-						<div class="item" data-id="<?php echo $eachRecent->LID;?>">
+						<div id="divER_<?php echo $i;?>" class="item" data-id="<?php echo $eachRecent->LID;?>" name="<?php echo $eachRecent->LID.'_'.$eachRecent->LAddedBy;?>">
                             <a href="<?php echo base_url().'listing/details/'.$eachRecent->LID.'/'.$eachRecent->LAddedBy;?>">
                                 <div class="description">
                                     <figure>RM<?php echo number_format($eachRecent->SellingPrice);?></figure>
-                                    <div class="label label-default">Used</div>
+                                    <div class="label label-default"><?php echo $eachRecent->Condition?></div>
                                     <h3><?php echo $eachRecent->ManufacturingYear." ".$eachRecent->Brand." ".$eachRecent->ModelName;?></h3>
                                     <h4 style="padding: 0 0 5px 0;"><?php echo $eachRecent->SpecificationName?></h4>
                                     <h4><i class="fa fa-map-marker"></i> <?php echo $eachRecent->StateName;?></h4>
                                 </div>
                                 <!--end description-->
-                                <div class="image bg-transfer">
+                                <div class="bg-transfer">
                                     <img src="<?php if($eachRecent->ListingPic): echo base_url();?>assets/img/listing/<?php echo $eachRecent->ListingPic;?><?php else: echo base_url().'assets/img/items/default.png'?><?php endif;?>" alt="">
                                 </div>
                                 <!--end image-->
@@ -319,7 +377,7 @@
 											<li class="liblack_fav_<?php echo $favEleID;?>" style="<?php if($favCount > 0):?><?php echo 'display:none;'?><?php else:?><?php echo 'display:block;'?><?php endif;?>"><a onclick="MakeFavourite(<?php echo $LoggedUser['UserID'];?>,<?php echo $eachRecent->LID;?>)">Favorite<i class="fa fa-heart fi_<?php echo $favEleID;?>" style="padding-left:5px;color:black;"></i></a></li>
 										<?php endif;?>
                                         <li><a onclick="AddCompare(<?php echo $eachRecent->LID;?>)">Compare <i class="fa fa-clone" style="padding-left: 5px;"></i></a></li>
-                                        <li><a href="#">Report <i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
+                                        <li><a href="#Report" data-toggle="modal">Report <i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
                                     </ul>
                                 </div>
                                 <!--end controls-more-->
@@ -386,7 +444,7 @@
                             <a href="<?php echo base_url().'listing/details/'.$eachViewed->LID.'/'.$eachViewed->LAddedBy;?>">
                                 <div class="description">
                                     <figure>RM<?php echo number_format($eachViewed->LSellingPrice);?></figure>
-                                    <div class="label label-default">Used</div>
+                                    <div class="label label-default"><?php echo $eachViewed->LCondition?></div>
                                     <h3><?php echo $eachViewed->LManufacturingYear." ".$eachViewed->LBrand." ".$eachViewed->ModelName;?></h3>
                                     <h4 style="padding: 0 0 5px 0;"><?php echo $eachViewed->SpecificationName?></h4>
                                     <h4><i class="fa fa-map-marker"></i> <?php echo $eachViewed->StateName;?></h4>
@@ -408,7 +466,7 @@
 											<li class="liblack_fav_<?php echo $favEleID;?>" style="<?php if($favCount > 0):?><?php echo 'display:none;'?><?php else:?><?php echo 'display:block;'?><?php endif;?>"><a onclick="MakeFavourite(<?php echo $LoggedUser['UserID'];?>,<?php echo $eachViewed->LID;?>)">Favorite<i class="fa fa-heart fi_<?php echo $favEleID;?>" style="padding-left:5px;color:black;"></i></a></li>
 										<?php endif;?>
                                         <li><a onclick="AddCompare(<?php echo $eachViewed->LID;?>)">Compare <i class="fa fa-clone" style="padding-left: 5px;"></i></a></li>
-                                        <li><a href="#">Report <i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
+                                        <li><a href="#Report" data-toggle="modal">Report <i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
                                     </ul>
                                 </div>
                                 <!--end controls-more-->
@@ -430,47 +488,68 @@
         </section>
         <!--end block-->
 
-				<section class="block">
-						<div class="container">
-								<div class="center">
-										<div class="section-title">
-												<div class="center">
-														<h2>Looking for a New Car?</h2>
-												</div>
-										</div>
-										<!--end section-title-->
-								</div>
-								<!--end center-->
-								<div class="row" style="padding-bottom: 25px;">
-										<div class="col-md-3 col-sm-3 newcar" style="text-align: center;"><a href="#"><img src="assets/img/hyundai-i10.png"><br/><h3>i10</h3><i><span>from</span> RM51,234.07</i></a></div>
-										<div class="col-md-3 col-sm-3 newcar" style="text-align: center;"><a href="#"><img src="assets/img/hyundai-elantra.png"><br/><h3>Elantra</h3><i><span>from</span> RM116,388.00</i></a></div>
-										<div class="col-md-3 col-sm-3 newcar" style="text-align: center;"><a href="#"><img src="assets/img/hyundai-veloster.png"><br/><h3>Veloster</h3><i><span>from</span> RM135,461.13</i></a></div>
-										<div class="col-md-3 col-sm-3 newcar" style="text-align: center;"><a href="#"><img src="assets/img/hyundai-veloster-turbo.png"><br/><h3>Veloster turbo</h3><i><span>from</span> RM154,437.49</i></a></div>
-										<!--<end col-md-3-->
-								</div>
-								<!--end row-->
-								<div class="row" style="padding-bottom: 25px;">
-										<div class="col-md-3 col-sm-3 newcar" style="text-align: center;"><a href="#"><img src="assets/img/hyundai-ioniq.png"><br/><h3>IONIQ Hybrid</h3><i><span>from</span> RM100,328.00</i></a></div>
-										<div class="col-md-3 col-sm-3 newcar" style="text-align: center;"><a href="#"><img src="assets/img/hyundai-sonata.png"><br/><h3>Sonata</h3><i><span>from</span> RM139,295.24</i></a></div>
-										<div class="col-md-3 col-sm-3 newcar" style="text-align: center;"><a href="#"><img src="assets/img/hyundai-genesis.png"><br/><h3>Genesis</h3><i><span>from</span> RM388,921.52</i></a></div>
-										<div class="col-md-3 col-sm-3 newcar" style="text-align: center;"><a href="#"><img src="assets/img/hyundai-tucson.png"><br/><h3>Tucson</h3><i><span>from</span> RM129,990.87</i></a></div>
-										<!--<end col-md-3-->
-								</div>
-								<!--end row-->
-								<div class="row">
-										<div class="col-md-3 col-sm-3 newcar" style="text-align: center;"></div>
-										<div class="col-md-3 col-sm-3 newcar" style="text-align: center;"><a href="#"><img src="assets/img/hyundai-santa-fe.png"><br/><h3>Santa FE</h3><i><span>from</span> RM167,735.65</i></a></div>
-										<div class="col-md-3 col-sm-3 newcar" style="text-align: center;"><a href="#"><img src="assets/img/hyundai-starex.png"><br/><h3>Grand Starex Royale</h3><i><span>from</span> RM164,018.32</i></a></div>
-										<div class="col-md-3 col-sm-3 newcar" style="text-align: center;"></div>
-										<!--<end col-md-3-->
-								</div>
-								<!--end row-->
-						</div>
-						<!--end container-->
-				</section>
-				<!--end block-->
+		<section class="block background-is-dark">
+            <div class="container">
+                <div class="section-title vertical-aligned-elements">
+                    <div class="element">
+                        <h2>New Cars</h2>
+                    </div>
+                    <div class="element text-align-right">
+                        <a href="#" class="btn btn-framed btn-rounded btn-default invisible-on-mobile" onclick="ViewAllNewCars();">View All New Car</a>
+                        <div id="gallery-nav"></div>
+                    </div>
+                </div>
+                <!--end section-title-->
+            </div>
+            <div class="gallery featured">
+                <div class="owl-carousel" data-owl-items="<?php echo $featuredDataCount;?>" data-owl-loop="0" data-owl-auto-width="1" data-owl-nav="1" data-owl-dots="1" data-owl-nav-container="#gallery-nav">
 
-
+					<?php $i = 0;foreach($newData as $eachNew):$i++;?>
+					<div class="item featured" data-id="<?php echo $eachNew->LID;?>">
+                            <a href="<?php echo base_url().'listing/details/'.$eachNew->LID.'/'.$eachNew->LAddedBy;?>">
+                            <div class="description">
+                                <figure>RM<?php echo number_format($eachNew->SellingPrice);?></figure>
+                                <div class="label label-default"><?php echo $eachNew->Condition?></div>
+                                <h3><?php echo $eachNew->ManufacturingYear." ".$eachNew->Brand." ".$eachNew->ModelName;?></h3>
+                                <h4 style="padding: 0 0 5px 0;"><?php echo $eachNew->SpecificationName?></h4>
+                                <h4><i class="fa fa-map-marker"></i> <?php echo $eachNew->StateName;?></h4>
+                            </div>
+                            <!--end description-->
+                            <div class="image bg-transfer">
+                                <img src="<?php if($eachNew->ListingPic): echo base_url();?>assets/img/listing/<?php echo $eachNew->ListingPic;?><?php else: echo base_url().'assets/img/items/default.png'?><?php endif;?>" alt="">
+                            </div>
+                            <!--end image-->
+                        </a>
+                        <div class="additional-info">
+                            <a href="<?php echo base_url().'listing/details/'.$eachNew->LID.'/'.$eachNew->LAddedBy;?>">Contact Seller</a>
+                            <div class="controls-more">
+                                <ul>
+									<?php if($LoggedUser):?>
+										<?php $favEleID = $LoggedUser["UserID"]."_".$eachNew->LID;?>
+										<?php $query = $this->db->query("SELECT COUNT(ID) AS val FROM tbl_favourite WHERE UserID = ".$LoggedUser["UserID"]." AND ListingID = ".$eachNew->LID);$favCount = $query->row()->val;?>
+										<li class="lired_fav_<?php echo $favEleID;?>" style="<?php if($favCount > 0):?><?php echo 'display:block;'?><?php else:?><?php echo 'display:none;'?><?php endif;?>"><a onclick="RemoveFavourite(<?php echo $LoggedUser['UserID'];?>,<?php echo $eachNew->LID;?>)">Favorite<i class="fa fa-heart fi_<?php echo $favEleID;?>" style="padding-left:5px;color:red;"></i></a></li>
+										<li class="liblack_fav_<?php echo $favEleID;?>" style="<?php if($favCount > 0):?><?php echo 'display:none;'?><?php else:?><?php echo 'display:block;'?><?php endif;?>"><a onclick="MakeFavourite(<?php echo $LoggedUser['UserID'];?>,<?php echo $eachNew->LID;?>)">Favorite<i class="fa fa-heart fi_<?php echo $favEleID;?>" style="padding-left:5px;color:black;"></i></a></li>
+									<?php endif;?>
+                                    <li><a onclick="AddCompare(<?php echo $eachNew->LID;?>)">Compare<i class="fa fa-clone" style="padding-left: 5px;"></i></a></li>
+                                    <li><a href="#Report" data-toggle="modal">Report<i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
+                                </ul>
+                            </div>
+                            <!--end controls-more-->
+                        </div>
+                        <!--end additional-info-->
+                    </div>
+                    <!--end item-->
+					<?php endforeach;?>
+                </div>
+            </div>
+            <!--end gallery-->
+            <div class="background-wrapper">
+                <div class="background-color background-color-black opacity-90"></div>
+                <div class="background-color background-color-default opacity-30"></div>
+            </div>
+            <!--end background-wrapper-->
+        </section>
+        <!--end block-->
     </div>
     <!--end page-content-->
 	<div class="modal fade" id="OptInSuccess" tabindex="-1" role="basic" aria-hidden="true">

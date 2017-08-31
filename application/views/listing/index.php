@@ -29,6 +29,8 @@
 							var SellingPrice = dataArr[4];
 							var Mileage = dataArr[5];
 							var ListingPIC = dataArr[6];
+							var ListingID = dataArr[7];
+							var LAddedBy = dataArr[8];
 							
 							var imgURL = "";
 							if(ListingPIC == ""){
@@ -44,7 +46,7 @@
 							$("#liNoCompare").remove();
 							var sCompare = parseInt($(".sCompare").text());
 							$(".sCompare").text(sCompare+1);
-							$(".ulCompare li:last").before('<li id="liCompare_'+ListingID+'" style="padding: 5px; height: 90px;"><div style="width: 80px; height: 80px; float: left; background-position: center; overflow: hidden; background-size: cover; margin-right: 10px;background-image:url('+imgURL+');"></div><div class="row" style="width: 400px; height: 80px;"><b>'+BrandName+' '+ModelName+'</b><br/>'+SpecificationName+' | RM'+SellingPrice+' | '+Mileage+'KM<br/><a href="#" onclick="RemoveCompare('+ListingID+');"><i class="fa fa-close"></i> Remove</a></div></li>');
+							$(".ulCompare li:last").before('<li id="liCompare_'+ListingID+'" style="padding: 5px; height: 90px;"><div style="width: 80px; height: 80px; float: left; background-position: center; overflow: hidden; background-size: cover; margin-right: 10px;background-image:url('+imgURL+');"></div><div class="row" style="width: 400px; height: 80px;"><a href="<?php echo base_url();?>listing/details/'+ListingID+'/'+LAddedBy+'"><b>'+BrandName+' '+ModelName+'</b></a>'+SpecificationName+' | RM'+SellingPrice+' | '+Mileage+'KM<br/><a href="#" onclick="RemoveCompare('+ListingID+');"><i class="fa fa-close"></i> Remove</a></div></li>');
 						}
 					}
 				});				
@@ -145,6 +147,7 @@
 				var location = $("#location option:selected").text();
 				var model = $("#model option:selected").text();
 				var year = $("#year option:selected").text();
+				var condition = $("#condition option:selected").text();
 				var valuemin = $("#value-min").val();
 				valuemin = valuemin.replace("RM", "");
 				valuemin = valuemin.replace(".", "");
@@ -186,6 +189,18 @@
 				}else{
 					table
 						.column(5)
+						.search("")
+						.draw();					
+				}
+				
+				if(condition != "Condition"){
+					table
+						.column(6)
+						.search(condition)
+						.draw();					
+				}else{
+					table
+						.column(6)
 						.search("")
 						.draw();					
 				}
@@ -236,6 +251,11 @@
 				var model = "<?php echo $modelStr;?>";
 				$("#model option").filter(function() {
 					return $(this).text() == model; 
+				}).prop('selected', true);
+				
+				var condition = "<?php echo $condition;?>";
+				$("#condition option").filter(function() {
+					return $(this).text() == condition; 
 				}).prop('selected', true);
 				
 				var valuemin = "<?php echo $minvalsrc;?>";
@@ -298,6 +318,18 @@
 				}else{
 					table
 						.column(5)
+						.search("")
+						.draw();					
+				}
+
+				if(condition != "Condition"){
+					table
+						.column(6)
+						.search(condition)
+						.draw();
+				}else{
+					table
+						.column(6)
 						.search("")
 						.draw();					
 				}
@@ -407,20 +439,20 @@
                                 <div class="form-group">
                                     <select class="form-control selectpicker" name="year" id="year">
                                         <option value="">Year</option>
-                                        <option value="1">2010</option>
-                                        <option value="2">2011</option>
-                                        <option value="3">2012</option>
-                                        <option value="4">2013</option>
-                                        <option value="5">2014</option>
-                                        <option value="6">2015</option>
-                                        <option value="7">2016</option>
-                                        <option value="8">2017</option>
-                                        <option value="9">2018</option>
-                                        <option value="10">2019</option>
+										<?php foreach($yearData as $eachYear):?>
+                                        <option><?php echo $eachYear->ManufacturingYear;?></option>
+										<?php endforeach;?>
                                     </select>
                                 </div>
                                 <!--end form-group-->
-
+                                <div class="form-group">
+                                    <select class="form-control selectpicker" name="condition" id="condition">
+                                        <option value="">Condition</option>
+                                        <option>Used</option>
+                                        <option>New</option>
+                                    </select>
+                                </div>
+                                <!--end form-group-->
                                 <div class="form-group">
                                     <div class="ui-slider" id="price-slider" data-value-min="<?php echo $priceThresData->MinVal?>" data-value-max="<?php echo $priceThresData->MaxVal?>" data-value-type="price" data-currency="RM" data-currency-placement="before">
                                         <div class="values clearfix">
@@ -465,7 +497,7 @@
 												<li class="liblack_fav_<?php echo $favEleID;?>" style="<?php if($favCount > 0):?><?php echo 'display:none;'?><?php else:?><?php echo 'display:block;'?><?php endif;?>"><a onclick="MakeFavourite(<?php echo $LoggedUser['UserID'];?>,<?php echo $eachRecent->LID;?>)">Favorite<i class="fa fa-heart fi_<?php echo $favEleID;?>" style="padding-left:5px;color:black;"></i></a></li>
 											<?php endif;?>
 											<li><a href="#" onclick="AddCompare(<?php echo $eachRecent->LID;?>)">Compare <i class="fa fa-clone" style="padding-left: 5px;"></i></a></li>
-											<li><a href="#">Report <i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
+											<li><a href="#Report" data-toggle="modal">Report <i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
 										</ul>
 									</div>
 								</div>
@@ -511,6 +543,7 @@
 									<th class="cellHide">Mileage</th>
 									<th class="cellHide">Location</th>
 									<th class="cellHide">Model</th>
+									<th class="cellHide">Condition</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -553,7 +586,7 @@
 														<li class="liblack_fav_<?php echo $favEleID;?>" style="<?php if($favCount > 0):?><?php echo 'display:none;'?><?php else:?><?php echo 'display:block;'?><?php endif;?>"><a onclick="MakeFavourite(<?php echo $LoggedUser['UserID'];?>,<?php echo $eachList->LID;?>)">Favorite<i class="fa fa-heart fi_<?php echo $favEleID;?>" style="padding-left:5px;color:black;"></i></a></li>
 													<?php endif;?>
 													<li><a href="#" onclick="AddCompare(<?php echo $eachList->LID;?>)">Compare <i class="fa fa-clone" style="padding-left: 5px;"></i></a></li>
-													<li><a href="#">Report <i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
+													<li><a href="#Report" data-toggle="modal">Report <i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
 												</ul>
 											</div>
 											<!--end controls-more-->
@@ -574,6 +607,9 @@
 									</td>
 									<td class="cellHide">
 										<?php echo $eachList->ModelName;?>
+									</td>
+									<td class="cellHide">
+										<?php echo $eachList->Condition;?>
 									</td>
 								</tr>
 								<?php endforeach;?>	

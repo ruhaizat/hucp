@@ -150,6 +150,26 @@
 						$("select[name=selMileage]").change(function(){
 							$("input[name=Mileage]").val($("select[name=selMileage] option:selected").text());
 						});
+						$("select[name=selBrand]").change(function(){
+							var car_brand = $("select[name=selBrand] option:selected").text();
+							var datastr = '{"mode":"SelectBrand","car_brand":"'+car_brand+'"}';
+							$.ajax({
+								url: "<?php echo base_url();?>admin/ajax",
+								type: "POST",
+								data: {"datastr":datastr},
+								success: function(data){
+									$('select[name=selModel]')
+										.find('option')
+										.remove()
+										.end()
+										.append('<option>Select a Model</option>');
+									var gs_model = JSON.parse(data);
+									gs_model.forEach(function(entry){
+										$('select[name=selModel]').append('<option>' + entry.gs_model + '</option>');
+									});
+								}
+							});
+						});
 						$("select[name=selModel]").change(function(){
 							var gs_model = $("select[name=selModel] option:selected").text();
 							var datastr = '{"mode":"SelectModel","gs_model":"'+gs_model+'"}';
@@ -297,7 +317,6 @@
 							select: function (event, ui) {
 								$("input[name=AssignUser]").val(ui.item.label); // display the selected text
 								$("input[name=AssignUserID]").val(ui.item.id); // save selected id to hidden input
-								//alert(ui.item.images);
 							}
 						}).data("ui-autocomplete")._renderItem = function (ul, item) {
 							var imgSrc = "";
@@ -369,33 +388,57 @@
 					});		
 					function PublishAd(){
 						event.preventDefault();
-						var formData = new FormData($("#frmAddAd")[0]);
-						$.ajax({
-							url : '<?php echo base_url();?>admin/publishlisting',
-							type : 'POST',
-							data : formData,
-							processData: false,  // tell jQuery not to process the data
-							contentType: false,  // tell jQuery not to set contentType
-							success : function(data) {
-								var splittedData = data.split("_");
-								window.open("<?php echo base_url();?>listing/details/" + splittedData[0] + "/" + splittedData[1]);
-							}
-						});							
+						if($("#hIsAdded").val() == "True"){
+							var formData = new FormData($("#frmAddAd")[0]);
+							$.ajax({
+								url : '<?php echo base_url();?>admin/updatetopublish',
+								type : 'POST',
+								data : formData,
+								processData: false,  // tell jQuery not to process the data
+								contentType: false,  // tell jQuery not to set contentType
+								success : function(data) {
+									window.open("<?php echo base_url();?>listing/details/" + $("#hLID").val() + "/" + $("#hLAddedBy").val());
+								}
+							});
+						}else{
+							var formData = new FormData($("#frmAddAd")[0]);
+							$.ajax({
+								url : '<?php echo base_url();?>admin/publishlisting',
+								type : 'POST',
+								data : formData,
+								processData: false,  // tell jQuery not to process the data
+								contentType: false,  // tell jQuery not to set contentType
+								success : function(data) {
+									$("#hIsAdded").val("True");
+									var splittedData = data.split("_");
+									$("#hLID").val(splittedData[0]);
+									$("#hLAddedBy").val(splittedData[1]);
+									window.open("<?php echo base_url();?>listing/details/" + splittedData[0] + "/" + splittedData[1]);
+								}
+							});								
+						}
 					}	
 					function PreviewAd(){
 						event.preventDefault();
-						var formData = new FormData($("#frmAddAd")[0]);
-						$.ajax({
-							url : '<?php echo base_url();?>admin/addlisting',
-							type : 'POST',
-							data : formData,
-							processData: false,  // tell jQuery not to process the data
-							contentType: false,  // tell jQuery not to set contentType
-							success : function(data) {
-								var splittedData = data.split("_");
-								window.open("<?php echo base_url();?>listing/details/" + splittedData[0] + "/" + splittedData[1]);
-							}
-						});	
+						if($("#hIsAdded").val() == "True"){
+							window.open("<?php echo base_url();?>listing/details/" + $("#hLID").val() + "/" + $("#hLAddedBy").val());
+						}else{
+							var formData = new FormData($("#frmAddAd")[0]);
+							$.ajax({
+								url : '<?php echo base_url();?>admin/addlisting',
+								type : 'POST',
+								data : formData,
+								processData: false,  // tell jQuery not to process the data
+								contentType: false,  // tell jQuery not to set contentType
+								success : function(data) {
+									$("#hIsAdded").val("True");
+									var splittedData = data.split("_");
+									$("#hLID").val(splittedData[0]);
+									$("#hLAddedBy").val(splittedData[1]);
+									window.open("<?php echo base_url();?>listing/details/" + splittedData[0] + "/" + splittedData[1]);
+								}
+							});	
+						}
 					}
 				</script>
                 <!-- BEGIN CONTENT -->
@@ -436,16 +479,16 @@
                                                     <label class="col-md-2 control-label">Brand</label>
                                                     <div class="col-md-4">
                                                         <select name="selBrand" class="form-control">
-                                                            <option>Hyundai</option>
+															<option>Select a Brand</option>
+															<?php foreach($brand as $eachbrand):?>
+															<option><?php echo $eachbrand->car_brand;?></option>
+															<?php endforeach;?>
                                                         </select>
                                                     </div>
                                                     <label class="col-md-2 control-label">Model</label>
                                                     <div class="col-md-4">
                                                         <select name="selModel" class="form-control">
                                                             <option>Select a Model</option>
-															<?php foreach($model as $eachModel):?>
-                                                            <option><?php echo $eachModel->gs_model;?></option>
-															<?php endforeach;?>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -537,7 +580,7 @@
                                                   <label class="col-md-2 control-label">State</label>
                                                   <div class="col-md-4">
                                                     <select name="selState" class="form-control">
-                                                        <option>Select a State</option>
+                                                        <option value="">Select a State</option>
 														<?php foreach($state as $eachState):?>
 														<option value="<?php echo $eachState->ID;?>"><?php echo $eachState->Name;?></option>
 														<?php endforeach;?>
@@ -786,19 +829,15 @@
 
                                                 <div class="row">
                                                     <div class="col-md-offset-3 col-md-9">
+														<input type="hidden" id="hIsAdded" name="hIsAdded" />
+														<input type="hidden" id="hLID" name="hLID" />
+														<input type="hidden" id="hLAddedBy" name="hLAddedBy" />
                                                         <button type="submit" class="btn green" onclick="PreviewAd();">Preview</button>
                                                         <button type="submit" class="btn green" onclick="PublishAd();">Publish</button>
                                                         <button type="button" class="btn default" onclick="window.location.href = '<?php echo base_url();?>admin'">Cancel</button>
                                                     </div>
                                                 </div>
-
                                         </form>
-
-
-                                    </div>
-
-
-
                                     </div>
 
                                 </div>
