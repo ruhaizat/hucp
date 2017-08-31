@@ -20,19 +20,19 @@
 </style>
 				<script>
 					function renderContent() {
-						
-						var htmlstr = $("#summernote").code() + '<center><div class="container" style="width: 550px;text-align:left;"><ol class="breadcrumb"></ol><img src="<?php echo base_url();?>assets/img/logo_hyundai_grey.png" height="20px"><p class="pull-right"><a href="<?php echo base_url();?>listing"><b>Click here</b></a> to view all listings.</p></div><div class="container" style="width: 550px; padding-top: 50px;text-align:left;"><div class="row"><div class="col-md-12 col-sm-12"><div id="gallery-nav"></div><section style="text-align:left;"><h1>Hyundai Veloster</h1><h2>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h2><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec efficitur tristique enim, ac tincidunt massa pulvinar non. Donec scelerisque libero eu tincidunt cursus. Phasellus vel commodo nunc, nec suscipit enim. Integer suscipit, mauris consectetur pharetra ultrices, neque sem malesuada mauris, id tristique ante leo vel magna. Phasellus ac risus vel erat elementum fringilla et non massa. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p></section><section><div class="row">';
+
+						var htmlstr = $("#summernote").code() + '<center><div class="container" style="width: 550px;text-align:left;"><ol class="breadcrumb"></ol><img src="<?php echo base_url();?>assets/img/logo_kuc.png" height="20px"><p class="pull-right"><a href="<?php echo base_url();?>listing"><b>Click here</b></a> to view all listings.</p></div><div class="container" style="width: 550px; padding-top: 50px;text-align:left;"><div class="row"><div class="col-md-12 col-sm-12"><div id="gallery-nav"></div><section style="text-align:left;"><h1>Hyundai Veloster</h1><h2>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h2><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec efficitur tristique enim, ac tincidunt massa pulvinar non. Donec scelerisque libero eu tincidunt cursus. Phasellus vel commodo nunc, nec suscipit enim. Integer suscipit, mauris consectetur pharetra ultrices, neque sem malesuada mauris, id tristique ante leo vel magna. Phasellus ac risus vel erat elementum fringilla et non massa. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p></section><section><div class="row">';
 						htmlstr += '<?php $i = 0;foreach($recentData as $eachRecent):$i++;?>';
 						htmlstr += '<a href="<?php echo base_url().'listing/details/'.$eachRecent->LID.'/'.$eachRecent->LAddedBy;?>"><img id="divEROri_<?php echo $i;?>" class="col-md-6 col-sm-6" style="width:245px;height:220px;"></img></a>';
 						htmlstr += '<?php endforeach;?></div>';
 						htmlstr += '</section></div></div><p data-toggle="modal" data-target="#myModal" style="font-size: 12px; padding-bottom: 50px;text-align:left;">You received this message because this email was used to create an account at <a href="<?php echo base_url();?>">Hyundai Used Car.</a> Ensure delivery of future emails by adding <a href="#">newsletter@email.com</a> to your address book, or <a href="<?php echo base_url();?>main/unsubscribe/1">unsubscribe.</a></p></div></center>';
-						
+
 						$('#summernote').code(htmlstr);
-						
+
 						soch2c();
 						$("#hhtmlstr").val($("#summernote").code());
 					}
-					
+
 					$(document).ready(function(){
 						$('#summernote').code('<?php echo preg_replace( "/\r|\n/", "", $newsletter->HTML );?>');
 						$('input[name=subject]').val('<?php echo $newsletter->Subject;?>');
@@ -40,7 +40,7 @@
 						$("#iLL").click(function () {
 							renderContent();
 						});
-						
+
 						$("#frmEditCampaign").submit(function(e){
 							$("#hhtmlstr").val($("#summernote").code());
 						});
@@ -68,12 +68,12 @@
 								});
 							}
 						});
-					}		
+					}
 					window.onload = function() {
 						$('#summernote').summernote({
 							height: 300
 						});
-					};					
+					};
 				</script>
                 <!-- BEGIN CONTENT -->
                 <div class="page-content-wrapper">
@@ -109,7 +109,7 @@
 										  <br/>
                                           <div class="form-body">
 											  <div id="summernote">
-												
+
 											  </div>
 										  </div>
                                           <div class="form-actions">
@@ -156,7 +156,7 @@
 							</div>
 							<!--<end col-md-3-->
 							<?php endforeach;?>
-							
+
 							<div id="test1" style="width:245px;">
 							</div>
 						</div>

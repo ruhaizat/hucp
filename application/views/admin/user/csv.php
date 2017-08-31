@@ -1,5 +1,5 @@
 				<style>
-				
+
 .file-upload {
   position: relative;
   height: 70px;
@@ -161,7 +161,7 @@
 							var Password = $("#password").val();
 							var ConfirmPassword = $("#confirm_password").val();
 							var IsProceed = true;
-							
+
 							if(Role == "0"){
 								IsProceed = false;
 								$(".err-role").show();
@@ -198,7 +198,7 @@
 							}else{
 								$(".err-pwd").hide();
 							}
-							
+
 							if(IsProceed == true){
 								var datastr = '{"mode":"CreateUser","Role":"'+Role+'","FirstName":"'+FirstName+'","LastName":"'+LastName+'","EmailAddress":"'+Email+'","MobileNo":"'+MobileNo+'","ICNo":"'+ICNo+'","State":"'+State+'","Address":"'+Address+'","Password":"'+Password+'"}';
 								$.ajax({
@@ -210,7 +210,7 @@
 										if(aResult[0] == "Account registered"){
 											if($('input[name=userfile]')[0].files[0] != undefined){
 												var formData = new FormData();
-											
+
 												//alert($('input[name=userfile]')[0].files[0]);
 												formData.append('file', $('input[name=userfile]')[0].files[0]);
 												$.ajax({
@@ -232,7 +232,7 @@
 															}
 														});
 													}
-												});	
+												});
 											}else{
 												$(".err-email").hide();
 												window.location = "<?php echo base_url();?>admin/userall";
@@ -241,10 +241,10 @@
 											$(".err-email").show();
 										}
 									}
-								});							
+								});
 							}
 						});
-					});			
+					});
 				</script>
                 <!-- BEGIN CONTENT -->
                 <div class="page-content-wrapper">
@@ -289,7 +289,7 @@
 													Drop files here or click to upload
 													<p> Can only upload 1 image. </p>
 													</span>
-                                                    
+
 												</div>
                                                 </div>
                                             </div>
@@ -332,8 +332,22 @@
                                                   <div class="col-md-4">
                                                       <select id="selState" class="form-control">
                                                           <option>Select a state</option>
-                                                          <option>Kuala Lumpur</option>
-                                                          <option>Selangor</option>
+																													<option value="1">Kuala Lumpur</option>
+													                                <option value="2">Selangor</option>
+													                                <option value="3">Johor</option>
+													                                <option value="4">Penang</option>
+													                                <option value="5">Perak</option>
+													                                <option value="6">Kedah</option>
+													                                <option value="7">Negeri Sembilan</option>
+													                                <option value="8">Pahang</option>
+													                                <option value="9">Sabah</option>
+													                                <option value="9">Sarawak</option>
+													                                <option value="9">Terengganu</option>
+													                                <option value="9">Melaka</option>
+													                                <option value="9">Kelantan</option>
+													                                <option value="9">Perlis</option>
+													                                <option value="9">Putrajaya</option>
+													                                <option value="9">Labuan</option>
                                                       </select>
                                                       <span class="help-block font-red-mint err-state" style="display:none;"> Please select a state. </span>
                                                   </div>

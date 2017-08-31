@@ -35,25 +35,25 @@
 							var SellingPrice = dataArr[4];
 							var Mileage = dataArr[5];
 							var ListingPIC = dataArr[6];
-							
+
 							var imgURL = "";
 							if(ListingPIC == ""){
 								imgURL = "<?php echo base_url().'assets/img/items/default.png';?>";
 							}else{
 								imgURL = "<?php echo base_url().'assets/img/listing/';?>"+ListingPIC;
 							}
-							
+
 							if($("#liCompareNow").length == 0){
 								$(".ulCompare").append('<li id="liCompareNow"><a href="<?php echo base_url();?>compare">Compare Now</a></li>');
 							}
-							
+
 							$("#liNoCompare").remove();
 							var sCompare = parseInt($(".sCompare").text());
 							$(".sCompare").text(sCompare+1);
 							$(".ulCompare li:last").before('<li id="liCompare_'+ListingID+'" style="padding: 5px; height: 90px;"><div style="width: 80px; height: 80px; float: left; background-position: center; overflow: hidden; background-size: cover; margin-right: 10px;background-image:url('+imgURL+');"></div><div class="row" style="width: 400px; height: 80px;"><b>'+BrandName+' '+ModelName+'</b><br/>'+SpecificationName+' | RM'+SellingPrice+' | '+Mileage+'KM<br/><a href="#" onclick="RemoveCompare('+ListingID+');"><i class="fa fa-close"></i> Remove</a></div></li>');
 						}
 					}
-				});				
+				});
 			}
 		}
 		function RemoveCompare(ListingID){
@@ -66,7 +66,7 @@
 					var sCompare = parseInt($(".sCompare").text());
 					$(".sCompare").text(sCompare-1);
 					$("#liCompare_"+ListingID).remove();
-					
+
 					if($('.ulCompare li').length == 1){
 						$("#liCompareNow").remove();
 						$(".ulCompare").append('<li id="liNoCompare"><a href="#">You have not selected any listing</a></li>');
@@ -84,7 +84,7 @@
         <div class="container" style="width: 550px;">
             <ol class="breadcrumb">
             </ol>
-            <img src="<?php echo base_url();?>assets/img/logo_hyundai_grey.png" height="20px">
+            <img src="<?php echo base_url();?>assets/img/logo_kuc.png" height="20px">
             <!--end page-title-->
             <p class="pull-right"><a href="<?php echo base_url()?>listing"><b>Click here</b></a> to view all listings.</p>
         </div>

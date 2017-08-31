@@ -38,7 +38,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <header id="page-header">
         <nav>
             <div class="left">
-                <a href="<?php echo base_url();?>main" class="brand"><img src="<?php echo base_url();?>assets/img/logo_hyundai_grey.png" height="20"></a>
+                <a href="<?php echo base_url();?>main" class="brand"><img src="<?php echo base_url();?>assets/img/logo_kuc.png" height="20"></a>
             </div>
             <!--end left-->
             <div class="right">
@@ -1229,7 +1229,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </section>
 <div id="noti-error-car-details" class="noti-error" style="display:none;">Please fill in all details for Car Details.</div>
 <div id="noti-error-ad-image" class="noti-error" style="display:none;">Image is compulsory</div>
-						
+
 						<hr>
 						<section class="center">
 							<div class="form-group">
