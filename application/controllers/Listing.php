@@ -358,9 +358,19 @@ class Listing extends CI_Controller {
 		$this->db->set($dataarray);
 		$this->db->where("ID", $LID);
 		$this->db->update("tbl_listing");
+		
+		$hDeletedImage = $this->input->post("hDeletedImage");
+		$hDeletedImageArr = explode("|",$hDeletedImage);
+		
+		foreach($hDeletedImageArr as $hDeletedImageArrEach){
+			if($hDeletedImageArrEach != ""){
+				$queryImgFile = $this->db->query("SELECT * FROM tbl_listingimage WHERE ID = ".$hDeletedImageArrEach);
 				
-		$this->db->delete('tbl_listingimage', array('ListingID' => $LID));
-				
+				$this->db->delete('tbl_listingimage', array('ID' => $hDeletedImageArrEach));
+				unlink('assets/img/listing/'.$queryImgFile->row()->ListingPic); 				
+			}
+		}
+	
 		$config["upload_path"]          = "assets/img/listing";
 		$config["allowed_types"]        = "gif|jpg|png";
 
@@ -421,7 +431,7 @@ class Listing extends CI_Controller {
 		$this->email->message("Dear ".$FirstName.",<br/><br/>Your edited advertisement is submitted for approval. Click <a href='".base_url()."listing/details/".$LID."/".$AddedBy."'>here</a> to view.<br/><br/>Thanks<br/>Hyundai Used Car Platform");
 		$this->email->send();
 	
-		redirect("listing/details/".$LID."/".$user_data["UserID"]);
+		redirect("listing/details/".$LID."/".$AddedBy);
 	}
 	
 	private function sendcontactselleremail($Name, $Email, $Telephone, $Message, $SellerEmail, $SellerName, $Model, $LID, $AddedBy){

@@ -272,6 +272,18 @@
 		}
 		
 		$(document).ready(function(){
+			$(".MultiFile-remove").click(function(){
+				var aRemoveID = $(this).attr("id");
+				aRemoveID = aRemoveID.substr(3,aRemoveID.length - 3);
+				$('.divLID'+aRemoveID).remove();
+				
+				var hRemoveID = $("input[name=hDeletedImage]").val();
+				if(hRemoveID == ""){
+					$("input[name=hDeletedImage]").val(aRemoveID);
+				}else{
+					$("input[name=hDeletedImage]").val(hRemoveID + "|" + aRemoveID);
+				}
+			});
 			RunSelModel("<?php echo $listingData->Model;?>");
 			loadLData();
 			$("select[name=selEditALModel]").change(function(){
@@ -510,6 +522,26 @@
 				data: {"datastr":datastr},
 				success: function(data){
 					$("#ContactSellerSuccess").modal("show");
+				}
+			});
+		}
+	
+		function submitReport(){
+			var Name = $("#SR_name").val();
+			var Email = $("#SR_buyer_email").val();
+			var Telephone = $("#SR_telephone").val();
+			var Description = $("#SR_description").val();
+			var ListingID = "<?php echo $listingData->LID;?>";
+			var Model = "<?php echo $listingData->Model;?>";
+			var SellerID = "<?php echo $listingData->LAddedBy;?>";
+
+			var datastr = '{"mode":"Report","Name":"'+Name+'","Email":"'+Email+'","Telephone":"'+Telephone+'","Description":"'+Description+'","ListingID":"'+ListingID+'","SellerID":"'+SellerID+'","Model":"'+Model+'"}';
+			$.ajax({
+				url: "<?php echo base_url();?>listing/ajax",
+				type: "POST",
+				data: {"datastr":datastr},
+				success: function(data){
+					$("#ReportSuccess").modal("show");
 				}
 			});
 		}
@@ -1987,7 +2019,7 @@
         <!--end container-->
     </div>
     <!--end page-content-->
-
+	
 	<div class="modal fade" id="EditListing" tabindex="-1" role="basic" aria-hidden="true">
 		<div class="modal-dialog width-800px" role="document">
 			<div class="modal-content">
@@ -2003,6 +2035,7 @@
 					<input name="hAddedBy" type="hidden" value="<?php echo $userData->ID;?>"/>
 					<input name="hFirstName" type="hidden" value="<?php echo $userData->FirstName;?>"/>
 					<input name="hEmailAddress" type="hidden" value="<?php echo $userData->EmailAddress;?>"/>
+					<input type="hidden" name="hDeletedImage" value="" />
 						<section>
 						<h3>Car Details</h3>
 							<div class="row">
@@ -2148,7 +2181,7 @@
 							<div class="file-upload-previews">
 								<?php foreach($listingImageData as $lid):?>
 								<div class="MultiFile-label divLID<?php echo $lid->ID;?>">
-									<a id="LID<?php echo $lid->ID;?>" class="MultiFile-remove" href="#" onclick="$('.divLID<?php echo $lid->ID;?>').remove();">x</a> 
+									<a id="LID<?php echo $lid->ID;?>" class="MultiFile-remove" href="#">x</a> 
 									<span>
 										<span class="MultiFile-label" title="File selected: <?php echo $lid->ListingPic;?>">
 											<span class="MultiFile-title"><?php echo $lid->ListingPic;?></span>
