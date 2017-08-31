@@ -1237,7 +1237,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </section>
 <div id="noti-error-car-details" class="noti-error" style="display:none;">Please fill in all details for Car Details.</div>
 <div id="noti-error-ad-image" class="noti-error" style="display:none;">Image is compulsory</div>
-						
+
 						<hr>
 						<section class="center">
 							<div class="form-group">
@@ -1255,6 +1255,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<!--end modal-content-->
 		</div>
 		<!--end modal-dialog-->
+<<<<<<< HEAD
+	</div>
+=======
 	</div><div class="modal fade" id="Report" tabindex="-1" role="basic" aria-hidden="true">
 		<div class="modal-dialog width-400px" role="document">
 			<div class="modal-content">
@@ -1327,3 +1330,4 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</div>
 		<!--end modal-dialog-->
 	</div>
+>>>>>>> 59466521cf931206fd5d02a2373b686eb2ed1d38
