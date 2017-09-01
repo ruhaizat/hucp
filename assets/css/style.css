@@ -4638,13 +4638,14 @@ section:not(.block) h2 {
   -webkit-border-radius: 0px;
   border-radius: 0px;
   border: none;
-  padding: 30px;
+  padding: 10px;
   display: table;
   width: 100%;
 }
 .modal .modal-header, .modal .modal-body {
-  padding: 0;
+  padding: 5px 0;
   border: none;
+  font-size: 15px;
 }
 .modal .section-title {
   margin-top: 0;
@@ -5068,7 +5069,7 @@ section:not(.block) h2 {
 
 #page-footer .footer-wrapper {
   border-top: 1px solid rgba(0, 0, 0, 0.05);
-  margin-top: 30px;
+  margin-top: 0px;
 }
 #page-footer p {
   filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
