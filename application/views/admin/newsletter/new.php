@@ -28,12 +28,7 @@
 						htmlstr += '</section></div></div><p data-toggle="modal" data-target="#myModal" style="font-size: 12px; padding-bottom: 50px;text-align:left;">You received this message because this email was used to create an account at <a href="<?php echo base_url();?>">Hyundai Used Car.</a> Ensure delivery of future emails by adding <a href="#">newsletter@email.com</a> to your address book, or <a href="<?php echo base_url();?>main/unsubscribe/1">unsubscribe.</a></p></div></center>';
 
 						$('#summernote').code(htmlstr);
-<<<<<<< HEAD
-
 						soch2c();
-=======
-						
->>>>>>> 59466521cf931206fd5d02a2373b686eb2ed1d38
 						$("#hhtmlstr").val($("#summernote").code());
 					}
 
@@ -47,8 +42,7 @@
 							$("#hhtmlstr").val($("#summernote").code());
 						});
 					});
-<<<<<<< HEAD
-
+					
 					var counth2c = 1;
 					window.soch2c = function(){
 						html2canvas(document.getElementById("divER_"+counth2c), {
@@ -72,9 +66,6 @@
 							}
 						});
 					}
-=======
-					
->>>>>>> 59466521cf931206fd5d02a2373b686eb2ed1d38
 					window.onload = function() {
 						$('#summernote').summernote({
 							height: 300
@@ -131,7 +122,6 @@
                               </div>
                             </div>
                         </div>
-<<<<<<< HEAD
 						<div class="row" style="visibility:collapse;">
 							<?php $i = 0;foreach($recentData as $eachRecent):$i++;?>
 							<div id="divER_<?php echo $i;?>" style="width:245px;">
@@ -167,8 +157,6 @@
 							</div>
 						</div>
 						<!--end row-->
-=======
->>>>>>> 59466521cf931206fd5d02a2373b686eb2ed1d38
                         </div>
 					</div>
                     <!-- END CONTENT BODY -->

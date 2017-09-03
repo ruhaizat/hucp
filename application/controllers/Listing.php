@@ -637,6 +637,20 @@ class Listing extends CI_Controller {
 				$this->db->where("ID", $LID);
 				$this->db->update("tbl_listing");
 			break;
+			case "AdRenew":
+				$user_data = $this->session->userdata("LoggedUser");
+				$LID = $obj->ID;
+				
+				$dataarray = array(
+					"Status"	=> 0,
+					"ModifiedBy"	=> $user_data["UserID"],
+					"ModifiedOn"	=> date("Y-m-d H:i:s")
+				);
+
+				$this->db->set($dataarray);
+				$this->db->where("ID", $LID);
+				$this->db->update("tbl_listing");
+			break;
 		}
 	}
 	

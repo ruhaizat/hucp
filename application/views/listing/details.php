@@ -380,6 +380,8 @@
 				}else if(buttonMode == "UnFeatured"){
 					window.location.reload();
 					//window.location.href = "<?php echo base_url();?>admin"
+				}else if(buttonMode == "Renew"){
+					window.location.reload();
 				}
 			});
 			loadGallery(true, 'a.thumbnail');
@@ -648,6 +650,31 @@
 					$("#PopupCustom").modal("show");
 				}
 			});
+		}
+		function RenewAd(elem){
+			var isLogged = $("#hIsLogged").val();
+			if(isLogged == "true"){
+				var LID = $(elem).attr("id").split("_")[1];
+				
+				var datastr = '{"mode":"AdRenew","ID":"'+LID+'"}';
+				$.ajax({
+					url: "<?php echo base_url();?>listing/ajax",
+					type: "POST",
+					data: {"datastr":datastr},
+					success: function(data){
+						$("#sPCTitle").text("Success");
+						$("#sPCMsg").text("Advertisement successfully submitted for renew and currently waiting for approval.");
+						buttonMode = "Renew";
+						$("#PopupCustom").modal("show");
+					}
+				});				
+			}else{
+				$("#sPCTitle").text("Warning");
+				$("#sPCMsg").text("Please login before proceed with renew.");
+				buttonMode = "Warning";
+				$("#PopupCustom").modal("show");
+			}
+
 		}
 		window.addEventListener("beforeunload", function (e) {
 			var LStatus = "<?php echo $listingData->Status;?>";
@@ -1032,6 +1059,7 @@
             </section>
             <!--end page-title-->
 			<?php if($this->session->userdata("LoggedUser") != null): $user_data = $this->session->userdata("LoggedUser");?>
+				<input type="hidden" id="hIsLogged" value="true" />
 				<?php $favEleID = $user_data["UserID"]."_".$listingData->ID;?>
 				<?php $query = $this->db->query("SELECT COUNT(ID) AS val FROM tbl_favourite WHERE UserID = ".$user_data["UserID"]." AND ListingID = ".$listingData->ID);$favCount = $query->row()->val;?>
 				<?php if($user_data["Group"] == 1):?>
@@ -1074,13 +1102,22 @@
 						<a id="btnPrintListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-print"></i>Print</a>
 						<a id="btnCompareListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right" onclick="AddCompare(<?php echo $listingData->ID;?>)"><i class="fa fa-clone"></i>Compare</a>
 						<a onclick="FavAction(<?php echo $user_data['UserID'];?>,<?php echo $listingData->ID;?>);" id="btnFavoriteListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-heart fi_<?php echo $favEleID;?>" style="color:<?php if($favCount > 0):?><?php echo 'red'?><?php else:?><?php echo 'gray'?><?php endif;?>;"></i>Favourite </a>
+					<?php elseif($listingData->LStatus == 2):?>
+						<?php if($listingData->LAddedBy == $user_data["UserID"]):?>
+							<a id="btnRenewListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-rounded icon scroll pull-right" onclick="RenewAd(this);"><i class="fa fa-check-circle"></i>Renew</a>
+						<?php endif;?>
 					<?php endif;?>
 				<?php endif;?>
 			<?php else:?>
-				<a href="#Report" data-toggle="modal" id="btnReportListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-flag"></i>Report Ad</a>
-				<a id="btnPrintListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-print"></i>Print</a>
-				<a id="btnCompareListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right" onclick="AddCompare(<?php echo $listingData->ID;?>)"><i class="fa fa-clone"></i>Compare</a>
-				<a onclick="FavActionNo();" id="btnFavoriteListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-heart"></i>Favourite </a>
+				<input type="hidden" id="hIsLogged" value="false" />
+				<?php if($listingData->LStatus == 2):?>
+					<a id="btnRenewListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-rounded icon scroll pull-right" onclick="RenewAd(this);"><i class="fa fa-check-circle"></i>Renew</a>
+				<?php else:?>
+					<a href="#Report" data-toggle="modal" id="btnReportListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-flag"></i>Report Ad</a>
+					<a id="btnPrintListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-print"></i>Print</a>
+					<a id="btnCompareListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right" onclick="AddCompare(<?php echo $listingData->ID;?>)"><i class="fa fa-clone"></i>Compare</a>
+					<a onclick="FavActionNo();" id="btnFavoriteListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-heart"></i>Favourite </a>
+				<?php endif;?>
 			<?php endif;?>
 			<!--
 					<a id="btnSubmitListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-rounded icon scroll pull-right"><i class="fa fa-check-circle"></i>Submit</a>

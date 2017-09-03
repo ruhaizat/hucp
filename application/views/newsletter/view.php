@@ -35,13 +35,9 @@
 							var SellingPrice = dataArr[4];
 							var Mileage = dataArr[5];
 							var ListingPIC = dataArr[6];
-<<<<<<< HEAD
-
-=======
 							var ListingID = dataArr[7];
 							var LAddedBy = dataArr[8];
 							
->>>>>>> 59466521cf931206fd5d02a2373b686eb2ed1d38
 							var imgURL = "";
 							if(ListingPIC == ""){
 								imgURL = "<?php echo base_url().'assets/img/items/default.png';?>";

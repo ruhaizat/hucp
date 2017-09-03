@@ -166,7 +166,11 @@
                   <section>
 						<?php $i = 0;foreach($listingData as $eachList):$i++;?>
                         <div class="item item-row" data-id="<?php echo $eachList->LID;?>" data-latitude="<?php echo $eachList->Latitude;?>" data-longitude="<?php echo $eachList->Longitude;?>">
-                            <?php if($eachList->IsFeatured == 1):?><figure class="ribbon">Featured</figure><?php endif;?>
+							<?php if($eachList->Status == 2):?>
+								<figure class="ribbon">Expired</figure>
+							<?php else:?>
+								<?php if($eachList->IsFeatured == 1):?><figure class="ribbon">Featured</figure><?php endif;?>
+							<?php endif;?>
                             <a href="<?php echo base_url().'listing/details/'.$eachList->LID.'/'.$eachList->LAddedBy;?>">
                                 <div class="image bg-transfer">
                                     <img src="<?php if($eachList->ListingPic): echo base_url().'assets/img/listing/'.$eachList->ListingPic; else: echo base_url().'assets/img/items/default.png';endif;?>" alt="">
