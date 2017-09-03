@@ -88,6 +88,21 @@
 				}
 			});
 		}
+		function RenewAd(elem){
+			var LID = $(elem).attr("id").split("_")[1];
+			
+			var datastr = '{"mode":"AdRenew","ID":"'+LID+'"}';
+			$.ajax({
+				url: "<?php echo base_url();?>listing/ajax",
+				type: "POST",
+				data: {"datastr":datastr},
+				success: function(data){
+					$("#sPCTitle").text("Success");
+					$("#sPCMsg").text("Advertisement successfully submitted for renew and currently waiting for approval.");
+					$("#PopupCustom").modal("show");
+				}
+			});
+		}
 		$(document).ready(function(){
 
 		});
@@ -201,6 +216,9 @@
 									<?php endif;?>
 									<li><a href="#" onclick="AddCompare(<?php echo $eachList->LID;?>)">Compare <i class="fa fa-clone" style="padding-left: 5px;"></i></a></li>
 									<li><a href="#Report" data-toggle="modal">Report <i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
+									<?php if($eachList->Status == 2):?>
+										<li><a id="btnRenewListing_<?php echo $eachList->LID;?>" href="#" onclick="RenewAd(this);">Renew <i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
+									<?php endif;?>
                                 </ul>
                             </div>
                             <!--end controls-more-->
@@ -239,3 +257,32 @@
         <!--end container-->
     </div>
     <!--end page-content-->
+
+	<div class="modal fade" id="PopupCustom" tabindex="-1" role="basic" aria-hidden="true">
+		<div class="modal-dialog width-400px" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<div class="section-title center">
+						<h2><span id="sPCTitle">Insert title here</span></h2>
+					</div>
+				</div>
+				<div class="modal-body">
+					<form class="form inputs-underline">
+						<div class="form-group center">
+						<span id="sPCMsg">Insert message here.</span>
+						</div>
+						<!--end form-group-->
+						<div class="form-group center">
+							<button type="submit" class="btn btn-primary width-100" onclick="event.preventDefault();$('#PopupCustom').modal('hide');">OK</button>
+						</div>
+						<!--end form-group-->
+					</form>
+					<!--end form-->
+				</div>
+				<!--end modal-body-->
+			</div>
+			<!--end modal-content-->
+		</div>
+		<!--end modal-dialog-->
+	</div>
