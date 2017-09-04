@@ -19,25 +19,25 @@
 							var ListingPIC = dataArr[6];
 							var ListingID = dataArr[7];
 							var LAddedBy = dataArr[8];
-							
+
 							var imgURL = "";
 							if(ListingPIC == ""){
 								imgURL = "<?php echo base_url().'assets/img/items/default.png';?>";
 							}else{
 								imgURL = "<?php echo base_url().'assets/img/listing/';?>"+ListingPIC;
 							}
-							
+
 							if($("#liCompareNow").length == 0){
 								$(".ulCompare").append('<li id="liCompareNow"><a href="<?php echo base_url();?>compare">Compare Now</a></li>');
 							}
-							
+
 							$("#liNoCompare").remove();
 							var sCompare = parseInt($(".sCompare").text());
 							$(".sCompare").text(sCompare+1);
 							$(".ulCompare li:last").before('<li id="liCompare_'+ListingID+'" style="padding: 5px; height: 90px;"><div style="width: 80px; height: 80px; float: left; background-position: center; overflow: hidden; background-size: cover; margin-right: 10px;background-image:url('+imgURL+');"></div><div class="row" style="width: 400px; height: 80px;"><a href="<?php echo base_url();?>listing/details/'+ListingID+'/'+LAddedBy+'"><b>'+BrandName+' '+ModelName+'</b></a>'+SpecificationName+' | RM'+SellingPrice+' | '+Mileage+'KM<br/><a href="#" onclick="RemoveCompare('+ListingID+');"><i class="fa fa-close"></i> Remove</a></div></li>');
 						}
 					}
-				});				
+				});
 			}
 		}
 		function RemoveCompare(ListingID){
@@ -50,7 +50,7 @@
 					var sCompare = parseInt($(".sCompare").text());
 					$(".sCompare").text(sCompare-1);
 					$("#liCompare_"+ListingID).remove();
-					
+
 					if($('.ulCompare li').length == 1){
 						$("#liCompareNow").remove();
 						$(".ulCompare").append('<li id="liNoCompare"><a href="#">You have not selected any listing</a></li>');
@@ -63,10 +63,10 @@
 			$("#sPCMsg").text("You have to sign in to use favourite button");
 			buttonMode = "Warning";
 			$("#PopupCustom").modal("show");
-		}			
+		}
 		function FavAction(UserID, ListingID){
 			var fifav = ".fi_"+UserID+"_"+ListingID;
-			
+
 			if($(fifav).css("color") == "rgb(255, 0, 0)"){
 				var datastr = '{"mode":"RemoveFavourite","UserID":"'+UserID+'","ListingID":"'+ListingID+'"}';
 				$.ajax({
@@ -79,12 +79,12 @@
 						var liblack = ".liblack_fav_"+UserID+"_"+ListingID;
 						$(lired).hide();
 						$(liblack).show();
-						
+
 						var fifav = ".fi_"+UserID+"_"+ListingID;
 						$(fifav).css("color", "gray");
 					}
-				});				
-			}else{	
+				});
+			}else{
 				var datastr = '{"mode":"MakeFavourite","UserID":"'+UserID+'","ListingID":"'+ListingID+'"}';
 				$.ajax({
 					url: "<?php echo base_url();?>main/ajax",
@@ -96,13 +96,13 @@
 						var liblack = ".liblack_fav_"+UserID+"_"+ListingID;
 						$(lired).show();
 						$(liblack).hide();
-						
+
 						var fifav = ".fi_"+UserID+"_"+ListingID;
 						$(fifav).css("color", "red");
 					}
-				});				
+				});
 			}
-		}		
+		}
 		function MakeFavourite(UserID, ListingID){
 			var datastr = '{"mode":"MakeFavourite","UserID":"'+UserID+'","ListingID":"'+ListingID+'"}';
 			$.ajax({
@@ -154,7 +154,7 @@
 						}else{
 							$('select[name=selEditALYear]').append('<option>' + entry.gs_manu_year + '</option>');
 						}
-						
+
 					});
 					$('select[name=selEditALYear]').selectpicker('refresh');
 					RunSelYear(gs_model,servVal)
@@ -233,11 +233,11 @@
 					$("input[name=editALColour]").val("");
 					$("input[name=editALDoors]").val(qResult.gn_doors);
 					$("input[name=editALAssembled]").val(qResult.gn_assembled);
-					
+
 					$("input[name=editALTTransmission]").val(qResult.tm_transmission);
 					$("input[name=editALFinalDriveRatio]").val(qResult.tm_final_drive_ratio);
 					$("input[name=editALNoofGears]").val(qResult.tm_gears);
-					
+
 					$("input[name=editALESEngineCC]").val(qResult.en_cc);
 					$("input[name=editALStroke]").val(qResult.en_stroke);
 					$("input[name=editALPeakPower]").val(qResult.en_peak_power);
@@ -248,7 +248,7 @@
 					$("input[name=editALPeakTorque]").val(qResult.en_peak_torque);
 					$("input[name=editALDirectInjection]").val(qResult.en_direct_injection);
 					$("input[name=editALFuelType]").val(qResult.en_fuel_type);
-					
+
 					$("input[name=editALLength]").val(qResult.dm_length);
 					$("input[name=editALHeight]").val(qResult.dm_height);
 					$("input[name=editALWidth]").val(qResult.dm_width);
@@ -256,13 +256,13 @@
 					$("input[name=editALFrontThread]").val(qResult.dm_front_thread);
 					$("input[name=editALRearThread]").val(qResult.dm_rear_thread);
 					$("input[name=editALFuelTank]").val(qResult.dm_fuel_tank);
-					
+
 					$("input[name=editALFrontBrakes]").val(qResult.br_front);
 					$("input[name=editALRearBrakes]").val(qResult.br_rear);
-					
+
 					$("input[name=editALFrontSuspension]").val(qResult.sus_front);
 					$("input[name=editALRearSuspension]").val(qResult.sus_rear);
-					
+
 					$("input[name=editALFrontTyres]").val(qResult.tw_front);
 					$("input[name=editALRearTyres]").val(qResult.tw_rear);
 					$("input[name=editALFrontRims]").val(qResult.tw_front_rim);
@@ -270,13 +270,13 @@
 				}
 			});
 		}
-		
+
 		$(document).ready(function(){
 			$(".MultiFile-remove").click(function(){
 				var aRemoveID = $(this).attr("id");
 				aRemoveID = aRemoveID.substr(3,aRemoveID.length - 3);
 				$('.divLID'+aRemoveID).remove();
-				
+
 				var hRemoveID = $("input[name=hDeletedImage]").val();
 				if(hRemoveID == ""){
 					$("input[name=hDeletedImage]").val(aRemoveID);
@@ -357,7 +357,7 @@
 				var gs_manu_year = $("select[name=selEditALYear] option:selected").text();
 				var tm_transmission = $("select[name=selEditALTransmission] option:selected").text();
 				var gs_variant = $("select[name=selEditALSpecification] option:selected").text();
-				
+
 				RunSelSpecification(gs_model,gs_manu_year,tm_transmission,gs_variant);
 			});
 			$('#EditListing').on('shown.bs.modal', function () {
@@ -391,7 +391,7 @@
 			$('#SR_description').keyup(function() {
 			  var text_length = $('#SR_description').val().length;
 			  var text_remaining = text_max - text_length;
-			  
+
 			  $('#count_message').html(text_remaining + ' remaining');
 			});
 		});
@@ -527,7 +527,7 @@
 				}
 			});
 		}
-	
+
 		function submitReport(){
 			var Name = $("#SR_name").val();
 			var Email = $("#SR_buyer_email").val();
@@ -547,14 +547,14 @@
 				}
 			});
 		}
-	
+
 		var buttonMode = "";
 		function SubmitAd(elem){
 			var LID = $(elem).attr("id").split("_")[1];
 			var AddedBy = "<?php echo $userData->ID;?>";
 			var FirstName = "<?php echo $userData->FirstName;?>";
 			var EmailAddress = "<?php echo $userData->EmailAddress;?>";
-			
+
 			var datastr = '{"mode":"AdChangeStatus","ID":"'+LID+'","Status":"0","AddedBy":"'+AddedBy+'","FirstName":"'+FirstName+'","EmailAddress":"'+EmailAddress+'"}';
 			$.ajax({
 				url: "<?php echo base_url();?>listing/ajax",
@@ -570,7 +570,7 @@
 		}
 		function DeleteAd(elem){
 			var LID = $(elem).attr("id").split("_")[1];
-			
+
 			var datastr = '{"mode":"AdChangeStatus","ID":"'+LID+'","Status":"4"}';
 			$.ajax({
 				url: "<?php echo base_url();?>listing/ajax",
@@ -589,7 +589,7 @@
 			var AddedBy = "<?php echo $userData->ID;?>";
 			var FirstName = "<?php echo $userData->FirstName;?>";
 			var EmailAddress = "<?php echo $userData->EmailAddress;?>";
-			
+
 			var datastr = '{"mode":"AdChangeStatus","ID":"'+LID+'","Status":"1","AddedBy":"'+AddedBy+'","FirstName":"'+FirstName+'","EmailAddress":"'+EmailAddress+'"}';
 			$.ajax({
 				url: "<?php echo base_url();?>listing/ajax",
@@ -605,7 +605,7 @@
 		}
 		function RejectAd(elem){
 			var LID = $(elem).attr("id").split("_")[1];
-			
+
 			var datastr = '{"mode":"AdChangeStatus","ID":"'+LID+'","Status":"3"}';
 			$.ajax({
 				url: "<?php echo base_url();?>listing/ajax",
@@ -621,7 +621,7 @@
 		}
 		function FeaturedAd(elem){
 			var LID = $(elem).attr("id").split("_")[1];
-			
+
 			var datastr = '{"mode":"AdFeatured","ID":"'+LID+'"}';
 			$.ajax({
 				url: "<?php echo base_url();?>listing/ajax",
@@ -637,7 +637,7 @@
 		}
 		function UnfeaturedAd(elem){
 			var LID = $(elem).attr("id").split("_")[1];
-			
+
 			var datastr = '{"mode":"AdUnFeatured","ID":"'+LID+'"}';
 			$.ajax({
 				url: "<?php echo base_url();?>listing/ajax",
@@ -655,7 +655,7 @@
 			var isLogged = $("#hIsLogged").val();
 			if(isLogged == "true"){
 				var LID = $(elem).attr("id").split("_")[1];
-				
+
 				var datastr = '{"mode":"AdRenew","ID":"'+LID+'"}';
 				$.ajax({
 					url: "<?php echo base_url();?>listing/ajax",
@@ -667,7 +667,7 @@
 						buttonMode = "Renew";
 						$("#PopupCustom").modal("show");
 					}
-				});				
+				});
 			}else{
 				$("#sPCTitle").text("Warning");
 				$("#sPCMsg").text("Please login before proceed with renew.");
@@ -681,9 +681,9 @@
 			var UserGroup = "<?php $user_data = $this->session->userdata("LoggedUser"); echo $user_data["Group"];?>";
 			if(LStatus == "-1" && UserGroup == "2" && buttonMode != "Submit"){
 				var confirmationMessage = "\o/";
-		
+
 				(e || window.event).returnValue = confirmationMessage;
-				return confirmationMessage;    	
+				return confirmationMessage;
 			}
 		});
 		function loadLData(){
@@ -693,307 +693,307 @@
 			var isBrake = false;
 			var isSuspension = false;
 			var isTyre = false;
-			
-			
+
+
 			var GDBrand = "<?php echo $listingData->Brand;?>";
 			if(GDBrand == ""){
 				$(".rowGDBrand").hide();
 			}
-			
+
 			var GDCategory = "<?php echo $listingData->body_style;?>";
 			if(GDCategory == ""){
 				$(".rowGDCategory").hide();
 			}
-			
+
 			var GDModel = "<?php echo $listingData->Model;?>";
 			if(GDModel == ""){
 				$(".rowGDModel").hide();
 			}
-			
+
 			var GDSpecification = "<?php echo $listingData->Specification;?>";
 			if(GDSpecification == ""){
 				$(".rowGDSpecification").hide();
 			}
-			
+
 			var GDYear = "<?php echo $listingData->ManufacturingYear;?>";
 			if(GDYear == ""){
 				$(".rowGDYear").hide();
 			}
-			
+
 			var GDEngineCC= "<?php echo $listingData->en_cc;?>";
 			if(GDEngineCC == ""){
 				$(".rowGDEngineCC").hide();
 			}
-			
+
 			var GDTransmission = "<?php echo $listingData->Transmission;?>";
 			if(GDTransmission == ""){
 				$(".rowGDTransmission").hide();
 			}
-			
+
 			var GDSeatCapacity = "<?php echo $listingData->gn_seat_capacity;?>";
 			if(GDSeatCapacity == ""){
 				$(".rowGDSeatCapacity").hide();
 			}
-			
+
 			var GDMileage = "<?php echo $listingData->Mileage;?>";
 			if(GDMileage == ""){
 				$(".rowGDMileage").hide();
 			}
-			
+
 			var GDColour = "<?php echo $listingData->Colour;?>";
 			if(GDColour == ""){
 				$(".rowGDColour").hide();
 			}
-			
+
 			var GDDoors = "<?php echo $listingData->gn_doors;?>";
 			if(GDDoors == ""){
 				$(".rowGDDoors").hide();
 			}
-			
+
 			var GDSeatCapacity = "<?php echo $listingData->gn_seat_capacity;?>";
 			if(GDSeatCapacity == ""){
 				$(".rowGDSeatCapacity").hide();
 			}
-			
+
 			var GDAssembled = "<?php echo $listingData->gn_assembled;?>";
 			if(GDAssembled == ""){
 				$(".rowGDAssembled").hide();
 			}
-			
-			
+
+
 			var TTransmission = "<?php echo $listingData->Transmission;?>";
 			if(TTransmission == ""){
 				$(".rowTransmission").hide();
 			}else{
 				isTransmission = true;
 			}
-			
+
 			var FinalDriveRatio = "<?php echo $listingData->tm_final_drive_ratio;?>";
 			if(FinalDriveRatio == ""){
 				$(".rowFinalDriveRatio").hide();
 			}else{
 				isTransmission = true;
 			}
-			
+
 			var NoofGears = "<?php echo $listingData->tm_gears;?>";
 			if(NoofGears == ""){
 				$(".rowNoOfGears").hide();
 			}else{
 				isTransmission = true;
 			}
-			
+
 			if(isTransmission == false){
 				$(".TransmissionBox").hide();
 			}
-			
+
 			var ESEngineCC = "<?php echo $listingData->en_cc;?>";
 			if(ESEngineCC == ""){
 				$(".rowEngineCC").hide();
 			}else{
 				isEngineSpecification = true;
 			}
-			
+
 			var Stroke = "<?php echo $listingData->en_stroke;?>";
 			if(Stroke == ""){
 				$(".rowStroke").hide();
 			}else{
 				isEngineSpecification = true;
 			}
-			
+
 			var PeakPower = "<?php echo $listingData->en_peak_power;?>";
 			if(PeakPower == ""){
 				$(".rowPeakPower").hide();
 			}else{
 				isEngineSpecification = true;
 			}
-			
+
 			var EngineType = "<?php echo $listingData->en_engine_type;?>";
 			if(EngineType == ""){
 				$(".rowEngineType").hide();
 			}else{
 				isEngineSpecification = true;
 			}
-			
+
 			var Aspiration = "<?php echo $listingData->en_aspiration;?>";
 			if(Aspiration == ""){
 				$(".rowAspiration").hide();
 			}else{
 				isEngineSpecification = true;
 			}
-			
+
 			var Bore = "<?php echo $listingData->en_bore;?>";
 			if(Bore == ""){
 				$(".rowBore").hide();
 			}else{
 				isEngineSpecification = true;
 			}
-			
+
 			var CompressionRatio = "<?php echo $listingData->en_compression_ratio;?>";
 			if(CompressionRatio == ""){
 				$(".rowCompressionRatio").hide();
 			}else{
 				isEngineSpecification = true;
 			}
-			
+
 			var PeakTorque = "<?php echo $listingData->en_peak_torque;?>";
 			if(PeakTorque == ""){
 				$(".rowPeakTorque").hide();
 			}else{
 				isEngineSpecification = true;
 			}
-			
+
 			var DirectInjection = "<?php echo $listingData->en_direct_injection;?>";
 			if(DirectInjection == ""){
 				$(".rowDirectInjection").hide();
 			}else{
 				isEngineSpecification = true;
 			}
-			
+
 			var FuelType = "<?php echo $listingData->en_fuel_type;?>";
 			if(FuelType == ""){
 				$(".rowFuelType").hide();
 			}else{
 				isEngineSpecification = true;
 			}
-			
+
 			if(isEngineSpecification == false){
 				$(".EngineSpecificationBox").hide();
 			}
-			
+
 			var Length = "<?php echo $listingData->dm_length;?>";
 			if(Length == ""){
 				$(".rowLength").hide();
 			}else{
 				isDimension = true;
 			}
-			
+
 			var Height = "<?php echo $listingData->dm_height;?>";
 			if(Height == ""){
 				$(".rowHeight").hide();
 			}else{
 				isDimension = true;
 			}
-			
+
 			var Width = "<?php echo $listingData->dm_width;?>";
 			if(Width == ""){
 				$(".rowWidth").hide();
 			}else{
 				isDimension = true;
 			}
-			
+
 			var WheelBase = "<?php echo $listingData->dm_wheel_base;?>";
 			if(WheelBase == ""){
 				$(".rowWheelBase").hide();
 			}else{
 				isDimension = true;
 			}
-			
+
 			var FrontThread = "<?php echo $listingData->dm_front_thread;?>";
 			if(FrontThread == ""){
 				$(".rowFrontThread").hide();
 			}else{
 				isDimension = true;
 			}
-			
+
 			var RearThread = "<?php echo $listingData->dm_rear_thread;?>";
 			if(RearThread == ""){
 				$(".rowRearThread").hide();
 			}else{
 				isDimension = true;
 			}
-			
+
 			var FuelTank = "<?php echo $listingData->dm_fuel_tank;?>";
 			if(FuelTank == ""){
 				$(".rowFuelTank").hide();
 			}else{
 				isDimension = true;
 			}
-			
+
 			if(isDimension == false){
 				$(".DimensionBox").hide();
 			}
-			
+
 			var FrontBrakes = "<?php echo $listingData->br_front;?>";
 			if(FrontBrakes == ""){
 				$(".rowFrontBrakes").hide();
 			}else{
 				isBrake = true;
 			}
-			
+
 			var RearBrakes = "<?php echo $listingData->br_rear;?>";
 			if(RearBrakes == ""){
 				$(".rowRearBrakes").hide();
 			}else{
 				isBrake = true;
 			}
-			
+
 			if(isBrake == false){
 				$(".BrakeBox").hide();
 			}
-			
+
 			var FrontSuspension = "<?php echo $listingData->sus_front;?>";
 			if(FrontSuspension == ""){
 				$(".rowFrontSuspension").hide();
 			}else{
 				isSuspension = true;
 			}
-			
+
 			var RearSuspension = "<?php echo $listingData->sus_rear;?>";
 			if(RearSuspension == ""){
 				$(".rowRearSuspension").hide();
 			}else{
 				isSuspension = true;
 			}
-			
+
 			if(isSuspension == false){
 				$(".SuspensionBox").hide();
 			}
-			 
+
 			var FrontTyres = "<?php echo $listingData->tw_front;?>";
 			if(FrontTyres == ""){
 				$(".rowFrontTyres").hide();
 			}else{
 				isTyre = true;
 			}
-			
+
 			var RearTyres = "<?php echo $listingData->tw_rear;?>";
 			if(RearTyres == ""){
 				$(".rowRearTyres").hide();
 			}else{
 				isTyre = true;
 			}
-			
+
 			var FrontRims = "<?php echo $listingData->tw_front_rim;?>";
 			if(FrontRims == ""){
 				$(".rowFrontRims").hide();
 			}else{
 				isTyre = true;
 			}
-			
+
 			var RearRims = "<?php echo $listingData->tw_rear_rim;?>";
 			if(RearRims == ""){
 				$(".rowRearRims").hide();
 			}else{
 				isTyre = true;
 			}
-			
+
 			if(isTyre == false){
 				$(".TyreBox").hide();
 			}
 		}
-		
+
 		function calculateLoan(){
 			var LCSellingPrice = parseFloat($("#LCSellingPrice").val().replace(",",""));
 			var LCDepositAmount = parseFloat($("#LCDepositAmount").val().replace(",",""));
 			var LCInterest = parseFloat($("#LCInterest").val().replace(",",""));
 			var LCTotalMonth = parseFloat($("#LCTotalMonth").val().replace(",",""));
 			//alert(LCSellingPrice + "|" + LCDepositAmount + "|" + LCInterest + "|" + LCTotalMonth);
-			
+
 			var LCMonthlyInstallment = ((LCInterest/100) * (LCSellingPrice - LCDepositAmount) + (LCSellingPrice - LCDepositAmount)) / LCTotalMonth;
 			//alert(LCMonthlyInstallment);
 			$(".LCMonthlyInstallment").text("RM"+parseFloat(LCMonthlyInstallment.toFixed(2)).toLocaleString());
 		}
-		
+
 		//This function disables buttons when needed
 		function disableButtons(counter_max, counter_current){
 			$('#show-previous-image, #show-next-image').show();
@@ -1072,7 +1072,7 @@
 						<a id="btnApproveListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right" onclick="ApproveAd(this);"><i class="fa fa-check"></i>Approve </a>
 						<a id="btnRejectListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right" onclick="RejectAd(this);"><i class="fa fa-close"></i>Reject </a>
 						<a href="#EditListing" class="btn btn-primary btn-rounded icon scroll pull-right" data-toggle="modal"><i class="fa fa-edit"></i>Edit</a>
-					<?php elseif($listingData->LStatus == 1):?>			
+					<?php elseif($listingData->LStatus == 1):?>
 						<?php if($listingData->LIsFeatured == 0):?>
 							<a id="btnFeaturedListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right" onclick="FeaturedAd(this);"><i class="fa fa-star"></i>Featured </a>
 						<?php else:?>
@@ -1135,7 +1135,7 @@
                 <div class="owl-carousel" data-owl-items="3" data-owl-loop="1" data-owl-auto-width="1" data-owl-nav="1" data-owl-dots="0" data-owl-margin="2" data-owl-nav-container="#gallery-nav">
 					<?php foreach($listingImageData as $lid):?>
 					<div class="image">
-						<a style="background-size:cover;height:100%;" class="thumbnail" href="#" data-image-id="" data-toggle="modal" data-title="<?php echo $listingData->ManufacturingYear." ".$listingData->Brand." ".$listingData->Model;?>" data-caption="" data-image="<?php echo base_url();?>assets/img/listing/<?php echo $lid->ListingPic;?>" data-target="#image-gallery">
+						<a style="background-size:cover;height:100%; padding: 0; border: 0; border-radius: 0; " class="thumbnail" href="#" data-image-id="" data-toggle="modal" data-title="<?php echo $listingData->ManufacturingYear." ".$listingData->Brand." ".$listingData->Model;?>" data-caption="" data-image="<?php echo base_url();?>assets/img/listing/<?php echo $lid->ListingPic;?>" data-target="#image-gallery">
 							<img src="<?php echo base_url();?>assets/img/listing/<?php echo $lid->ListingPic;?>" alt="">
 						</a>
                     </div>
@@ -1462,7 +1462,7 @@
 											<div class="panel-heading" role="tab" id="accordion-heading-2-detail">
 													<h4 class="panel-title">
 															<a role="button" data-toggle="collapse" data-parent="#accordion" href="#accordion-collapse-2-detail" aria-expanded="false" aria-controls="accordion-collapse-2-detail">
-																	<i class="fa fa-list-ul"></i>Transmission
+																	<i class="fa fa-code-fork"></i>Transmission
 															</a>
 													</h4>
 											</div>
@@ -1525,7 +1525,7 @@
 											<div class="panel-heading" role="tab" id="accordion-heading-3-detail">
 													<h4 class="panel-title">
 															<a role="button" data-toggle="collapse" data-parent="#accordion" href="#accordion-collapse-3-detail" aria-expanded="false" aria-controls="accordion-collapse-3-detail">
-																	<i class="fa fa-list-ul"></i>Engine Specifications
+																	<i class="fa fa-area-chart"></i>Engine Specifications
 															</a>
 													</h4>
 											</div>
@@ -1686,7 +1686,7 @@
 											<div class="panel-heading" role="tab" id="accordion-heading-4-detail">
 													<h4 class="panel-title">
 															<a role="button" data-toggle="collapse" data-parent="#accordion" href="#accordion-collapse-4-detail" aria-expanded="false" aria-controls="accordion-collapse-4-detail">
-																	<i class="fa fa-list-ul"></i>Dimensions & Weight
+																	<i class="fa fa-car"></i>Dimensions & Weight
 															</a>
 													</h4>
 											</div>
@@ -1805,7 +1805,7 @@
 											<div class="panel-heading" role="tab" id="accordion-heading-5-detail">
 													<h4 class="panel-title">
 															<a role="button" data-toggle="collapse" data-parent="#accordion" href="#accordion-collapse-5-detail" aria-expanded="false" aria-controls="accordion-collapse-5-detail">
-																	<i class="fa fa-list-ul"></i>Brakes
+																	<i class="fa fa-minus-circle"></i>Brakes
 															</a>
 													</h4>
 											</div>
@@ -1854,7 +1854,7 @@
 											<div class="panel-heading" role="tab" id="accordion-heading-6-detail">
 													<h4 class="panel-title">
 															<a role="button" data-toggle="collapse" data-parent="#accordion" href="#accordion-collapse-6-detail" aria-expanded="false" aria-controls="accordion-collapse-6-detail">
-																	<i class="fa fa-list-ul"></i>Suspensions
+																	<i class="fa fa-database"></i>Suspensions
 															</a>
 													</h4>
 											</div>
@@ -1903,7 +1903,7 @@
 											<div class="panel-heading" role="tab" id="accordion-heading-7-detail">
 													<h4 class="panel-title">
 															<a role="button" data-toggle="collapse" data-parent="#accordion" href="#accordion-collapse-7-detail" aria-expanded="false" aria-controls="accordion-collapse-7-detail">
-																	<i class="fa fa-list-ul"></i>Tyres & Wheels
+																	<i class="fa fa-soccer-ball-o"></i>Tyres & Wheels
 															</a>
 													</h4>
 											</div>
@@ -2056,7 +2056,7 @@
         <!--end container-->
     </div>
     <!--end page-content-->
-	
+
 	<div class="modal fade" id="EditListing" tabindex="-1" role="basic" aria-hidden="true">
 		<div class="modal-dialog width-800px" role="document">
 			<div class="modal-content">
@@ -2218,7 +2218,7 @@
 							<div class="file-upload-previews">
 								<?php foreach($listingImageData as $lid):?>
 								<div class="MultiFile-label divLID<?php echo $lid->ID;?>">
-									<a id="LID<?php echo $lid->ID;?>" class="MultiFile-remove" href="#">x</a> 
+									<a id="LID<?php echo $lid->ID;?>" class="MultiFile-remove" href="#">x</a>
 									<span>
 										<span class="MultiFile-label" title="File selected: <?php echo $lid->ListingPic;?>">
 											<span class="MultiFile-title"><?php echo $lid->ListingPic;?></span>
@@ -3033,7 +3033,7 @@
 		</div>
 		<!--end modal-dialog-->
 	</div>
-	
+
 	<script>
 	document.addEventListener('DOMContentLoaded', function() {
 		<?php $i = 0; foreach($listingImageData as $lid): $i++;?>
@@ -3071,27 +3071,27 @@
 		<!--end modal-dialog-->
 	</div>
 <div class="modal fade" id="image-gallery" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog width-800px">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header" style="padding-bottom: 15px;">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="image-gallery-title"></h4>
+                <h2 class="modal-title" id="image-gallery-title"></h2>
             </div>
-            <div class="modal-body">
-                <img id="image-gallery-image" class="img-responsive" src="">
+            <div class="modal-body" style="text-align: center;">
+                <img id="image-gallery-image" class="img-responsive" src="" style="display: inline; width: 100%">
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer" style="padding:15px 0">
 
-                <div class="col-md-2">
-                    <button type="button" class="btn btn-primary" id="show-previous-image">Previous</button>
+                <div class="col-md-2" style="padding-left:0; text-align: left;">
+                    <button type="button" class="btn btn-primary" id="show-previous-image"><i class="fa fa-angle-left"></i></button>
                 </div>
 
                 <div class="col-md-8 text-justify" id="image-gallery-caption">
-                    This text will be overwritten by jQuery
+                    ...
                 </div>
 
-                <div class="col-md-2">
-                    <button type="button" id="show-next-image" class="btn btn-default">Next</button>
+                <div class="col-md-2" style="padding-right:0; text-align: right;">
+                    <button type="button" id="show-next-image" class="btn btn-primary"><i class="fa fa-angle-right"></i></button>
                 </div>
             </div>
         </div>

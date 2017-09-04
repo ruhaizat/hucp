@@ -15,7 +15,7 @@ Contact: kenny@kni.com.my
 
     <head>
         <meta charset="utf-8" />
-        <title>Hyundai Used Car | Admin Dashboard</title>
+        <title>Korean Used Car | Admin Dashboard</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta content="width=device-width, initial-scale=1" name="viewport" />
         <meta content="Preview page of Metronic Admin Theme #1 for statistics, charts, recent events and reports" name="description" />
@@ -62,7 +62,7 @@ Contact: kenny@kni.com.my
 			success: function(data){
 				//alert(data);
 			}
-		});		
+		});
 	}
 	$(document).ready(function(){
 			var datastr = '{"mode":"GetTotalPendingAd"}';
@@ -82,7 +82,7 @@ Contact: kenny@kni.com.my
 				success: function(data){
 					$(".sTotalUser").text(data);
 				}
-			});				
+			});
 	});
 	</script>
     <!-- END HEAD -->

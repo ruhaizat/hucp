@@ -5,12 +5,11 @@
             <div class="footer-navigation">
                 <div class="container">
                     <div class="vertical-aligned-elements">
-                        <div class="element width-50">� 2017 Hyundai Used Car, All right reserved</div>
+                        <div class="element width-50">© 2017 Korean Used Car. All right reserved</div>
                         <div class="element width-50 text-align-right">
-                            <a href="#">Home</a>
+                            <a href="<?php echo base_url();?>">Home</a>
                             <a href="<?php echo base_url();?>listing">Listings</a>
                             <a id="aAddListing" href="#AddListing" data-toggle="modal">Create Ad</a>
-                            <a href="#">Contact Us</a>
                         </div>
                     </div>
                 </div>
@@ -82,14 +81,14 @@
 		var pConfirmPassword = $("#reg_confirm_password").val();
 		var pNewsletter_subscription = "";
 		var isProceed = true;
-		
+
 		if($("#newsletter_subscription").is(':checked')){
 			pNewsletter_subscription = "true";
 		}
 		else{
 			pNewsletter_subscription = "false";
 		}
-		
+
 		//var pFirstName = $("#reg_first_name").val();
 		//var pLastName = $("#reg_last_name").val();
 		if(pMobile == ""){
@@ -98,14 +97,14 @@
 		}else{
 			$("#noti-error-mobile").hide();
 		}
-		
+
 		if(pEmail == ""){
 			isProceed = false;
 			$("#noti-error-email").show();
 		}else{
 			$("#noti-error-email").hide();
 		}
-		
+
 		if(pPassword == ""){
 			isProceed = false;
 			$("#noti-error-pwd-empty").show();
@@ -120,7 +119,7 @@
 				$("#noti-error-pwd-match").hide();
 			}
 		}
-		
+
 		if(isProceed == true){
 			var datastr = '{"mode":"Register","EmailAddress":"'+pEmail+'","Password":"'+pPassword+'","Mobile":"'+pMobile+'","newsletter_subscription":"'+pNewsletter_subscription+'"}';
 			$.ajax({
@@ -140,7 +139,7 @@
 						//alert(data);
 					}
 				}
-			});			
+			});
 		}
 	}
 	$(document).ready(function(){
@@ -268,11 +267,11 @@
 					$("input[name=ALColour]").val("");
 					$("input[name=ALDoors]").val(qResult.gn_doors);
 					$("input[name=ALAssembled]").val(qResult.gn_assembled);
-					
+
 					$("input[name=ALTTransmission]").val(qResult.tm_transmission);
 					$("input[name=ALFinalDriveRatio]").val(qResult.tm_final_drive_ratio);
 					$("input[name=ALNoofGears]").val(qResult.tm_gears);
-					
+
 					$("input[name=ALESEngineCC]").val(qResult.en_cc);
 					$("input[name=ALStroke]").val(qResult.en_stroke);
 					$("input[name=ALPeakPower]").val(qResult.en_peak_power);
@@ -283,7 +282,7 @@
 					$("input[name=ALPeakTorque]").val(qResult.en_peak_torque);
 					$("input[name=ALDirectInjection]").val(qResult.en_direct_injection);
 					$("input[name=ALFuelType]").val(qResult.en_fuel_type);
-					
+
 					$("input[name=ALLength]").val(qResult.dm_length);
 					$("input[name=ALHeight]").val(qResult.dm_height);
 					$("input[name=ALWidth]").val(qResult.dm_width);
@@ -291,13 +290,13 @@
 					$("input[name=ALFrontThread]").val(qResult.dm_front_thread);
 					$("input[name=ALRearThread]").val(qResult.dm_rear_thread);
 					$("input[name=ALFuelTank]").val(qResult.dm_fuel_tank);
-					
+
 					$("input[name=ALFrontBrakes]").val(qResult.br_front);
 					$("input[name=ALRearBrakes]").val(qResult.br_rear);
-					
+
 					$("input[name=ALFrontSuspension]").val(qResult.sus_front);
 					$("input[name=ALRearSuspension]").val(qResult.sus_rear);
-					
+
 					$("input[name=ALFrontTyres]").val(qResult.tw_front);
 					$("input[name=ALRearTyres]").val(qResult.tw_rear);
 					$("input[name=ALFrontRims]").val(qResult.tw_front_rim);
@@ -331,7 +330,7 @@
 			$("#noti-error-car-details").hide();
 			$("#noti-error-ad-image").hide();
 			var isProceed = true;
-			
+
 			var Model = $("#ALModel option:selected").val();
 			if(Model == ""){
 				isProceed = false;
@@ -376,12 +375,12 @@
 			if(Description == ""){
 				isProceed = false;
 			}
-			
+
 			if($('input[name=userfile]').val() == ""){
 				$("#noti-error-ad-image").show();
 				isProceed = false;
 			}
-			
+
 			if(isProceed == false){
 				$("#noti-error-car-details").show();
 				event.preventDefault();
@@ -414,7 +413,7 @@
 						$("#OISValue").text("Email address already subscribed.");
 						$("#OptInSuccess").modal("show");
 					}
-					
+
 				}
 			});
 			event.preventDefault();

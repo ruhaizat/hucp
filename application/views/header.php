@@ -30,7 +30,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<script type="text/javascript" src="<?php echo base_url();?>assets/js/jQuery.MultiFile.min.js"></script>
 	<!--<script type="text/javascript" src="<?php echo base_url();?>assets/misc/customizer.js"></script>-->
 	<script type="text/javascript" src="<?php echo base_url();?>assets/js/jssocials.min.js"></script>
-    <title>Hyundai Used Car</title>
+    <title>Korean Used Car</title>
 </head>
 
 <body class="<?php echo $bodyClass;?>">
@@ -48,8 +48,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <div class="wrapper">
                                 <div id="nav-homepages" class="nav-wrapper">
                                     <ul>
-                                        <li><a href="<?php echo base_url();?>listing">Used Hyundai Car</a></li>
-                                        <li><a href="#">New Hyundai Car</a></li>
+                                        <li><a href="<?php echo base_url();?>listing">Used Car</a></li>
+                                        <li><a href="#">New Car</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -527,7 +527,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</section>
             <section>
                 <h3>Specification</h3>
-                <p style="padding-bottom: 5px;">All information and specifications stated here are automatically generated based on data available at the time of publication and subject to change without prior notice, thus, may differ from those shown in the website and brochure. Please kindly edit accordingly shall any of the specifications is changed or modified.</p>
+                <p style="padding-bottom: 5px; font-size: 13px;"><i>All information and specifications stated here are automatically generated based on data available at the time of publication and subject to change without prior notice, thus, may differ from those shown in the website and brochure. Please kindly edit accordingly shall any of the specifications is changed or modified.</i></p>
                 <div class="panel-group" id="accordion-1" role="tablist" aria-multiselectable="true">
                     <div class="panel panel-default">
                         <div class="panel-heading" role="tab" id="accordion-heading-1">
@@ -547,7 +547,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                   <!--end col-md-3-->
                                   <div class="col-md-9 col-sm-9">
                                       <div class="form-group">
-                                          <input type="text" class="form-control" name="ALBrand" placeholder="Hyundai">
+                                          <input type="text" class="form-control" name="ALBrand" placeholder="N/A">
                                       </div>
                                       <!--end form-group-->
                                   </div>
@@ -561,7 +561,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="ALCategory" placeholder="Sedan">
+                                            <input type="text" class="form-control" name="ALCategory" placeholder="N/A">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -575,7 +575,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="ALModel" placeholder="Sonata">
+                                            <input type="text" class="form-control" name="ALModel" placeholder="N/A">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -589,7 +589,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="ALSpecification" placeholder="GLS 1.6 Premium">
+                                            <input type="text" class="form-control" name="ALSpecification" placeholder="N/A">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -603,7 +603,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="ALYear" placeholder="2003">
+                                            <input type="text" class="form-control" name="ALYear" placeholder="N/A">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -617,7 +617,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="ALGDEngineCC" placeholder="1599">
+                                            <input type="text" class="form-control" name="ALGDEngineCC" placeholder="N/A">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -631,7 +631,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="ALGDTransmission" placeholder="Automatic">
+                                            <input type="text" class="form-control" name="ALGDTransmission" placeholder="N/A">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -645,7 +645,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="ALSeatCapacity" placeholder="5">
+                                            <input type="text" class="form-control" name="ALSeatCapacity" placeholder="N/A">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -659,7 +659,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="ALMileageDup" placeholder="100,000">
+                                            <input type="text" class="form-control" name="ALMileageDup" placeholder="N/A">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -673,7 +673,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="ALColourDup" placeholder="Red">
+                                            <input type="text" class="form-control" name="ALColourDup" placeholder="N/A">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -687,7 +687,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="ALDoors" placeholder="5">
+                                            <input type="text" class="form-control" name="ALDoors" placeholder="N/A">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -701,7 +701,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="ALAssembled" placeholder="Locally Build">
+                                            <input type="text" class="form-control" name="ALAssembled" placeholder="N/A">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -722,7 +722,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="panel-heading" role="tab" id="accordion-heading-2">
                             <h4 class="panel-title">
                                 <a role="button" data-toggle="collapse" data-parent="#accordion" href="#accordion-collapse-2" aria-expanded="false" aria-controls="accordion-collapse-2">
-                                    <i class="fa fa-list-ul"></i>Transmission
+                                    <i class="fa fa-code-fork"></i>Transmission
                                 </a>
                             </h4>
                         </div>
@@ -736,7 +736,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="ALTTransmission" placeholder="Automatic">
+                                            <input type="text" class="form-control" name="ALTTransmission" placeholder="N/A">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -750,7 +750,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="ALFinalDriveRatio" placeholder="4.042">
+                                            <input type="text" class="form-control" name="ALFinalDriveRatio" placeholder="N/A">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -764,7 +764,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="ALNoofGears" placeholder="5">
+                                            <input type="text" class="form-control" name="ALNoofGears" placeholder="N/A">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -785,7 +785,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="panel-heading" role="tab" id="accordion-heading-3">
                             <h4 class="panel-title">
                                 <a role="button" data-toggle="collapse" data-parent="#accordion" href="#accordion-collapse-3" aria-expanded="false" aria-controls="accordion-collapse-3">
-                                    <i class="fa fa-list-ul"></i>Engine Specifications
+                                    <i class="fa fa-area-chart"></i>Engine Specifications
                                 </a>
                             </h4>
                         </div>
@@ -799,7 +799,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="ALESEngineCC" placeholder="1499">
+                                            <input type="text" class="form-control" name="ALESEngineCC" placeholder="N/A">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -813,7 +813,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="ALStroke" placeholder="1499">
+                                            <input type="text" class="form-control" name="ALStroke" placeholder="N/A">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -827,7 +827,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="ALPeakPower" placeholder="1499">
+                                            <input type="text" class="form-control" name="ALPeakPower" placeholder="N/A">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -841,7 +841,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="ALEngineType" placeholder="Piston">
+                                            <input type="text" class="form-control" name="ALEngineType" placeholder="N/A">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -855,7 +855,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="ALAspiration" placeholder="Aspirated">
+                                            <input type="text" class="form-control" name="ALAspiration" placeholder="N/A">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -869,7 +869,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="ALBore" placeholder="85">
+                                            <input type="text" class="form-control" name="ALBore" placeholder="N/A">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -883,7 +883,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="ALCompressionRatio" placeholder="10">
+                                            <input type="text" class="form-control" name="ALCompressionRatio" placeholder="N/A">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -897,7 +897,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="ALPeakTorque" placeholder="178">
+                                            <input type="text" class="form-control" name="ALPeakTorque" placeholder="N/A">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -911,7 +911,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="ALDirectInjection" placeholder="Multi-Point Injected">
+                                            <input type="text" class="form-control" name="ALDirectInjection" placeholder="N/A">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -925,7 +925,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="ALFuelType" placeholder="Petrol - Unleaded (ULP)">
+                                            <input type="text" class="form-control" name="ALFuelType" placeholder="N/A">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -946,7 +946,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="panel-heading" role="tab" id="accordion-heading-4">
                             <h4 class="panel-title">
                                 <a role="button" data-toggle="collapse" data-parent="#accordion" href="#accordion-collapse-4" aria-expanded="false" aria-controls="accordion-collapse-4">
-                                    <i class="fa fa-list-ul"></i>Dimensions & Weight
+                                    <i class="fa fa-car"></i>Dimensions & Weight
                                 </a>
                             </h4>
                         </div>
@@ -960,7 +960,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="ALLength" placeholder="4747">
+                                            <input type="text" class="form-control" name="ALLength" placeholder="N/A">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -974,7 +974,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="ALHeight" placeholder="1422">
+                                            <input type="text" class="form-control" name="ALHeight" placeholder="N/A">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -988,7 +988,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="ALWidth" placeholder="1820">
+                                            <input type="text" class="form-control" name="ALWidth" placeholder="N/A">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -1002,7 +1002,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="ALWheelBase" placeholder="2700">
+                                            <input type="text" class="form-control" name="ALWheelBase" placeholder="N/A">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -1016,7 +1016,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="ALFrontThread" placeholder="1540">
+                                            <input type="text" class="form-control" name="ALFrontThread" placeholder="N/A">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -1030,7 +1030,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="ALRearThread" placeholder="1530">
+                                            <input type="text" class="form-control" name="ALRearThread" placeholder="N/A">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -1044,7 +1044,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="ALFuelTank" placeholder="65">
+                                            <input type="text" class="form-control" name="ALFuelTank" placeholder="N/A">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -1065,7 +1065,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="panel-heading" role="tab" id="accordion-heading-5">
                             <h4 class="panel-title">
                                 <a role="button" data-toggle="collapse" data-parent="#accordion" href="#accordion-collapse-5" aria-expanded="false" aria-controls="accordion-collapse-5">
-                                    <i class="fa fa-list-ul"></i>Brakes
+                                    <i class="fa fa-minus-circle"></i>Brakes
                                 </a>
                             </h4>
                         </div>
@@ -1079,7 +1079,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="ALFrontBrakes" placeholder="Ventilated Discs">
+                                            <input type="text" class="form-control" name="ALFrontBrakes" placeholder="N/A">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -1093,7 +1093,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="ALRearBrakes" placeholder="Discs">
+                                            <input type="text" class="form-control" name="ALRearBrakes" placeholder="N/A">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -1114,7 +1114,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="panel-heading" role="tab" id="accordion-heading-6">
                             <h4 class="panel-title">
                                 <a role="button" data-toggle="collapse" data-parent="#accordion" href="#accordion-collapse-6" aria-expanded="false" aria-controls="accordion-collapse-6">
-                                    <i class="fa fa-list-ul"></i>Suspensions
+                                    <i class="fa fa-database"></i>Suspensions
                                 </a>
                             </h4>
                         </div>
@@ -1128,7 +1128,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="ALFrontSuspension" placeholder="Double Wishbone">
+                                            <input type="text" class="form-control" name="ALFrontSuspension" placeholder="N/A">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -1142,7 +1142,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="ALRearSuspension" placeholder="Multiple links">
+                                            <input type="text" class="form-control" name="ALRearSuspension" placeholder="N/A">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -1163,7 +1163,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="panel-heading" role="tab" id="accordion-heading-7">
                             <h4 class="panel-title">
                                 <a role="button" data-toggle="collapse" data-parent="#accordion" href="#accordion-collapse-7" aria-expanded="false" aria-controls="accordion-collapse-7">
-                                    <i class="fa fa-list-ul"></i>Tyres & Wheels
+                                    <i class="fa fa-soccer-ball-o"></i>Tyres & Wheels
                                 </a>
                             </h4>
                         </div>
@@ -1177,7 +1177,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="ALFrontTyres" placeholder="195/65 R15">
+                                            <input type="text" class="form-control" name="ALFrontTyres" placeholder="N/A">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -1191,7 +1191,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="ALRearTyres" placeholder="195/65 R15">
+                                            <input type="text" class="form-control" name="ALRearTyres" placeholder="N/A">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -1205,7 +1205,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="ALFrontRims" placeholder="15">
+                                            <input type="text" class="form-control" name="ALFrontRims" placeholder="N/A">
                                         </div>
                                         <!--end form-group-->
                                     </div>
@@ -1219,7 +1219,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--end col-md-3-->
                                     <div class="col-md-9 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="ALRearRims" placeholder="15">
+                                            <input type="text" class="form-control" name="ALRearRims" placeholder="N/A">
                                         </div>
                                         <!--end form-group-->
                                     </div>

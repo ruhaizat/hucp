@@ -190,7 +190,7 @@
 									}
 								});
 							}
-					});					
+					});
 				}else{
 					var hID = $("#hID").val();
 					var first_name = $("#first_name").val();
@@ -212,7 +212,7 @@
 							$("#h2Text").text("Change Saved");
 							$("#BodyMsg").text("Your changes is successfully saved.");
 						}
-					});				
+					});
 				}
 
 			});
@@ -318,7 +318,7 @@
 								  <br/>
                                   <a id="btnVerifyNo" class="btn btn-primary btn-rounded btn-xs mobileNotVerified">Verify Mobile No</a>
                                   <br/><br/>
-                                  <p>Verifying your mobile number will increase your chances to be contacted by interested buyers.</p>
+                                  <p style="padding-bottom: 5px; font-size: 13px; font-style: italic;">Verifying your mobile number will increase your chances to be contacted by interested buyers.</p>
 								  <?php endif;?>
                               </address>
                               <hr>
@@ -373,34 +373,27 @@
                                           <div class="col-md-6 col-sm-6">
                                               <div class="form-group">
                                                   <label for="first_name">First Name</label>
-                                                  <input type="text" class="form-control" name="first_name" id="first_name" value="<?php echo $user->FirstName;?>">
+                                                  <input type="text" class="form-control" name="first_name" id="first_name" placeholder="Your First Name" value="<?php echo $user->FirstName;?>">
                                               </div>
                                               <!--end form-group-->
                                               <div class="form-group">
                                                   <label for="last_name">Last Name</label>
-                                                  <input type="text" class="form-control" name="last_name" id="last_name" value="<?php echo $user->LastName;?>">
+                                                  <input type="text" class="form-control" name="last_name" id="last_name" placeholder="Your Last Name" value="<?php echo $user->LastName;?>">
                                               </div>
                                               <!--end form-group-->
                                               <div class="form-group">
                                                   <label for="email">Email</label>
-                                                  <input type="email" class="form-control" name="email" id="usrEmail" value="<?php echo $user->EmailAddress;?>">
+                                                  <input type="email" class="form-control" name="email" id="usrEmail" placeholder="johndoe@example.com" value="<?php echo $user->EmailAddress;?>">
                                               </div>
                                               <!--end form-group-->
 																							<div class="form-group">
                                                   <label for="phone">Phone <?php if($user->MobileVerification == 0):?> <span class="label label-info">Not Verified</span> <?php endif;?></label>
-                                                  <div class="row">
-                                                  <div class="col-md-1 col-sm-1 callcode" style="padding-right: 0;">
-                                                  +60
-                                                  </div>
-                                                  <div class="col-md-11 col-sm-11" style="padding-left: 5px;">
-                                                  <input type="text" class="form-control" name="phone" id="phone" value="<?php echo $user->MobileNo;?>">
-                                                  </div>
-                                                  </div>
+                                                  <input type="text" class="form-control" name="phone" id="phone" placeholder="60123456789" value="<?php echo $user->MobileNo;?>">
                                               </div>
                                               <!--end form-group-->
                                               <div class="form-group">
                                                   <label for="phone">Identity Card No.</label>
-                                                  <input type="text" class="form-control" name="identity_card_no" id="identity_card_no" value="<?php echo $user->IdentityCardNo;?>">
+                                                  <input type="text" class="form-control" name="identity_card_no" id="identity_card_no" placeholder="000000-00-0000" value="<?php echo $user->IdentityCardNo;?>">
                                               </div>
                                               <!--end form-group-->
                                           </div>
@@ -417,7 +410,7 @@
                                             <!--end form-group-->
                                             <div class="form-group">
                                                 <label for="address-autocomplete">Address</label>
-                                                <input type="text" class="form-control" name="address" id="address" placeholder="Address" value="<?php echo $user->Address;?>">
+                                                <input type="text" class="form-control" name="address" id="address" placeholder="Enter the exact address or drag the map marker to position" value="<?php echo $user->Address;?>">
                                             </div>
                                             <!--end form-group-->
                                             <div class="map height-200px shadow" id="map-modal-user"></div>
@@ -426,7 +419,6 @@
                                                 <input type="hidden" class="form-control" id="latitude" name="latitude" value="<?php echo $user->Latitude;?>">
                                                 <input type="hidden" class="form-control" id="longitude" name="longitude" value="<?php echo $user->Longitude;?>">
                                             </div>
-                                            <p class="note">Enter the exact address or drag the map marker to position</p>
                                           </div>
                                           <!--end col-md-6-->
                                       </div>
@@ -447,7 +439,7 @@
 													  <input type="hidden" id="hIDPwd" name="hIDPwd" value="<?php echo $user->ID;?>"/>
                                                       <div class="form-group">
                                                           <label for="current_password">Current Password</label>
-                                                          <input type="password" class="form-control" name="current_password" id="current_password" value="">
+                                                          <input type="password" class="form-control" name="current_password" id="current_password"  placeholder="Current Password" value="">
                                                       </div>
                                                       <!--end form-group-->
                                                       <div class="form-group">

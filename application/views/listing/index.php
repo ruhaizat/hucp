@@ -1,4 +1,4 @@
-	
+
     <script src="<?php echo base_url();?>assets/pages/scripts/jquery.dataTables.min.js" type="text/javascript"></script>
     <link href="<?php echo base_url();?>assets/pages/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
 	<style>
@@ -10,7 +10,7 @@
 		display: none;
 	}
 	</style>
-	<script>	
+	<script>
 		function AddCompare(ListingID){
 			if($("#liCompare_"+ListingID).length == 0){
 				var datastr = '{"mode":"AddCompare","ListingID":"'+ListingID+'"}';
@@ -31,25 +31,25 @@
 							var ListingPIC = dataArr[6];
 							var ListingID = dataArr[7];
 							var LAddedBy = dataArr[8];
-							
+
 							var imgURL = "";
 							if(ListingPIC == ""){
 								imgURL = "<?php echo base_url().'assets/img/items/default.png';?>";
 							}else{
 								imgURL = "<?php echo base_url().'assets/img/listing/';?>"+ListingPIC;
 							}
-							
+
 							if($("#liCompareNow").length == 0){
 								$(".ulCompare").append('<li id="liCompareNow"><a href="<?php echo base_url();?>compare">Compare Now</a></li>');
 							}
-							
+
 							$("#liNoCompare").remove();
 							var sCompare = parseInt($(".sCompare").text());
 							$(".sCompare").text(sCompare+1);
 							$(".ulCompare li:last").before('<li id="liCompare_'+ListingID+'" style="padding: 5px; height: 90px;"><div style="width: 80px; height: 80px; float: left; background-position: center; overflow: hidden; background-size: cover; margin-right: 10px;background-image:url('+imgURL+');"></div><div class="row" style="width: 400px; height: 80px;"><a href="<?php echo base_url();?>listing/details/'+ListingID+'/'+LAddedBy+'"><b>'+BrandName+' '+ModelName+'</b></a>'+SpecificationName+' | RM'+SellingPrice+' | '+Mileage+'KM<br/><a href="#" onclick="RemoveCompare('+ListingID+');"><i class="fa fa-close"></i> Remove</a></div></li>');
 						}
 					}
-				});				
+				});
 			}
 		}
 		function RemoveCompare(ListingID){
@@ -62,7 +62,7 @@
 					var sCompare = parseInt($(".sCompare").text());
 					$(".sCompare").text(sCompare-1);
 					$("#liCompare_"+ListingID).remove();
-					
+
 					if($('.ulCompare li').length == 1){
 						$("#liCompareNow").remove();
 						$(".ulCompare").append('<li id="liNoCompare"><a href="#">You have not selected any listing</a></li>');
@@ -107,40 +107,40 @@
 				"deferRender": true
 			});
 			$("#sRes").text(table.page.info().recordsDisplay);
-			
+
 			$('#txtSearch').keyup( function() {
 				table.search($(this).val()).draw() ;
 			} );
-			$('.selFilter').change( function() { 
+			$('.selFilter').change( function() {
 				var sortby = this.value;
-				
+
 				if(sortby == "1"){
 					table
 						.order([1, "asc"])
-						.draw();					
+						.draw();
 				}else if(sortby == "2"){
 					table
 						.order([1, "desc"])
-						.draw();					
+						.draw();
 				}else if(sortby == "3"){
 					table
 						.order([2, "desc"])
-						.draw();					
+						.draw();
 				}else if(sortby == "4"){
 					table
 						.order([2, "asc"])
-						.draw();					
+						.draw();
 				}else if(sortby == "5"){
 					table
 						.order([3, "desc"])
-						.draw();					
+						.draw();
 				}else if(sortby == "6"){
 					table
 						.order([3, "asc"])
-						.draw();					
+						.draw();
 				}
 			});
-		
+
 			$("#frmSearch").submit(function(e){
 				e.preventDefault();
 				var keyword = $("#keyword").val();
@@ -154,19 +154,19 @@
 				var valuemax = $("#value-max").val();
 				valuemax = valuemax.replace("RM", "");
 				valuemax = valuemax.replace(".", "");
-				
+
 				table.search(keyword).draw();
-				
+
 				if(year != "Year"){
 					table
 						.column(2)
 						.search(year)
-						.draw();					
+						.draw();
 				}else{
 					table
 						.column(2)
 						.search("")
-						.draw();					
+						.draw();
 				}
 
 				if(location != "Location"){
@@ -178,7 +178,7 @@
 					table
 						.column(4)
 						.search("")
-						.draw();					
+						.draw();
 				}
 
 				if(model != "Model"){
@@ -190,25 +190,25 @@
 					table
 						.column(5)
 						.search("")
-						.draw();					
+						.draw();
 				}
-				
+
 				if(condition != "Condition"){
 					table
 						.column(6)
 						.search(condition)
-						.draw();					
+						.draw();
 				}else{
 					table
 						.column(6)
 						.search("")
-						.draw();					
+						.draw();
 				}
-				
+
 				table.draw();
-				$("#sRes").text(table.page.info().recordsDisplay);			
+				$("#sRes").text(table.page.info().recordsDisplay);
 			});
-			
+
 			$.fn.dataTable.ext.search.push(
 				function( settings, data, dataIndex ) {
 					var valuemin = $("#value-min").val();
@@ -218,7 +218,7 @@
 					valuemax = valuemax.replace("RM", "");
 					valuemax = valuemax.replace(".", "");
 					var pricing = parseFloat(data[1]); // use data for the age column
-			 
+
 					if ( ( isNaN( valuemin ) && isNaN( valuemax ) ) ||
 						 ( isNaN( valuemin ) && pricing <= valuemax ) ||
 						 ( valuemin <= pricing   && isNaN( valuemax ) ) ||
@@ -235,41 +235,41 @@
 			$('#dataTableListing_previous').click(function () {
 				table.page('previous').draw();
 			} );
-			
-			
+
+
 			var isSearch = <?php echo $isSearch;?>;
-			
+
 			if(isSearch == 1){
 				var keyword = "<?php echo $keyword;?>";
 				$("#keyword").val(keyword);
-				
+
 				var location = "<?php echo $location;?>";
 				$("#location option").filter(function() {
-					return $(this).text() == location; 
+					return $(this).text() == location;
 				}).prop('selected', true);
-				
+
 				var model = "<?php echo $modelStr;?>";
 				$("#model option").filter(function() {
-					return $(this).text() == model; 
+					return $(this).text() == model;
 				}).prop('selected', true);
-				
+
 				var condition = "<?php echo $condition;?>";
 				$("#condition option").filter(function() {
-					return $(this).text() == condition; 
+					return $(this).text() == condition;
 				}).prop('selected', true);
-				
+
 				var valuemin = "<?php echo $minvalsrc;?>";
 				valuemin = valuemin.replace("RM", "");
 				valuemin = valuemin.replace(".", "");
 				$("#value-min").val(valuemin);
-				
+
 				var valuemax = "<?php echo $maxvalsrc;?>";
 				valuemax = valuemax.replace("RM", "");
 				valuemax = valuemax.replace(".", "");
 				$("#value-max").val(valuemax);
-				
+
 				var updateSlider = document.getElementById('price-slider');
-				
+
 				$(updateSlider).noUiSlider({
 					start: [ parseInt(valuemin), parseInt(valuemax) ],
 					connect: true,
@@ -280,7 +280,7 @@
 					},
 					step: 10
 				});
-				
+
 				if( $(updateSlider).attr('data-value-type') == 'price' ) {
 					if( $(updateSlider).attr('data-currency-placement') == 'before' ) {
 						$(updateSlider).Link('lower').to( $(updateSlider).children('.values').children('.value-min'), null, wNumb({ prefix: $(updateSlider).attr('data-currency'), decimals: 0, thousand: '.' }));
@@ -295,9 +295,9 @@
 					$(updateSlider).Link('lower').to( $(updateSlider).children('.values').children('.value-min'), null, wNumb({ decimals: 0 }));
 					$(updateSlider).Link('upper').to( $(updateSlider).children('.values').children('.value-max'), null, wNumb({ decimals: 0 }));
 				}
-				
+
 				table.search(keyword).draw();
-				
+
 				if(location != "Location"){
 					table
 						.column(4)
@@ -307,7 +307,7 @@
 					table
 						.column(4)
 						.search("")
-						.draw();					
+						.draw();
 				}
 
 				if(model != "Model"){
@@ -319,7 +319,7 @@
 					table
 						.column(5)
 						.search("")
-						.draw();					
+						.draw();
 				}
 
 				if(condition != "Condition"){
@@ -331,14 +331,14 @@
 					table
 						.column(6)
 						.search("")
-						.draw();					
+						.draw();
 				}
-				
+
 				table.draw();
-				$("#sRes").text(table.page.info().recordsDisplay);	
+				$("#sRes").text(table.page.info().recordsDisplay);
 			}else{
 				var updateSlider = document.getElementById('price-slider');
-				
+
 				$(updateSlider).noUiSlider({
 					start: [ parseInt(<?php echo $priceThresData->MinVal;?>), parseInt(<?php echo $priceThresData->MaxVal;?>) ],
 					connect: true,
@@ -349,7 +349,7 @@
 					},
 					step: 10
 				});
-				
+
 				if( $(updateSlider).attr('data-value-type') == 'price' ) {
 					if( $(updateSlider).attr('data-currency-placement') == 'before' ) {
 						$(updateSlider).Link('lower').to( $(updateSlider).children('.values').children('.value-min'), null, wNumb({ prefix: $(updateSlider).attr('data-currency'), decimals: 0, thousand: '.' }));
@@ -366,7 +366,7 @@
 				}
 			}
 		});
-	
+
 		function drawMapNow(mapCenter, element){
 
 			var mapOptions = {
@@ -423,6 +423,15 @@
 										<option value="">Location</option>
 										<?php foreach($state as $eachState):?>
 										<option value="<?php echo $eachState->ID;?>"><?php echo $eachState->Name;?></option>
+										<?php endforeach;?>
+                                    </select>
+                                </div>
+                                <!--end form-group-->
+																<div class="form-group">
+                                    <select class="form-control selectpicker" name="brand" id="brand">
+                                        <option value="">Brand</option>
+										<?php foreach($modelData as $eachBrand):?>
+										<option><?php echo $eachModel->gs_brand;?></option>
 										<?php endforeach;?>
                                     </select>
                                 </div>
@@ -591,7 +600,7 @@
 											</div>
 											<!--end controls-more-->
 										</div>
-										<!--end item.row-->						
+										<!--end item.row-->
 									</td>
 									<td class="cellHide">
 										<?php echo $eachList->SellingPrice;?>
@@ -612,10 +621,10 @@
 										<?php echo $eachList->Condition;?>
 									</td>
 								</tr>
-								<?php endforeach;?>	
+								<?php endforeach;?>
 							</tbody>
 						</table>
-		
+
                     </section>
 
                     <!--<section>

@@ -4638,7 +4638,7 @@ section:not(.block) h2 {
   -webkit-border-radius: 0px;
   border-radius: 0px;
   border: none;
-  padding: 10px;
+  padding: 30px;
   display: table;
   width: 100%;
 }

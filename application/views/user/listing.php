@@ -19,25 +19,25 @@
 							var ListingPIC = dataArr[6];
 							var ListingID = dataArr[7];
 							var LAddedBy = dataArr[8];
-							
+
 							var imgURL = "";
 							if(ListingPIC == ""){
 								imgURL = "<?php echo base_url().'assets/img/items/default.png';?>";
 							}else{
 								imgURL = "<?php echo base_url().'assets/img/listing/';?>"+ListingPIC;
 							}
-							
+
 							if($("#liCompareNow").length == 0){
 								$(".ulCompare").append('<li id="liCompareNow"><a href="<?php echo base_url();?>compare">Compare Now</a></li>');
 							}
-							
+
 							$("#liNoCompare").remove();
 							var sCompare = parseInt($(".sCompare").text());
 							$(".sCompare").text(sCompare+1);
 							$(".ulCompare li:last").before('<li id="liCompare_'+ListingID+'" style="padding: 5px; height: 90px;"><div style="width: 80px; height: 80px; float: left; background-position: center; overflow: hidden; background-size: cover; margin-right: 10px;background-image:url('+imgURL+');"></div><div class="row" style="width: 400px; height: 80px;"><a href="<?php echo base_url();?>listing/details/'+ListingID+'/'+LAddedBy+'"><b>'+BrandName+' '+ModelName+'</b></a>'+SpecificationName+' | RM'+SellingPrice+' | '+Mileage+'KM<br/><a href="#" onclick="RemoveCompare('+ListingID+');"><i class="fa fa-close"></i> Remove</a></div></li>');
 						}
 					}
-				});				
+				});
 			}
 		}
 		function RemoveCompare(ListingID){
@@ -50,7 +50,7 @@
 					var sCompare = parseInt($(".sCompare").text());
 					$(".sCompare").text(sCompare-1);
 					$("#liCompare_"+ListingID).remove();
-					
+
 					if($('.ulCompare li').length == 1){
 						$("#liCompareNow").remove();
 						$(".ulCompare").append('<li id="liNoCompare"><a href="#">You have not selected any listing</a></li>');
@@ -90,7 +90,7 @@
 		}
 		function RenewAd(elem){
 			var LID = $(elem).attr("id").split("_")[1];
-			
+
 			var datastr = '{"mode":"AdRenew","ID":"'+LID+'"}';
 			$.ajax({
 				url: "<?php echo base_url();?>listing/ajax",
@@ -158,7 +158,7 @@
                   <section>
                       <div class="search-results-controls clearfix">
                           <div class="pull-left">
-                              <h1>My Listing / Favourites</h1>
+                              <h1>My Advertisements</h1>
                           </div>
                           <!--end left-->
                           <div class="pull-right">
