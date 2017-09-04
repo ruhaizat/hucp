@@ -354,7 +354,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</div>
 		<!--end modal-dialog-->
 	</div>
-
 	<div class="modal fade" id="AddListing" tabindex="-1" role="basic" aria-hidden="true">
 		<div class="modal-dialog width-800px" role="document">
 			<div class="modal-content">
@@ -1255,10 +1254,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<!--end modal-content-->
 		</div>
 		<!--end modal-dialog-->
-<<<<<<< HEAD
 	</div>
-=======
-	</div><div class="modal fade" id="Report" tabindex="-1" role="basic" aria-hidden="true">
+	<div class="modal fade" id="Report" tabindex="-1" role="basic" aria-hidden="true">
 		<div class="modal-dialog width-400px" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -1330,4 +1327,3 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</div>
 		<!--end modal-dialog-->
 	</div>
->>>>>>> 59466521cf931206fd5d02a2373b686eb2ed1d38
