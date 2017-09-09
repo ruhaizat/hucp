@@ -129,7 +129,7 @@
 									<a href="<?php echo base_url().'listing/details/'.$eachRecent->LID.'/'.$eachRecent->LAddedBy;?>">
 										<div class="description">
 											<figure>RM<?php echo number_format($eachRecent->SellingPrice);?></figure>
-											<div class="label label-default">Used</div>
+											<div class="label label-default"><?php echo $eachRecent->Condition;?></div>
 											<h3><?php echo $eachRecent->ManufacturingYear." ".$eachRecent->Brand." ".$eachRecent->ModelName;?></h3>
 											<h4 style="padding: 0 0 5px 0;"><?php echo $eachRecent->SpecificationName?></h4>
 											<h4><i class="fa fa-map-marker"></i> <?php echo $eachRecent->StateName;?></h4>

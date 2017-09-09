@@ -74,7 +74,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											  <div style="width: 80px; height: 80px; float: left; background-image: url('<?php if($queryCompare->ListingPic): echo base_url();?>assets/img/listing/<?php echo $queryCompare->ListingPic;?><?php else: echo base_url().'assets/img/items/default.png'?><?php endif;?>'); background-position: center; overflow: hidden; background-size: cover; margin-right: 10px;"></div>
 											  <div class="row" style="width: 400px; height: 80px;">
 												<a href="<?php echo base_url().'listing/details/'.$queryCompare->LID.'/'.$queryCompare->LAddedBy;?>"><b><?php echo $queryCompare->BrandName;?> <?php echo $queryCompare->ModelName;?></b></a>
-												<?php echo $queryCompare->SpecificationName;?> | RM<?php echo number_format($queryCompare->SellingPrice);?> | <?php echo $queryCompare->Mileage;?>KM<br/>
+												<?php echo $queryCompare->SpecificationName;?> | RM<?php echo number_format($queryCompare->SellingPrice);?><br/>
 												<a href="#" onclick="RemoveCompare(<?php echo $compareEach;?>);"><i class="fa fa-close"></i> Remove</a>
 											  </div>
 											</li>
@@ -480,7 +480,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="form-group">
 										<label for="category">Condition</label>
 										<select class="form-control selectpicker" name="ALCondition" id="ALCondition">
-											<option>Select a Condition</option>
+											<option value="">Select a Condition</option>
 											<?php if($this->session->userdata("LoggedUser") != null):?>
 												<?php if($user_data["Group"] == 1):?>
 												<option>New</option>
@@ -1283,7 +1283,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<!--end form-group-->
 						<div class="form-group">
 							<label for="description">Message<span class="noti-error">*</span></label>
-							<textarea class="form-control" id="SR_description" rows="4" name="SR_description" placeholder="Message to the seller" maxlength="100"></textarea>
+							<textarea class="form-control" id="SR_description" rows="4" name="SR_description" placeholder="Message to the seller" maxlength="200"></textarea>
 							<h6 class="pull-right" id="count_message"></h6>
 						</div>
 						<!--end form-group-->
@@ -1315,7 +1315,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</div>
 						<!--end form-group-->
 						<div class="form-group center">
-							<button type="submit" class="btn btn-primary width-100" onclick="event.preventDefault();">OK</button>
+							<button type="submit" class="btn btn-primary width-100" onclick="event.preventDefault();$('#ReportSuccess').modal('hide');$('#Report').modal('hide');">OK</button>
 						</div>
 						<!--end form-group-->
 					</form>

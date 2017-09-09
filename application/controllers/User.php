@@ -74,6 +74,9 @@ class User extends CI_Controller {
 		$stateData = $queryState->result();
 		$data["state"] = $stateData;
 		
+		$query = $this->db->query("SELECT car_brand FROM tbl_specificationmaster Group By car_brand Order By car_brand ASC");
+		$data["brand"] = $query->result();
+		
 		$this->load->view('header', $data);
 		$this->load->view('user/listing.php',$data);
 		$this->load->view('footer');
@@ -101,6 +104,9 @@ class User extends CI_Controller {
 		$queryState = $this->db->query("SELECT * FROM tbl_state");
 		$stateData = $queryState->result();
 		$data["state"] = $stateData;
+		
+		$query = $this->db->query("SELECT car_brand FROM tbl_specificationmaster Group By car_brand Order By car_brand ASC");
+		$data["brand"] = $query->result();
 		
 		$this->load->view('header', $data);
 		$this->load->view('user/favourite.php',$data);

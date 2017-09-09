@@ -52,7 +52,7 @@
 							$("#liNoCompare").remove();
 							var sCompare = parseInt($(".sCompare").text());
 							$(".sCompare").text(sCompare+1);
-							$(".ulCompare li:last").before('<li id="liCompare_'+ListingID+'" style="padding: 5px; height: 90px;"><div style="width: 80px; height: 80px; float: left; background-position: center; overflow: hidden; background-size: cover; margin-right: 10px;background-image:url('+imgURL+');"></div><div class="row" style="width: 400px; height: 80px;"><a href="<?php echo base_url();?>listing/details/'+ListingID+'/'+LAddedBy+'"><b>'+BrandName+' '+ModelName+'</b></a>'+SpecificationName+' | RM'+SellingPrice+' | '+Mileage+'KM<br/><a href="#" onclick="RemoveCompare('+ListingID+');"><i class="fa fa-close"></i> Remove</a></div></li>');
+							$(".ulCompare li:last").before('<li id="liCompare_'+ListingID+'" style="padding: 5px; height: 90px;"><div style="width: 80px; height: 80px; float: left; background-position: center; overflow: hidden; background-size: cover; margin-right: 10px;background-image:url('+imgURL+');"></div><div class="row" style="width: 400px; height: 80px;"><a href="<?php echo base_url();?>listing/details/'+ListingID+'/'+LAddedBy+'"><b>'+BrandName+' '+ModelName+'</b></a>'+SpecificationName+' | RM'+SellingPrice+'<br/><a href="#" onclick="RemoveCompare('+ListingID+');"><i class="fa fa-close"></i> Remove</a></div></li>');
 						}
 					}
 				});
@@ -114,7 +114,7 @@
 									<a href="<?php echo base_url().'listing/details/'.$eachRecent->LID.'/'.$eachRecent->LAddedBy;?>">
 										<div class="description">
 											<figure>RM<?php echo number_format($eachRecent->SellingPrice);?></figure>
-											<div class="label label-default">Used</div>
+											<div class="label label-default"><?php echo $eachRecent->Condition;?></div>
 											<h3><?php echo $eachRecent->ManufacturingYear." ".$eachRecent->Brand." ".$eachRecent->ModelName;?></h3>
 											<h4 style="padding: 0 0 5px 0;"><?php echo $eachRecent->SpecificationName?></h4>
 											<h4><i class="fa fa-map-marker"></i> <?php echo $eachRecent->StateName;?></h4>

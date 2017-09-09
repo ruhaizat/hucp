@@ -31,12 +31,13 @@ class Listing extends CI_Controller {
 		$data["minvalsrc"] = "";
 		$data["maxvalsrc"] = "";
 		$data["condition"] = "";
+		$data["brandStr"] = "";
 		
 		$queryRecent = $this->db->query("SELECT *, L.ID AS LID, L.Model AS ModelName, L.Specification AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName FROM tbl_listing AS L LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE L.Status = 1 GROUP BY L.ID ORDER BY L.AddedOn DESC LIMIT 5");
 		$recentData = $queryRecent->result();
 		$data["recentData"] = $recentData;
 		
-		$query = $this->db->query("SELECT *, L.ID AS LID,L.Model AS ModelName, L.Specification AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName, COUNT(LI.ListingID) AS TotalImg FROM tbl_listing AS L LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE L.Status = 1 GROUP BY L.ID");
+		$query = $this->db->query("SELECT *, L.ID AS LID,L.Brand AS BrandName,L.Model AS ModelName, L.Specification AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName, COUNT(LI.ListingID) AS TotalImg FROM tbl_listing AS L LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE L.Status = 1 GROUP BY L.ID");
 		$listingData = $query->result();
 		$data["listingData"] = $listingData;
 		
@@ -75,7 +76,7 @@ class Listing extends CI_Controller {
 		$this->load->view('footer');
 	}
 	
-	public function search($keyword, $location, $model, $minval, $maxval){
+	public function search($keyword, $location, $model, $minval, $maxval, $brand){
 		
 		$data["bodyClass"] = "nav-btn-only homepage";
 		
@@ -92,6 +93,7 @@ class Listing extends CI_Controller {
 		$data["minvalsrc"] = $minval;
 		$data["maxvalsrc"] = $maxval;
 		$data["condition"] = "";
+		$data["brandStr"] = $brand;
 		
 		$queryRecent = $this->db->query("SELECT *, L.ID AS LID, L.Model AS ModelName, L.Specification AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName FROM tbl_listing AS L LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE L.Status = 1 GROUP BY L.ID ORDER BY L.AddedOn DESC LIMIT 5");
 		$recentData = $queryRecent->result();

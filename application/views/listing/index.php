@@ -46,7 +46,7 @@
 							$("#liNoCompare").remove();
 							var sCompare = parseInt($(".sCompare").text());
 							$(".sCompare").text(sCompare+1);
-							$(".ulCompare li:last").before('<li id="liCompare_'+ListingID+'" style="padding: 5px; height: 90px;"><div style="width: 80px; height: 80px; float: left; background-position: center; overflow: hidden; background-size: cover; margin-right: 10px;background-image:url('+imgURL+');"></div><div class="row" style="width: 400px; height: 80px;"><a href="<?php echo base_url();?>listing/details/'+ListingID+'/'+LAddedBy+'"><b>'+BrandName+' '+ModelName+'</b></a>'+SpecificationName+' | RM'+SellingPrice+' | '+Mileage+'KM<br/><a href="#" onclick="RemoveCompare('+ListingID+');"><i class="fa fa-close"></i> Remove</a></div></li>');
+							$(".ulCompare li:last").before('<li id="liCompare_'+ListingID+'" style="padding: 5px; height: 90px;"><div style="width: 80px; height: 80px; float: left; background-position: center; overflow: hidden; background-size: cover; margin-right: 10px;background-image:url('+imgURL+');"></div><div class="row" style="width: 400px; height: 80px;"><a href="<?php echo base_url();?>listing/details/'+ListingID+'/'+LAddedBy+'"><b>'+BrandName+' '+ModelName+'</b></a>'+SpecificationName+' | RM'+SellingPrice+'<br/><a href="#" onclick="RemoveCompare('+ListingID+');"><i class="fa fa-close"></i> Remove</a></div></li>');
 						}
 					}
 				});
@@ -148,6 +148,7 @@
 				var model = $("#model option:selected").text();
 				var year = $("#year option:selected").text();
 				var condition = $("#condition option:selected").text();
+				var brand = $("#brand option:selected").text();
 				var valuemin = $("#value-min").val();
 				valuemin = valuemin.replace("RM", "");
 				valuemin = valuemin.replace(".", "");
@@ -205,6 +206,18 @@
 						.draw();
 				}
 
+				if(brand != "Brand"){
+					table
+						.column(7)
+						.search(brand)
+						.draw();
+				}else{
+					table
+						.column(7)
+						.search("")
+						.draw();
+				}
+
 				table.draw();
 				$("#sRes").text(table.page.info().recordsDisplay);
 			});
@@ -256,6 +269,11 @@
 				var condition = "<?php echo $condition;?>";
 				$("#condition option").filter(function() {
 					return $(this).text() == condition;
+				}).prop('selected', true);
+
+				var brand = "<?php echo $brandStr;?>";
+				$("#brand option").filter(function() {
+					return $(this).text() == brand;
 				}).prop('selected', true);
 
 				var valuemin = "<?php echo $minvalsrc;?>";
@@ -430,8 +448,8 @@
 																<div class="form-group">
                                     <select class="form-control selectpicker" name="brand" id="brand">
                                         <option value="">Brand</option>
-										<?php foreach($modelData as $eachBrand):?>
-										<option><?php echo $eachModel->gs_brand;?></option>
+										<?php foreach($brand as $eachBrand):?>
+										<option><?php echo $eachBrand->car_brand;?></option>
 										<?php endforeach;?>
                                     </select>
                                 </div>
@@ -486,7 +504,7 @@
 									<a href="<?php echo base_url().'listing/details/'.$eachRecent->LID.'/'.$eachRecent->LAddedBy;?>">
 										<div class="description">
 											<h3>RM<?php echo number_format($eachRecent->SellingPrice);?></h3>
-											<div class="label label-default">Used</div>
+											<div class="label label-default"><?php echo $eachRecent->Condition;?></div>
 											<h3><?php echo $eachRecent->ManufacturingYear." ".$eachRecent->Brand." ".$eachRecent->ModelName;?></h3>
 											<h4 style="padding: 0 0 5px 0;"><?php echo $eachRecent->SpecificationName?></h4>
 											<h4><i class="fa fa-map-marker"></i> <?php echo $eachRecent->StateName;?></h4>
@@ -553,6 +571,7 @@
 									<th class="cellHide">Location</th>
 									<th class="cellHide">Model</th>
 									<th class="cellHide">Condition</th>
+									<th class="cellHide">Brand</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -576,7 +595,7 @@
 													<h3><?php echo $eachList->ManufacturingYear." ".$eachList->Brand." ".$eachList->ModelName;?></h3>
 													<h4 style="padding: 0 0 5px 0;"><?php echo $eachList->SpecificationName?></h4>
 													<h4><i class="fa fa-map-marker"></i> <?php echo $eachList->StateName;?></h4>
-													<div class="label label-default">Used</div>
+													<div class="label label-default"><?php echo $eachList->Condition;?></div>
 												</div>
 												<!--end description-->
 												<div class="additional-info">
@@ -619,6 +638,9 @@
 									</td>
 									<td class="cellHide">
 										<?php echo $eachList->Condition;?>
+									</td>
+									<td class="cellHide">
+										<?php echo $eachList->BrandName;?>
 									</td>
 								</tr>
 								<?php endforeach;?>

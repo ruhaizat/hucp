@@ -194,6 +194,12 @@
 							}else{
 								$(".err-state").hide();
 							}
+							if(Email == ""){
+								IsProceed = false;
+								$(".err-email").show();
+							}else{
+								$(".err-email").hide();
+							}
 							if(Password == ""){
 								IsProceed = false;
 								$(".err-pwd-empty").show();

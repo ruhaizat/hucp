@@ -1175,6 +1175,12 @@ class Admin extends CI_Controller {
 				
 				echo $qResult->val;
 			break;
+			case "GetUnattendedReport";
+				$query = $this->db->query("SELECT COUNT(ID) AS val FROM tbl_report WHERE Status = 0");
+				$qResult = $query->row();
+				
+				echo $qResult->val;
+			break;
 			case "ExportCSVUser":
 				$this->load->dbutil(); // call db utility library
 				$this->load->helper('download'); // call download helper

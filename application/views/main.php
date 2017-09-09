@@ -36,7 +36,7 @@
 							$("#liNoCompare").remove();
 							var sCompare = parseInt($(".sCompare").text());
 							$(".sCompare").text(sCompare+1);
-							$(".ulCompare li:last").before('<li id="liCompare_'+ListingID+'" style="padding: 5px; height: 90px;"><div style="width: 80px; height: 80px; float: left; background-position: center; overflow: hidden; background-size: cover; margin-right: 10px;background-image:url('+imgURL+');"></div><div class="row" style="width: 400px; height: 80px;"><a href="<?php echo base_url();?>listing/details/'+ListingID+'/'+LAddedBy+'"><b>'+BrandName+' '+ModelName+'</b></a>'+SpecificationName+' | RM'+SellingPrice+' | '+Mileage+'KM<br/><a href="#" onclick="RemoveCompare('+ListingID+');"><i class="fa fa-close"></i> Remove</a></div></li>');
+							$(".ulCompare li:last").before('<li id="liCompare_'+ListingID+'" style="padding: 5px; height: 90px;"><div style="width: 80px; height: 80px; float: left; background-position: center; overflow: hidden; background-size: cover; margin-right: 10px;background-image:url('+imgURL+');"></div><div class="row" style="width: 400px; height: 80px;"><a href="<?php echo base_url();?>listing/details/'+ListingID+'/'+LAddedBy+'"><b>'+BrandName+' '+ModelName+'</b></a>'+SpecificationName+' | RM'+SellingPrice+'<br/><a href="#" onclick="RemoveCompare('+ListingID+');"><i class="fa fa-close"></i> Remove</a></div></li>');
 						}
 					}
 				});				
@@ -102,6 +102,8 @@
 				var location = $("#location option:selected").text();
 
 				var model = $("#model option:selected").text();
+				
+				var brand = $("#brand option:selected").text();
 
 				var valuemin = $("#value-min").val();
 				valuemin = valuemin.replace("RM", "");
@@ -111,7 +113,7 @@
 				valuemax = valuemax.replace("RM", "");
 				valuemax = valuemax.replace(".", "");
 
-				window.location = "<?php echo base_url();?>listing/search/"+keyword+"/"+location+"/"+model+"/"+valuemin+"/" + valuemax;
+				window.location = "<?php echo base_url();?>listing/search/"+keyword+"/"+location+"/"+model+"/"+valuemin+"/" + valuemax+"/" + brand;
 			});
 
 			var updateSlider = document.getElementById('price-slider');
@@ -208,7 +210,18 @@
                         <div class="form search-form horizontal inputs-dark">
                             <form id="frmSearch">
                                 <div class="row">
-                                    <div class="col-md-3 col-sm-2">
+                                    <div class="col-md-2 col-sm-4">
+                                        <div class="form-group">
+                                            <select id="brand" class="form-control selectpicker" name="brand">
+                                                <option value="">Brand</option>
+												<?php foreach($brand as $eachBrand):?>
+												<option><?php echo $eachBrand->car_brand;?></option>
+												<?php endforeach;?>
+                                            </select>
+                                        </div>
+                                        <!--end form-group-->
+                                    </div>
+                                    <div class="col-md-3 col-sm-2" style="display:none;">
                                         <div class="form-group">
                                             <input id="keyword" type="text" class="form-control" name="keyword" placeholder="Enter keyword">
                                         </div>

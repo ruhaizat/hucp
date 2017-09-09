@@ -83,6 +83,15 @@ Contact: kenny@kni.com.my
 					$(".sTotalUser").text(data);
 				}
 			});
+			var datastr = '{"mode":"GetUnattendedReport"}';
+			$.ajax({
+				url: "<?php echo base_url();?>admin/ajax",
+				type: "POST",
+				data: {"datastr":datastr},
+				success: function(data){
+					$(".sUnattendedReport").text(data);
+				}
+			});
 	});
 	</script>
     <!-- END HEAD -->
@@ -300,6 +309,7 @@ Contact: kenny@kni.com.my
                                   <li class="nav-item start ">
                                       <a href="<?php echo base_url();?>admin/report" class="nav-link">
                                           <span class="title">View</span>
+                                          <span class="badge badge-success sUnattendedReport"></span>
                                       </a>
                                   </li>
                                 </ul>

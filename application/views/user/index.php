@@ -155,66 +155,72 @@
 			});
 			$("#frmUpdateDetails").submit(function(e){
 				e.preventDefault();
-				if($("#hIsImgChange").val() == "1"){
-					var formData = new FormData();
-					formData.append('file', $('#user_image')[0].files[0]);
-					$.ajax({
-							url : '<?php echo base_url();?>user/upload/update',
-							type : 'POST',
-							data : formData,
-							processData: false,  // tell jQuery not to process the data
-							contentType: false,  // tell jQuery not to set contentType
-							success : function(data) {
-								var hID = $("#hID").val();
-								var hIsImgChange = $("#hIsImgChange").val();
-								var first_name = $("#first_name").val();
-								var last_name = $("#last_name").val();
-								var email = $("#usrEmail").val();
-								var phone = $("#phone").val();
-								var identity_card_no = $("#identity_card_no").val();
-								var state = $("#state").val();
-								var address = $("#address").val();
-								var latitude = $("#latitude").val();
-								var longitude = $("#longitude").val();
-								var datastr = '{"mode":"UpdateDetails","hID":"'+hID+'","first_name":"'+first_name+'","last_name":"'+last_name+'","email":"'+email+'","phone":"'+phone+'","identity_card_no":"'+identity_card_no+'","state":"'+state+'","address":"'+address+'","latitude":"'+latitude+'","longitude":"'+longitude+'","ProfilePic":"'+data+'"}';
-								//alert(datastr);
-								$.ajax({
-									url: "<?php echo base_url();?>user/ajax",
-									type: "POST",
-									data: {"datastr":datastr},
-									success: function(data){
-										//alert(data);
-										$("#UserDetailsNoti").modal("show");
-										$("#h2Text").text("Change Saved");
-										$("#BodyMsg").text("Your changes is successfully saved.");
-									}
-								});
-							}
-					});
+				var currEmail = "<?php echo $user->EmailAddress;?>";
+				if(currEmail == $("#usrEmail").val()){
+					$("#UserDetailsNoti").modal("show");
+					$("#h2Text").text("Warning");
+					$("#BodyMsg").text("Updated email cannot be same with current email.");
 				}else{
-					var hID = $("#hID").val();
-					var first_name = $("#first_name").val();
-					var last_name = $("#last_name").val();
-					var email = $("#usrEmail").val();
-					var phone = $("#phone").val();
-					var identity_card_no = $("#identity_card_no").val();
-					var state = $("#state").val();
-					var address = $("#address").val();
-					var latitude = $("#latitude").val();
-					var longitude = $("#longitude").val();
-					var datastr = '{"mode":"UpdateDetails","hID":"'+hID+'","first_name":"'+first_name+'","last_name":"'+last_name+'","email":"'+email+'","phone":"'+phone+'","identity_card_no":"'+identity_card_no+'","state":"'+state+'","address":"'+address+'","latitude":"'+latitude+'","longitude":"'+longitude+'"}';
-					$.ajax({
-						url: "<?php echo base_url();?>user/ajax",
-						type: "POST",
-						data: {"datastr":datastr},
-						success: function(data){
-							$("#UserDetailsNoti").modal("show");
-							$("#h2Text").text("Change Saved");
-							$("#BodyMsg").text("Your changes is successfully saved.");
-						}
-					});
+					if($("#hIsImgChange").val() == "1"){
+						var formData = new FormData();
+						formData.append('file', $('#user_image')[0].files[0]);
+						$.ajax({
+								url : '<?php echo base_url();?>user/upload/update',
+								type : 'POST',
+								data : formData,
+								processData: false,  // tell jQuery not to process the data
+								contentType: false,  // tell jQuery not to set contentType
+								success : function(data) {
+									var hID = $("#hID").val();
+									var hIsImgChange = $("#hIsImgChange").val();
+									var first_name = $("#first_name").val();
+									var last_name = $("#last_name").val();
+									var email = $("#usrEmail").val();
+									var phone = $("#phone").val();
+									var identity_card_no = $("#identity_card_no").val();
+									var state = $("#state").val();
+									var address = $("#address").val();
+									var latitude = $("#latitude").val();
+									var longitude = $("#longitude").val();
+									var datastr = '{"mode":"UpdateDetails","hID":"'+hID+'","first_name":"'+first_name+'","last_name":"'+last_name+'","email":"'+email+'","phone":"'+phone+'","identity_card_no":"'+identity_card_no+'","state":"'+state+'","address":"'+address+'","latitude":"'+latitude+'","longitude":"'+longitude+'","ProfilePic":"'+data+'"}';
+									//alert(datastr);
+									$.ajax({
+										url: "<?php echo base_url();?>user/ajax",
+										type: "POST",
+										data: {"datastr":datastr},
+										success: function(data){
+											//alert(data);
+											$("#UserDetailsNoti").modal("show");
+											$("#h2Text").text("Change Saved");
+											$("#BodyMsg").text("Your changes is successfully saved.");
+										}
+									});
+								}
+						});
+					}else{
+						var hID = $("#hID").val();
+						var first_name = $("#first_name").val();
+						var last_name = $("#last_name").val();
+						var email = $("#usrEmail").val();
+						var phone = $("#phone").val();
+						var identity_card_no = $("#identity_card_no").val();
+						var state = $("#state").val();
+						var address = $("#address").val();
+						var latitude = $("#latitude").val();
+						var longitude = $("#longitude").val();
+						var datastr = '{"mode":"UpdateDetails","hID":"'+hID+'","first_name":"'+first_name+'","last_name":"'+last_name+'","email":"'+email+'","phone":"'+phone+'","identity_card_no":"'+identity_card_no+'","state":"'+state+'","address":"'+address+'","latitude":"'+latitude+'","longitude":"'+longitude+'"}';
+						$.ajax({
+							url: "<?php echo base_url();?>user/ajax",
+							type: "POST",
+							data: {"datastr":datastr},
+							success: function(data){
+								$("#UserDetailsNoti").modal("show");
+								$("#h2Text").text("Change Saved");
+								$("#BodyMsg").text("Your changes is successfully saved.");
+							}
+						});
+					}
 				}
-
 			});
 			$("#frmChangePwd").submit(function(e){
 				var pUserID = $("#hIDPwd").val();
@@ -224,50 +230,76 @@
 				var pEmail = $("#usrEmail").val();
 				var pFirstName = $("#first_name").val();
 				var pLastName = $("#last_name").val();
-				if(pCurrentPassword == ""){
-					$("#UserDetailsNoti").modal("show");
-					$("#h2Text").text("Change Password Failed");
-					$("#BodyMsg").text("Current password cannot empty.");
-				}else{
-					var datastr = '{"mode":"CheckCurrentPassword","Password":"'+pCurrentPassword+'","UserID":"'+pUserID+'"}';
-					$.ajax({
-						url: "<?php echo base_url();?>user/ajax",
-						type: "POST",
-						data: {"datastr":datastr},
-						success: function(data){
-							if(data == "Passed"){
-								if(pNewPassword == ""){
-									$("#UserDetailsNoti").modal("show");
-									$("#h2Text").text("Change Password Failed");
-									$("#BodyMsg").text("New password cannot empty.");
-								}else{
-									if(pNewPassword != pConfirmNewPassword){
+				<?php if($LoggedUser['Type'] != 1):?>
+					if(pCurrentPassword == ""){
+						$("#UserDetailsNoti").modal("show");
+						$("#h2Text").text("Change Password Failed");
+						$("#BodyMsg").text("Current password cannot empty.");
+					}else{
+						var datastr = '{"mode":"CheckCurrentPassword","Password":"'+pCurrentPassword+'","UserID":"'+pUserID+'"}';
+						$.ajax({
+							url: "<?php echo base_url();?>user/ajax",
+							type: "POST",
+							data: {"datastr":datastr},
+							success: function(data){
+								if(data == "Passed"){
+									if(pNewPassword == ""){
 										$("#UserDetailsNoti").modal("show");
 										$("#h2Text").text("Change Password Failed");
-										$("#BodyMsg").text("Password confirmation does not match.");
+										$("#BodyMsg").text("New password cannot empty.");
 									}else{
-										var datastr = '{"mode":"UpdatePassword","Password":"'+pNewPassword+'","UserID":"'+pUserID+'","EmailAddress":"'+pEmail+'","FirstName":"'+pFirstName+'","LastName":"'+pLastName+'"}';
-										$.ajax({
-											url: "<?php echo base_url();?>user/ajax",
-											type: "POST",
-											data: {"datastr":datastr},
-											success: function(data){
-												$("#UserDetailsNoti").modal("show");
-												$("#h2Text").text("New Password Saved");
-												$("#BodyMsg").text(data);
-											}
-										});
+										if(pNewPassword != pConfirmNewPassword){
+											$("#UserDetailsNoti").modal("show");
+											$("#h2Text").text("Change Password Failed");
+											$("#BodyMsg").text("Password confirmation does not match.");
+										}else{
+											var datastr = '{"mode":"UpdatePassword","Password":"'+pNewPassword+'","UserID":"'+pUserID+'","EmailAddress":"'+pEmail+'","FirstName":"'+pFirstName+'","LastName":"'+pLastName+'"}';
+											$.ajax({
+												url: "<?php echo base_url();?>user/ajax",
+												type: "POST",
+												data: {"datastr":datastr},
+												success: function(data){
+													$("#UserDetailsNoti").modal("show");
+													$("#h2Text").text("New Password Saved");
+													$("#BodyMsg").text(data);
+												}
+											});
+										}
 									}
+								}else{
+									$("#UserDetailsNoti").modal("show");
+									$("#h2Text").text("Change Password Failed");
+									$("#BodyMsg").text(data);
 								}
-							}else{
-								$("#UserDetailsNoti").modal("show");
-								$("#h2Text").text("Change Password Failed");
-								$("#BodyMsg").text(data);
-							}
 
+							}
+						});
+					}
+				<?php else:?>
+					if(pNewPassword == ""){
+						$("#UserDetailsNoti").modal("show");
+						$("#h2Text").text("Change Password Failed");
+						$("#BodyMsg").text("New password cannot empty.");
+					}else{
+						if(pNewPassword != pConfirmNewPassword){
+							$("#UserDetailsNoti").modal("show");
+							$("#h2Text").text("Change Password Failed");
+							$("#BodyMsg").text("Password confirmation does not match.");
+						}else{
+							var datastr = '{"mode":"UpdatePassword","Password":"'+pNewPassword+'","UserID":"'+pUserID+'","EmailAddress":"'+pEmail+'","FirstName":"'+pFirstName+'","LastName":"'+pLastName+'"}';
+							$.ajax({
+								url: "<?php echo base_url();?>user/ajax",
+								type: "POST",
+								data: {"datastr":datastr},
+								success: function(data){
+									$("#UserDetailsNoti").modal("show");
+									$("#h2Text").text("New Password Saved");
+									$("#BodyMsg").text(data);
+								}
+							});
 						}
-					});
-				}
+					}
+				<?php endif;?>
 				e.preventDefault();
 			});
 		});
