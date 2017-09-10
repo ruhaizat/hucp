@@ -25,7 +25,7 @@
 						htmlstr += '<?php $i = 0;foreach($recentData as $eachRecent):$i++;?>';
 						htmlstr += '<a href="<?php echo base_url().'listing/details/'.$eachRecent->ListingID.'/'.$eachRecent->AddedBy;?>"><img id="divEROri_<?php echo $i;?>" class="col-md-6 col-sm-6" style="width:245px;height:220px;" src="<?php echo base_url();?>assets/img/newsletter/<?php echo $eachRecent->FileName;?>"></img></a>';
 						htmlstr += '<?php endforeach;?></div>';
-						htmlstr += '</section></div></div><p data-toggle="modal" data-target="#myModal" style="font-size: 12px; padding-bottom: 50px;text-align:left;">You received this message because this email was used to create an account at <a href="<?php echo base_url();?>">Hyundai Used Car.</a> Ensure delivery of future emails by adding <a href="#">newsletter@email.com</a> to your address book, or <a href="<?php echo base_url();?>main/unsubscribe/1">unsubscribe.</a></p></div></center>';
+						htmlstr += '</section></div></div><p data-toggle="modal" data-target="#myModal" style="font-size: 12px; padding-bottom: 50px;text-align:left;">You received this message because this email was used to create an account at <a href="<?php echo base_url();?>">Korean Used Car.</a> Ensure delivery of future emails by adding <a href="#">newsletter@email.com</a> to your address book, or <a href="<?php echo base_url();?>main/unsubscribe/1">unsubscribe.</a></p></div></center>';
 
 						$('#summernote').code(htmlstr);
 						soch2c();

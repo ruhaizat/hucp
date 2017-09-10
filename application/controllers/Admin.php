@@ -636,6 +636,7 @@ class Admin extends CI_Controller {
 			"Specification" 		=> $Specification,	
 			"Colour" 				=> $Colour,	
 			"Mileage" 				=> $Mileage,
+			"Condition" 			=> $Condition,
 			"State" 				=> $State,
 			"SellingPrice" 			=> $SellingPrice,
 			"Address" 				=> $Address,
@@ -965,10 +966,10 @@ class Admin extends CI_Controller {
 		
 		$this->load->library('email', $config);
 		$this->email->set_newline("\r\n");
-		$this->email->from('suhucp@ruhaizat.my', "Admin Hyundai Used Car Platform");
+		$this->email->from($this->config->item('hucp_mail_from_email'), $this->config->item('hucp_mail_from_email'));
 		$this->email->to($pEmailAddress);  
 		$this->email->subject("Email Verification");
-		$this->email->message("Dear New User,<br/><br/>Please click on below URL or paste into your browser to verify your Email Address<br/><br/> <a href='".base_url()."main/verify/".$genToken."'>Verification link</a>"."<br/><br/>This verification link will expired in 3 days.<br/><br/>Thanks<br/>Hyundai Used Car Platform");
+		$this->email->message("Dear New User,<br/><br/>Please click on below URL or paste into your browser to verify your Email Address<br/><br/> <a href='".base_url()."main/verify/".$genToken."'>Verification link</a>"."<br/><br/>This verification link will expired in 3 days.<br/><br/>Thanks<br/>Korean Used Car");
 		$this->email->send();
 	}
 	
@@ -1103,7 +1104,7 @@ class Admin extends CI_Controller {
 				$this->email->from($this->config->item('hucp_mail_mailer_email'), $this->config->item('hucp_mail_mailer_name'));
 				$this->email->to($adsOwner->EmailAddress);    
 				$this->email->subject("Advertisement Approved");
-				$this->email->message("Dear ".$adsOwner->FirstName.",<br/><br/>Your edited advertisement is submitted for approval. Click <a href='".base_url()."listing/details/".$obj->id."/".$AddedBy."'>here</a> to view.<br/><br/>Thanks<br/>Hyundai Used Car Platform");
+				$this->email->message("Dear ".$adsOwner->FirstName.",<br/><br/>Your edited advertisement is submitted for approval. Click <a href='".base_url()."listing/details/".$obj->id."/".$AddedBy."'>here</a> to view.<br/><br/>Thanks<br/>Korean Used Car");
 				$this->email->send();
 			break;
 			case "RejectAd":
@@ -1235,7 +1236,7 @@ class Admin extends CI_Controller {
 					<link rel="stylesheet" href="'.base_url().'assets/css/owl.carousel.css" type="text/css">
 					<link rel="stylesheet" href="'.base_url().'assets/css/style.css" type="text/css">
 
-					<title>Hyundai Used Car</title>
+					<title>Korean Used Car</title>
 
 				</head>
 
@@ -1254,7 +1255,7 @@ class Admin extends CI_Controller {
 							<div class="footer-navigation">
 								<div class="container" style="width: 550px;">
 									<div class="vertical-aligned-elements">
-										<div class="element width-50">© 2017 Hyundai Used Car, All right reserved</div>
+										<div class="element width-50">© 2017 Korean Used Car, All right reserved</div>
 									</div>
 								</div>
 							</div>
@@ -1271,7 +1272,7 @@ class Admin extends CI_Controller {
 				
 				$this->load->library('email', $config);
 				$this->email->set_newline("\r\n");
-				$this->email->from('suhucp@ruhaizat.my', "Admin Hyundai Used Car Platform");
+				$this->email->from($this->config->item('hucp_mail_from_email'), $this->config->item('hucp_mail_from_email'));
 				$this->email->bcc($emails);  
 				$this->email->subject($newsletter->Subject);
 				$this->email->message($html);

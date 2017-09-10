@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="<?php echo base_url();?>assets/css/owl.carousel.css" type="text/css">
     <link rel="stylesheet" href="<?php echo base_url();?>assets/css/style.css" type="text/css">
 
-    <title>Hyundai Used Car</title>
+    <title>Korean Used Car</title>
 	<script>
 		function AddCompare(ListingID){
 			if($("#liCompare_"+ListingID).length == 0){
@@ -155,7 +155,7 @@
 			</div>
 			<!--end row-->
 
-			<p data-toggle="modal" data-target="#myModal" style="font-size: 12px; padding-bottom: 50px;">You received this message because this email was used to create an account at <a href="<?php echo base_url();?>">Hyundai Used Car.</a> Ensure delivery of future emails by adding <a href="#">newsletter@email.com</a> to your address book, or <a href="<?php echo base_url();?>main/unsubscribe">unsubscribe.</a></p>
+			<p data-toggle="modal" data-target="#myModal" style="font-size: 12px; padding-bottom: 50px;">You received this message because this email was used to create an account at <a href="<?php echo base_url();?>">Korean Used Car.</a> Ensure delivery of future emails by adding <a href="#">newsletter@email.com</a> to your address book, or <a href="<?php echo base_url();?>main/unsubscribe">unsubscribe.</a></p>
 
         </div>
         <!--end container-->
@@ -167,7 +167,7 @@
             <div class="footer-navigation">
                 <div class="container" style="width: 550px;">
                     <div class="vertical-aligned-elements">
-                        <div class="element width-50">© 2017 Hyundai Used Car, All right reserved</div>
+                        <div class="element width-50">© 2017 Korean Used Car, All right reserved</div>
                     </div>
                 </div>
             </div>

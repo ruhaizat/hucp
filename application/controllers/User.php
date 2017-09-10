@@ -235,10 +235,10 @@ class User extends CI_Controller {
 		
 		$this->load->library('email', $config);
 		$this->email->set_newline("\r\n");
-		$this->email->from('suhucp@ruhaizat.my', "Admin Hyundai Used Car Platform");
+		$this->email->from($this->config->item('hucp_mail_from_email'), $this->config->item('hucp_mail_from_email'));
 		$this->email->to($pEmailAddress);  
 		$this->email->subject("Password Changed");
-		$this->email->message("Dear ".$pFullName.",<br/><br/>This is an automated email to inform you that your password has been changed. Please contact us if you not doing it.<br/><br/>Thanks<br/>Hyundai Used Car Platform");
+		$this->email->message("Dear ".$pFullName.",<br/><br/>This is an automated email to inform you that your password has been changed. Please contact us if you not doing it.<br/><br/>Thanks<br/>Korean Used Car");
 		$this->email->send();		
 	}
 	
@@ -311,7 +311,7 @@ class User extends CI_Controller {
 		$data = array('user' => 'Ruhaizat', 
 			'pass' => 'ruhaizat@gmail', 
 			'to' => $pMobileNo, 
-			'msg' => 'RM0.00 [Hyundai Used Car Platform] Your mobile verification code is '.$genToken.'.');
+			'msg' => 'RM0.00 [Korean Used Car] Your mobile verification code is '.$genToken.'.');
 
 		$options = array(
 			'http' => array(
@@ -588,6 +588,20 @@ class User extends CI_Controller {
 						"Group" => $userData->Group
 					);
 					$this->session->set_userdata("LoggedUser", $session_data);			
+				}
+			break;
+			case "CheckEmailExist":
+				$UserID = $obj->UserID;
+				$NewEmail = $obj->NewEmail;
+				$query = $this->db->query("SELECT * FROM tbl_user WHERE EmailAddress = '$NewEmail'");
+				$userData = $query->row();
+				
+				if($query->num_rows() > 0){
+					if($userData->ID != $UserID){
+						echo "Failed";
+					}
+				}else{
+					echo "Passed";
 				}
 			break;
 		}

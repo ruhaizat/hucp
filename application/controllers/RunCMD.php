@@ -50,7 +50,7 @@ class RunCMD extends CI_Controller {
 			$this->email->from($this->config->item('hucp_mail_mailer_email'), $this->config->item('hucp_mail_mailer_name'));
 			$this->email->to($queryAdsData->UEmailAddress);    
 			$this->email->subject("Advertisement Expired");
-			$this->email->message("Dear ".$queryAdsData->UFName.",<br/><br/>Your advertisement is expired. Click <a href='".base_url()."listing/details/".$queryAdsData->LID."/".$queryAdsData->UID."'>here</a> to view.<br/><br/>Thanks<br/>Hyundai Used Car Platform");
+			$this->email->message("Dear ".$queryAdsData->UFName.",<br/><br/>Your advertisement is expired. Click <a href='".base_url()."listing/details/".$queryAdsData->LID."/".$queryAdsData->UID."'>here</a> to view.<br/><br/>Thanks<br/>Korean Used Car");
 			$this->email->send();
 			
 			$dataarray = array(

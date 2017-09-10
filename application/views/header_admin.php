@@ -246,7 +246,7 @@ Contact: kenny@kni.com.my
                                     <span class="arrow open"></span>
                                 </a>
                                 <ul class="sub-menu">
-                                  <li class="nav-item start ">
+                                  <!--<li class="nav-item start ">
                                       <a href="<?php echo base_url();?>admin/newsletterall" class="nav-link ">
                                           <span class="title">All Campaign</span>
                                       </a>
@@ -255,17 +255,17 @@ Contact: kenny@kni.com.my
                                         <a href="<?php echo base_url();?>admin/newsletternew" class="nav-link ">
                                             <span class="title">New Campaign</span>
                                         </a>
-                                    </li>
+                                    </li>-->
                                     <li class="nav-item start ">
                                         <a href="<?php echo base_url();?>admin/subscriberall" class="nav-link ">
                                             <span class="title">Subscribers</span>
                                         </a>
                                     </li>
-                                    <li class="nav-item start ">
+                                    <!--<li class="nav-item start ">
                                         <a href="#" class="nav-link ">
                                             <span class="title">Lists</span>
                                         </a>
-                                    </li>
+                                    </li>-->
                                 </ul>
                             </li>
                             <!--<li class="nav-item">

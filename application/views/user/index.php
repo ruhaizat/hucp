@@ -114,6 +114,7 @@
 					type: "POST",
 					data: {"datastr":datastr},
 					success: function(data){
+						console.log(data);
 						var rData = JSON.parse(data);
 						if(rData.status == 0){
 							$("#UserVerifyMobile").modal("show");
@@ -155,72 +156,80 @@
 			});
 			$("#frmUpdateDetails").submit(function(e){
 				e.preventDefault();
-				var currEmail = "<?php echo $user->EmailAddress;?>";
-				if(currEmail == $("#usrEmail").val()){
-					$("#UserDetailsNoti").modal("show");
-					$("#h2Text").text("Warning");
-					$("#BodyMsg").text("Updated email cannot be same with current email.");
-				}else{
-					if($("#hIsImgChange").val() == "1"){
-						var formData = new FormData();
-						formData.append('file', $('#user_image')[0].files[0]);
-						$.ajax({
-								url : '<?php echo base_url();?>user/upload/update',
-								type : 'POST',
-								data : formData,
-								processData: false,  // tell jQuery not to process the data
-								contentType: false,  // tell jQuery not to set contentType
-								success : function(data) {
-									var hID = $("#hID").val();
-									var hIsImgChange = $("#hIsImgChange").val();
-									var first_name = $("#first_name").val();
-									var last_name = $("#last_name").val();
-									var email = $("#usrEmail").val();
-									var phone = $("#phone").val();
-									var identity_card_no = $("#identity_card_no").val();
-									var state = $("#state").val();
-									var address = $("#address").val();
-									var latitude = $("#latitude").val();
-									var longitude = $("#longitude").val();
-									var datastr = '{"mode":"UpdateDetails","hID":"'+hID+'","first_name":"'+first_name+'","last_name":"'+last_name+'","email":"'+email+'","phone":"'+phone+'","identity_card_no":"'+identity_card_no+'","state":"'+state+'","address":"'+address+'","latitude":"'+latitude+'","longitude":"'+longitude+'","ProfilePic":"'+data+'"}';
-									//alert(datastr);
-									$.ajax({
-										url: "<?php echo base_url();?>user/ajax",
-										type: "POST",
-										data: {"datastr":datastr},
-										success: function(data){
-											//alert(data);
-											$("#UserDetailsNoti").modal("show");
-											$("#h2Text").text("Change Saved");
-											$("#BodyMsg").text("Your changes is successfully saved.");
+				var hID = $("#hID").val();
+				var datastr = '{"mode":"CheckEmailExist","UserID":"'+hID+'","NewEmail":"'+$("#usrEmail").val()+'"}';
+				$.ajax({
+					url: "<?php echo base_url();?>user/ajax",
+					type: "POST",
+					data: {"datastr":datastr},
+					success: function(data){
+						if(data == "Failed"){
+							$("#UserDetailsNoti").modal("show");
+							$("#h2Text").text("Warning");
+							$("#BodyMsg").text("Email already exist. Please use another email address.");
+						}else{
+							if($("#hIsImgChange").val() == "1"){
+								var formData = new FormData();
+								formData.append('file', $('#user_image')[0].files[0]);
+								$.ajax({
+										url : '<?php echo base_url();?>user/upload/update',
+										type : 'POST',
+										data : formData,
+										processData: false,  // tell jQuery not to process the data
+										contentType: false,  // tell jQuery not to set contentType
+										success : function(data) {
+											var hID = $("#hID").val();
+											var hIsImgChange = $("#hIsImgChange").val();
+											var first_name = $("#first_name").val();
+											var last_name = $("#last_name").val();
+											var email = $("#usrEmail").val();
+											var phone = $("#phone").val();
+											var identity_card_no = $("#identity_card_no").val();
+											var state = $("#state").val();
+											var address = $("#address").val();
+											var latitude = $("#latitude").val();
+											var longitude = $("#longitude").val();
+											var datastr = '{"mode":"UpdateDetails","hID":"'+hID+'","first_name":"'+first_name+'","last_name":"'+last_name+'","email":"'+email+'","phone":"'+phone+'","identity_card_no":"'+identity_card_no+'","state":"'+state+'","address":"'+address+'","latitude":"'+latitude+'","longitude":"'+longitude+'","ProfilePic":"'+data+'"}';
+											//alert(datastr);
+											$.ajax({
+												url: "<?php echo base_url();?>user/ajax",
+												type: "POST",
+												data: {"datastr":datastr},
+												success: function(data){
+													//alert(data);
+													$("#UserDetailsNoti").modal("show");
+													$("#h2Text").text("Change Saved");
+													$("#BodyMsg").text("Your changes is successfully saved.");
+												}
+											});
 										}
-									});
-								}
-						});
-					}else{
-						var hID = $("#hID").val();
-						var first_name = $("#first_name").val();
-						var last_name = $("#last_name").val();
-						var email = $("#usrEmail").val();
-						var phone = $("#phone").val();
-						var identity_card_no = $("#identity_card_no").val();
-						var state = $("#state").val();
-						var address = $("#address").val();
-						var latitude = $("#latitude").val();
-						var longitude = $("#longitude").val();
-						var datastr = '{"mode":"UpdateDetails","hID":"'+hID+'","first_name":"'+first_name+'","last_name":"'+last_name+'","email":"'+email+'","phone":"'+phone+'","identity_card_no":"'+identity_card_no+'","state":"'+state+'","address":"'+address+'","latitude":"'+latitude+'","longitude":"'+longitude+'"}';
-						$.ajax({
-							url: "<?php echo base_url();?>user/ajax",
-							type: "POST",
-							data: {"datastr":datastr},
-							success: function(data){
-								$("#UserDetailsNoti").modal("show");
-								$("#h2Text").text("Change Saved");
-								$("#BodyMsg").text("Your changes is successfully saved.");
+								});
+							}else{
+								var hID = $("#hID").val();
+								var first_name = $("#first_name").val();
+								var last_name = $("#last_name").val();
+								var email = $("#usrEmail").val();
+								var phone = $("#phone").val();
+								var identity_card_no = $("#identity_card_no").val();
+								var state = $("#state").val();
+								var address = $("#address").val();
+								var latitude = $("#latitude").val();
+								var longitude = $("#longitude").val();
+								var datastr = '{"mode":"UpdateDetails","hID":"'+hID+'","first_name":"'+first_name+'","last_name":"'+last_name+'","email":"'+email+'","phone":"'+phone+'","identity_card_no":"'+identity_card_no+'","state":"'+state+'","address":"'+address+'","latitude":"'+latitude+'","longitude":"'+longitude+'"}';
+								$.ajax({
+									url: "<?php echo base_url();?>user/ajax",
+									type: "POST",
+									data: {"datastr":datastr},
+									success: function(data){
+										$("#UserDetailsNoti").modal("show");
+										$("#h2Text").text("Change Saved");
+										$("#BodyMsg").text("Your changes is successfully saved.");
+									}
+								});
 							}
-						});
+						}
 					}
-				}
+				});
 			});
 			$("#frmChangePwd").submit(function(e){
 				var pUserID = $("#hIDPwd").val();

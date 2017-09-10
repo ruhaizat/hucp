@@ -2,7 +2,7 @@
             <!-- END CONTAINER -->
             <!-- BEGIN FOOTER -->
             <div class="page-footer">
-                <div class="page-footer-inner"> 2016 &copy; Hyundai Used Car By
+                <div class="page-footer-inner"> 2016 &copy; Korean Used Car By
                     <a target="_blank" href="http://kni.com.my">KNI</a>
                 </div>
                 <div class="scroll-to-top">

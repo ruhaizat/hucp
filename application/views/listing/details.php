@@ -134,7 +134,8 @@
 			});
 		}
 		function RunSelModel(gs_model){
-			$('select[name=selEditALModel] option:contains(' + gs_model +')').attr('selected', true);
+			$("select[name=selEditALModel] option").filter(function() {return $(this).text() === gs_model;}).attr('selected', true);
+			//$('select[name=selEditALModel] option:contains(' + gs_model +')').attr('selected', true);
 			var datastr = '{"mode":"SelectModel","gs_model":"'+gs_model+'"}';
 			$.ajax({
 				url: "<?php echo base_url();?>admin/ajax",
@@ -2105,47 +2106,47 @@
 										<label for="category">Mileage</label>
 										<select class="form-control selectpicker" name="editALMileage" id="ALMileage">
 											<option value="">Select a Mileage</option>
-											<option value="1">0 KM - 4,999 KM</option>
-											<option value="2">5,000 KM - 9,999 KM</option>
-											<option value="3">10,000 KM - 14,999 KM</option>
-											<option value="4">15,000 KM - 19,999 KM</option>
-											<option value="5">20,000 KM - 24,999 KM</option>
-											<option value="6">25,000 KM - 29,999 KM</option>
-											<option value="7">30,000 KM - 34,999 KM</option>
-											<option value="8">35,000 KM - 39,999 KM</option>
-											<option value="9">40,000 KM - 44,999 KM</option>
-											<option value="10">45,000 KM - 49,999 KM</option>
-											<option value="11">50,000 KM - 54,999 KM</option>
-											<option value="12">55,000 KM - 59,999 KM</option>
-											<option value="13">60,000 KM - 64,999 KM</option>
-											<option value="14">65,000 KM - 69,999 KM</option>
-											<option value="15">70,000 KM - 74,999 KM</option>
-											<option value="16">75,000 KM - 79,999 KM</option>
-											<option value="17">80,000 KM - 84,999 KM</option>
-											<option value="18">85,000 KM - 89,999 KM</option>
-											<option value="19">90,000 KM - 94,999 KM</option>
-											<option value="20">95,000 KM - 99,999 KM</option>
-											<option value="21">100,000 KM - 104,999 KM</option>
-											<option value="22">105,000 KM - 109,999 KM</option>
-											<option value="23">110,000 KM - 114,999 KM</option>
-											<option value="24">115,000 KM - 119,999 KM</option>
-											<option value="25">120,000 KM - 124,999 KM</option>
-											<option value="26">125,000 KM - 129,999 KM</option>
-											<option value="27">130,000 KM - 134,999 KM</option>
-											<option value="28">135,000 KM - 139,999 KM</option>
-											<option value="29">140,000 KM - 144,999 KM</option>
-											<option value="30">145,000 KM - 149,999 KM</option>
-											<option value="31">150,000 KM - 154,999 KM</option>
-											<option value="32">155,000 KM - 159,999 KM</option>
-											<option value="33">160,000 KM - 164,999 KM</option>
-											<option value="34">165,000 KM - 169,999 KM</option>
-											<option value="35">170,000 KM - 174,999 KM</option>
-											<option value="36">175,000 KM - 179,999 KM</option>
-											<option value="37">180,000 KM - 184,999 KM</option>
-											<option value="38">185,000 KM - 189,999 KM</option>
-											<option value="39">190,000 KM - 194,999 KM</option>
-											<option value="40">195,000 KM - 199,999 KM</option>
-											<option value="41">≥ 200,000 KM</option>
+											<option value="1" <?php if($listingData->Mileage == "0 KM - 4,999 KM"):echo "selected";endif;?>>0 KM - 4,999 KM</option>
+											<option value="2" <?php if($listingData->Mileage == "5,000 KM - 9,999 KM"):echo "selected";endif;?>>5,000 KM - 9,999 KM</option>
+											<option value="3" <?php if($listingData->Mileage == "10,000 KM - 14,999 KM"):echo "selected";endif;?>>10,000 KM - 14,999 KM</option>
+											<option value="4" <?php if($listingData->Mileage == "15,000 KM - 19,999 KM"):echo "selected";endif;?>>15,000 KM - 19,999 KM</option>
+											<option value="5" <?php if($listingData->Mileage == "20,000 KM - 24,999 KM"):echo "selected";endif;?>>20,000 KM - 24,999 KM</option>
+											<option value="6" <?php if($listingData->Mileage == "25,000 KM - 29,999 KM"):echo "selected";endif;?>>25,000 KM - 29,999 KM</option>
+											<option value="7" <?php if($listingData->Mileage == "30,000 KM - 34,999 KM"):echo "selected";endif;?>>30,000 KM - 34,999 KM</option>
+											<option value="8" <?php if($listingData->Mileage == "35,000 KM - 39,999 KM"):echo "selected";endif;?>>35,000 KM - 39,999 KM</option>
+											<option value="9" <?php if($listingData->Mileage == "40,000 KM - 44,999 KM"):echo "selected";endif;?>>40,000 KM - 44,999 KM</option>
+											<option value="10" <?php if($listingData->Mileage == "45,000 KM - 49,999 KM"):echo "selected";endif;?>>45,000 KM - 49,999 KM</option>
+											<option value="11" <?php if($listingData->Mileage == "50,000 KM - 54,999 KM"):echo "selected";endif;?>>50,000 KM - 54,999 KM</option>
+											<option value="12" <?php if($listingData->Mileage == "55,000 KM - 59,999 KM"):echo "selected";endif;?>>55,000 KM - 59,999 KM</option>
+											<option value="13" <?php if($listingData->Mileage == "60,000 KM - 64,999 KM"):echo "selected";endif;?>>60,000 KM - 64,999 KM</option>
+											<option value="14" <?php if($listingData->Mileage == "65,000 KM - 69,999 KM"):echo "selected";endif;?>>65,000 KM - 69,999 KM</option>
+											<option value="15" <?php if($listingData->Mileage == "70,000 KM - 74,999 KM"):echo "selected";endif;?>>70,000 KM - 74,999 KM</option>
+											<option value="16" <?php if($listingData->Mileage == "75,000 KM - 79,999 KM"):echo "selected";endif;?>>75,000 KM - 79,999 KM</option>
+											<option value="17" <?php if($listingData->Mileage == "80,000 KM - 84,999 KM"):echo "selected";endif;?>>80,000 KM - 84,999 KM</option>
+											<option value="18" <?php if($listingData->Mileage == "85,000 KM - 89,999 KM"):echo "selected";endif;?>>85,000 KM - 89,999 KM</option>
+											<option value="19" <?php if($listingData->Mileage == "90,000 KM - 94,999 KM"):echo "selected";endif;?>>90,000 KM - 94,999 KM</option>
+											<option value="20" <?php if($listingData->Mileage == "95,000 KM - 99,999 KM"):echo "selected";endif;?>>95,000 KM - 99,999 KM</option>
+											<option value="21" <?php if($listingData->Mileage == "100,000 KM - 104,999 KM"):echo "selected";endif;?>>100,000 KM - 104,999 KM</option>
+											<option value="22" <?php if($listingData->Mileage == "105,000 KM - 109,999 KM"):echo "selected";endif;?>>105,000 KM - 109,999 KM</option>
+											<option value="23" <?php if($listingData->Mileage == "110,000 KM - 114,999 KM"):echo "selected";endif;?>>110,000 KM - 114,999 KM</option>
+											<option value="24" <?php if($listingData->Mileage == "115,000 KM - 119,999 KM"):echo "selected";endif;?>>115,000 KM - 119,999 KM</option>
+											<option value="25" <?php if($listingData->Mileage == "120,000 KM - 124,999 KM"):echo "selected";endif;?>>120,000 KM - 124,999 KM</option>
+											<option value="26" <?php if($listingData->Mileage == "125,000 KM - 129,999 KM"):echo "selected";endif;?>>125,000 KM - 129,999 KM</option>
+											<option value="27" <?php if($listingData->Mileage == "130,000 KM - 134,999 KM"):echo "selected";endif;?>>130,000 KM - 134,999 KM</option>
+											<option value="28" <?php if($listingData->Mileage == "135,000 KM - 139,999 KM"):echo "selected";endif;?>>135,000 KM - 139,999 KM</option>
+											<option value="29" <?php if($listingData->Mileage == "140,000 KM - 144,999 KM"):echo "selected";endif;?>>140,000 KM - 144,999 KM</option>
+											<option value="30" <?php if($listingData->Mileage == "145,000 KM - 149,999 KM"):echo "selected";endif;?>>145,000 KM - 149,999 KM</option>
+											<option value="31" <?php if($listingData->Mileage == "150,000 KM - 154,999 KM"):echo "selected";endif;?>>150,000 KM - 154,999 KM</option>
+											<option value="32" <?php if($listingData->Mileage == "155,000 KM - 159,999 KM"):echo "selected";endif;?>>155,000 KM - 159,999 KM</option>
+											<option value="33" <?php if($listingData->Mileage == "160,000 KM - 164,999 KM"):echo "selected";endif;?>>160,000 KM - 164,999 KM</option>
+											<option value="34" <?php if($listingData->Mileage == "165,000 KM - 169,999 KM"):echo "selected";endif;?>>165,000 KM - 169,999 KM</option>
+											<option value="35" <?php if($listingData->Mileage == "170,000 KM - 174,999 KM"):echo "selected";endif;?>>170,000 KM - 174,999 KM</option>
+											<option value="36" <?php if($listingData->Mileage == "175,000 KM - 179,999 KM"):echo "selected";endif;?>>175,000 KM - 179,999 KM</option>
+											<option value="37" <?php if($listingData->Mileage == "180,000 KM - 184,999 KM"):echo "selected";endif;?>>180,000 KM - 184,999 KM</option>
+											<option value="38" <?php if($listingData->Mileage == "185,000 KM - 189,999 KM"):echo "selected";endif;?>>185,000 KM - 189,999 KM</option>
+											<option value="39" <?php if($listingData->Mileage == "190,000 KM - 194,999 KM"):echo "selected";endif;?>>190,000 KM - 194,999 KM</option>
+											<option value="40" <?php if($listingData->Mileage == "195,000 KM - 199,999 KM"):echo "selected";endif;?>>195,000 KM - 199,999 KM</option>
+											<option value="41" <?php if($listingData->Mileage == "≥ 200,000 KM"):echo "selected";endif;?>>≥ 200,000 KM</option>
 										</select>
 									</div>
 									<!--end form-group-->
@@ -2187,8 +2188,8 @@
 										<label for="category">Condition</label>
 										<select class="form-control selectpicker" name="editALCondition" id="ALCondition">
 											<option>Select a Condition</option>
-											<option>New</option>
-											<option>Used</option>
+											<option <?php if($listingData->Condition == "New"):echo "selected";endif;?>>New</option>
+											<option <?php if($listingData->Condition == "Used"):echo "selected";endif;?>>Used</option>
 										</select>
 									</div>
 									<!--end form-group-->

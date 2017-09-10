@@ -430,7 +430,7 @@ class Listing extends CI_Controller {
 		$this->email->from($this->config->item('hucp_mail_mailer_email'), $this->config->item('hucp_mail_mailer_name'));
 		$this->email->to($EmailAddress);    
 		$this->email->subject("Advertisement Submitted");
-		$this->email->message("Dear ".$FirstName.",<br/><br/>Your edited advertisement is submitted for approval. Click <a href='".base_url()."listing/details/".$LID."/".$AddedBy."'>here</a> to view.<br/><br/>Thanks<br/>Hyundai Used Car Platform");
+		$this->email->message("Dear ".$FirstName.",<br/><br/>Your edited advertisement is submitted for approval. Click <a href='".base_url()."listing/details/".$LID."/".$AddedBy."'>here</a> to view.<br/><br/>Thanks<br/>Korean Used Car");
 		$this->email->send();
 	
 		redirect("listing/details/".$LID."/".$AddedBy);
@@ -453,11 +453,11 @@ class Listing extends CI_Controller {
 		
 		$this->load->library('email', $config);
 		$this->email->set_newline("\r\n");
-		$this->email->from('suhucp@ruhaizat.my', "Admin Hyundai Used Car Platform");
+		$this->email->from($this->config->item('hucp_mail_from_email'), $this->config->item('hucp_mail_from_email'));
 		$this->email->to($SellerEmail);  
 		$this->email->bcc($toEmailAddress);  
 		$this->email->subject("Contact Seller");
-		$this->email->message("Dear ".$SellerName.",<br/><br/>".$Name." has been contacted you regarding your advertisement of <a href='".base_url()."listing/details/".$LID."/".$AddedBy."'>".$Model."</a>.<br/><br/>Below is the message:<br/>Name: ".$Name."<br/>Email Address: ".$Email."<br/>Telephone No.: ".$Telephone."<br/>Message: ".$Message."<br/><br/>Thanks<br/>Hyundai Used Car Platform");
+		$this->email->message("Dear ".$SellerName.",<br/><br/>".$Name." has been contacted you regarding your advertisement of <a href='".base_url()."listing/details/".$LID."/".$AddedBy."'>".$Model."</a>.<br/><br/>Below is the message:<br/>Name: ".$Name."<br/>Email Address: ".$Email."<br/>Telephone No.: ".$Telephone."<br/>Message: ".$Message."<br/><br/>Thanks<br/>Korean Used Car");
 		$this->email->send();
 		
 		
@@ -495,7 +495,7 @@ class Listing extends CI_Controller {
 		$this->email->from($this->config->item('hucp_mail_mailer_email'), $this->config->item('hucp_mail_mailer_name'));
 		$this->email->to($toEmailAddress);  
 		$this->email->subject("Report Submitted");
-		$this->email->message("Dear Admin,<br/><br/>".$Name." has been submitted a report for advertisement <a href='".base_url()."listing/details/".$LID."/".$AddedBy."'>".$Model."</a>.<br/><br/>Below is the details:<br/>Submitted by: ".$Name."<br/>Email Address: ".$Email."<br/>Telephone No.: ".$Telephone."<br/>Message: ".$Message."<br/><br/>Thanks<br/>Hyundai Used Car Platform");
+		$this->email->message("Dear Admin,<br/><br/>".$Name." has been submitted a report for advertisement <a href='".base_url()."listing/details/".$LID."/".$AddedBy."'>".$Model."</a>.<br/><br/>Below is the details:<br/>Submitted by: ".$Name."<br/>Email Address: ".$Email."<br/>Telephone No.: ".$Telephone."<br/>Message: ".$Message."<br/><br/>Thanks<br/>Korean Used Car");
 		$this->email->send();
 		
 		$data = array(
@@ -584,7 +584,7 @@ class Listing extends CI_Controller {
 					$this->email->from($this->config->item('hucp_mail_mailer_email'), $this->config->item('hucp_mail_mailer_name'));
 					$this->email->to($EmailAddress);    
 					$this->email->subject("Advertisement Submitted");
-					$this->email->message("Dear ".$FirstName.",<br/><br/>Your advertisement is submitted for approval. Click <a href='".base_url()."listing/details/".$LID."/".$AddedBy."'>here</a> to view.<br/><br/>Thanks<br/>Hyundai Used Car Platform");
+					$this->email->message("Dear ".$FirstName.",<br/><br/>Your advertisement is submitted for approval. Click <a href='".base_url()."listing/details/".$LID."/".$AddedBy."'>here</a> to view.<br/><br/>Thanks<br/>Korean Used Car");
 					$this->email->send();
 				}else if($Status == "1"){
 					$AddedBy = $obj->AddedBy;
@@ -607,7 +607,7 @@ class Listing extends CI_Controller {
 					$this->email->from($this->config->item('hucp_mail_mailer_email'), $this->config->item('hucp_mail_mailer_name'));
 					$this->email->to($EmailAddress);    
 					$this->email->subject("Advertisement Approved");
-					$this->email->message("Dear ".$FirstName.",<br/><br/>Your advertisement is approved. Click <a href='".base_url()."listing/details/".$LID."/".$AddedBy."'>here</a> to view.<br/><br/>Thanks<br/>Hyundai Used Car Platform");
+					$this->email->message("Dear ".$FirstName.",<br/><br/>Your advertisement is approved. Click <a href='".base_url()."listing/details/".$LID."/".$AddedBy."'>here</a> to view.<br/><br/>Thanks<br/>Korean Used Car");
 					$this->email->send();
 				}
 			break;
