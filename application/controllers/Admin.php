@@ -1375,13 +1375,13 @@ class Admin extends CI_Controller {
 		$config['max_size']			= '10240';
 			
 		$this->load->library('upload', $config);
+			
+			$total_updates = 0;			
+			$total_new = 0;	
 		
 		if ($this->upload->do_upload('file')){
 
-			$data = $this->upload->data();
-			
-			$total_updates = 0;			
-			$total_new = 0;			
+			$data = $this->upload->data();		
 			$row = 0;			
 			
 			if (($handle = fopen(base_url().'assets/uploads/'.$data['file_name'], 'r')) !== FALSE) {
@@ -1459,13 +1459,13 @@ class Admin extends CI_Controller {
 		$config['max_size']			= '10240';
 			
 		$this->load->library('upload', $config);
+			
+			$total_updates = 0;			
+			$total_new = 0;		
 		
 		if ($this->upload->do_upload('file')){
 
-			$data = $this->upload->data();
-			
-			$total_updates = 0;			
-			$total_new = 0;			
+			$data = $this->upload->data();	
 			$row = 0;			
 			
 			if (($handle = fopen(base_url().'assets/uploads/'.$data['file_name'], 'r')) !== FALSE) {

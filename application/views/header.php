@@ -164,7 +164,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 					<hr>
 					<div id="SignInError" class="noti-error" style="display:none;">Sorry! You have entered an incorrect username/password combination.</div>
-					<a href="#" data-modal-external-file="modal_reset_password.php" data-target="modal-reset-password">I have forgot my password</a>
+					<a href="#ForgotPwd" data-toggle="modal">I have forgot my password</a>
 					<!--end form-->
 				</div>
 				<!--end modal-body-->
@@ -248,14 +248,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</div>
 				</div>
 				<div class="modal-body">
-					<form class="form inputs-underline">
+					<form class="form inputs-underline" onsubmit="event.preventDefault();forgotPassword();">
 						<div class="form-group">
 							<label for="email">Email</label>
-							<input type="email" class="form-control" name="email" id="email" placeholder="Your email">
+							<input type="email" class="form-control" name="forgotPwdEmail" id="forgotPwdEmail" placeholder="Your email">
 						</div>
 						<!--end form-group-->
 						<div class="form-group center">
 							<button type="submit" class="btn btn-primary width-100">Send me new password</button>
+							<br/>
+							<div id="noti-error-forgotPwd" class="noti-error"></div>
 						</div>
 						<!--end form-group-->
 					</form>

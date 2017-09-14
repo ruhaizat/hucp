@@ -730,6 +730,89 @@ class Main extends CI_Controller {
 				
 				$this->db->delete('tbl_favourite', array('UserID' => $UserID,'ListingID' => $ListingID));
 			break;
+			case "ForgotPassword":
+				$EmailAddress = $obj->EmailAddress;
+				
+				$query = $this->db->query("SELECT * FROM tbl_user WHERE EmailAddress = '$EmailAddress'");
+				
+				if($query->num_rows() == 0){
+					echo "EmailNotExist";
+				}else{
+					$queryin = $this->db->query("SELECT * FROM tbl_forgotpwd WHERE EmailAddress = '$EmailAddress' AND IsUsed = 0");
+					if($queryin->num_rows() != 0){
+						$dbTime = strtotime($queryin->row()->ExpiryDate);
+						if($dbTime > time()){
+							echo "AlreadyApply";
+						}else{
+							$this->load->helper("string");
+							$genToken = random_string("alnum",50);
+							
+							$data = array(
+							   "EmailAddress" => $EmailAddress,
+							   "Token" => $genToken,
+							   "IsUsed" => 0,
+							   "ExpiryDate" => date("Y-m-d H:i:s", time() + 259200)
+							);
+
+							$this->db->insert("tbl_forgotpwd", $data);
+							
+							$config = Array(
+								'protocol' => $this->config->item('hucp_mail_protocol'),
+								'smtp_host' => $this->config->item('hucp_mail_smtp_host'),
+								'smtp_port' => $this->config->item('hucp_mail_smtp_port'),
+								'smtp_user' => $this->config->item('hucp_mail_smtp_user'),
+								'smtp_pass' => $this->config->item('hucp_mail_smtp_pass'),
+								'mailtype' => $this->config->item('hucp_mail_mailtype'),
+								'charset' => $this->config->item('hucp_mail_charset'),
+								'wordwrap' => $this->config->item('hucp_mail_wordwrap')
+							);
+							
+							$this->load->library('email', $config);
+							$this->email->set_newline("\r\n");
+							$this->email->from($this->config->item('hucp_mail_mailer_email'), $this->config->item('hucp_mail_mailer_name'));
+							$this->email->to($EmailAddress);  
+							$this->email->subject("Forgot Password");
+							$this->email->message("Dear New User,<br/><br/>Please click on below URL or paste into your browser to change your password<br/><br/> <a href='".base_url()."ForgotPwd/verify/".$genToken."'>Change password link</a>"."<br/><br/>This link will expired in 3 days.<br/><br/>Thanks<br/>Korean Used Car");
+							$this->email->send();
+								
+							echo "OK";
+						}
+					}else{
+						$this->load->helper("string");
+						$genToken = random_string("alnum",50);
+						
+						$data = array(
+						   "EmailAddress" => $EmailAddress,
+						   "Token" => $genToken,
+						   "IsUsed" => 0,
+						   "ExpiryDate" => date("Y-m-d H:i:s", time() + 259200)
+						);
+
+						$this->db->insert("tbl_forgotpwd", $data);
+						
+						$config = Array(
+							'protocol' => $this->config->item('hucp_mail_protocol'),
+							'smtp_host' => $this->config->item('hucp_mail_smtp_host'),
+							'smtp_port' => $this->config->item('hucp_mail_smtp_port'),
+							'smtp_user' => $this->config->item('hucp_mail_smtp_user'),
+							'smtp_pass' => $this->config->item('hucp_mail_smtp_pass'),
+							'mailtype' => $this->config->item('hucp_mail_mailtype'),
+							'charset' => $this->config->item('hucp_mail_charset'),
+							'wordwrap' => $this->config->item('hucp_mail_wordwrap')
+						);
+						
+						$this->load->library('email', $config);
+						$this->email->set_newline("\r\n");
+						$this->email->from($this->config->item('hucp_mail_mailer_email'), $this->config->item('hucp_mail_mailer_name'));
+						$this->email->to($EmailAddress);  
+						$this->email->subject("Forgot Password");
+						$this->email->message("Dear New User,<br/><br/>Please click on below URL or paste into your browser to change your password<br/><br/> <a href='".base_url()."ForgotPwd/verify/".$genToken."'>Change password link</a>"."<br/><br/>This link will expired in 3 days.<br/><br/>Thanks<br/>Korean Used Car");
+						$this->email->send();
+							
+						echo "OK";
+					}
+				}
+			break;
 		}
 	}
 	

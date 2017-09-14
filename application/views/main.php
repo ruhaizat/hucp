@@ -156,48 +156,48 @@
 			window.location = "<?php echo base_url();?>listing/ViewNewCars/"+valuemin+"/" + valuemax;
 		}
 			
-		var counth2c = 1;
-		window.onload = function() {
-			soch2c();
-		};
-		window.soch2c = function(){
-			var nameAttr = $("#divER_"+counth2c).attr("name");
-			var LID = nameAttr.split("_")[0];
-			$.ajax({
-				type: "POST",
-				url: "Main/getLatestListingByID",
-				data: "LID="+LID,
-				success : function(data)
-				{
-					if(data == "OK"){
-						html2canvas(document.getElementById("divER_"+counth2c), {
-							onrendered: function(canvas) {
-								var img = canvas.toDataURL("image/jpeg");
-								var output = encodeURIComponent(img);
-								var LAddedBy = nameAttr.split("_")[1];
-								var Parameters = "image="+output+"&LID="+LID+"&LAddedBy="+LAddedBy;
-								$.ajax({
-									type: "POST",
-									url: "Main/savePNG",
-									data: Parameters,
-									success : function(data)
-									{
-										counth2c++;
-										if(counth2c <= 8){setTimeout(function(){ soch2c(); }, 1000);}
-										else{counth2c = 1;}
-									}
-								});
-							}
-						});						
-					}else{
-						counth2c++;
-						if(counth2c <= 8){setTimeout(function(){ soch2c(); }, 1000);}
-						else{counth2c = 1;}
-					}
-				}
-			});
-
-		}
+		//var counth2c = 1;
+		//window.onload = function() {
+		//	soch2c();
+		//};
+		//window.soch2c = function(){
+		//	var nameAttr = $("#divER_"+counth2c).attr("name");
+		//	var LID = nameAttr.split("_")[0];
+		//	$.ajax({
+		//		type: "POST",
+		//		url: "Main/getLatestListingByID",
+		//		data: "LID="+LID,
+		//		success : function(data)
+		//		{
+		//			if(data == "OK"){
+		//				html2canvas(document.getElementById("divER_"+counth2c), {
+		//					onrendered: function(canvas) {
+		//						var img = canvas.toDataURL("image/jpeg");
+		//						var output = encodeURIComponent(img);
+		//						var LAddedBy = nameAttr.split("_")[1];
+		//						var Parameters = "image="+output+"&LID="+LID+"&LAddedBy="+LAddedBy;
+		//						$.ajax({
+		//							type: "POST",
+		//							url: "Main/savePNG",
+		//							data: Parameters,
+		//							success : function(data)
+		//							{
+		//								counth2c++;
+		//								if(counth2c <= 8){setTimeout(function(){ soch2c(); }, 1000);}
+		//								else{counth2c = 1;}
+		//							}
+		//						});
+		//					}
+		//				});						
+		//			}else{
+		//				counth2c++;
+		//				if(counth2c <= 8){setTimeout(function(){ soch2c(); }, 1000);}
+		//				else{counth2c = 1;}
+		//			}
+		//		}
+		//	});
+        //
+		//}
 	</script>
     <div id="page-content">
         <div class="hero-section has-background height-500px">
@@ -330,7 +330,7 @@
 										<li class="liblack_fav_<?php echo $favEleID;?>" style="<?php if($favCount > 0):?><?php echo 'display:none;'?><?php else:?><?php echo 'display:block;'?><?php endif;?>"><a onclick="MakeFavourite(<?php echo $LoggedUser['UserID'];?>,<?php echo $eachFeatured->LID;?>)">Favorite<i class="fa fa-heart fi_<?php echo $favEleID;?>" style="padding-left:5px;color:black;"></i></a></li>
 									<?php endif;?>
 									<li><a onclick="AddCompare(<?php echo $eachFeatured->LID;?>)">Compare<i class="fa fa-clone" style="padding-left: 5px;"></i></a></li>
-                                    <li><a href="#Report" data-toggle="modal">Report<i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
+                                    <li><a href="#Report" data-toggle="modal" onclick="RCurrLID='<?php echo $eachFeatured->LID;?>';RCurrModel='<?php echo $eachFeatured->Model;?>';RCurrSellerID='<?php echo $eachFeatured->LAddedBy;?>';">Report<i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
                                 </ul>
                             </div>
                             <!--end controls-more-->
@@ -390,7 +390,7 @@
 											<li class="liblack_fav_<?php echo $favEleID;?>" style="<?php if($favCount > 0):?><?php echo 'display:none;'?><?php else:?><?php echo 'display:block;'?><?php endif;?>"><a onclick="MakeFavourite(<?php echo $LoggedUser['UserID'];?>,<?php echo $eachRecent->LID;?>)">Favorite<i class="fa fa-heart fi_<?php echo $favEleID;?>" style="padding-left:5px;color:black;"></i></a></li>
 										<?php endif;?>
                                         <li><a onclick="AddCompare(<?php echo $eachRecent->LID;?>)">Compare <i class="fa fa-clone" style="padding-left: 5px;"></i></a></li>
-                                        <li><a href="#Report" data-toggle="modal">Report <i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
+                                        <li><a href="#Report" data-toggle="modal" onclick="RCurrLID='<?php echo $eachRecent->LID;?>';RCurrModel='<?php echo $eachRecent->Model;?>';RCurrSellerID='<?php echo $eachRecent->LAddedBy;?>';">Report <i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
                                     </ul>
                                 </div>
                                 <!--end controls-more-->
@@ -479,7 +479,7 @@
 											<li class="liblack_fav_<?php echo $favEleID;?>" style="<?php if($favCount > 0):?><?php echo 'display:none;'?><?php else:?><?php echo 'display:block;'?><?php endif;?>"><a onclick="MakeFavourite(<?php echo $LoggedUser['UserID'];?>,<?php echo $eachViewed->LID;?>)">Favorite<i class="fa fa-heart fi_<?php echo $favEleID;?>" style="padding-left:5px;color:black;"></i></a></li>
 										<?php endif;?>
                                         <li><a onclick="AddCompare(<?php echo $eachViewed->LID;?>)">Compare <i class="fa fa-clone" style="padding-left: 5px;"></i></a></li>
-                                        <li><a href="#Report" data-toggle="modal">Report <i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
+                                        <li><a href="#Report" data-toggle="modal" onclick="RCurrLID='<?php echo $eachViewed->LID;?>';RCurrModel='<?php echo $eachViewed->Model;?>';RCurrSellerID='<?php echo $eachViewed->LAddedBy;?>';">Report <i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
                                     </ul>
                                 </div>
                                 <!--end controls-more-->
@@ -544,7 +544,7 @@
 										<li class="liblack_fav_<?php echo $favEleID;?>" style="<?php if($favCount > 0):?><?php echo 'display:none;'?><?php else:?><?php echo 'display:block;'?><?php endif;?>"><a onclick="MakeFavourite(<?php echo $LoggedUser['UserID'];?>,<?php echo $eachNew->LID;?>)">Favorite<i class="fa fa-heart fi_<?php echo $favEleID;?>" style="padding-left:5px;color:black;"></i></a></li>
 									<?php endif;?>
                                     <li><a onclick="AddCompare(<?php echo $eachNew->LID;?>)">Compare<i class="fa fa-clone" style="padding-left: 5px;"></i></a></li>
-                                    <li><a href="#Report" data-toggle="modal">Report<i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
+                                    <li><a href="#Report" data-toggle="modal" onclick="RCurrLID='<?php echo $eachNew->LID;?>';RCurrModel='<?php echo $eachNew->Model;?>';RCurrSellerID='<?php echo $eachNew->LAddedBy;?>';">Report<i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
                                 </ul>
                             </div>
                             <!--end controls-more-->

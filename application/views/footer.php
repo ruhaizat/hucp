@@ -590,6 +590,26 @@
 			}
 		});
 	}
+	function forgotPassword(){
+		var EmailAddress = $("#forgotPwdEmail").val();
+
+		var datastr = '{"mode":"ForgotPassword","EmailAddress":"'+EmailAddress+'"}';
+		//alert(datastr);
+		$.ajax({
+			url: "<?php echo base_url();?>main/ajax",
+			type: "POST",
+			data: {"datastr":datastr},
+			success: function(data){
+				if(data == "OK"){
+					$("#ForgotPwd").modal("hide");
+				}else if(data == "AlreadyApply"){
+					$("#noti-error-forgotPwd").text("You have apply for new password. Please use the link sent to your email.");
+				}else if(data == "EmailNotExist"){
+					$("#noti-error-forgotPwd").text("Email address not exist.");
+				}
+			}
+		});
+	}
 </script>
 
 </body>

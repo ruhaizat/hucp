@@ -532,25 +532,26 @@
 			});
 		}
 
-		function submitReport(){
-			var Name = $("#SR_name").val();
-			var Email = $("#SR_buyer_email").val();
-			var Telephone = $("#SR_telephone").val();
-			var Description = $("#SR_description").val();
-			var ListingID = "<?php echo $listingData->LID;?>";
-			var Model = "<?php echo $listingData->Model;?>";
-			var SellerID = "<?php echo $listingData->LAddedBy;?>";
-
-			var datastr = '{"mode":"Report","Name":"'+Name+'","Email":"'+Email+'","Telephone":"'+Telephone+'","Description":"'+Description+'","ListingID":"'+ListingID+'","SellerID":"'+SellerID+'","Model":"'+Model+'"}';
-			$.ajax({
-				url: "<?php echo base_url();?>listing/ajax",
-				type: "POST",
-				data: {"datastr":datastr},
-				success: function(data){
-					$("#ReportSuccess").modal("show");
-				}
-			});
-		}
+		//function submitReport(){
+		//	var Name = $("#SR_name").val();
+		//	var Email = $("#SR_buyer_email").val();
+		//	var Telephone = $("#SR_telephone").val();
+		//	var Description = $("#SR_description").val();
+		//	var ListingID = "<?php echo $listingData->LID;?>";
+		//	var Model = "<?php echo $listingData->Model;?>";
+		//	var SellerID = "<?php echo $listingData->LAddedBy;?>";
+        //
+		//	var datastr = '{"mode":"Report","Name":"'+Name+'","Email":"'+Email+'","Telephone":"'+Telephone+'","Description":"'+Description+'","ListingID":"'+ListingID+'","SellerID":"'+SellerID+'","Model":"'+Model+'"}';
+		//	alert(datastr);
+		//	$.ajax({
+		//		url: "<?php echo base_url();?>listing/ajax",
+		//		type: "POST",
+		//		data: {"datastr":datastr},
+		//		success: function(data){
+		//			$("#ReportSuccess").modal("show");
+		//		}
+		//	});
+		//}
 
 		var buttonMode = "";
 		function SubmitAd(elem){
@@ -1102,7 +1103,7 @@
 						<?php if($listingData->LAddedBy == $user_data["UserID"]):?>
 						<a id="aEdit" href="#EditListing" class="btn btn-primary btn-rounded icon scroll pull-right" data-toggle="modal"><i class="fa fa-edit"></i>Edit</a>
 						<?php endif;?>
-						<a href="#Report" data-toggle="modal" id="btnReportListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-flag"></i>Report Ad</a>
+						<a href="#Report" data-toggle="modal" id="btnReportListing_<?php echo $listingData->ID;?>" onclick="RCurrLID='<?php echo $listingData->LID;?>';RCurrModel='<?php echo $listingData->Model;?>';RCurrSellerID='<?php echo $listingData->LAddedBy;?>';" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-flag"></i>Report Ad</a>
 						<a id="btnPrintListing_<?php echo $listingData->ID;?>" class="btnPrint btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-print"></i>Print</a>
 						<a id="btnCompareListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right" onclick="AddCompare(<?php echo $listingData->ID;?>)"><i class="fa fa-clone"></i>Compare</a>
 						<a onclick="FavAction(<?php echo $user_data['UserID'];?>,<?php echo $listingData->ID;?>);" id="btnFavoriteListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-heart fi_<?php echo $favEleID;?>" style="color:<?php if($favCount > 0):?><?php echo 'red'?><?php else:?><?php echo 'gray'?><?php endif;?>;"></i>Favourite </a>
@@ -1117,7 +1118,7 @@
 				<?php if($listingData->LStatus == 2):?>
 					<a id="btnRenewListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-rounded icon scroll pull-right" onclick="RenewAd(this);"><i class="fa fa-check-circle"></i>Renew</a>
 				<?php else:?>
-					<a href="#Report" data-toggle="modal" id="btnReportListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-flag"></i>Report Ad</a>
+					<a href="#Report" data-toggle="modal" id="btnReportListing_<?php echo $listingData->ID;?>" onclick="RCurrLID='<?php echo $listingData->LID;?>';RCurrModel='<?php echo $listingData->Model;?>';RCurrSellerID='<?php echo $listingData->LAddedBy;?>';" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-flag"></i>Report Ad</a>
 					<a id="btnPrintListing_<?php echo $listingData->ID;?>" class="btnPrint btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-print"></i>Print</a>
 					<a id="btnCompareListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right" onclick="AddCompare(<?php echo $listingData->ID;?>)"><i class="fa fa-clone"></i>Compare</a>
 					<a onclick="FavActionNo();" id="btnFavoriteListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right"><i class="fa fa-heart"></i>Favourite </a>
