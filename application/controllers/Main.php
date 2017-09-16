@@ -459,6 +459,29 @@ class Main extends CI_Controller {
 					}
 					
 					$this->sendverifyemail($insert_id, $emailAddress);
+							
+					$bccQuery = $this->db->query("SELECT EmailAddress FROM tbl_emailsetting WHERE Setting = 'New User'");
+					$bccEmail = $bccQuery->row()->EmailAddress;
+		
+					$config = Array(
+						'protocol' => $this->config->item('hucp_mail_protocol'),
+						'smtp_host' => $this->config->item('hucp_mail_smtp_host'),
+						'smtp_port' => $this->config->item('hucp_mail_smtp_port'),
+						'smtp_user' => $this->config->item('hucp_mail_smtp_user'),
+						'smtp_pass' => $this->config->item('hucp_mail_smtp_pass'),
+						'mailtype' => $this->config->item('hucp_mail_mailtype'),
+						'charset' => $this->config->item('hucp_mail_charset'),
+						'wordwrap' => $this->config->item('hucp_mail_wordwrap')
+					);
+					
+					$this->load->library('email', $config);
+					$this->email->set_newline("\r\n");
+					$this->email->from($this->config->item('hucp_mail_mailer_email'), $this->config->item('hucp_mail_mailer_name'));
+					$this->email->to($bccEmail);  
+					$this->email->subject("New User Notification");
+					$this->email->message("Dear Admin,<br/><br/>New user has been registered with below details:<br/><br/>Email Address: ".$emailAddress."<br/>Mobile No.:".$mobile."<br/><br/>Thanks<br/>Korean Used Car");
+					$this->email->send();
+					
 					//echo $this->email->print_debugger();
 					$accountResult = 0;
 				}

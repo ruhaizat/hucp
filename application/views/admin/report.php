@@ -1,5 +1,5 @@
 				<style>
-				#dataTableUser_filter
+				#dataTableUser_filter>label
 				{
 					display:none;
 				}
@@ -12,6 +12,30 @@
 						$('#txtSearch').keyup( function() {
 							table.search($(this).val()).draw() ;
 						} );
+						
+						$("#dataTableUser_filter").append('<select class="form-control selFilter"><option value="">Filter by</option><option value="1">Attended</option><option value="2">Unattended</option></select>')
+						
+						
+						$('.selFilter').change( function() {
+							var sortby = this.value;
+
+							if(sortby == "1"){
+								table
+									.column(7)
+									.search("1")
+									.draw();
+							}else if(sortby == "2"){
+								table
+									.column(7)
+									.search("0")
+									.draw();
+							}else if(sortby == ""){
+								table
+									.column(7)
+									.search("")
+									.draw();
+							}
+						});
 					});
 					function OptChange(elem,id){
 						if($(elem).is(':checked')){
@@ -81,6 +105,7 @@
 															<th>Timestamp</th>
 															<th>Advertisement</th>
 															<th>Attended</th>
+															<th style="display:none;"></th>
 														</tr>
 													</thead>
 													<tbody>
@@ -108,6 +133,9 @@
 															</td>
 															<td>
                                                                     <input data-on-text="Yes" data-off-text="No" type="checkbox" name="chkToggle" <?php if($reportData->Status == 1):echo 'checked';endif;?> onchange="OptChange(this,<?php echo $reportData->ID;?>);" />
+															</td>
+															<td style="display:none;">
+                                                                    <?php echo $reportData->Status;?>
 															</td>
 														</tr>
 														<?php endforeach;?>

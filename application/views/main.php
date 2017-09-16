@@ -479,7 +479,7 @@
 											<li class="liblack_fav_<?php echo $favEleID;?>" style="<?php if($favCount > 0):?><?php echo 'display:none;'?><?php else:?><?php echo 'display:block;'?><?php endif;?>"><a onclick="MakeFavourite(<?php echo $LoggedUser['UserID'];?>,<?php echo $eachViewed->LID;?>)">Favorite<i class="fa fa-heart fi_<?php echo $favEleID;?>" style="padding-left:5px;color:black;"></i></a></li>
 										<?php endif;?>
                                         <li><a onclick="AddCompare(<?php echo $eachViewed->LID;?>)">Compare <i class="fa fa-clone" style="padding-left: 5px;"></i></a></li>
-                                        <li><a href="#Report" data-toggle="modal" onclick="RCurrLID='<?php echo $eachViewed->LID;?>';RCurrModel='<?php echo $eachViewed->Model;?>';RCurrSellerID='<?php echo $eachViewed->LAddedBy;?>';">Report <i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
+                                        <li><a href="#Report" data-toggle="modal" onclick="RCurrLID='<?php echo $eachViewed->LID;?>';RCurrModel='<?php echo $eachViewed->ModelName;?>';RCurrSellerID='<?php echo $eachViewed->LAddedBy;?>';">Report <i class="fa fa-flag" style="padding-left: 5px;"></i></a></li>
                                     </ul>
                                 </div>
                                 <!--end controls-more-->

@@ -205,6 +205,7 @@
 						.search("")
 						.draw();
 				}
+				
 
 				if(brand != "Brand"){
 					table
@@ -251,7 +252,7 @@
 
 
 			var isSearch = <?php echo $isSearch;?>;
-
+			
 			if(isSearch == 1){
 				var keyword = "<?php echo $keyword;?>";
 				$("#keyword").val(keyword);
@@ -348,6 +349,18 @@
 				}else{
 					table
 						.column(6)
+						.search("")
+						.draw();
+				}
+
+				if(brand != "Brand"){
+					table
+						.column(7)
+						.search(brand)
+						.draw();
+				}else{
+					table
+						.column(7)
 						.search("")
 						.draw();
 				}
@@ -640,7 +653,7 @@
 										<?php echo $eachList->Condition;?>
 									</td>
 									<td class="cellHide">
-										<?php echo $eachList->BrandName;?>
+										<?php echo $eachList->Brand;?>
 									</td>
 								</tr>
 								<?php endforeach;?>

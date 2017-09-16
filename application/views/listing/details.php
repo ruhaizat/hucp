@@ -692,6 +692,27 @@
 			}
 		});
 		function loadLData(){
+			
+			<?php $depositAmount = $listingData->SellingPrice * 0.10;?>
+													<?php $monthlyInstallment = (0.04 * ($listingData->SellingPrice - $depositAmount) + ($listingData->SellingPrice - $depositAmount)) / 60;?>
+                                            
+			
+			var LCSellingPrice = parseFloat(<?php echo $listingData->SellingPrice;?>);
+			var LCDepositAmount = parseFloat(<?php echo ($listingData->SellingPrice) * 0.10;?>);
+			var LCInterest = parseFloat(4);
+			var LCTotalMonth = parseFloat(60);
+			//alert(LCSellingPrice + "|" + LCDepositAmount + "|" + LCInterest + "|" + LCTotalMonth);
+
+			//var LCMonthlyInstallment = ((LCInterest/100) * (LCSellingPrice - LCDepositAmount) + (LCSellingPrice - LCDepositAmount)) / LCTotalMonth;
+			////alert(LCMonthlyInstallment);
+			//$(".LCMonthlyInstallment").text("RM"+parseFloat(LCMonthlyInstallment.toFixed(2)).toLocaleString());
+			
+			
+			var TotalInterestRate = (LCSellingPrice - LCDepositAmount) * (LCInterest/100) * (LCTotalMonth/12);
+			var TotalPayment = TotalInterestRate + (LCSellingPrice - LCDepositAmount);
+			var MonthlyPayment = TotalPayment/LCTotalMonth;
+			$(".LCMonthlyInstallment").text("RM"+parseFloat(MonthlyPayment.toFixed(2)).toLocaleString());
+			
 			var isTransmission = false;
 			var isEngineSpecification = false;
 			var isDimension = false;
@@ -994,9 +1015,15 @@
 			var LCTotalMonth = parseFloat($("#LCTotalMonth").val().replace(",",""));
 			//alert(LCSellingPrice + "|" + LCDepositAmount + "|" + LCInterest + "|" + LCTotalMonth);
 
-			var LCMonthlyInstallment = ((LCInterest/100) * (LCSellingPrice - LCDepositAmount) + (LCSellingPrice - LCDepositAmount)) / LCTotalMonth;
-			//alert(LCMonthlyInstallment);
-			$(".LCMonthlyInstallment").text("RM"+parseFloat(LCMonthlyInstallment.toFixed(2)).toLocaleString());
+			//var LCMonthlyInstallment = ((LCInterest/100) * (LCSellingPrice - LCDepositAmount) + (LCSellingPrice - LCDepositAmount)) / LCTotalMonth;
+			////alert(LCMonthlyInstallment);
+			//$(".LCMonthlyInstallment").text("RM"+parseFloat(LCMonthlyInstallment.toFixed(2)).toLocaleString());
+			
+			
+			var TotalInterestRate = (LCSellingPrice - LCDepositAmount) * (LCInterest/100) * (LCTotalMonth/12);
+			var TotalPayment = TotalInterestRate + (LCSellingPrice - LCDepositAmount);
+			var MonthlyPayment = TotalPayment/LCTotalMonth;
+			$(".LCMonthlyInstallment").text("RM"+parseFloat(MonthlyPayment.toFixed(2)).toLocaleString());
 		}
 
 		//This function disables buttons when needed
@@ -1169,9 +1196,7 @@
                                 <div class="panel-heading" role="tab" id="accordion-heading-1">
                                     <h4 class="panel-title">
                                         <a role="button" data-toggle="collapse" data-parent="#accordion" href="#accordion-collapse-9" aria-expanded="false" aria-controls="accordion-collapse-9">
-													<?php $depositAmount = $listingData->SellingPrice * 0.10;?>
-													<?php $monthlyInstallment = (0.04 * ($listingData->SellingPrice - $depositAmount) + ($listingData->SellingPrice - $depositAmount)) / 60;?>
-                                            <i class="fa  fa-calculator"></i>Car Loan Monthly Installment - <span class="LCMonthlyInstallment"><?php echo "RM".number_format($monthlyInstallment);?></span>/month
+											<i class="fa  fa-calculator"></i>Car Loan Monthly Installment - <span class="LCMonthlyInstallment"></span>/month
                                         </a>
                                     </h4>
                                 </div>

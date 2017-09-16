@@ -137,13 +137,14 @@ class Listing extends CI_Controller {
 		
 		$data["isSearch"] = 1;
 		
-			$data["keyword"] = "";
+		$data["keyword"] = "";
 		
 		$data["location"] = "";
 		$data["modelStr"] = "";
 		$data["minvalsrc"] = $minval;
 		$data["maxvalsrc"] = $maxval;
 		$data["condition"] = "New";
+		$data["brandStr"] = "";
 		
 		$queryRecent = $this->db->query("SELECT *, L.ID AS LID, L.Model AS ModelName, L.Specification AS SpecificationName, L.AddedBy AS LAddedBy, ST.Name AS StateName FROM tbl_listing AS L LEFT JOIN tbl_listingimage AS LI ON L.ID = LI.ListingID INNER JOIN tbl_state AS ST ON L.State = ST.ID WHERE L.Status = 1 GROUP BY L.ID ORDER BY L.AddedOn DESC LIMIT 5");
 		$recentData = $queryRecent->result();
@@ -437,8 +438,8 @@ class Listing extends CI_Controller {
 	}
 	
 	private function sendcontactselleremail($Name, $Email, $Telephone, $Message, $SellerEmail, $SellerName, $Model, $LID, $AddedBy){
-		$query = $this->db->query("SELECT EmailAddress FROM tbl_emailsetting WHERE Setting = 'Contact Seller';");
-		$toEmailAddress = $query->row()->EmailAddress;
+		$bccQuery = $this->db->query("SELECT EmailAddress FROM tbl_emailsetting WHERE Setting = 'Contact Seller'");
+		$bccEmail = $bccQuery->row()->EmailAddress;
 		
 		$config = Array(
 			'protocol' => $this->config->item('hucp_mail_protocol'),
@@ -453,9 +454,9 @@ class Listing extends CI_Controller {
 		
 		$this->load->library('email', $config);
 		$this->email->set_newline("\r\n");
-		$this->email->from($this->config->item('hucp_mail_from_email'), $this->config->item('hucp_mail_from_email'));
+		$this->email->from($this->config->item('hucp_mail_from_email'), $this->config->item('hucp_mail_from_name'));
 		$this->email->to($SellerEmail);  
-		$this->email->bcc($toEmailAddress);  
+		$this->email->bcc($bccEmail);  
 		$this->email->subject("Contact Seller");
 		$this->email->message("Dear ".$SellerName.",<br/><br/>".$Name." has been contacted you regarding your advertisement of <a href='".base_url()."listing/details/".$LID."/".$AddedBy."'>".$Model."</a>.<br/><br/>Below is the message:<br/>Name: ".$Name."<br/>Email Address: ".$Email."<br/>Telephone No.: ".$Telephone."<br/>Message: ".$Message."<br/><br/>Thanks<br/>Korean Used Car");
 		$this->email->send();
@@ -476,8 +477,8 @@ class Listing extends CI_Controller {
 	}
 	
 	private function submitreportemail($Name, $Email, $Telephone, $Message, $Model, $LID, $AddedBy){
-		$query = $this->db->query("SELECT EmailAddress FROM tbl_emailsetting WHERE Setting = 'Report';");
-		$toEmailAddress = $query->row()->EmailAddress;
+		$bccQuery = $this->db->query("SELECT EmailAddress FROM tbl_emailsetting WHERE Setting = 'Report'");
+		$bccEmail = $bccQuery->row()->EmailAddress;
 		
 		$config = Array(
 			'protocol' => $this->config->item('hucp_mail_protocol'),
@@ -494,6 +495,7 @@ class Listing extends CI_Controller {
 		$this->email->set_newline("\r\n");
 		$this->email->from($this->config->item('hucp_mail_mailer_email'), $this->config->item('hucp_mail_mailer_name'));
 		$this->email->to($toEmailAddress);  
+		$this->email->bcc($bccEmail);  
 		$this->email->subject("Report Submitted");
 		$this->email->message("Dear Admin,<br/><br/>".$Name." has been submitted a report for advertisement <a href='".base_url()."listing/details/".$LID."/".$AddedBy."'>".$Model."</a>.<br/><br/>Below is the details:<br/>Submitted by: ".$Name."<br/>Email Address: ".$Email."<br/>Telephone No.: ".$Telephone."<br/>Message: ".$Message."<br/><br/>Thanks<br/>Korean Used Car");
 		$this->email->send();
@@ -585,6 +587,29 @@ class Listing extends CI_Controller {
 					$this->email->to($EmailAddress);    
 					$this->email->subject("Advertisement Submitted");
 					$this->email->message("Dear ".$FirstName.",<br/><br/>Your advertisement is submitted for approval. Click <a href='".base_url()."listing/details/".$LID."/".$AddedBy."'>here</a> to view.<br/><br/>Thanks<br/>Korean Used Car");
+					$this->email->send();
+					
+					
+					$bccQuery = $this->db->query("SELECT EmailAddress FROM tbl_emailsetting WHERE Setting = 'New Ads'");
+					$bccEmail = $bccQuery->row()->EmailAddress;
+				
+					$config = Array(
+						'protocol' => $this->config->item('hucp_mail_protocol'),
+						'smtp_host' => $this->config->item('hucp_mail_smtp_host'),
+						'smtp_port' => $this->config->item('hucp_mail_smtp_port'),
+						'smtp_user' => $this->config->item('hucp_mail_smtp_user'),
+						'smtp_pass' => $this->config->item('hucp_mail_smtp_pass'),
+						'mailtype' => $this->config->item('hucp_mail_mailtype'),
+						'charset' => $this->config->item('hucp_mail_charset'),
+						'wordwrap' => $this->config->item('hucp_mail_wordwrap')
+					);
+					
+					$this->load->library('email', $config);
+					$this->email->set_newline("\r\n");
+					$this->email->from($this->config->item('hucp_mail_mailer_email'), $this->config->item('hucp_mail_mailer_name'));
+					$this->email->to($bccEmail);  
+					$this->email->subject("New Ads Notification");
+					$this->email->message("Dear Admin,<br/><br/>New ads has been submitted. Click <a href='".base_url()."listing/details/".$insert_id."/".$user_data["UserID"]."'>here</a> to view.<br/><br/>Thanks<br/>Korean Used Car");
 					$this->email->send();
 				}else if($Status == "1"){
 					$AddedBy = $obj->AddedBy;

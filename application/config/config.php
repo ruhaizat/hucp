@@ -541,7 +541,7 @@ $config['proxy_ips'] = '';
 */			
 $config['hucp_mail_protocol'] = 'smtp';
 $config['hucp_mail_smtp_host'] = 'mail.koreanusedcar.com.my';
-$config['hucp_mail_smtp_port'] = 465;
+$config['hucp_mail_smtp_port'] = 587;
 $config['hucp_mail_smtp_user'] = 'noreply@koreanusedcar.com.my';
 $config['hucp_mail_smtp_pass'] = 'kuc1029';
 $config['hucp_mail_mailtype'] = 'html';

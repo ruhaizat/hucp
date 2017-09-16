@@ -31,6 +31,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<!--<script type="text/javascript" src="<?php echo base_url();?>assets/misc/customizer.js"></script>-->
 	<script type="text/javascript" src="<?php echo base_url();?>assets/js/jssocials.min.js"></script>
     <title>Korean Used Car</title>
+	<script>
+		$(document).ready(function(){
+			if(detectmob() == true){
+				$(".liCompare").hide();
+			}else{
+				$(".liCompare").show();
+			}
+		});
+		function detectmob() { 
+			if( navigator.userAgent.match(/Android/i)
+				|| navigator.userAgent.match(/webOS/i)
+				|| navigator.userAgent.match(/iPhone/i)
+				|| navigator.userAgent.match(/iPad/i)
+				|| navigator.userAgent.match(/iPod/i)
+				|| navigator.userAgent.match(/BlackBerry/i)
+				|| navigator.userAgent.match(/Windows Phone/i)
+			){
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+	</script>
 </head>
 
 <body class="<?php echo $bodyClass;?>">

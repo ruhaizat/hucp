@@ -235,7 +235,7 @@ class User extends CI_Controller {
 		
 		$this->load->library('email', $config);
 		$this->email->set_newline("\r\n");
-		$this->email->from($this->config->item('hucp_mail_from_email'), $this->config->item('hucp_mail_from_email'));
+		$this->email->from($this->config->item('hucp_mail_from_email'), $this->config->item('hucp_mail_from_name'));
 		$this->email->to($pEmailAddress);  
 		$this->email->subject("Password Changed");
 		$this->email->message("Dear ".$pFullName.",<br/><br/>This is an automated email to inform you that your password has been changed. Please contact us if you not doing it.<br/><br/>Thanks<br/>Korean Used Car");

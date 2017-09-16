@@ -966,7 +966,7 @@ class Admin extends CI_Controller {
 		
 		$this->load->library('email', $config);
 		$this->email->set_newline("\r\n");
-		$this->email->from($this->config->item('hucp_mail_from_email'), $this->config->item('hucp_mail_from_email'));
+		$this->email->from($this->config->item('hucp_mail_from_email'), $this->config->item('hucp_mail_from_name'));
 		$this->email->to($pEmailAddress);  
 		$this->email->subject("Email Verification");
 		$this->email->message("Dear New User,<br/><br/>Please click on below URL or paste into your browser to verify your Email Address<br/><br/> <a href='".base_url()."main/verify/".$genToken."'>Verification link</a>"."<br/><br/>This verification link will expired in 3 days.<br/><br/>Thanks<br/>Korean Used Car");
@@ -1272,7 +1272,7 @@ class Admin extends CI_Controller {
 				
 				$this->load->library('email', $config);
 				$this->email->set_newline("\r\n");
-				$this->email->from($this->config->item('hucp_mail_from_email'), $this->config->item('hucp_mail_from_email'));
+				$this->email->from($this->config->item('hucp_mail_from_email'), $this->config->item('hucp_mail_from_name'));
 				$this->email->bcc($emails);  
 				$this->email->subject($newsletter->Subject);
 				$this->email->message($html);
