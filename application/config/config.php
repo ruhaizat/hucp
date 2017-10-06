@@ -542,14 +542,18 @@ $config['proxy_ips'] = '';
 $config['hucp_mail_protocol'] = 'smtp';
 $config['hucp_mail_smtp_host'] = 'mail.koreanusedcar.com.my';
 $config['hucp_mail_smtp_port'] = 587;
-$config['hucp_mail_smtp_user'] = 'noreply@koreanusedcar.com.my';
-$config['hucp_mail_smtp_pass'] = 'kuc1029';
+$config['hucp_mail_smtp_user'] = 'info@koreanusedcar.com.my';
+$config['hucp_mail_smtp_pass'] = 'koreanusedcar7890#';
 $config['hucp_mail_mailtype'] = 'html';
 $config['hucp_mail_charset'] = 'iso-8859-1';
 $config['hucp_mail_wordwrap'] = TRUE;
 
-$config['hucp_mail_mailer_email'] = 'suhucp@ruhaizat.my';
+$config['hucp_mail_mailer_email'] = 'info@koreanusedcar.com.my';
 $config['hucp_mail_mailer_name'] = 'Korean Used Car Admin';
 
-$config['hucp_mail_from_email'] = 'noreply@koreanusedcar.com.my';
+$config['hucp_mail_from_email'] = 'info@koreanusedcar.com.my';
 $config['hucp_mail_from_name'] = 'Korean Used Car Admin';
+
+$config['esms_api'] = 'https://api.esms.com.my/sms/send';
+$config['esms_username'] = 'koreanusedcar';
+$config['esms_pwd'] = 'Koreanusedcar7890#';

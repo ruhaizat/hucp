@@ -242,53 +242,6 @@ class User extends CI_Controller {
 		$this->email->send();		
 	}
 	
-	//private function sendverifymobile($pUserID, $pMobileNo)
-	//{
-	//	$this->load->library('curl');
-	//	$this->load->helper("string");
-	//	$genToken = mt_rand(100000, 999999);
-	//	
-	//	$data = array(
-	//	   "MobileNo" => $pMobileNo,
-	//	   "UserID" => $pUserID,
-	//	   "Token" => $genToken,
-	//	   "IsVerify" => 0,
-	//	   "ExpiryDate" => date("Y-m-d H:i:s", time() + 259200)
-	//	);
-    //
-	//	$this->db->insert("tbl_verifymobile", $data);
-	//	
-	//	$destination = urlencode("60127872389789");
-	//	$message = "RM0.00 [Hyundai Used Car Platform] Your mobile verification code is ".$genToken.".";
-	//	$message = html_entity_decode($message, ENT_QUOTES, 'utf-8'); 
-	//	$message = urlencode($message);
-	//	
-	//	$username = urlencode("me@ruhaizat.my");
-	//	$password = urlencode("hyundai1234");
-	//	//$sender_id = urlencode("66300");
-	//	$type = 1;
-    //
-	//	$fp = "http://www.isms.com.my/isms_send.php";
-	//	$fp .= "?un=$username&pwd=$password&dstno=$destination&msg=$message&type=$type";
-	//	//echo $fp;
-	//	
-	//	$result = $this->ismscURL($fp);
-    //
-	//	return $result;
-	//}
-	//
-	//function ismscURL($link){
-    //
-	//	$http = curl_init($link);
-	//
-	//	curl_setopt($http, CURLOPT_RETURNTRANSFER, TRUE);
-	//	$http_result = curl_exec($http);
-	//	$http_status = curl_getinfo($http, CURLINFO_HTTP_CODE);
-	//	curl_close($http);
-	//
-	//	return $http_result;
-    // }
-	
 	function sendSmsToEsms($pUserID, $pMobileNo)
 	{
 		$this->load->library('curl');
@@ -305,11 +258,11 @@ class User extends CI_Controller {
 
 		$this->db->insert("tbl_verifymobile", $data);
 		
-		$url = 'https://api.esms.com.my/sms/send';
+		$url = $this->config->item('esms_api');
 		
 		// replace yourusername, yourpassword, and 60123456789 to suits your need
-		$data = array('user' => 'Ruhaizat', 
-			'pass' => 'ruhaizat@gmail', 
+		$data = array('user' => $this->config->item('esms_username'), 
+			'pass' => $this->config->item('esms_pwd'), 
 			'to' => $pMobileNo, 
 			'msg' => 'RM0.00 [Korean Used Car] Your mobile verification code is '.$genToken.'.');
 
@@ -327,76 +280,6 @@ class User extends CI_Controller {
 		return $result;
 	}
 	
-	function send_message ( $post_body, $url ) {
-		/*
-		* Do not supply $post_fields directly as an argument to CURLOPT_POSTFIELDS,
-		* despite what the PHP documentation suggests: cUrl will turn it into in a
-		* multipart formpost, which is not supported:
-		*/
-	
-		$ch = curl_init( );
-		curl_setopt ( $ch, CURLOPT_URL, $url );
-		curl_setopt ( $ch, CURLOPT_POST, 1 );
-		curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, 1 );
-		curl_setopt ( $ch, CURLOPT_POSTFIELDS, $post_body );
-		// Allowing cUrl funtions 20 second to execute
-		curl_setopt ( $ch, CURLOPT_TIMEOUT, 20 );
-		// Waiting 20 seconds while trying to connect
-		curl_setopt ( $ch, CURLOPT_CONNECTTIMEOUT, 20 );
-	
-		$response_string = curl_exec( $ch );
-		$curl_info = curl_getinfo( $ch );
-	
-		$sms_result = array();
-		$sms_result['success'] = 0;
-		$sms_result['details'] = '';
-		$sms_result['transient_error'] = 0;
-		$sms_result['http_status_code'] = $curl_info['http_code'];
-		$sms_result['api_status_code'] = '';
-		$sms_result['api_message'] = '';
-		$sms_result['api_batch_id'] = '';
-	
-		if ( $response_string == FALSE ) {
-			$sms_result['details'] .= "cURL error: " . curl_error( $ch ) . "\n";
-		} elseif ( $curl_info[ 'http_code' ] != 200 ) {
-			$sms_result['transient_error'] = 1;
-			$sms_result['details'] .= "Error: non-200 HTTP status code: " . $curl_info[ 'http_code' ] . "\n";
-		}
-		else {
-			$sms_result['details'] .= "Response from server: $response_string\n";
-			$api_result = explode( '|', $response_string );
-			$status_code = $api_result[0];
-			$sms_result['api_status_code'] = $status_code;
-			$sms_result['api_message'] = $api_result[1];
-			if ( count( $api_result ) != 3 ) {
-			$sms_result['details'] .= "Error: could not parse valid return data from server.\n" . count( $api_result );
-			} else {
-			if ($status_code == '0') {
-				$sms_result['success'] = 1;
-				$sms_result['api_batch_id'] = $api_result[2];
-				$sms_result['details'] .= "Message sent - batch ID $api_result[2]\n";
-			}
-			else if ($status_code == '1') {
-				# Success: scheduled for later sending.
-				$sms_result['success'] = 1;
-				$sms_result['api_batch_id'] = $api_result[2];
-			}
-			else {
-				$sms_result['details'] .= "Error sending: status code [$api_result[0]] description [$api_result[1]]\n";
-			}
-	
-	
-	
-	
-	
-			}
-		}
-		curl_close( $ch );
-	
-		return $sms_result;
-	}
-
-	
 	public function ajax()
 	{
 		$obj = json_decode($this->input->post('datastr'));
@@ -409,18 +292,6 @@ class User extends CI_Controller {
 				$result = $this->sendSmsToEsms($UserID,$MobileNo);
 				
 				echo $result;
-				//http://www.isms.com.my/
-				//2000	=	SUCCESS or EMPTY/BLANK	SUCCESS	Message Sent.
-				//-1000	=	UNKNOWN ERROR	Unknown error. Please contact the administrator.
-				//-1001	=	AUTHENTICATION FAILED	Your username or password are incorrect.
-				//-1002	=	ACCOUNT SUSPENDED / EXPIRED	Your account has been expired or suspended. Please contact the administrator.
-				//-1003	=	IP NOT ALLOWED	Your IP is not allowed to send SMS. Please contact the administrator.
-				//-1004	=	INSUFFICIENT CREDITS	You have run our of credits. Please reload your credits.
-				//-1005	=	INVALID SMS TYPE	Your SMS type is not supported.
-				//-1006	=	INVALID BODY LENGTH (1-900)	Your SMS body has exceed the length. Max limit = 900
-				//-1007	=	INVALID HEX BODY	Your Hex body format is wrong.
-				//-1008	=	MISSING PARAMETER	One or more required parameters are missing.
-				
 				//https://www.esms.com.my/
 				//0	Success.
 				//1	Insufficient parameters
