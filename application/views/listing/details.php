@@ -1095,7 +1095,11 @@
 				<?php $favEleID = $user_data["UserID"]."_".$listingData->ID;?>
 				<?php $query = $this->db->query("SELECT COUNT(ID) AS val FROM tbl_favourite WHERE UserID = ".$user_data["UserID"]." AND ListingID = ".$listingData->ID);$favCount = $query->row()->val;?>
 				<?php if($user_data["Group"] == 1):?>
-					<?php if($listingData->LStatus == 0):?>
+					<?php if($listingData->LStatus == -1):?>
+						<a id="btnSubmitListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-rounded icon scroll pull-right" onclick="SubmitAd(this);"><i class="fa fa-check-circle"></i>Submit</a>
+						<a id="btnDeleteListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-rounded icon scroll pull-right" onclick="DeleteAd(this);"><i class="fa fa-trash"></i>Delete</a>
+						<a id="aEdit" href="#EditListing" class="btn btn-primary btn-rounded icon scroll pull-right" data-toggle="modal"><i class="fa fa-edit"></i>Edit</a>
+					<?php elseif($listingData->LStatus == 0):?>
 						<?php if($listingData->LIsFeatured == 0):?>
 							<a id="btnFeaturedListing_<?php echo $listingData->ID;?>" class="btn btn-primary btn-framed btn-rounded btn-light-frame icon scroll pull-right" onclick="FeaturedAd(this);"><i class="fa fa-star"></i>Featured </a>
 						<?php else:?>
